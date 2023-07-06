@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "375274268676",
+    "project_id": "intermission-ed4a9",
+    "storage_bucket": "intermission-ed4a9.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:375274268676:android:4632c3ace9594c26d86d51",
+        "android_client_info": {
+          "package_name": "com.example.intermission_project"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "375274268676-on1m1q15oc6qqg3o8oijt0adrm9sb5go.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAkEvkipNGegOqZnXyQ_0ZrGSsrKgQG30Q"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "375274268676-on1m1q15oc6qqg3o8oijt0adrm9sb5go.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
