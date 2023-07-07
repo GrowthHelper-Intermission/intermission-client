@@ -14,6 +14,7 @@ import 'package:intermission_project/common/component/custom_text_form_field.dar
 import 'package:intermission_project/common/component/custom_text_style.dart';
 import 'package:intermission_project/common/component/login_next_button.dart';
 import 'package:intermission_project/common/const/colors.dart';
+import 'package:intermission_project/views/signup/signup_screen_page2.dart';
 
 extension InputValidate on String {
   // 이메일 포맷 검증
@@ -94,13 +95,23 @@ class _SignupScreenPage1State extends State<SignupScreenPage1> {
 
   void checkJobEnabled() {
     String job = jobController.text.trim();
-    bool isValid = job.length >= 1;
+    bool isValid = job.length >= 4;
 
     setState(() {
       isJobValid = isValid;
     });
     checkButtonEnabled();
   }
+
+  void navigateToNextScreen(){ 
+    if(isButtonEnabled) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => SignupScreenPage2()),);
+    }
+  }
+
+
 
   @override
   void initState() {
@@ -114,14 +125,11 @@ class _SignupScreenPage1State extends State<SignupScreenPage1> {
 
   void checkButtonEnabled() {
     bool isGenderSelected = isMaleSelected || isFemaleSelected;
-    bool isFieldsValid = isNameValid && isAgeValid && isPhoneNumValid;
+    bool isFieldsValid = isNameValid && isAgeValid && isPhoneNumValid && isJobValid;
     setState(() {
-      isButtonEnabled = isGenderSelected;
+      isButtonEnabled = isGenderSelected && isFieldsValid;
     });
   }
-
-
-
 
   @override
   void dispose() {
@@ -140,7 +148,9 @@ class _SignupScreenPage1State extends State<SignupScreenPage1> {
         child: SingleChildScrollView(
           keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
           child: Padding(
-            padding: EdgeInsets.only(left: ScreenUtil().setWidth(12), right: ScreenUtil().setWidth(12)),
+            padding: EdgeInsets.only(
+                left: ScreenUtil().setWidth(12),
+                right: ScreenUtil().setWidth(12)),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -251,7 +261,8 @@ class _SignupScreenPage1State extends State<SignupScreenPage1> {
                     child: Text(
                       '여성',
                       style: TextStyle(
-                        color: isFemaleSelected ? Colors.black : Colors.grey[600],
+                        color:
+                            isFemaleSelected ? Colors.black : Colors.grey[600],
                       ),
                     ),
                   ),
@@ -317,7 +328,11 @@ class _SignupScreenPage1State extends State<SignupScreenPage1> {
                 SizedBox(
                   height: 50,
                 ),
-                LoginNextButton(buttonName: '다음', isButtonEnabled: isButtonEnabled),
+                LoginNextButton(
+                  buttonName: '다음',
+                  isButtonEnabled: isButtonEnabled,
+                  onPressed: navigateToNextScreen,
+                ),
               ],
             ),
           ),
@@ -326,4 +341,3 @@ class _SignupScreenPage1State extends State<SignupScreenPage1> {
     );
   }
 }
-

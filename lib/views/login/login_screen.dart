@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:intermission_project/common/component/custom_appbar.dart';
 import 'package:intermission_project/common/component/custom_text_form_field.dart';
 import 'package:intermission_project/common/component/login_next_button.dart';
+import 'package:intermission_project/common/component/tabbar_using_controller.dart';
 import 'package:intermission_project/user/find_pw_button.dart';
 import 'package:intermission_project/common/component/custom_text_style.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:intermission_project/views/home/home_main_screen.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -31,6 +33,13 @@ class _LoginScreenState extends State<LoginScreen> {
       _passwordErrorText = isPasswordValid ? null : '올바른 비밀번호 형식이 아닙니다';
       _isButtonEnabled = isEmailValid && isPasswordValid;
     });
+    // navigateToNextScreen(); // 수정된 부분
+  }
+  
+  void navigateToNextScreen(){
+      Navigator.push(context,
+      MaterialPageRoute(builder: (context) => TabBarController(),)
+      );
   }
 
   @override
@@ -114,13 +123,19 @@ class _LoginScreenState extends State<LoginScreen> {
                             SizedBox(
                               height: 20.0,
                             ),
-                            FindPWButton(),
+                            Row(
+                              children: [
+                                FindPWButton(title: '비밀번호 찾기'),
+                                FindPWButton(title: '회원가입 하기'),
+                              ],
+                            ),
                             SizedBox(
                               height: 300,
                             ),
                             LoginNextButton(
                               buttonName: '로그인',
                               isButtonEnabled: _isButtonEnabled,
+                              onPressed: navigateToNextScreen,
                             ),
                           ],
                         ),

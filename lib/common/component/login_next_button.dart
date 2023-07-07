@@ -4,7 +4,14 @@ import 'package:intermission_project/common/const/colors.dart';
 class LoginNextButton extends StatefulWidget {
   final String buttonName;
   final bool isButtonEnabled;
-  const LoginNextButton({required this.buttonName, required this.isButtonEnabled, super.key});
+  final VoidCallback onPressed;
+
+  const LoginNextButton({
+    required this.onPressed,
+    required this.buttonName,
+    required this.isButtonEnabled,
+    super.key,
+  });
 
   @override
   State<LoginNextButton> createState() => _LoginNextButtonState();
@@ -21,15 +28,12 @@ class _LoginNextButtonState extends State<LoginNextButton> {
           SizedBox(
             height: 50,
             child: ElevatedButton(
-              onPressed:
-              widget.isButtonEnabled ? () {} : null,
+              onPressed: widget.isButtonEnabled ? widget.onPressed : null,
               style: ElevatedButton.styleFrom(
-                primary: widget.isButtonEnabled
-                    ? PRIMARY_COLOR
-                    : Colors.grey[200],
+                primary:
+                    widget.isButtonEnabled ? PRIMARY_COLOR : Colors.grey[200],
                 shape: RoundedRectangleBorder(
-                  borderRadius:
-                  BorderRadius.circular(10),
+                  borderRadius: BorderRadius.circular(10),
                 ),
               ),
               child: Text(
