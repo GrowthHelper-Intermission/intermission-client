@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:intermission_project/common/component/tabbar_using_controller.dart';
 import 'package:intermission_project/counter.dart';
-import 'package:intermission_project/views/signup/signup_screen.dart';
+import 'package:intermission_project/views/signup/signup_screen_page1.dart';
 import 'firebase_options.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -28,7 +28,7 @@ class MyApp extends StatelessWidget {
       => MaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'Your App Title',
-        home: Signup(),
+        home: SignupScreenPage1(),
       ),
     );
   }

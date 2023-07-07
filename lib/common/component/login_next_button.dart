@@ -1,15 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:intermission_project/common/const/colors.dart';
 
-class LoginButton extends StatefulWidget {
+class LoginNextButton extends StatefulWidget {
+  final String buttonName;
   final bool isButtonEnabled;
-  const LoginButton({required this.isButtonEnabled, super.key});
+  const LoginNextButton({required this.buttonName, required this.isButtonEnabled, super.key});
 
   @override
-  State<LoginButton> createState() => _LoginButtonState();
+  State<LoginNextButton> createState() => _LoginNextButtonState();
 }
 
-class _LoginButtonState extends State<LoginButton> {
+class _LoginNextButtonState extends State<LoginNextButton> {
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -32,7 +33,7 @@ class _LoginButtonState extends State<LoginButton> {
                 ),
               ),
               child: Text(
-                '로그인',
+                widget.buttonName,
                 style: TextStyle(
                   fontWeight: FontWeight.w800,
                 ),
@@ -44,4 +45,3 @@ class _LoginButtonState extends State<LoginButton> {
     );
   }
 }
-

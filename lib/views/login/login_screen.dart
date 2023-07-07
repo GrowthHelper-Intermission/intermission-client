@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:intermission_project/common/component/custom_appbar.dart';
 import 'package:intermission_project/common/component/custom_text_form_field.dart';
+import 'package:intermission_project/common/component/login_next_button.dart';
 import 'package:intermission_project/user/find_pw_button.dart';
 import 'package:intermission_project/common/component/custom_text_style.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:intermission_project/views/login/login_button.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -19,6 +19,7 @@ class _LoginScreenState extends State<LoginScreen> {
   bool _isButtonEnabled = false;
   String? _emailErrorText;
   String? _passwordErrorText;
+  final int successCount = 0;
 
   void _checkButtonEnabled() {
     bool isEmailValid = RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$')
@@ -58,7 +59,9 @@ class _LoginScreenState extends State<LoginScreen> {
               children: [
                 CustomAppBar(),
                 Padding(
-                  padding: EdgeInsets.only(left: ScreenUtil().setWidth(24), right: ScreenUtil().setWidth(24)),
+                  padding: EdgeInsets.only(
+                      left: ScreenUtil().setWidth(24),
+                      right: ScreenUtil().setWidth(24)),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -112,8 +115,13 @@ class _LoginScreenState extends State<LoginScreen> {
                               height: 20.0,
                             ),
                             FindPWButton(),
-                            SizedBox(height: 300,),
-                            LoginButton(isButtonEnabled: _isButtonEnabled),
+                            SizedBox(
+                              height: 300,
+                            ),
+                            LoginNextButton(
+                              buttonName: '로그인',
+                              isButtonEnabled: _isButtonEnabled,
+                            ),
                           ],
                         ),
                       ),

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intermission_project/common/const/colors.dart';
 
-class CustomTextFormField extends StatelessWidget {
+class CustomTextFormField extends StatefulWidget {
   final String? hintText;
   final String? errorText;
   final bool obscureText;
@@ -9,9 +9,11 @@ class CustomTextFormField extends StatelessWidget {
   final ValueChanged<String>? onChanged;
   final TextEditingController? controller; // 추가된 controller 파라미터
   final String? name;
+  final int? textFieldMinLine;
 
   const CustomTextFormField({
     required this.onChanged,
+    this.textFieldMinLine = 1 ,
     this.autofocus = false,
     this.obscureText = false,
     this.errorText,
@@ -21,6 +23,12 @@ class CustomTextFormField extends StatelessWidget {
     super.key,
   });
 
+  @override
+  State<CustomTextFormField> createState() => _CustomTextFormFieldState();
+}
+
+class _CustomTextFormFieldState extends State<CustomTextFormField> {
+  bool showErrorText = false;
   @override
   Widget build(BuildContext context) {
 
@@ -35,16 +43,24 @@ class CustomTextFormField extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.fromLTRB(0, 12, 14, 12),
       child: TextField(
-        controller: controller, // 추가된 controller를 TextField에 연결
+        // 텍스트 필드를 선택할 때마다 에러 텍스트 상태 초기화
+        onTap: () {
+          setState(() {
+            showErrorText = false;
+          });
+        },
+        controller: widget.controller, // 추가된 controller를 TextField에 연결
         cursorColor: CURSOR_COLOR,
-        obscureText: obscureText,
+        obscureText: widget.obscureText,
         obscuringCharacter: '●',
-        autofocus: autofocus,
-        onChanged: onChanged,
+        minLines: widget.textFieldMinLine,
+        maxLines: widget.textFieldMinLine,
+        autofocus: widget.autofocus,
+        onChanged: widget.onChanged,
         decoration: InputDecoration(
           contentPadding: EdgeInsets.fromLTRB(14, 12, 14, 12),
-          hintText: hintText,
-          errorText: errorText,
+          hintText: widget.hintText,
+          errorText: widget.errorText,
           hintStyle: TextStyle(
             fontWeight: FontWeight.w300,
             fontSize: 14.0,
