@@ -98,7 +98,7 @@ class HomeAppBar extends StatelessWidget implements PreferredSizeWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text(
-                  '김민지님',
+                  '김진성님',
                   style: TextStyle(fontSize: 14, fontWeight: FontWeight.w400),
                 ),
                 Text(

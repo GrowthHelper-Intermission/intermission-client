@@ -1,11 +1,3 @@
-// import 'dart:ui';
-// import 'package:flutter/material.dart';
-// import 'package:flutter_screenutil/flutter_screenutil.dart';
-// import 'package:intermission_project/common/component/custom_appbar.dart';
-// import 'package:intermission_project/common/component/custom_text_form_field.dart';
-// import 'package:intermission_project/common/component/custom_text_style.dart';
-// import 'package:intermission_project/common/const/colors.dart';
-
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -13,6 +5,9 @@ import 'package:intermission_project/common/component/custom_appbar.dart';
 import 'package:intermission_project/common/component/custom_text_form_field.dart';
 import 'package:intermission_project/common/component/custom_text_style.dart';
 import 'package:intermission_project/common/component/login_next_button.dart';
+import 'package:intermission_project/common/component/signup_appbar.dart';
+import 'package:intermission_project/common/component/signup_ask_label.dart';
+import 'package:intermission_project/common/component/signup_either_button.dart';
 import 'package:intermission_project/common/const/colors.dart';
 import 'package:intermission_project/views/signup/signup_screen_page2.dart';
 
@@ -111,8 +106,6 @@ class _SignupScreenPage1State extends State<SignupScreenPage1> {
     }
   }
 
-
-
   @override
   void initState() {
     // TODO: implement initState
@@ -155,41 +148,8 @@ class _SignupScreenPage1State extends State<SignupScreenPage1> {
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Container(
-                      child: SizedBox(
-                        width: ScreenUtil().setWidth(100),
-                        height: ScreenUtil().setHeight(50),
-                        child: Text(
-                          '회원가입',
-                          style: customHeaderStyle,
-                        ),
-                      ),
-                    ),
-                    SizedBox(
-                      width: ScreenUtil().setWidth(50),
-                      height: ScreenUtil().setHeight(50),
-                      child: Text(
-                        '1/3',
-                        style: TextStyle(
-                          color: Colors.grey[500],
-                          fontSize: 28.0,
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-                SizedBox(
-                  width: 60,
-                  height: 22,
-                  child: Text(
-                    '이름',
-                    style: customTextStyle,
-                  ),
-                ),
+                SignupAppBar(currentPage: '1/3'),
+                SignupAskLabel(text: '이름'),
                 CustomTextFormField(
                   controller: nameController,
                   hintText: '이름을 입력해 주세요',
@@ -201,83 +161,35 @@ class _SignupScreenPage1State extends State<SignupScreenPage1> {
                 SizedBox(
                   height: 15,
                 ),
-                SizedBox(
-                  width: 60,
-                  height: 22,
-                  child: Text(
-                    '성별',
-                    style: customTextStyle,
-                  ),
-                ),
+                SignupAskLabel(text: '성별'),
                 Row(mainAxisAlignment: MainAxisAlignment.start, children: [
-                  ElevatedButton(
+                  SignupEitherButton(
+                    text: '남성',
+                    isSelected: isMaleSelected,
                     onPressed: () {
                       setState(() {
                         isMaleSelected = true;
                         isFemaleSelected = false;
                       });
                     },
-                    style: ElevatedButton.styleFrom(
-                      primary: isMaleSelected ? SUB_COLOR : Colors.white,
-                      minimumSize: Size(170, 50),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(6.0),
-                        side: BorderSide(
-                          color: isMaleSelected
-                              ? Colors.transparent
-                              : BORDER_COLOR,
-                          width: 1.0,
-                        ),
-                      ),
-                    ),
-                    child: Text(
-                      '남성',
-                      style: TextStyle(
-                        color: isMaleSelected ? Colors.black : Colors.grey[600],
-                      ),
-                    ),
                   ),
                   SizedBox(width: 10),
-                  ElevatedButton(
+                  SignupEitherButton(
+                    text: '여성',
+                    isSelected: isFemaleSelected,
                     onPressed: () {
                       setState(() {
                         isMaleSelected = false;
                         isFemaleSelected = true;
                       });
                     },
-                    style: ElevatedButton.styleFrom(
-                      primary: isFemaleSelected ? SUB_COLOR : Colors.white,
-                      minimumSize: Size(170, 50),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(6.0),
-                        side: BorderSide(
-                          color: isFemaleSelected
-                              ? Colors.transparent
-                              : BORDER_COLOR,
-                          width: 1.0,
-                        ),
-                      ),
-                    ),
-                    child: Text(
-                      '여성',
-                      style: TextStyle(
-                        color:
-                            isFemaleSelected ? Colors.black : Colors.grey[600],
-                      ),
-                    ),
                   ),
-                ]),
+                ]
+                ),
                 SizedBox(
                   height: 15,
                 ),
-                SizedBox(
-                  width: 60,
-                  height: 22,
-                  child: Text(
-                    '나이',
-                    style: customTextStyle,
-                  ),
-                ),
+              SignupAskLabel(text: '나이'),
                 CustomTextFormField(
                   controller: ageController,
                   hintText: '나이를 입력해 주세요',
@@ -289,14 +201,7 @@ class _SignupScreenPage1State extends State<SignupScreenPage1> {
                 SizedBox(
                   height: 15,
                 ),
-                SizedBox(
-                  width: 60,
-                  height: 22,
-                  child: Text(
-                    '전화번호',
-                    style: customTextStyle,
-                  ),
-                ),
+                SignupAskLabel(text: '전화번호'),
                 CustomTextFormField(
                   controller: phoneNumController,
                   hintText: '000-000-0000 형식으로 입력해 주세요',
@@ -308,14 +213,7 @@ class _SignupScreenPage1State extends State<SignupScreenPage1> {
                 SizedBox(
                   height: 15,
                 ),
-                SizedBox(
-                  width: 60,
-                  height: 22,
-                  child: Text(
-                    '직업',
-                    style: customTextStyle,
-                  ),
-                ),
+              SignupAskLabel(text: '직업'),
                 CustomTextFormField(
                   controller: jobController,
                   hintText: '학생(학교명), 직장인(직무) 형식으로 입력해 주세요',
