@@ -26,7 +26,7 @@ class _LoginNextButtonState extends State<LoginNextButton> {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           SizedBox(
-            height: 50,
+            height: 60,
             child: ElevatedButton(
               onPressed: widget.isButtonEnabled ? widget.onPressed : null,
               style: ElevatedButton.styleFrom(
@@ -40,6 +40,8 @@ class _LoginNextButtonState extends State<LoginNextButton> {
                 widget.buttonName,
                 style: TextStyle(
                   fontWeight: FontWeight.w800,
+                  fontSize: 16,
+                  color: Colors.white,
                 ),
               ),
             ),

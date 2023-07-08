@@ -10,8 +10,10 @@ class CustomTextFormField extends StatefulWidget {
   final TextEditingController? controller; // 추가된 controller 파라미터
   final String? name;
   final int? textFieldMinLine;
+  final bool? enable;
 
   const CustomTextFormField({
+    this.enable,
     required this.onChanged,
     this.textFieldMinLine = 1 ,
     this.autofocus = false,
@@ -41,8 +43,9 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
     );
 
     return Padding(
-      padding: const EdgeInsets.fromLTRB(0, 12, 14, 12),
+      padding: const EdgeInsets.fromLTRB(0, 4, 14, 6),
       child: TextField(
+        enabled: widget.enable ?? true,
         // 텍스트 필드를 선택할 때마다 에러 텍스트 상태 초기화
         onTap: () {
           setState(() {

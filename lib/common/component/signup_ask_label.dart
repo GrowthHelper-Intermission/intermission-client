@@ -9,10 +9,11 @@ class SignupAskLabel extends StatelessWidget {
   Widget build(BuildContext context) {
     return SizedBox(
       width: 380,
-      height: 22,
+      height: 30,
       child: Text(
         text,
         style: customTextStyle,
+        maxLines: 2,
       ),
     );
   }
