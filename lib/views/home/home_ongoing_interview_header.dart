@@ -9,7 +9,7 @@ class OngoingInterviewHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.fromLTRB(27, 8, 15, 0),
+      padding: const EdgeInsets.fromLTRB(21, 8, 21, 0),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [

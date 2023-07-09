@@ -11,7 +11,7 @@ import 'package:intermission_project/views/home/home_ongoing_interview_header.da
 import 'package:intermission_project/user/interview_collection_screen.dart';
 import 'package:intermission_project/views/login/login_screen.dart';
 import 'package:intermission_project/user/matching_screen.dart';
-import 'package:intermission_project/user/notice_card.dart';
+import 'package:intermission_project/views/home/home_notice_card.dart';
 import 'package:intermission_project/common/component/custom_text_style.dart';
 import 'package:intermission_project/views/home/home_ongoing_interview_list.dart';
 

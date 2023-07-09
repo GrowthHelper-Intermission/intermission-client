@@ -15,8 +15,8 @@ class NoticeCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 335,
-      height: 78,
+      width: 350,
+      height: 84,
       decoration: BoxDecoration(
         border: Border.all(
           width: 1.0,
@@ -48,13 +48,13 @@ class NoticeCard extends StatelessWidget {
             // ),
             Expanded(
               child: Container(
-                height: 20,
+                height: 40,
                 child: Text(
                   '$notice',
                   style: TextStyle(
-                    fontSize: 14,
+                    fontSize: 15,
                     color: Colors.black,
-                    fontWeight: FontWeight.w500,
+                    fontWeight: FontWeight.w600,
                   ),
                 ),
               ),
@@ -68,7 +68,7 @@ class NoticeCard extends StatelessWidget {
                 child: Text(
                   '$noticeContent',
                   style: TextStyle(
-                    fontSize: 10,
+                    fontSize: 12,
                     fontWeight: FontWeight.w100,
                     color: Colors.grey[600],
                   ),

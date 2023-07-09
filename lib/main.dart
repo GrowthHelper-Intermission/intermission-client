@@ -33,8 +33,9 @@ class MyApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         title: 'Your App Title',
         // home: SignupScreenPage1(),
-        home: SignupScreenPage3(),
+        home: SignupScreenPage2(),
       ),
     );
   }
+
 }

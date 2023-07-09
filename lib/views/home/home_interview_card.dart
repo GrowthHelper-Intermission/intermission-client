@@ -96,14 +96,13 @@ class InterviewCard extends StatelessWidget {
               SizedBox(height: 12,),
               SizedBox(
                 width: 293, //same with line
-                height: 30,
+                height: 40,
                 child: Text(
                   recruiting,
                   style: InterviewRecruitingStyle,
                   maxLines: 2,
                 ),
               ),
-              SizedBox(height: 10,),
               Row(
                 children: [
                   SizedBox(

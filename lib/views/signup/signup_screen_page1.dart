@@ -90,7 +90,7 @@ class _SignupScreenPage1State extends State<SignupScreenPage1> {
 
   void checkJobEnabled() {
     String job = jobController.text.trim();
-    bool isValid = job.length >= 4;
+    bool isValid = job.length >= 3;
 
     setState(() {
       isJobValid = isValid;

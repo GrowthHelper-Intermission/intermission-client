@@ -44,7 +44,7 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
 
     return Padding(
       padding: const EdgeInsets.fromLTRB(0, 4, 14, 6),
-      child: TextField(
+      child: TextFormField(
         enabled: widget.enable ?? true,
         // 텍스트 필드를 선택할 때마다 에러 텍스트 상태 초기화
         onTap: () {
