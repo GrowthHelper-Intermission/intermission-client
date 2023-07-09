@@ -11,7 +11,7 @@ import 'package:intermission_project/common/component/signup_appbar.dart';
 import 'package:intermission_project/common/component/signup_ask_label.dart';
 import 'package:intermission_project/common/component/signup_either_button.dart';
 import 'package:intermission_project/common/component/signup_long_ask_label.dart';
-import 'package:intermission_project/common/component/tabbar_using_controller.dart';
+import 'package:intermission_project/common/component/main_tab_controller.dart';
 import 'package:intermission_project/common/const/colors.dart';
 import 'package:intermission_project/views/signup/signup_screen_page2.dart';
 import 'package:flutter/foundation.dart'; // Import the 'foundation' package
@@ -64,7 +64,7 @@ class _SignupScreenPage3State extends State<SignupScreenPage3> {
 
   void navigateToNextScreen() {
     if (isButtonEnabled) {
-      Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (_) => TabBarController()),
+      Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (_) => MainTabController()),
               (route) => false);
     }
   }

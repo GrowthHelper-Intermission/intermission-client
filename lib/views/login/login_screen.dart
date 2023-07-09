@@ -2,11 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:intermission_project/common/component/custom_appbar.dart';
 import 'package:intermission_project/common/component/custom_text_form_field.dart';
 import 'package:intermission_project/common/component/login_next_button.dart';
-import 'package:intermission_project/common/component/tabbar_using_controller.dart';
+import 'package:intermission_project/common/component/main_tab_controller.dart';
 import 'package:intermission_project/user/find_pw_button.dart';
 import 'package:intermission_project/common/component/custom_text_style.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:intermission_project/views/home/home_main_screen.dart';
+import 'package:intermission_project/user/signup_button.dart';
+import 'package:intermission_project/views/home/home_body_section.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -38,7 +39,7 @@ class _LoginScreenState extends State<LoginScreen> {
   
   void navigateToNextScreen(){
       Navigator.push(context,
-      MaterialPageRoute(builder: (context) => TabBarController(),)
+      MaterialPageRoute(builder: (context) => MainTabController(),)
       );
   }
 
@@ -126,7 +127,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             Row(
                               children: [
                                 FindPWButton(title: '비밀번호 찾기'),
-                                FindPWButton(title: '회원가입 하기'),
+                                SignupButton(title: '회원가입 하기'),
                               ],
                             ),
                             SizedBox(

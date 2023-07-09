@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:intermission_project/common/component/tabbar_using_controller.dart';
+import 'package:intermission_project/common/component/main_tab_controller.dart';
 import 'package:intermission_project/user/setting_screen.dart';
 
 // class HomeAppBar extends StatelessWidget implements PreferredSizeWidget {

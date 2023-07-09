@@ -5,14 +5,14 @@ import 'package:intermission_project/views/home/home_appbar.dart';
 import 'package:intermission_project/user/interview_collection_screen.dart';
 import 'package:intermission_project/views/login/login_screen.dart';
 import 'package:intermission_project/user/matching_screen.dart';
-import 'package:intermission_project/views/home/home_main_screen.dart';
+import 'package:intermission_project/views/home/home_body_section.dart';
 
-class TabBarController extends StatefulWidget {
+class MainTabController extends StatefulWidget {
   @override
-  _TabBarControllerState createState() => _TabBarControllerState();
+  _MainTabControllerState createState() => _MainTabControllerState();
 }
 
-class _TabBarControllerState extends State<TabBarController>
+class _MainTabControllerState extends State<MainTabController>
     with SingleTickerProviderStateMixin {
   late TabController _tabController;
   int _currentIndex = 2; // Set the initial selected tab index to 2 (the "홈" tab)
@@ -61,7 +61,7 @@ class _TabBarControllerState extends State<TabBarController>
         children: <Widget>[
           TabContentWidget(label: '쇼핑몰'),
           MatchingScreen(),
-          HomeScreen(tabController: _tabController),
+          HomeBodySection(tabController: _tabController),
           InterviewCollectionScreen(),
           LoginScreen(),
         ],

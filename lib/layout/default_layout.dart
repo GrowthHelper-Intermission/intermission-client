@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intermission_project/common/component/custom_appbar.dart';
-import 'package:intermission_project/common/component/tabbar_using_controller.dart';
+import 'package:intermission_project/common/component/main_tab_controller.dart';
 import 'package:intermission_project/common/const/interviews.dart';
 import 'package:intermission_project/common/const/tabs.dart';
 import 'package:intermission_project/common/const/colors.dart';
