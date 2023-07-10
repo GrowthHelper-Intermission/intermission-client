@@ -1,19 +1,19 @@
 import 'package:flutter/material.dart';
-import 'package:intermission_project/common/component/custom_appbar.dart';
-import 'package:intermission_project/common/component/main_tab_controller.dart';
-import 'package:intermission_project/common/const/interviews.dart';
-import 'package:intermission_project/common/const/tabs.dart';
-import 'package:intermission_project/common/const/colors.dart';
-import 'package:intermission_project/user/friend_invite_screen.dart';
-import 'package:intermission_project/views/home/home_appbar.dart';
-import 'package:intermission_project/views/home/home_bottom_button.dart';
-import 'package:intermission_project/views/home/home_ongoing_interview_header.dart';
-import 'package:intermission_project/user/interview_collection_screen.dart';
-import 'package:intermission_project/views/login/login_screen.dart';
-import 'package:intermission_project/user/matching_screen.dart';
-import 'package:intermission_project/views/home/home_notice_card.dart';
-import 'package:intermission_project/common/component/custom_text_style.dart';
-import 'package:intermission_project/views/home/home_ongoing_interview_list.dart';
+// import 'package:intermission_project/common/component/custom_appbar.dart';
+// import 'package:intermission_project/common/component/main_tab_controller.dart';
+// import 'package:intermission_project/common/const/interviews.dart';
+// import 'package:intermission_project/common/const/tabs.dart';
+// import 'package:intermission_project/common/const/colors.dart';
+// import 'package:intermission_project/user/friend_invite_screen.dart';
+// import 'package:intermission_project/views/home/home_appbar.dart';
+// import 'package:intermission_project/views/home/home_bottom_button.dart';
+// import 'package:intermission_project/views/home/home_ongoing_interview_header.dart';
+// import 'package:intermission_project/user/interview_collection_screen.dart';
+// import 'package:intermission_project/views/login/login_screen.dart';
+// import 'package:intermission_project/user/matching_screen.dart';
+// import 'package:intermission_project/views/home/home_notice_card.dart';
+// import 'package:intermission_project/common/component/custom_text_style.dart';
+// import 'package:intermission_project/views/home/home_ongoing_interview_list.dart';
 
 class DefaultLayout extends StatelessWidget {
   final Color? backgroundColor;
@@ -35,7 +35,7 @@ class DefaultLayout extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: backgroundColor ?? Colors.white,
-      appBar: appBar,
+      appBar: renderAppBar(),
       body: child,
       bottomNavigationBar: bottomNavigationBar,
     );

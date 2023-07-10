@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:intermission_project/common/component/main_tab_controller.dart';
 import 'package:intermission_project/counter.dart';
+import 'package:intermission_project/views/setting/setting_screen.dart';
 import 'package:intermission_project/views/home/home_body_section.dart';
 import 'package:intermission_project/views/login/login_screen.dart';
 import 'package:intermission_project/views/signup/signup_screen_page1.dart';
@@ -33,7 +34,7 @@ class MyApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         title: 'Your App Title',
         // home: SignupScreenPage1(),
-        home: MainTabController(),
+        home: SettingScreen(),
       ),
     );
   }
