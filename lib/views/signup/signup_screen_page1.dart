@@ -1,4 +1,5 @@
 import 'dart:ui';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intermission_project/common/component/custom_appbar.dart';
@@ -9,7 +10,10 @@ import 'package:intermission_project/common/component/signup_appbar.dart';
 import 'package:intermission_project/common/component/signup_ask_label.dart';
 import 'package:intermission_project/common/component/signup_either_button.dart';
 import 'package:intermission_project/common/const/colors.dart';
+import 'package:intermission_project/models/user.dart';
 import 'package:intermission_project/views/signup/signup_screen_page2.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:provider/provider.dart';
 
 extension InputValidate on String {
   // 이메일 포맷 검증
@@ -33,14 +37,21 @@ class SignupScreenPage1 extends StatefulWidget {
 }
 
 class _SignupScreenPage1State extends State<SignupScreenPage1> {
+  final globalKey = GlobalKey<FormState>();
+
+  FirebaseFirestore firestore = FirebaseFirestore.instance;
+  TextEditingController emailController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
   TextEditingController nameController = TextEditingController();
   TextEditingController ageController = TextEditingController();
   TextEditingController phoneNumController = TextEditingController();
   TextEditingController jobController = TextEditingController();
 
+  // bool isEmailValid = false;
+  // bool isPasswordValid = false;
+
   bool isMaleSelected = false;
   bool isFemaleSelected = false;
-
   bool isNameValid = false;
   bool isAgeValid = false;
   bool isPhoneNumValid = false;
@@ -54,6 +65,20 @@ class _SignupScreenPage1State extends State<SignupScreenPage1> {
   bool isButtonEnabled = false;
   bool isGenderSelected = false;
   bool isFieldsValid = false;
+
+  int _duplicationIdCheck = 0;
+  int _duplbtnidchecker = 0;
+  int _duplicationNickCheck = 1;
+  int _duplbtnnickchecker = 0;
+  String userEmail = '';
+
+  void checkEmailEnabled(){
+
+  }
+
+  void checkPasswordEnabled(){
+
+  }
 
   void checkNameEnabled() {
     String name = nameController.text.trim();
@@ -98,11 +123,23 @@ class _SignupScreenPage1State extends State<SignupScreenPage1> {
     checkButtonEnabled();
   }
 
-  void navigateToNextScreen(){ 
-    if(isButtonEnabled) {
+  void navigateToNextScreen() {
+    if (isButtonEnabled) {
+      final loginUserProvider =
+      Provider.of<LoginUserProvider>(context, listen: false);
+
+      loginUserProvider.setEmailAccount(emailController.text.trim());
+      loginUserProvider.setPassword(passwordController.text.trim());
+      loginUserProvider.setName(nameController.text.trim());
+      loginUserProvider.setAge(int.parse(ageController.text.trim()));
+      loginUserProvider.setPhoneNumber(phoneNumController.text.trim());
+      loginUserProvider.setJob(jobController.text.trim());
+      loginUserProvider.setGender(isMaleSelected == true ? "남성" : "여성");
+
       Navigator.push(
         context,
-        MaterialPageRoute(builder: (context) => SignupScreenPage2()),);
+        MaterialPageRoute(builder: (context) => SignupScreenPage2()),
+      );
     }
   }
 
@@ -144,98 +181,140 @@ class _SignupScreenPage1State extends State<SignupScreenPage1> {
             padding: EdgeInsets.only(
                 left: ScreenUtil().setWidth(12),
                 right: ScreenUtil().setWidth(12)),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                SignupAppBar(currentPage: '1/3'),
-                SignupAskLabel(text: '이름'),
-                CustomTextFormField(
-                  controller: nameController,
-                  hintText: '이름을 입력해 주세요',
-                  onChanged: (String value) {
-                    checkNameEnabled();
-                  },
-                  errorText: isNameValid ? null : nameErrorText,
-                ),
-                SizedBox(
-                  height: 15,
-                ),
-                SignupAskLabel(text: '성별'),
-                Row(mainAxisAlignment: MainAxisAlignment.start, children: [
-                  SignupEitherButton(
-                    text: '남성',
-                    isSelected: isMaleSelected,
-                    onPressed: () {
-                      setState(() {
-                        isMaleSelected = true;
-                        isFemaleSelected = false;
-                      });
-                    },
+             child: Form(
+              key: globalKey,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  SignupAppBar(currentPage: '1/3'),
+                  SignupAskLabel(text: '이메일'),
+                  CustomTextFormField(
+                    controller: emailController,
+                    hintText: 'email@email.com',
+                    onChanged: (String value) {},
                   ),
-                  SizedBox(width: 10),
-                  SignupEitherButton(
-                    text: '여성',
-                    isSelected: isFemaleSelected,
-                    onPressed: () {
-                      setState(() {
-                        isMaleSelected = false;
-                        isFemaleSelected = true;
-                      });
-                    },
+                  SignupAskLabel(text: '비밀번호'),
+                  CustomTextFormField(
+                    controller: passwordController,
+                    hintText: '6자 이상의 영문/숫자 조합',
+                    onChanged: (String value) {},
+                    obscureText: true,
                   ),
-                ]
-                ),
-                SizedBox(
-                  height: 15,
-                ),
-              SignupAskLabel(text: '나이'),
-                CustomTextFormField(
-                  controller: ageController,
-                  hintText: '나이를 입력해 주세요',
-                  onChanged: (String value) {
-                    checkAgeEnabled();
-                  },
-                  errorText: isAgeValid ? null : ageErrorText,
-                ),
-                SizedBox(
-                  height: 15,
-                ),
-                SignupAskLabel(text: '전화번호'),
-                CustomTextFormField(
-                  controller: phoneNumController,
-                  hintText: '000-000-0000 형식으로 입력해 주세요',
-                  onChanged: (String value) {
-                    checkPhoneNumEnabled();
-                  },
-                  errorText: isPhoneNumValid ? null : phoneNumErrorText,
-                ),
-                SizedBox(
-                  height: 15,
-                ),
-              SignupAskLabel(text: '직업'),
-                CustomTextFormField(
-                  controller: jobController,
-                  hintText: '학생(학교명), 직장인(직무) 형식으로 입력해 주세요',
-                  onChanged: (String value) {
-                    checkJobEnabled();
-                  },
-                  errorText: isJobValid ? null : jobErrorText,
-                  textFieldMinLine: 2,
-                ),
-                SizedBox(
-                  height: 50,
-                ),
-                LoginNextButton(
-                  buttonName: '다음',
-                  isButtonEnabled: isButtonEnabled,
-                  onPressed: navigateToNextScreen,
-                ),
-              ],
+                  SignupAskLabel(text: '이름'),
+                  CustomTextFormField(
+                    controller: nameController,
+                    hintText: '이름을 입력해 주세요',
+                    onChanged: (String value) {
+                      checkNameEnabled();
+                    },
+                    errorText: isNameValid ? null : nameErrorText,
+                  ),
+                  SizedBox(
+                    height: 15,
+                  ),
+                  SignupAskLabel(text: '성별'),
+                  Row(mainAxisAlignment: MainAxisAlignment.start, children: [
+                    SignupEitherButton(
+                      text: '남성',
+                      isSelected: isMaleSelected,
+                      onPressed: () {
+                        setState(() {
+                          isMaleSelected = true;
+                          isFemaleSelected = false;
+                        });
+                      },
+                    ),
+                    SizedBox(width: 10),
+                    SignupEitherButton(
+                      text: '여성',
+                      isSelected: isFemaleSelected,
+                      onPressed: () {
+                        setState(() {
+                          isMaleSelected = false;
+                          isFemaleSelected = true;
+                        });
+                      },
+                    ),
+                  ]
+                  ),
+                  SizedBox(
+                    height: 15,
+                  ),
+                SignupAskLabel(text: '나이'),
+                  CustomTextFormField(
+                    controller: ageController,
+                    hintText: '나이를 입력해 주세요',
+                    onChanged: (String value) {
+                      checkAgeEnabled();
+                    },
+                    errorText: isAgeValid ? null : ageErrorText,
+                  ),
+                  SizedBox(
+                    height: 15,
+                  ),
+                  SignupAskLabel(text: '전화번호'),
+                  CustomTextFormField(
+                    controller: phoneNumController,
+                    hintText: '000-000-0000 형식으로 입력해 주세요',
+                    onChanged: (String value) {
+                      checkPhoneNumEnabled();
+                    },
+                    errorText: isPhoneNumValid ? null : phoneNumErrorText,
+                  ),
+                  SizedBox(
+                    height: 15,
+                  ),
+                SignupAskLabel(text: '직업'),
+                  CustomTextFormField(
+                    controller: jobController,
+                    hintText: '학생(학교명), 직장인(직무) 형식으로 입력해 주세요',
+                    onChanged: (String value) {
+                      checkJobEnabled();
+                    },
+                    errorText: isJobValid ? null : jobErrorText,
+                    textFieldMinLine: 2,
+                  ),
+                  SizedBox(
+                    height: 50,
+                  ),
+                  LoginNextButton(
+                    buttonName: '다음',
+                    isButtonEnabled: isButtonEnabled,
+                    onPressed: navigateToNextScreen,
+                  ),
+                ],
+              ),
             ),
           ),
         ),
       ),
+    );
+  }
+}
+
+
+
+class CustomButton extends StatelessWidget {
+  final bool istext; //버튼안에 들어갈 내용이 '중복확인' 텍스트인가 화살표아이콘인가를 결정해주는 변수임 164번줄에 이어서 주석달겠음.
+  final String text;
+  final VoidCallback onPressed;
+  const CustomButton({required this.text,required this.istext, required this.onPressed, Key? key})
+      : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return ElevatedButton(
+      style: ElevatedButton.styleFrom(
+          primary: PRIMARY_COLOR,
+          shape:
+          RoundedRectangleBorder(borderRadius: BorderRadius.circular(8.0))),
+      onPressed: onPressed,
+      child: istext == false ? Icon(
+        Icons.arrow_forward,
+        color: Colors.white,
+        size: 35.0,
+      ) : Text(text),
     );
   }
 }

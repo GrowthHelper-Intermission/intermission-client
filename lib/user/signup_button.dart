@@ -9,14 +9,7 @@ class SignupButton extends StatelessWidget {
     return Center(
       child: SizedBox(
         child: TextButton(
-          onPressed: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => SignupScreenPage1(),
-              ),
-            );
-          },
+          onPressed: () => Navigator.pushNamed(context, '/signup1'),
           child: Text(
             title,
             style: TextStyle(
