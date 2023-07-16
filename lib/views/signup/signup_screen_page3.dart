@@ -1,4 +1,5 @@
 import 'dart:ui';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -13,8 +14,11 @@ import 'package:intermission_project/common/component/signup_either_button.dart'
 import 'package:intermission_project/common/component/signup_long_ask_label.dart';
 import 'package:intermission_project/common/component/main_tab_controller.dart';
 import 'package:intermission_project/common/const/colors.dart';
+import 'package:intermission_project/models/user.dart';
 import 'package:intermission_project/views/signup/signup_screen_page2.dart';
 import 'package:flutter/foundation.dart'; // Import the 'foundation' package
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:provider/provider.dart';
 
 class SignupScreenPage3 extends StatefulWidget {
   const SignupScreenPage3({super.key});
@@ -24,6 +28,9 @@ class SignupScreenPage3 extends StatefulWidget {
 }
 
 class _SignupScreenPage3State extends State<SignupScreenPage3> {
+  final globalKey = GlobalKey<FormState>();
+  late LoginUserProvider user = Provider.of<LoginUserProvider>(context);
+
   TextEditingController usingServiceController = TextEditingController();
   TextEditingController yourHobbyController = TextEditingController();
   TextEditingController recommandNameController = TextEditingController();
@@ -53,19 +60,50 @@ class _SignupScreenPage3State extends State<SignupScreenPage3> {
     });
   }
 
-  // void navigateToNextScreen() {
-  //   if (isButtonEnabled) {
-  //     Navigator.push(
-  //       context,
-  //       MaterialPageRoute(builder: (context) => TabBarController()),
-  //     );
-  //   }
-  // }
-
-  void navigateToNextScreen() {
+  void navigateToNextScreen() async{
     if (isButtonEnabled) {
-      Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (_) => MainTabController()),
-              (route) => false);
+      final loginUserProvider =
+      Provider.of<LoginUserProvider>(context, listen: false);
+
+      loginUserProvider.setInterviewReward(selectedInterviewRewardType!);
+      loginUserProvider.setOftenUsingService(usingServiceController.text.trim());
+      loginUserProvider.setHobby(yourHobbyController.text.trim());
+      loginUserProvider.setRecommendWho(recommandNameController.text.trim());
+      loginUserProvider.setIsAgree(isAgree);
+      loginUserProvider.setCreatedTime(DateTime.now().toString());
+      loginUserProvider.setUserPoint(1000);
+
+      Map<String, dynamic> userData = {
+        "emailAccount": loginUserProvider.emailAccount,
+        "password": loginUserProvider.password,
+        "name": loginUserProvider.name,
+        "createdTime": loginUserProvider.createdTime,
+        "gender": loginUserProvider.gender,
+        "age": loginUserProvider.age,
+        "job": loginUserProvider.job,
+        "isMarried": loginUserProvider.isMarried,
+        "residenceType": loginUserProvider.residenceType,
+        "isRaisePet": loginUserProvider.isRaisePet,
+        "kindOfPet": loginUserProvider.kindOfPet,
+        "residenceArea": loginUserProvider.residenceArea,
+        "interviewPossibleArea": loginUserProvider.interviewPossibleArea,
+        "interviewReward": loginUserProvider.interviewReward,
+        "oftenUsingService": loginUserProvider.oftenUsingService,
+        "hobby": loginUserProvider.hobby,
+        "recommendWho": loginUserProvider.recommendWho,
+        "userPoint": loginUserProvider.userPoint,
+        "isAgree": loginUserProvider.isAgree,
+        "createdTime" : loginUserProvider.createdTime,
+      };
+
+      String uid = loginUserProvider.emailAccount;
+      await FirebaseFirestore.instance.collection("users").doc(uid).set(userData);
+
+      Navigator.pushAndRemoveUntil(
+        context,
+        MaterialPageRoute(builder: (context) => MainTabController(user: user,)),
+            (route) => false,
+      );
     }
   }
 
@@ -91,81 +129,84 @@ class _SignupScreenPage3State extends State<SignupScreenPage3> {
             padding: EdgeInsets.only(
                 left: ScreenUtil().setWidth(12),
                 right: ScreenUtil().setWidth(12)),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                SignupAppBar(currentPage: '3/3'),
-                SignupLongAskLabel(
-                    text: '1시간이 걸리는 비대면(온라인) 인터뷰 보상이 어느정도 되어야 인터뷰에 응하시겠습니까?'),
-                Center(
-                  child: CustomDropdownButton(
-                    items: interviewRewards,
-                    hintText: '선택',
-                    onItemSelected: (value) {
-                      setState(
-                            () {
-                          selectedInterviewRewardType = value;
-                        },
-                      );
-                      checkButtonEnabled();
+            child: Form(
+              key: globalKey,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  SignupAppBar(currentPage: '3/3'),
+                  SignupLongAskLabel(
+                      text: '1시간이 걸리는 비대면(온라인) 인터뷰 보상이 어느정도 되어야 인터뷰에 응하시겠습니까?'),
+                  Center(
+                    child: CustomDropdownButton(
+                      items: interviewRewards,
+                      hintText: '선택',
+                      onItemSelected: (value) {
+                        setState(
+                              () {
+                            selectedInterviewRewardType = value;
+                          },
+                        );
+                        checkButtonEnabled();
+                      },
+                    ),
+                  ),
+                  SignupLongAskLabel(
+                      text: '평소 자주 사용하는 웹/앱 서비스를 최대한 많이 적어주세요. 매칭이 쉬워집니다 !'),
+                  CustomTextFormField(
+                    controller: usingServiceController,
+                    hintText: '의견을 입력해 주세요',
+                    onChanged: (String value) {
+                      setState(() {});
                     },
                   ),
-                ),
-                SignupLongAskLabel(
-                    text: '평소 자주 사용하는 웹/앱 서비스를 최대한 많이 적어주세요. 매칭이 쉬워집니다 !'),
-                CustomTextFormField(
-                  controller: usingServiceController,
-                  hintText: '의견을 입력해 주세요',
-                  onChanged: (String value) {
-                    setState(() {});
-                  },
-                ),
-                SignupLongAskLabel(text: '취미를 적어주세요'),
-                CustomTextFormField(
-                  controller: yourHobbyController,
-                  hintText: '의견을 입력해 주세요',
-                  onChanged: (String value) {
-                    setState(() {});
-                  },
-                ),
-                SignupLongAskLabel(text: '추천인 이름(나이)'),
-                Container(
-                  constraints: BoxConstraints(maxWidth: 360),
-                  child: Text(
-                    '추후 웹 or 앱 개발 시 포인트 제도를 도입할 예정입니다. 추천인 한 명당 500포인트를 지급해드릴 것이니 많은 공유 부탁드립니다. 나이는 동명이인 문제로 부탁드리는 것입니다.',
-                    style: TextStyle(
-                        color: Colors.grey[600],
-                        fontWeight: FontWeight.w400,
-                        fontSize: 14),
+                  SignupLongAskLabel(text: '취미를 적어주세요'),
+                  CustomTextFormField(
+                    controller: yourHobbyController,
+                    hintText: '의견을 입력해 주세요',
+                    onChanged: (String value) {
+                      setState(() {});
+                    },
                   ),
-                ),
-                CustomTextFormField(
-                  controller: recommandNameController,
-                  hintText: '추천인을 입력해 주세요',
-                  onChanged: (String value) {
-                    setState(() {});
-                  },
-                ),
-                PrivacyAgreement(
-                  isAgree: isAgree,
-                  onChanged: (value) {
-                    // 여기을 onChanged에서 value를 받도록 수정했습니다.
-                    setState(() {
-                      isAgree = value!;
-                      checkButtonEnabled();
-                    });
-                  },
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(right: 15),
-                  child: LoginNextButton(
-                    buttonName: '완료',
-                    isButtonEnabled: isButtonEnabled,
-                    onPressed: navigateToNextScreen,
+                  SignupLongAskLabel(text: '추천인 이름(나이)'),
+                  Container(
+                    constraints: BoxConstraints(maxWidth: 360),
+                    child: Text(
+                      '추후 웹 or 앱 개발 시 포인트 제도를 도입할 예정입니다. 추천인 한 명당 500포인트를 지급해드릴 것이니 많은 공유 부탁드립니다. 나이는 동명이인 문제로 부탁드리는 것입니다.',
+                      style: TextStyle(
+                          color: Colors.grey[600],
+                          fontWeight: FontWeight.w400,
+                          fontSize: 14),
+                    ),
                   ),
-                ),
-              ],
+                  CustomTextFormField(
+                    controller: recommandNameController,
+                    hintText: '추천인을 입력해 주세요',
+                    onChanged: (String value) {
+                      setState(() {});
+                    },
+                  ),
+                  PrivacyAgreement(
+                    isAgree: isAgree,
+                    onChanged: (value) {
+                      // 여기을 onChanged에서 value를 받도록 수정했습니다.
+                      setState(() {
+                        isAgree = value!;
+                        checkButtonEnabled();
+                      });
+                    },
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(right: 15),
+                    child: LoginNextButton(
+                      buttonName: '완료',
+                      isButtonEnabled: isButtonEnabled,
+                      onPressed: navigateToNextScreen,
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
         ),

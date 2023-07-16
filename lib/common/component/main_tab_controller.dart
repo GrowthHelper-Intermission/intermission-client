@@ -1,13 +1,23 @@
+import 'dart:ffi';
+
 import 'package:flutter/material.dart';
 import 'package:intermission_project/common/const/tabs.dart';
 import 'package:intermission_project/common/const/colors.dart';
+import 'package:intermission_project/models/user.dart';
 import 'package:intermission_project/views/home/home_appbar.dart';
 import 'package:intermission_project/user/interview_collection_screen.dart';
 import 'package:intermission_project/views/login/login_screen.dart';
 import 'package:intermission_project/user/matching_screen.dart';
 import 'package:intermission_project/views/home/home_body_section.dart';
+import 'package:provider/provider.dart';
 
 class MainTabController extends StatefulWidget {
+  final LoginUserProvider user;
+  const MainTabController({
+    required this.user,
+    Key? key,
+}) : super(key: key);
+
   @override
   _MainTabControllerState createState() => _MainTabControllerState();
 }
@@ -17,6 +27,8 @@ class _MainTabControllerState extends State<MainTabController>
   late TabController _tabController;
   int _currentIndex = 2; // Set the initial selected tab index to 2 (the "홈" tab)
   int pointNumber = 1000;
+
+  late LoginUserProvider user = Provider.of<LoginUserProvider>(context);
 
   @override
   void initState() {
@@ -54,7 +66,7 @@ class _MainTabControllerState extends State<MainTabController>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: HomeAppBar(pointNumber: pointNumber),
+      appBar: HomeAppBar(pointNumber: user.userPoint, userName: user.name),
       body: TabBarView(
         controller: _tabController,
         physics: NeverScrollableScrollPhysics(), // Disable swiping between tabs

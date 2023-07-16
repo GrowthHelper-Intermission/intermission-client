@@ -11,8 +11,11 @@ import 'package:intermission_project/common/component/signup_appbar.dart';
 import 'package:intermission_project/common/component/signup_ask_label.dart';
 import 'package:intermission_project/common/component/signup_either_button.dart';
 import 'package:intermission_project/common/const/colors.dart';
+import 'package:intermission_project/models/user.dart';
 import 'package:intermission_project/views/signup/signup_screen_page2.dart';
 import 'package:intermission_project/views/signup/signup_screen_page3.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:provider/provider.dart';
 
 class SignupScreenPage2 extends StatefulWidget {
   const SignupScreenPage2({super.key});
@@ -22,6 +25,7 @@ class SignupScreenPage2 extends StatefulWidget {
 }
 
 class _SignupScreenPage2State extends State<SignupScreenPage2> {
+  final globalKey = GlobalKey<FormState>();
   TextEditingController raisePetController = TextEditingController();
   TextEditingController residenceAreaController = TextEditingController();
   TextEditingController possibleAreaController = TextEditingController();
@@ -89,14 +93,40 @@ class _SignupScreenPage2State extends State<SignupScreenPage2> {
   //   checkButtonEnabled();
   // }
 
+  // void navigateToNextScreen() {
+  //   if (isButtonEnabled) {
+  //     Navigator.push(
+  //       context,
+  //       MaterialPageRoute(builder: (context) => SignupScreenPage3()),
+  //     );
+  //   }
+  // }
+
   void navigateToNextScreen() {
     if (isButtonEnabled) {
+      final loginUserProvider =
+      Provider.of<LoginUserProvider>(context, listen: false);
+
+      loginUserProvider.setIsMarried(marriedSelected);
+      loginUserProvider.setResidenceType(selectedResidenceType!);
+      loginUserProvider.setIsRaisingPet(raisePet);
+      if (raisePet) {
+        loginUserProvider.setKindOfPet(raisePetController.text.trim());
+      }
+      else if(raiseNoPet){
+
+      }
+      loginUserProvider.setResidenceArea(residenceAreaController.text.trim());
+      loginUserProvider.setInterviewPossibleArea(
+          possibleAreaController.text.trim());
+
       Navigator.push(
         context,
         MaterialPageRoute(builder: (context) => SignupScreenPage3()),
       );
     }
   }
+
 
   @override
   void initState() {
@@ -134,142 +164,145 @@ class _SignupScreenPage2State extends State<SignupScreenPage2> {
               padding: EdgeInsets.only(
                   left: ScreenUtil().setWidth(12),
                   right: ScreenUtil().setWidth(12)),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  SignupAppBar(currentPage: '2/3'),
-                  SignupAskLabel(text: '결혼 여부'),
-                  Row(
-                    children: [
-                      SignupEitherButton(
-                          text: '미혼',
-                          isSelected: unMarriedSelected,
-                          onPressed: () {
-                            setState(() {
-                              unMarriedSelected = true;
-                              marriedSelected = false;
-                              checkButtonEnabled();
-                            });
-                          }),
-                      SizedBox(width: 10),
-                      SignupEitherButton(
-                          text: '기혼',
-                          isSelected: marriedSelected,
-                          onPressed: () {
-                            setState(() {
-                              marriedSelected = true;
-                              unMarriedSelected = false;
-                              checkButtonEnabled();
-                            });
-                          }),
-                    ],
-                  ),
-                  SizedBox(
-                    height: 20,
-                  ),
-                  SignupAskLabel(text: '거주 형태'),
-                  Center(
-                    child: CustomDropdownButton(
-                      items: residenceType,
-                      hintText: '선택',
-                      onItemSelected: (value) {
-                        setState(
-                          () {
-                            selectedResidenceType = value;
-                          },
-                        );
+              child: Form(
+                key: globalKey,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    SignupAppBar(currentPage: '2/3'),
+                    SignupAskLabel(text: '결혼 여부'),
+                    Row(
+                      children: [
+                        SignupEitherButton(
+                            text: '미혼',
+                            isSelected: unMarriedSelected,
+                            onPressed: () {
+                              setState(() {
+                                unMarriedSelected = true;
+                                marriedSelected = false;
+                                checkButtonEnabled();
+                              });
+                            }),
+                        SizedBox(width: 10),
+                        SignupEitherButton(
+                            text: '기혼',
+                            isSelected: marriedSelected,
+                            onPressed: () {
+                              setState(() {
+                                marriedSelected = true;
+                                unMarriedSelected = false;
+                                checkButtonEnabled();
+                              });
+                            }),
+                      ],
+                    ),
+                    SizedBox(
+                      height: 20,
+                    ),
+                    SignupAskLabel(text: '거주 형태'),
+                    Center(
+                      child: CustomDropdownButton(
+                        items: residenceType,
+                        hintText: '선택',
+                        onItemSelected: (value) {
+                          setState(
+                            () {
+                              selectedResidenceType = value;
+                            },
+                          );
+                          checkButtonEnabled();
+                        },
+                      ),
+                    ),
+                    SizedBox(
+                      height: 20,
+                    ),
+                    SignupAskLabel(text: '반려동물을 키우시나요?'),
+                    Row(
+                      children: [
+                        SignupEitherButton(
+                            text: '네',
+                            isSelected: raisePet,
+                            onPressed: () {
+                              setState(() {
+                                raisePet = true;
+                                raiseNoPet = false;
+                                checkButtonEnabled();
+                              });
+                            }),
+                        SizedBox(width: 10),
+                        SignupEitherButton(
+                            text: '아니오',
+                            isSelected: raiseNoPet,
+                            onPressed: () {
+                              setState(() {
+                                raiseNoPet = true;
+                                raisePet = false;
+                                checkButtonEnabled();
+                              });
+                            }),
+                      ],
+                    ),
+                    SizedBox(
+                      height: 20,
+                    ),
+                    if (raisePet)
+                      SignupAskLabel(text: '키우시는 반려동물이 있으면 자유롭게 적어주세요'),
+                    if (raisePet)
+                      CustomTextFormField(
+                        controller: raisePetController,
+                        hintText: '반려동물을 입력해 주세요',
+                        onChanged: (String value) {
+                          setState(() {});
+                        },
+                        errorText:
+                            raisePet && raisePetController.text.trim().isEmpty
+                                ? '반려동물을 입력해 주세요'
+                                : null,
+                        enable: raisePet,
+                      ),
+                    SignupAskLabel(text: '거주지역'),
+                    CustomTextFormField(
+                      controller: residenceAreaController,
+                      hintText: '구까지 입력해 주세요',
+                      onChanged: (String value) {
+                        setState(() {});
+                        checkAreaEnabled();
+                      },
+                      errorText: isAreaValid ? null : residenceAreaErrorText,
+                    ),
+                    SignupAskLabel(text: '인터뷰 가능 지역'),
+                    SizedBox(
+                      child: Text(
+                        '비대면 인터뷰도 있지만 대면 인터뷰의 경우 인터뷰 하는 사람이 여러분 편의에 맞춰 일정을 조율할 것입니다. '
+                        '거주지역과 동일할 시 넘어가주시기 바랍니다.',
+                        style: TextStyle(
+                            color: Colors.grey[600],
+                            fontWeight: FontWeight.w400,
+                            fontSize: 14),
+                      ),
+                    ),
+                    SizedBox(
+                      height: 6,
+                    ),
+                    CustomTextFormField(
+                      controller: possibleAreaController,
+                      hintText: '지역을 입력해 주세요',
+                      onChanged: (String value) {
                         checkButtonEnabled();
                       },
                     ),
-                  ),
-                  SizedBox(
-                    height: 20,
-                  ),
-                  SignupAskLabel(text: '반려동물을 키우시나요?'),
-                  Row(
-                    children: [
-                      SignupEitherButton(
-                          text: '네',
-                          isSelected: raisePet,
-                          onPressed: () {
-                            setState(() {
-                              raisePet = true;
-                              raiseNoPet = false;
-                              checkButtonEnabled();
-                            });
-                          }),
-                      SizedBox(width: 10),
-                      SignupEitherButton(
-                          text: '아니오',
-                          isSelected: raiseNoPet,
-                          onPressed: () {
-                            setState(() {
-                              raiseNoPet = true;
-                              raisePet = false;
-                              checkButtonEnabled();
-                            });
-                          }),
-                    ],
-                  ),
-                  SizedBox(
-                    height: 20,
-                  ),
-                  if (raisePet)
-                    SignupAskLabel(text: '키우시는 반려동물이 있으면 자유롭게 적어주세요'),
-                  if (raisePet)
-                    CustomTextFormField(
-                      controller: raisePetController,
-                      hintText: '반려동물을 입력해 주세요',
-                      onChanged: (String value) {
-                        setState(() {});
-                      },
-                      errorText:
-                          raisePet && raisePetController.text.trim().isEmpty
-                              ? '반려동물을 입력해 주세요'
-                              : null,
-                      enable: raisePet,
+                    SizedBox(
+                      height: 20.0,
                     ),
-                  SignupAskLabel(text: '거주지역'),
-                  CustomTextFormField(
-                    controller: residenceAreaController,
-                    hintText: '구까지 입력해 주세요',
-                    onChanged: (String value) {
-                      setState(() {});
-                      checkAreaEnabled();
-                    },
-                    errorText: isAreaValid ? null : residenceAreaErrorText,
-                  ),
-                  SignupAskLabel(text: '인터뷰 가능 지역'),
-                  SizedBox(
-                    child: Text(
-                      '비대면 인터뷰도 있지만 대면 인터뷰의 경우 인터뷰 하는 사람이 여러분 편의에 맞춰 일정을 조율할 것입니다. '
-                      '거주지역과 동일할 시 넘어가주시기 바랍니다.',
-                      style: TextStyle(
-                          color: Colors.grey[600],
-                          fontWeight: FontWeight.w400,
-                          fontSize: 14),
+                    LoginNextButton(
+                      buttonName: '다음',
+                      isButtonEnabled: isButtonEnabled,
+                      onPressed: navigateToNextScreen,
                     ),
-                  ),
-                  SizedBox(
-                    height: 6,
-                  ),
-                  CustomTextFormField(
-                    controller: possibleAreaController,
-                    hintText: '지역을 입력해 주세요',
-                    onChanged: (String value) {
-                      checkButtonEnabled();
-                    },
-                  ),
-                  SizedBox(
-                    height: 20.0,
-                  ),
-                  LoginNextButton(
-                    buttonName: '다음',
-                    isButtonEnabled: isButtonEnabled,
-                    onPressed: navigateToNextScreen,
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
           ),
