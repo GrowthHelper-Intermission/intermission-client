@@ -47,8 +47,8 @@ class _SignupScreenPage1State extends State<SignupScreenPage1> {
   TextEditingController phoneNumController = TextEditingController();
   TextEditingController jobController = TextEditingController();
 
-  // bool isEmailValid = false;
-  // bool isPasswordValid = false;
+  bool isEmailValid = false;
+  //bool isPasswordValid = false;
 
   bool isMaleSelected = false;
   bool isFemaleSelected = false;
@@ -61,6 +61,8 @@ class _SignupScreenPage1State extends State<SignupScreenPage1> {
   String? ageErrorText;
   String? phoneNumErrorText;
   String? jobErrorText;
+  String? emailErrorText;
+  String? emailValidText;
 
   bool isButtonEnabled = false;
   bool isGenderSelected = false;
@@ -72,9 +74,46 @@ class _SignupScreenPage1State extends State<SignupScreenPage1> {
   int _duplbtnnickchecker = 0;
   String userEmail = '';
 
-  void checkEmailEnabled(){
+  bool duplicate = false; //중복 검사용
 
+  // void checkEmailEnabled() async {
+  //   //중복 이메일 검사하기
+  //   String uid = emailController.text.trim();
+  //   var duplicateEmail = await FirebaseFirestore.instance.
+  //   collection("users").doc(uid);
+  //
+  // }
+
+  // 이메일 중복 검사 함수
+  void checkEmailEnabled() async {
+    //중복 이메일 검사하기
+    String email = emailController.text.trim();
+    if (!email.isValidEmailFormat()) {
+      setState(() {
+        emailErrorText = "올바른 이메일 형식으로 입력해주세요!";
+      });
+      return;
+    }
+
+    QuerySnapshot querySnapshot = await FirebaseFirestore.instance
+        .collection("users")
+        .where("emailAccount", isEqualTo: email)
+        .get();
+
+    // 쿼리 결과의 문서 개수를 사용하여 중복 여부 확인
+    duplicate = querySnapshot.size != 0;
+    setState(() {
+      if (duplicate) {
+        emailErrorText = '이미 사용 중인 이메일입니다.';
+        emailValidText = null;
+      } else {
+        isEmailValid = true;
+        emailErrorText = null;
+        emailValidText = '사용 가능한 이메일입니다.';
+      }
+    });
   }
+
 
   void checkPasswordEnabled(){
 
@@ -155,7 +194,7 @@ class _SignupScreenPage1State extends State<SignupScreenPage1> {
 
   void checkButtonEnabled() {
     bool isGenderSelected = isMaleSelected || isFemaleSelected;
-    bool isFieldsValid = isNameValid && isAgeValid && isPhoneNumValid && isJobValid;
+    bool isFieldsValid = isEmailValid && isNameValid && isAgeValid && isPhoneNumValid && isJobValid;
     setState(() {
       isButtonEnabled = isGenderSelected && isFieldsValid;
     });
@@ -192,8 +231,16 @@ class _SignupScreenPage1State extends State<SignupScreenPage1> {
                   CustomTextFormField(
                     controller: emailController,
                     hintText: 'email@email.com',
-                    onChanged: (String value) {},
+                    onChanged: (String value) {
+                      checkEmailEnabled();
+                    },
+                    errorText: emailErrorText,
                   ),
+                  if(emailValidText != null)
+                    Text(
+                      emailValidText!,
+                      style: TextStyle(color: PRIMARY_COLOR),
+                    ),
                   SignupAskLabel(text: '비밀번호'),
                   CustomTextFormField(
                     controller: passwordController,
