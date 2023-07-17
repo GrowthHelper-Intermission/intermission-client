@@ -18,8 +18,7 @@ import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginScreen extends StatefulWidget {
-  const LoginScreen({super.key});
-
+  const LoginScreen({Key? key}) : super(key: key);
   @override
   _LoginScreenState createState() => _LoginScreenState();
 }
@@ -27,17 +26,13 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   final globalKey = GlobalKey<FormState>();
   final autoLoginStyle = TextStyle(color: PRIMARY_COLOR);
-
-
   bool _isChecked = false;
-
+  bool _isAutoLogin = false;
   TextEditingController _emailController = TextEditingController();
   TextEditingController _passwordController = TextEditingController();
-
   bool _isButtonEnabled = false;
   String? _emailErrorText;
   String? _passwordErrorText;
-
   void _checkButtonEnabled() {
     bool isEmailValid = RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$')
         .hasMatch(_emailController.text);
@@ -52,38 +47,74 @@ class _LoginScreenState extends State<LoginScreen> {
     // navigateToNextScreen(); // 수정된 부분
   }
 
-  // void tryLogin() async {
+  void tryLogin({String? email, String? password}) async {
+    FirebaseFirestore firestore = FirebaseFirestore.instance;
+    SharedPreferences sp = await SharedPreferences.getInstance();
+    bool autoLogin = sp.getBool(autoLoginKey) ?? false; // 추가된 부분
+
+    String userEmail = email ?? _emailController.text;
+    String userPassword = password ?? _passwordController.text;
+
+    try {
+      CustomCircular(context, '로그인중...');
+      DocumentSnapshot userData =
+      await firestore.collection('users').doc(userEmail).get();
+
+      // Check if email and password match
+      if (userData['emailAccount'] == userEmail &&
+          userData['password'] == userPassword) {
+        LoginUserProvider user = LoginUserProvider.fromSnapshot(userData);
+
+        // 자동 로그인 정보 저장
+        if (_isChecked) {
+          sp.setString(userId, userEmail);
+          sp.setString(userPassword, userPassword);
+          sp.setBool(autoLoginKey, true);
+        }
+
+        Navigator.pop(context);
+        Navigator.of(context).push(MaterialPageRoute(
+            builder: (BuildContext context) => MainTabController(user: user)));
+      } else if (autoLogin) { // 수정된 부분
+        Navigator.pop(context);
+        tryLogin(email: sp.getString(userId), password: sp.getString(userPassword));
+      } else {
+        Navigator.pop(context);
+        DialogShow(context, '회원정보가 잘못되었습니다.');
+      }
+    } catch (e) {
+      Navigator.pop(context);
+      DialogShow(context, '회원정보가 잘못되었습니다.');
+    }
+  }
+
+
+  // void tryLogin({String? email, String? password}) async {
   //   FirebaseFirestore firestore = FirebaseFirestore.instance;
+  //   String userEmail = email ?? _emailController.text;
+  //   String userPassword = password ?? _passwordController.text;
+  //
   //   try {
   //     CustomCircular(context, '로그인중...');
-  //     DocumentSnapshot userData = await firestore
-  //         .collection('users')
-  //         .doc(_emailController.text)
-  //         .get();
+  //     DocumentSnapshot userData =
+  //         await firestore.collection('users').doc(userEmail).get();
   //
   //     // Check if email and password match
-  //     if (userData['emailAccount'] == _emailController.text &&
-  //         userData['password'] == _passwordController.text) {
-  //       // if (userData['autoLogin']) {
-  //       //   SharedPreferences sp = await SharedPreferences.getInstance();
-  //       //   sp.setString('userId', _emailController.text);
-  //       //   sp.setString('userPassword', _passwordController.text);
-  //       //   sp.setBool('autoLogin', true);
-  //       // }
-  //
+  //     if (userData['emailAccount'] == userEmail &&
+  //         userData['password'] == userPassword) {
   //       LoginUserProvider user = LoginUserProvider.fromSnapshot(userData);
-  //       // Update autoLogin value
-  //       user.setAutoLogin(_isChecked);
   //
-  //       // Save user data in Firestore
-  //       String uid = user.emailAccount;
-  //       await FirebaseFirestore.instance
-  //           .collection("users")
-  //           .doc(uid)
-  //           .update({"autoLogin": _isChecked});
+  //       // SharedPreferences sp = await SharedPreferences.getInstance();
+  //       // sp.setString('email', userEmail);
+  //       // sp.setString('password', userPassword);
   //
-  //       SharedPreferences sp = await SharedPreferences.getInstance();
-  //       sp.setBool('autoLogin', _isChecked);
+  //       // 자동 로그인 정보 저장
+  //       if (_isChecked) {
+  //         SharedPreferences sp = await SharedPreferences.getInstance();
+  //         sp.setString(userId, userEmail);
+  //         sp.setString(userPassword, userPassword);
+  //         sp.setBool(autoLoginKey, true);
+  //       }
   //
   //       Navigator.pop(context);
   //       Navigator.of(context).push(MaterialPageRoute(
@@ -98,78 +129,16 @@ class _LoginScreenState extends State<LoginScreen> {
   //   }
   // }
 
-  void tryLogin({String? email, String? password}) async {
-    FirebaseFirestore firestore = FirebaseFirestore.instance;
-
-    String userEmail = email ?? _emailController.text;
-    String userPassword = password ?? _passwordController.text;
-
-    try {
-      CustomCircular(context, '로그인중...');
-      DocumentSnapshot userData = await firestore
-          .collection('users')
-          .doc(userEmail)
-          .get();
-
-      // Check if email and password match
-      if (userData['emailAccount'] == userEmail &&
-          userData['password'] == userPassword) {
-
-        LoginUserProvider user = LoginUserProvider.fromSnapshot(userData);
-        // Update autoLogin value
-        user.setAutoLogin(_isChecked);
-
-        // Save user data in Firestore and SharedPreferences
-        String uid = user.emailAccount;
-        await FirebaseFirestore.instance
-            .collection("users")
-            .doc(uid)
-            .update({"autoLogin": _isChecked});
-
-        SharedPreferences sp = await SharedPreferences.getInstance();
-        sp.setString('email', userEmail);
-        sp.setString('password', userPassword);
-        sp.setBool('autoLogin', _isChecked);
-
-        Navigator.pop(context);
-        Navigator.of(context).push(MaterialPageRoute(
-            builder: (BuildContext context) => MainTabController(user: user)));
-      } else {
-        Navigator.pop(context);
-        DialogShow(context, '회원정보가 잘못되었습니다.');
-      }
-    } catch (e) {
-      Navigator.pop(context);
-      DialogShow(context, '회원정보가 잘못되었습니다.');
-    }
-  }
-
-  // Add autoLogin function
-  void autoLogin() async {
+  Future<void> setAutoLogin({required bool value}) async {
     SharedPreferences sp = await SharedPreferences.getInstance();
-
-    // Check if autoLogin is enabled in SharedPreferences
-    if (sp.getBool('autoLogin') ?? false) {
-      String? savedEmail = sp.getString('email');
-      String? savedPassword = sp.getString('password');
-
-      if (savedEmail != null && savedPassword != null) {
-        tryLogin(email: savedEmail, password: savedPassword);
-      }
-    }
+    await sp.setBool(autoLoginKey, value);
   }
 
   @override
   void initState() {
     _emailController.addListener(_checkButtonEnabled);
     _passwordController.addListener(_checkButtonEnabled);
-    autoLogin();
     super.initState();
-  }
-
-
-  void activateAutoLogin() async {
-    Provider.of<LoginUserProvider>(context, listen: false).setAutoLogin(_isChecked);
   }
 
   @override
@@ -192,8 +161,9 @@ class _LoginScreenState extends State<LoginScreen> {
                 CustomAppBar(),
                 Padding(
                   padding: EdgeInsets.only(
-                      left: ScreenUtil().setWidth(24),
-                      right: ScreenUtil().setWidth(24)),
+                    left: ScreenUtil().setWidth(24),
+                    right: ScreenUtil().setWidth(24),
+                  ),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -213,20 +183,21 @@ class _LoginScreenState extends State<LoginScreen> {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            // 이메일 & TF
+// 이메일 & TF
                             SizedBox(
-                                width: 50,
-                                height: 22,
-                                child: Text(
-                                  '이메일',
-                                  style: customTextStyle,
-                                )),
+                              width: 50,
+                              height: 22,
+                              child: Text(
+                                '이메일',
+                                style: customTextStyle,
+                              ),
+                            ),
                             CustomTextFormField(
                               controller: _emailController,
                               hintText: 'email@email.com',
                               onChanged: (String value) {},
                             ),
-                            // 비밀번호 & TF
+// 비밀번호 & TF
                             SizedBox(
                               height: 10.0,
                             ),
@@ -253,8 +224,11 @@ class _LoginScreenState extends State<LoginScreen> {
                               onChanged: (bool? newValue) {
                                 setState(() {
                                   _isChecked = newValue!;
-                                  activateAutoLogin();
+                                  _isAutoLogin = newValue;
                                 });
+                              },
+                              onAutoLoginChanged: (bool value) {
+                                setAutoLogin(value: value);
                               },
                             ),
                             Row(
@@ -306,17 +280,15 @@ Future CustomCircular(context, String contentText) async {
   );
 }
 
-
-
 class AutoLoginCheckbox extends StatelessWidget {
   final bool isChecked;
   final ValueChanged<bool?> onChanged;
-
+  final ValueChanged<bool> onAutoLoginChanged;
   const AutoLoginCheckbox({
     required this.isChecked,
     required this.onChanged,
+    required this.onAutoLoginChanged,
   });
-
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -335,7 +307,10 @@ class AutoLoginCheckbox extends StatelessWidget {
                 value: isChecked,
                 activeColor: Colors.black,
                 checkColor: Colors.white,
-                onChanged: onChanged,
+                onChanged: (bool? newValue) {
+                  onChanged(newValue);
+                  onAutoLoginChanged(newValue!);
+                },
               ),
             ),
             const Text(

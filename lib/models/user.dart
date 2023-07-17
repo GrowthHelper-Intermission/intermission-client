@@ -24,7 +24,6 @@ class LoginUserProvider extends ChangeNotifier {
   String recommendWho = "";
   int userPoint = 0;
   bool isAgree = true;
-  bool autoLogin = false;
 
   LoginUserProvider();
 
@@ -133,12 +132,12 @@ class LoginUserProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  void setAutoLogin(bool value) async {
-    SharedPreferences sp = await SharedPreferences.getInstance();
-    await sp.setBool('autoLogin', value);
-    this.autoLogin = value;
-    notifyListeners();
-  }
+  // void setAutoLogin(bool value) async {
+  //   SharedPreferences sp = await SharedPreferences.getInstance();
+  //   await sp.setBool('autoLogin', value);
+  //   this.autoLogin = value;
+  //   notifyListeners();
+  // }
 
   LoginUserProvider.fromSnapshot(DocumentSnapshot snapshot) {
     emailAccount = snapshot['emailAccount'];
@@ -160,7 +159,6 @@ class LoginUserProvider extends ChangeNotifier {
     recommendWho = snapshot['recommendWho'] ?? '';
     userPoint = snapshot['userPoint'];
     isAgree = snapshot['isAgree'];
-    autoLogin = snapshot['autoLogin'];
   }
 
   Map<String, dynamic> toJson() => {
@@ -183,7 +181,6 @@ class LoginUserProvider extends ChangeNotifier {
     'recommendWho': recommendWho,
     'userPoint': userPoint,
     'isAgree': isAgree,
-    'autoLogin' : autoLogin,
   };
 
 }
