@@ -51,6 +51,7 @@ class _SignupScreenPage3State extends State<SignupScreenPage3> {
 
   bool isAgree = false;
 
+
   void checkButtonEnabled() {
     bool isSelectedInterviewReward =
         selectedInterviewRewardType != interviewRewards[0]; //거주 형태
@@ -72,6 +73,7 @@ class _SignupScreenPage3State extends State<SignupScreenPage3> {
       loginUserProvider.setIsAgree(isAgree);
       loginUserProvider.setCreatedTime(DateTime.now().toString());
       loginUserProvider.setUserPoint(1000);
+      loginUserProvider.setAutoLogin(false); //디폴트로 false설정
 
       Map<String, dynamic> userData = {
         "emailAccount": loginUserProvider.emailAccount,
@@ -94,6 +96,7 @@ class _SignupScreenPage3State extends State<SignupScreenPage3> {
         "userPoint": loginUserProvider.userPoint,
         "isAgree": loginUserProvider.isAgree,
         "createdTime" : loginUserProvider.createdTime,
+        "autoLogin": loginUserProvider.autoLogin,
       };
 
       String uid = loginUserProvider.emailAccount;

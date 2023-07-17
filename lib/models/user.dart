@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_database/firebase_database.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginUserProvider extends ChangeNotifier {
   String emailAccount = "";
@@ -23,6 +24,7 @@ class LoginUserProvider extends ChangeNotifier {
   String recommendWho = "";
   int userPoint = 0;
   bool isAgree = true;
+  bool autoLogin = false;
 
   LoginUserProvider();
 
@@ -128,28 +130,15 @@ class LoginUserProvider extends ChangeNotifier {
 
   void setPoint(int userPoint){
     this.userPoint = userPoint;
+    notifyListeners();
   }
 
-  // LoginUserProvider.fromSnapshot(DocumentSnapshot snapshot)
-  //     : emailAccount = (snapshot.value! as Map<String, dynamic>)['emailAccount'],
-  //       password = (snapshot.value! as Map<String, dynamic>)['password'],
-  //       name = (snapshot.value! as Map<String, dynamic>)['name'],
-  //       createdTime = (snapshot.value! as Map<String, dynamic>)['createdTime'],
-  //       gender = (snapshot.value! as Map<String, dynamic>)['gender'],
-  //       age = (snapshot.value! as Map<String, dynamic>)['age'],
-  //       job = (snapshot.value! as Map<String, dynamic>)['job'],
-  //       isMarried = (snapshot.value! as Map<String, dynamic>)['isMarried'],
-  //       residenceType = (snapshot.value! as Map<String, dynamic>)['residenceType'],
-  //       isRaisePet = (snapshot.value! as Map<String, dynamic>)['isRaisePet'],
-  //       kindOfPet = (snapshot.value! as Map<String, dynamic>)['kindOfPet'] ?? '',
-  //       residenceArea = (snapshot.value! as Map<String, dynamic>)['residenceArea'],
-  //       interviewPossibleArea = (snapshot.value! as Map<String, dynamic>)['interviewPossibleArea'] ?? '',
-  //       interviewReward = (snapshot.value! as Map<String, dynamic>)['interviewReward'],
-  //       oftenUsingService = (snapshot.value! as Map<String, dynamic>)['oftenUsingService'] ?? '',
-  //       hobby = (snapshot.value! as Map<String, dynamic>)['hobby'] ?? '',
-  //       recommendWho = (snapshot.value! as Map<String, dynamic>)['recommendWho'] ?? '',
-  //       userPoint = (snapshot.value! as Map<String, dynamic>)['userPoint'],
-  //       isAgree = (snapshot.value! as Map<String, dynamic>)['isAgree'];
+  void setAutoLogin(bool value) async {
+    SharedPreferences sp = await SharedPreferences.getInstance();
+    await sp.setBool('autoLogin', value);
+    this.autoLogin = value;
+    notifyListeners();
+  }
 
   LoginUserProvider.fromSnapshot(DocumentSnapshot snapshot) {
     emailAccount = snapshot['emailAccount'];
@@ -171,6 +160,7 @@ class LoginUserProvider extends ChangeNotifier {
     recommendWho = snapshot['recommendWho'] ?? '';
     userPoint = snapshot['userPoint'];
     isAgree = snapshot['isAgree'];
+    autoLogin = snapshot['autoLogin'];
   }
 
   Map<String, dynamic> toJson() => {
@@ -193,6 +183,30 @@ class LoginUserProvider extends ChangeNotifier {
     'recommendWho': recommendWho,
     'userPoint': userPoint,
     'isAgree': isAgree,
+    'autoLogin' : autoLogin,
   };
 
 }
+
+
+
+// LoginUserProvider.fromSnapshot(DocumentSnapshot snapshot)
+//     : emailAccount = (snapshot.value! as Map<String, dynamic>)['emailAccount'],
+//       password = (snapshot.value! as Map<String, dynamic>)['password'],
+//       name = (snapshot.value! as Map<String, dynamic>)['name'],
+//       createdTime = (snapshot.value! as Map<String, dynamic>)['createdTime'],
+//       gender = (snapshot.value! as Map<String, dynamic>)['gender'],
+//       age = (snapshot.value! as Map<String, dynamic>)['age'],
+//       job = (snapshot.value! as Map<String, dynamic>)['job'],
+//       isMarried = (snapshot.value! as Map<String, dynamic>)['isMarried'],
+//       residenceType = (snapshot.value! as Map<String, dynamic>)['residenceType'],
+//       isRaisePet = (snapshot.value! as Map<String, dynamic>)['isRaisePet'],
+//       kindOfPet = (snapshot.value! as Map<String, dynamic>)['kindOfPet'] ?? '',
+//       residenceArea = (snapshot.value! as Map<String, dynamic>)['residenceArea'],
+//       interviewPossibleArea = (snapshot.value! as Map<String, dynamic>)['interviewPossibleArea'] ?? '',
+//       interviewReward = (snapshot.value! as Map<String, dynamic>)['interviewReward'],
+//       oftenUsingService = (snapshot.value! as Map<String, dynamic>)['oftenUsingService'] ?? '',
+//       hobby = (snapshot.value! as Map<String, dynamic>)['hobby'] ?? '',
+//       recommendWho = (snapshot.value! as Map<String, dynamic>)['recommendWho'] ?? '',
+//       userPoint = (snapshot.value! as Map<String, dynamic>)['userPoint'],
+//       isAgree = (snapshot.value! as Map<String, dynamic>)['isAgree'];

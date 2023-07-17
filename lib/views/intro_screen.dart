@@ -229,6 +229,8 @@ import 'package:intermission_project/common/component/main_tab_controller.dart';
 import 'package:intermission_project/common/const/data.dart';
 import 'package:intermission_project/models/user.dart';
 import 'package:intermission_project/views/login/login_screen.dart';
+import 'package:intermission_project/views/signup/signup_screen_page1.dart';
+import 'package:intermission_project/views/signup/signup_screen_page2.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class IntroScreen extends StatefulWidget {
@@ -269,36 +271,63 @@ class _IntroScreenState extends State<IntroScreen> {
     );
   }
 
+
+  //tryLogin 부분 수정 필요(hot reload 2번이상하면 autoLogin이 초기화)
   void tryLogin() async {
     SharedPreferences sp = await SharedPreferences.getInstance();
     try {
+
       String stateId = sp.getString(userId) ?? '';
       String statePassword = sp.getString(userPassword) ?? '';
-      bool login = sp.getBool(loginState) ?? false;
+      // String stateId = "test@naver.com";
+      // String statePassword = "71245a";
 
-      if (login) {
+      FirebaseFirestore firestore = FirebaseFirestore.instance;
+      DocumentSnapshot userData = await firestore.collection('users').doc(stateId).get();
+      LoginUserProvider user = LoginUserProvider.fromSnapshot(userData);
+
+      bool autoLogin = user.autoLogin ?? false; // 추가 상태 키
+
+      print(stateId);
+      print(autoLogin);
+      if (autoLogin && stateId.isNotEmpty) {
         FirebaseFirestore firestore = FirebaseFirestore.instance;
         try {
           CustomCircularProgressIndicator(context, '로그인중...');
-          DocumentSnapshot userData = await firestore.collection('users').doc(stateId).get();
-          LoginUserProvider user = LoginUserProvider.fromSnapshot(userData);
+          // DocumentSnapshot userData = await firestore.collection('users').doc(stateId).get();
+          // LoginUserProvider user = LoginUserProvider.fromSnapshot(userData);
 
           if (stateId == user.emailAccount && statePassword == user.password) {
+            SharedPreferences sp = await SharedPreferences.getInstance();
+            // 1.Update autoLogin value
+            user.setAutoLogin(autoLogin);
+            // 2. Save user data in Firestore
+            String uid = user.emailAccount;
+            await FirebaseFirestore.instance
+                .collection("users")
+                .doc(uid)
+                .update({"autoLogin": true});
+
+            // 3. Save autoLogin value in SharedPreferences
+            sp.setBool(autoLoginKey, autoLogin);
+            print(autoLogin);
             Navigator.pop(context);
             goToMainScreen(user);
           } else {
             showErrorDialog(context, '회원정보가 잘못되었습니다.');
           }
         } catch (e) {
-          goToLoginScreen(context);
+          goToSignUpPage2Screen();
         }
       } else {
         goToLoginScreen(context);
+        print(autoLogin);
       }
     } catch (e) {
       goToLoginScreen(context);
     }
   }
+
 
   void goToMainScreen(LoginUserProvider user) {
     Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (BuildContext context) => MainTabController(user: user)));
@@ -306,6 +335,14 @@ class _IntroScreenState extends State<IntroScreen> {
 
   void goToLoginScreen(BuildContext context) {
     Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (BuildContext context) => LoginScreen()));
+  }
+
+  void goToSignUpPage1Screen() {
+    Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (BuildContext context) => SignupScreenPage1()));
+  }
+
+  void goToSignUpPage2Screen() {
+    Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (BuildContext context) => SignupScreenPage2()));
   }
 
   void showErrorDialog(BuildContext context, String message) {
