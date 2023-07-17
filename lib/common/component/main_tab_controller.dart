@@ -26,9 +26,8 @@ class _MainTabControllerState extends State<MainTabController>
     with SingleTickerProviderStateMixin {
   late TabController _tabController;
   int _currentIndex = 2; // Set the initial selected tab index to 2 (the "홈" tab)
-  int pointNumber = 1000;
 
-  late LoginUserProvider user = Provider.of<LoginUserProvider>(context);
+  late LoginUserProvider user = widget.user;
 
   @override
   void initState() {
