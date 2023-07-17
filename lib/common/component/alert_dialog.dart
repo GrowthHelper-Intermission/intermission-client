@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:intermission_project/common/const/colors.dart';
 
 Future DialogShow(context, String contentText) async {
-  final ts = TextStyle(color: SUB_BLUE_COLOR);
+  final ts = TextStyle(color: Colors.black);
   return await showDialog(
     context: context,
     builder: (BuildContext context) {
