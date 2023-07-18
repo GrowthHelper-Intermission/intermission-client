@@ -184,26 +184,3 @@ class LoginUserProvider extends ChangeNotifier {
   };
 
 }
-
-
-
-// LoginUserProvider.fromSnapshot(DocumentSnapshot snapshot)
-//     : emailAccount = (snapshot.value! as Map<String, dynamic>)['emailAccount'],
-//       password = (snapshot.value! as Map<String, dynamic>)['password'],
-//       name = (snapshot.value! as Map<String, dynamic>)['name'],
-//       createdTime = (snapshot.value! as Map<String, dynamic>)['createdTime'],
-//       gender = (snapshot.value! as Map<String, dynamic>)['gender'],
-//       age = (snapshot.value! as Map<String, dynamic>)['age'],
-//       job = (snapshot.value! as Map<String, dynamic>)['job'],
-//       isMarried = (snapshot.value! as Map<String, dynamic>)['isMarried'],
-//       residenceType = (snapshot.value! as Map<String, dynamic>)['residenceType'],
-//       isRaisePet = (snapshot.value! as Map<String, dynamic>)['isRaisePet'],
-//       kindOfPet = (snapshot.value! as Map<String, dynamic>)['kindOfPet'] ?? '',
-//       residenceArea = (snapshot.value! as Map<String, dynamic>)['residenceArea'],
-//       interviewPossibleArea = (snapshot.value! as Map<String, dynamic>)['interviewPossibleArea'] ?? '',
-//       interviewReward = (snapshot.value! as Map<String, dynamic>)['interviewReward'],
-//       oftenUsingService = (snapshot.value! as Map<String, dynamic>)['oftenUsingService'] ?? '',
-//       hobby = (snapshot.value! as Map<String, dynamic>)['hobby'] ?? '',
-//       recommendWho = (snapshot.value! as Map<String, dynamic>)['recommendWho'] ?? '',
-//       userPoint = (snapshot.value! as Map<String, dynamic>)['userPoint'],
-//       isAgree = (snapshot.value! as Map<String, dynamic>)['isAgree'];

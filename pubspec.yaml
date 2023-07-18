@@ -79,6 +79,7 @@ flutter:
     - assets/tabimg/Home2.png
     - assets/tabimg/ShoppingBag2.png
     - assets/tabimg/User2.png
+    - assets/tabimg/mypage/
 
   # To add assets to your application, add an assets section, like this:
   # assets:

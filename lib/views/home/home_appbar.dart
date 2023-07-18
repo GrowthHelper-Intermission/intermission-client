@@ -22,7 +22,7 @@ class HomeAppBar extends StatelessWidget implements PreferredSizeWidget {
       title: Row(
         children: [
           Expanded(
-            child: Image.asset('assets/img/intermission_logo.png',
+            child: Image.asset('assets/img/intermissionLogo.png',
                 width: 60, height: 38),
           ),
           SizedBox(width: 100),
