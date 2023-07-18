@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intermission_project/views/home/home_interview_card.dart';
+import 'package:intermission_project/views/setting/setting_screen.dart';
 
 class OngoingInterviewList extends StatelessWidget {
   final List<Map<String, dynamic>> interviews;
