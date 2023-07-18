@@ -4,6 +4,8 @@ import 'package:intermission_project/common/component/main_tab_controller.dart';
 import 'package:intermission_project/common/const/interviews.dart';
 import 'package:intermission_project/common/const/tabs.dart';
 import 'package:intermission_project/common/const/colors.dart';
+import 'package:intermission_project/common/layout/default_layout.dart';
+import 'package:intermission_project/models/user.dart';
 import 'package:intermission_project/user/friend_invite_screen.dart';
 import 'package:intermission_project/views/home/home_appbar.dart';
 import 'package:intermission_project/views/home/home_bottom_button.dart';
@@ -17,47 +19,55 @@ import 'package:intermission_project/views/home/home_ongoing_interview_list.dart
 
 class HomeBodySection extends StatelessWidget {
   final TabController? tabController;
+  final LoginUserProvider user;
 
-  HomeBodySection({this.tabController});
+  HomeBodySection({required this.user, this.tabController});
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      color: Colors.white12,
-      child: Center(
-        child: Column(
-          children: [
-            //공지
-            NoticeCard(
-              notice: '투표 이미지 업로드 테스트를 시작해요~!',
-              noticeContent: '이미지 업로드 가이드 라인',
-            ),
-            //진행중인 인터뷰 레이블 - More 텍스트 버튼
-            OngoingInterviewHeader(
-              onMorePressed: () {
-                tabController?.animateTo(3);
-              },
-            ),
-            //각 InterviewCard
-            OngoingInterviewList(interviews: interviews),
-            //찬구 초대 버튼까지
-            SizedBox(height: 5,),
-            Align(
-              alignment: Alignment.center,
-              child: HomeBottomButton(
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => FriendInviteScreen(),
-                    ),
-                  );
-                },
-              ),
-            ),
-          ],
+    return Scaffold(
+        appBar: HomeAppBar(
+          pointNumber: user.userPoint,
+          userName: user.name,
         ),
-      ),
-    );
+        body: Container(
+          color: Colors.white12,
+          child: Center(
+            child: Column(
+              children: [
+                //공지
+                NoticeCard(
+                  notice: '투표 이미지 업로드 테스트를 시작해요~!',
+                  noticeContent: '이미지 업로드 가이드 라인',
+                ),
+                //진행중인 인터뷰 레이블 - More 텍스트 버튼
+                OngoingInterviewHeader(
+                  onMorePressed: () {
+                    tabController?.animateTo(3);
+                  },
+                ),
+                //각 InterviewCard
+                OngoingInterviewList(interviews: interviews),
+                //찬구 초대 버튼까지
+                SizedBox(
+                  height: 5,
+                ),
+                Align(
+                  alignment: Alignment.center,
+                  child: HomeBottomButton(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => FriendInviteScreen(),
+                        ),
+                      );
+                    },
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ));
   }
 }

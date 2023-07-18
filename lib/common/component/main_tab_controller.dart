@@ -1,9 +1,8 @@
-import 'dart:ffi';
-
 import 'package:flutter/material.dart';
 import 'package:intermission_project/common/const/tabs.dart';
 import 'package:intermission_project/common/const/colors.dart';
 import 'package:intermission_project/models/user.dart';
+import 'package:intermission_project/views/mypage/my_page_screen.dart';
 import 'package:intermission_project/views/home/home_appbar.dart';
 import 'package:intermission_project/user/interview_collection_screen.dart';
 import 'package:intermission_project/views/login/login_screen.dart';
@@ -16,7 +15,7 @@ class MainTabController extends StatefulWidget {
   const MainTabController({
     required this.user,
     Key? key,
-}) : super(key: key);
+  }) : super(key: key);
 
   @override
   _MainTabControllerState createState() => _MainTabControllerState();
@@ -65,28 +64,26 @@ class _MainTabControllerState extends State<MainTabController>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: HomeAppBar(pointNumber: user.userPoint, userName: user.name),
       body: TabBarView(
         controller: _tabController,
         physics: NeverScrollableScrollPhysics(), // Disable swiping between tabs
         children: <Widget>[
           TabContentWidget(label: '쇼핑몰'),
           MatchingScreen(),
-          HomeBodySection(tabController: _tabController),
+          HomeBodySection(user: user, tabController: _tabController),
           InterviewCollectionScreen(),
-          LoginScreen(),
+          MyPageScreen(tabController: _tabController,user: user),
         ],
       ),
       bottomNavigationBar: BottomNavigationBar(
         selectedItemColor: PRIMARY_COLOR,
+        backgroundColor: Colors.white,
         showSelectedLabels: true,
         showUnselectedLabels: true,
         type: BottomNavigationBarType.fixed,
         currentIndex: _currentIndex,
         onTap: (index) {
-          if (index == 4) {
-            navigateToLoginScreen();
-          } else {
+          {
             setState(() {
               _currentIndex = index;
               _tabController.animateTo(index);

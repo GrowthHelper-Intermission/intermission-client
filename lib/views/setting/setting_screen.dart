@@ -8,6 +8,8 @@ import 'package:intermission_project/views/setting/password_change_screen.dart';
 import 'package:intermission_project/views/setting/personal_info.dart';
 import 'package:intermission_project/views/setting/rule_explain_screen.dart';
 import 'package:intermission_project/views/setting/version_info.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
 
 class SettingScreen extends StatelessWidget {
   @override
@@ -24,9 +26,8 @@ class SettingScreen extends StatelessWidget {
             title: '알림 설정',
             otherScreen: AlarmSettingScreen(),
           ),
-          SettingComponent(
+          LogoutSettingComponent(
             title: '로그 아웃',
-            otherScreen: LogoutScreen(),
           ),
           SettingComponent(
             title: '이용 약관',
@@ -51,12 +52,11 @@ class SettingScreen extends StatelessWidget {
 }
 
 class SettingComponent extends StatelessWidget {
-  String title;
-  Widget otherScreen;
-  SettingComponent({
+  final String title;
+  final Widget otherScreen;
+  const SettingComponent({
     required this.title,
     required this.otherScreen,
-    super.key,
   });
 
   @override
@@ -78,8 +78,72 @@ class SettingComponent extends StatelessWidget {
             fontWeight: FontWeight.w600,
           ),
         ),
-        trailing: Icon(Icons.arrow_forward_ios), // 오른쪽 화살표 아이콘 추가
+        trailing: Icon(Icons.arrow_forward_ios),
       ),
+    );
+  }
+}
+
+class LogoutSettingComponent extends StatelessWidget {
+  final String title;
+  const LogoutSettingComponent({
+    required this.title,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: 50,
+      child: ListTile(
+        onTap: () {
+          showDialog(
+            context: context,
+            builder: (BuildContext context) {
+              return AlertDialog(
+                title: Text('로그 아웃'),
+                content: Text('로그아웃 하시겠습니까?'),
+                actions: [
+                  TextButton(
+                    onPressed: () {
+                      Navigator.pop(context, '아니오');
+                    },
+                    child: Text('아니오'),
+                  ),
+                  TextButton(
+                    onPressed: () {
+                      Navigator.pop(context, '예');
+                    },
+                    child: Text('예'),
+                  ),
+                ],
+              );
+            },
+          ).then((value) {
+            if (value == '예') {
+              logout(context);
+            }
+          });
+        },
+        title: Text(
+          title,
+          style: TextStyle(
+            color: Colors.grey[800],
+            fontSize: 16,
+            fontWeight: FontWeight.w600,
+          ),
+        ),
+        trailing: Icon(Icons.arrow_forward_ios),
+      ),
+    );
+  }
+
+  Future<void> logout(BuildContext context) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setBool('autoLogin', false);
+    Navigator.pushNamedAndRemoveUntil(
+      context,
+      '/login',
+          (route) => false,
     );
   }
 }

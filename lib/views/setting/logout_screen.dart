@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:intermission_project/common/component/custom_appbar.dart';
+import 'package:intermission_project/common/const/colors.dart';
 import 'package:intermission_project/layout/default_layout.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -14,27 +16,24 @@ class LogoutScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text(
-              'Logout Screen',
-              style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+      appBar: CustomAppBar(),
+      body: Column(
+        children: [
+          ElevatedButton(
+            onPressed: () {
+              logout();
+              Navigator.pushNamedAndRemoveUntil(
+                context,
+                '/login',
+                    (route) => false,
+              );
+            },
+            child: Text('로그아웃 하기'),
+            style: ButtonStyle(
+              backgroundColor: MaterialStateProperty.all(PRIMARY_COLOR), // PRIMARY_COLOR 적용
             ),
-            ElevatedButton(
-              onPressed: () {
-                logout();
-                Navigator.pushNamedAndRemoveUntil(
-                  context,
-                  '/login',
-                      (route) => false,
-                );
-              },
-              child: Text('Logout'),
-            ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
