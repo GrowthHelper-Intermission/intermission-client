@@ -226,7 +226,7 @@ Future CustomCircular(context, String contentText) async {
     barrierDismissible: false,
     builder: (BuildContext context) {
       return AlertDialog(
-        backgroundColor: SUB_BLUE_COLOR,
+        backgroundColor: PRIMARY_COLOR,
         title: Text(contentText, style: ts),
         content: Row(
           mainAxisAlignment: MainAxisAlignment.center,
