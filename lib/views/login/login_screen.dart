@@ -88,47 +88,6 @@ class _LoginScreenState extends State<LoginScreen> {
     }
   }
 
-
-  // void tryLogin({String? email, String? password}) async {
-  //   FirebaseFirestore firestore = FirebaseFirestore.instance;
-  //   String userEmail = email ?? _emailController.text;
-  //   String userPassword = password ?? _passwordController.text;
-  //
-  //   try {
-  //     CustomCircular(context, '로그인중...');
-  //     DocumentSnapshot userData =
-  //         await firestore.collection('users').doc(userEmail).get();
-  //
-  //     // Check if email and password match
-  //     if (userData['emailAccount'] == userEmail &&
-  //         userData['password'] == userPassword) {
-  //       LoginUserProvider user = LoginUserProvider.fromSnapshot(userData);
-  //
-  //       // SharedPreferences sp = await SharedPreferences.getInstance();
-  //       // sp.setString('email', userEmail);
-  //       // sp.setString('password', userPassword);
-  //
-  //       // 자동 로그인 정보 저장
-  //       if (_isChecked) {
-  //         SharedPreferences sp = await SharedPreferences.getInstance();
-  //         sp.setString(userId, userEmail);
-  //         sp.setString(userPassword, userPassword);
-  //         sp.setBool(autoLoginKey, true);
-  //       }
-  //
-  //       Navigator.pop(context);
-  //       Navigator.of(context).push(MaterialPageRoute(
-  //           builder: (BuildContext context) => MainTabController(user: user)));
-  //     } else {
-  //       Navigator.pop(context);
-  //       DialogShow(context, '회원정보가 잘못되었습니다.');
-  //     }
-  //   } catch (e) {
-  //     Navigator.pop(context);
-  //     DialogShow(context, '회원정보가 잘못되었습니다.');
-  //   }
-  // }
-
   Future<void> setAutoLogin({required bool value}) async {
     SharedPreferences sp = await SharedPreferences.getInstance();
     await sp.setBool(autoLoginKey, value);
