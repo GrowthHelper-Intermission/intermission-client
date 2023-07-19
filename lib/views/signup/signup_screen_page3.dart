@@ -14,11 +14,13 @@ import 'package:intermission_project/common/component/signup_either_button.dart'
 import 'package:intermission_project/common/component/signup_long_ask_label.dart';
 import 'package:intermission_project/common/component/main_tab_controller.dart';
 import 'package:intermission_project/common/const/colors.dart';
+import 'package:intermission_project/common/const/data.dart';
 import 'package:intermission_project/models/user.dart';
 import 'package:intermission_project/views/signup/signup_screen_page2.dart';
 import 'package:flutter/foundation.dart'; // Import the 'foundation' package
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class SignupScreenPage3 extends StatefulWidget {
   const SignupScreenPage3({super.key});
@@ -46,11 +48,8 @@ class _SignupScreenPage3State extends State<SignupScreenPage3> {
   ];
   String? selectedInterviewRewardType;
   bool isButtonEnabled = false;
-
   bool isSelectedInterviewReward = false;
-
   bool isAgree = false;
-
 
   void checkButtonEnabled() {
     bool isSelectedInterviewReward =
@@ -61,19 +60,19 @@ class _SignupScreenPage3State extends State<SignupScreenPage3> {
     });
   }
 
-  void navigateToNextScreen() async{
+  void navigateToNextScreen() async {
     if (isButtonEnabled) {
       final loginUserProvider =
-      Provider.of<LoginUserProvider>(context, listen: false);
+          Provider.of<LoginUserProvider>(context, listen: false);
 
       loginUserProvider.setInterviewReward(selectedInterviewRewardType!);
-      loginUserProvider.setOftenUsingService(usingServiceController.text.trim());
+      loginUserProvider
+          .setOftenUsingService(usingServiceController.text.trim());
       loginUserProvider.setHobby(yourHobbyController.text.trim());
       loginUserProvider.setRecommendWho(recommandNameController.text.trim());
       loginUserProvider.setIsAgree(isAgree);
       loginUserProvider.setCreatedTime(DateTime.now().toString());
       loginUserProvider.setUserPoint(1000);
-
 
       Map<String, dynamic> userData = {
         "emailAccount": loginUserProvider.emailAccount,
@@ -95,22 +94,33 @@ class _SignupScreenPage3State extends State<SignupScreenPage3> {
         "recommendWho": loginUserProvider.recommendWho,
         "userPoint": loginUserProvider.userPoint,
         "isAgree": loginUserProvider.isAgree,
-        "createdTime" : loginUserProvider.createdTime,
-        "emailVerified" : loginUserProvider.emailVerified,
-        "phoneNumber" : loginUserProvider.phoneNumber,
+        "createdTime": loginUserProvider.createdTime,
+        "emailVerified": loginUserProvider.emailVerified,
+        "phoneNumber": loginUserProvider.phoneNumber,
       };
 
       String uid = loginUserProvider.emailAccount;
-      await FirebaseFirestore.instance.collection("users").doc(uid).set(userData);
+      await FirebaseFirestore.instance
+          .collection("users")
+          .doc(uid)
+          .set(userData);
+
+      SharedPreferences sp = await SharedPreferences.getInstance();
+      sp.setString(userId, loginUserProvider.emailAccount);
+      sp.setString(userPassword, loginUserProvider.password);
+      sp.setBool(autoLoginKey, true);
 
       Navigator.pushAndRemoveUntil(
         context,
-        MaterialPageRoute(builder: (context) => MainTabController(user: user,)),
-            (route) => false,
+        MaterialPageRoute(
+          builder: (context) => MainTabController(
+            user: user,
+          ),
+        ),
+        (route) => false,
       );
     }
   }
-
 
   @override
   void initState() {
@@ -148,7 +158,7 @@ class _SignupScreenPage3State extends State<SignupScreenPage3> {
                       hintText: '선택',
                       onItemSelected: (value) {
                         setState(
-                              () {
+                          () {
                             selectedInterviewRewardType = value;
                           },
                         );

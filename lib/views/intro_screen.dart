@@ -40,11 +40,10 @@ class _IntroScreenState extends State<IntroScreen> {
 
   void tryLogin() async {
     // 로그인 시도 구현...
-
     // 사용자 정보 가져오기
     try {
+      CircularProgressIndicator(color: PRIMARY_COLOR,);
       SharedPreferences sp = await SharedPreferences.getInstance();
-      print(sp.getString(userId) ?? '22');
       String stateId = sp.getString(userId) ?? '';
       DocumentSnapshot userData = await FirebaseFirestore.instance
           .collection('users')

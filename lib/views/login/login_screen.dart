@@ -56,7 +56,8 @@ class _LoginScreenState extends State<LoginScreen> {
     String userPassword = password ?? _passwordController.text;
 
     try {
-      CustomCircular(context, '로그인중...');
+      //CustomCircular(context, '로그인중...');
+      CircularProgressIndicator(color: PRIMARY_COLOR,);
       DocumentSnapshot userData =
       await firestore.collection('users').doc(userEmail).get();
 
@@ -225,24 +226,37 @@ class _LoginScreenState extends State<LoginScreen> {
 }
 
 Future CustomCircular(context, String contentText) async {
-  final ts = TextStyle(color: PRIMARY_COLOR);
   return await showDialog(
     context: context,
     barrierDismissible: false,
     builder: (BuildContext context) {
-      return AlertDialog(
+      return CircularProgressIndicator(
         backgroundColor: PRIMARY_COLOR,
-        title: Text(contentText, style: ts),
-        content: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            CircularProgressIndicator(color: PRIMARY_COLOR),
-          ],
-        ),
       );
     },
   );
 }
+
+
+// Future CustomCircular(context, String contentText) async {
+//   final ts = TextStyle(color: PRIMARY_COLOR);
+//   return await showDialog(
+//     context: context,
+//     barrierDismissible: false,
+//     builder: (BuildContext context) {
+//       return AlertDialog(
+//         backgroundColor: PRIMARY_COLOR,
+//         title: Text(contentText, style: ts),
+//         content: Row(
+//           mainAxisAlignment: MainAxisAlignment.center,
+//           children: [
+//             CircularProgressIndicator(color: PRIMARY_COLOR),
+//           ],
+//         ),
+//       );
+//     },
+//   );
+// }
 
 class AutoLoginCheckbox extends StatelessWidget {
   final bool isChecked;
