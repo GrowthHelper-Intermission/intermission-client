@@ -1,25 +1,32 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:intermission_project/common/const/colors.dart';
 import 'package:intermission_project/common/component/custom_text_style.dart';
+import 'package:intermission_project/models/user.dart';
 import 'package:intermission_project/user/matching_screen.dart';
 import 'package:intermission_project/views/setting/setting_screen.dart';
+import 'package:provider/provider.dart';
 
 class InterviewCard extends StatefulWidget {
-  final int dDay;
+  final LoginUserProvider user;
+  final String interviewId;
+  final String interviewDate;
   final Color color;
   final String title;
   final String recruiting;
   final bool onlyOnline;
   final String hourlyRate;
   const InterviewCard({
-    required this.dDay,
+    required this.user,
+    required this.interviewId,
+    required this.interviewDate,
     required this.color,
     required this.title,
     required this.recruiting,
     required this.onlyOnline,
     required this.hourlyRate,
-    super.key,
-  });
+    Key? key,
+  }) : super(key: key);
 
   @override
   State<InterviewCard> createState() => _InterviewCardState();
@@ -27,21 +34,49 @@ class InterviewCard extends StatefulWidget {
 
 class _InterviewCardState extends State<InterviewCard> {
   int daysLeft = 0;
+  late LoginUserProvider user = widget.user;
 
   @override
   void initState() {
-    daysLeft = _getDaysLeft(widget.dDay);
+    _getDaysLeft();
     super.initState();
   }
-  int _getDaysLeft(int dDay) {
+
+  int _getDaysLeft() {
     DateTime now = DateTime.now();
-    DateTime interviewDate = DateTime(now.year, now.month, now.day + dDay);
+    DateTime interviewDate = DateTime.parse(widget.interviewDate);
     Duration difference = interviewDate.difference(now);
     return difference.inDays + 1;
   }
 
+  //provider로 user 정보 받아서 추가해줘야 된다
+  void _scrapInterview() async {
+    // Get the LoginUserProvider instance from the provider context.
+    print(user.emailAccount);
+    // Add the interview id to the scrapedInterviews list.
+    user.addScrapedInterview(widget.interviewId);
+    print(widget.interviewId);
+    //String uid = userProvider.emailAccount;
+    // await FirebaseFirestore.instance
+    //     .collection("users")
+    //     .doc(user.emailAccount)
+    //     .update({
+    //   'scrapedInterviews': widget.interviewId,
+    // }).catchError((error) {
+    //   print("Error updating document: $error");
+    // });
+
+
+    print(FirebaseFirestore.instance
+        .collection("users")
+        .doc(user.emailAccount));
+  }
+
+
   @override
   Widget build(BuildContext context) {
+    daysLeft = _getDaysLeft(); // Every time the widget is built, update the days left.
+
     return Padding(
       padding: const EdgeInsets.fromLTRB(21, 12, 21, 2),
       child: Container(
@@ -85,7 +120,6 @@ class _InterviewCardState extends State<InterviewCard> {
                       ),
                       child: Center(
                         child: Text(
-                          // 'D-${widget.dDay}',
                           'D-$daysLeft',  // 수정된 부분
                           style: TextStyle(
                             color: daysLeft <= 3 ? SUB_BLUE_COLOR : Colors.white,
@@ -110,9 +144,13 @@ class _InterviewCardState extends State<InterviewCard> {
                     SizedBox(
                       width: 20,
                     ),
-                    Icon(
-                      Icons.arrow_forward_ios,
-                      size: 18,
+                    InkWell(
+                      onTap: _scrapInterview,
+                      splashColor: Colors.red, // 클릭 효과의 색상 설정
+                      child: Icon(
+                        Icons.arrow_forward_ios,
+                        size: 18,
+                      ),
                     ),
                   ],
                 ),

@@ -18,6 +18,7 @@ class IntroScreen extends StatefulWidget {
 }
 
 class _IntroScreenState extends State<IntroScreen> {
+  LoginUserProvider user = LoginUserProvider(); // Declare the user variable
   @override
   void initState() {
     initializeFlutterFire();
@@ -44,12 +45,14 @@ class _IntroScreenState extends State<IntroScreen> {
     try {
       CircularProgressIndicator(color: PRIMARY_COLOR,);
       SharedPreferences sp = await SharedPreferences.getInstance();
+      //sp.remove(userId); SharedPreference 비워줄때
       String stateId = sp.getString(userId) ?? '';
       DocumentSnapshot userData = await FirebaseFirestore.instance
           .collection('users')
           .doc(stateId)
           .get();
-      LoginUserProvider user = LoginUserProvider.fromSnapshot(userData);
+      user = LoginUserProvider.fromSnapshot(userData);
+      print(user.emailAccount);
 
       // 로그인에 성공하면 다음 화면으로 이동
       Navigator.pushReplacement(
