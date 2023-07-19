@@ -31,6 +31,7 @@ class _IntroScreenState extends State<IntroScreen> {
 
   void checkAutoLogin() async {
     SharedPreferences sp = await SharedPreferences.getInstance();
+    //SharedPreferences sp = await SharedPreferences.getInstance();
     bool autoLogin = sp.getBool(autoLoginKey) ?? false;
     if (autoLogin) {
       tryLogin();
@@ -43,6 +44,7 @@ class _IntroScreenState extends State<IntroScreen> {
     // 사용자 정보 가져오기
     try {
       SharedPreferences sp = await SharedPreferences.getInstance();
+      print(sp.getString(userId) ?? '22');
       String stateId = sp.getString(userId) ?? '';
       DocumentSnapshot userData = await FirebaseFirestore.instance
           .collection('users')
@@ -56,6 +58,7 @@ class _IntroScreenState extends State<IntroScreen> {
         MaterialPageRoute(builder: (context) => MainTabController(user: user)),
       );
     } catch (e) {
+      print(e);
       // 에러 처리
       showErrorDialog(context, '로그인에 실패했습니다.');
     }
