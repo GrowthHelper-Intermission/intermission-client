@@ -64,26 +64,28 @@ class _LoginScreenState extends State<LoginScreen> {
       if (userData['emailAccount'] == userEmail &&
           userData['password'] == userPassword) {
         LoginUserProvider user = LoginUserProvider.fromSnapshot(userData);
-
         // 자동 로그인 정보 저장
         if (_isChecked) {
           sp.setString(userId, userEmail);
           sp.setString(userPassword, userPassword);
           sp.setBool(autoLoginKey, true);
         }
-
         Navigator.pop(context);
         Navigator.of(context).push(MaterialPageRoute(
             builder: (BuildContext context) => MainTabController(user: user)));
       } else if (autoLogin) { // 수정된 부분
         Navigator.pop(context);
-        tryLogin(email: sp.getString(userId), password: sp.getString(userPassword));
+        tryLogin(
+            email: sp.getString(userId), password: sp.getString(userPassword));
       } else {
         Navigator.pop(context);
+        DialogShow(context, 'error1.');
         DialogShow(context, '회원정보가 잘못되었습니다.');
       }
     } catch (e) {
+      print('Error: $e');
       Navigator.pop(context);
+      DialogShow(context, 'error2.');
       DialogShow(context, '회원정보가 잘못되었습니다.');
     }
   }
@@ -177,27 +179,30 @@ class _LoginScreenState extends State<LoginScreen> {
                             SizedBox(
                               height: 20.0,
                             ),
-                            SizedBox(height: 10), // 여백 추가
-                            AutoLoginCheckbox(
-                              isChecked: _isChecked,
-                              onChanged: (bool? newValue) {
-                                setState(() {
-                                  _isChecked = newValue!;
-                                  _isAutoLogin = newValue;
-                                });
-                              },
-                              onAutoLoginChanged: (bool value) {
-                                setAutoLogin(value: value);
-                              },
-                            ),
+                            //SizedBox(height: 10),
                             Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                FindPWButton(title: '비밀번호 찾기'),
-                                SignupButton(title: '회원가입 하기'),
+                                AutoLoginCheckbox(
+                                  isChecked: _isChecked,
+                                  onChanged: (bool? newValue) {
+                                    setState(() {
+                                      _isChecked = newValue!;
+                                      _isAutoLogin = newValue;
+                                    });
+                                  },
+                                  onAutoLoginChanged: (bool value) {
+                                    setAutoLogin(value: value);
+                                  },
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: FindPWButton(title: '비밀번호 찾기'),
+                                ),
                               ],
                             ),
                             SizedBox(
-                              height: 300,
+                              height: 250,
                             ),
                             LoginNextButton(
                               buttonName: '로그인',

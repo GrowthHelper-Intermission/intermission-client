@@ -24,8 +24,15 @@ class LoginUserProvider extends ChangeNotifier {
   String recommendWho = "";
   int userPoint = 0;
   bool isAgree = true;
+  bool emailVerified = false; //add
 
   LoginUserProvider();
+
+  //add
+  void setEmailVerified(bool emailVerified) {
+    this.emailVerified = emailVerified;
+    notifyListeners();
+  }
 
   void setEmailAccount(String emailAccount) {
     this.emailAccount = emailAccount;
@@ -127,20 +134,9 @@ class LoginUserProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  void setPoint(int userPoint){
-    this.userPoint = userPoint;
-    notifyListeners();
-  }
-
-  // void setAutoLogin(bool value) async {
-  //   SharedPreferences sp = await SharedPreferences.getInstance();
-  //   await sp.setBool('autoLogin', value);
-  //   this.autoLogin = value;
-  //   notifyListeners();
-  // }
-
   LoginUserProvider.fromSnapshot(DocumentSnapshot snapshot) {
     emailAccount = snapshot['emailAccount'];
+    phoneNumber = snapshot['phoneNumber'];
     password = snapshot['password'];
     name = snapshot['name'];
     createdTime = snapshot['createdTime'];
@@ -159,9 +155,11 @@ class LoginUserProvider extends ChangeNotifier {
     recommendWho = snapshot['recommendWho'] ?? '';
     userPoint = snapshot['userPoint'];
     isAgree = snapshot['isAgree'];
+    emailVerified = snapshot['emailVerified'];
   }
 
   Map<String, dynamic> toJson() => {
+    'emailVerified': emailVerified,
     'emailAccount': emailAccount,
     'password': password,
     'name': name,
@@ -181,6 +179,7 @@ class LoginUserProvider extends ChangeNotifier {
     'recommendWho': recommendWho,
     'userPoint': userPoint,
     'isAgree': isAgree,
+    'phoneNumber': phoneNumber,
   };
 
 }

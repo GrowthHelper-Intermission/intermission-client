@@ -72,17 +72,82 @@ class _SignupScreenPage1State extends State<SignupScreenPage1> {
   int _duplbtnidchecker = 0;
   int _duplicationNickCheck = 1;
   int _duplbtnnickchecker = 0;
-  String userEmail = '';
 
   bool duplicate = false; //중복 검사용
 
-  // void checkEmailEnabled() async {
-  //   //중복 이메일 검사하기
-  //   String uid = emailController.text.trim();
-  //   var duplicateEmail = await FirebaseFirestore.instance.
-  //   collection("users").doc(uid);
-  //
-  // }
+  FirebaseAuth auth = FirebaseAuth.instance;
+
+  void sendEmailVerification() async {
+    try {
+      String email = emailController.text.trim();
+      String password = passwordController.text.trim();
+
+      UserCredential userCredential = await auth.createUserWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
+
+      User? user = userCredential.user;
+
+      if (user != null && !user.emailVerified) {
+        await user.sendEmailVerification();
+
+        final loginUserProvider =
+        Provider.of<LoginUserProvider>(context, listen: false);
+        loginUserProvider.setEmailVerified(user.emailVerified);
+
+        ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text('이메일 인증 링크가 전송되었습니다. 이메일을 확인해 주세요.'))
+        );
+      }
+    } catch (e) {
+      // Error handling
+      // ...
+      print(e);
+    }
+  }
+
+  void navigateToNextScreen() async {
+    User? user = auth.currentUser;
+
+    if (user != null) {
+      // User.reload() 메서드를 호출하여 사용자 상태를 최신화
+      await user.reload();
+
+      // 최신화된 사용자 정보를 다시 가져옴
+      user = auth.currentUser;
+
+      if (user!.emailVerified) {
+        // 이메일이 인증되었으므로 다음 페이지로 이동
+        if (isButtonEnabled) {
+          final loginUserProvider =
+          Provider.of<LoginUserProvider>(context, listen: false);
+
+          loginUserProvider.setEmailAccount(emailController.text.trim());
+          loginUserProvider.setPassword(passwordController.text.trim());
+          loginUserProvider.setName(nameController.text.trim());
+          loginUserProvider.setAge(int.parse(ageController.text.trim()));
+          loginUserProvider.setJob(jobController.text.trim());
+          loginUserProvider.setGender(isMaleSelected == true ? "남성" : "여성");
+          loginUserProvider.setPhoneNumber(phoneNumController.text.toString());
+          loginUserProvider.setEmailVerified(user!.emailVerified);
+          await user.reload();
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => SignupScreenPage2()),
+          );
+        }
+      } else {
+        // 이메일이 인증되지 않았으므로 에러 메시지를 표시
+        ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text('이메일을 인증해 주세요.'))
+        );
+      }
+    }
+  }
+
+
+
 
   // 이메일 중복 검사 함수
   void checkEmailEnabled() async {
@@ -113,8 +178,6 @@ class _SignupScreenPage1State extends State<SignupScreenPage1> {
       }
     });
   }
-
-
   void checkPasswordEnabled(){
 
   }
@@ -160,26 +223,6 @@ class _SignupScreenPage1State extends State<SignupScreenPage1> {
       isJobValid = isValid;
     });
     checkButtonEnabled();
-  }
-
-  void navigateToNextScreen() {
-    if (isButtonEnabled) {
-      final loginUserProvider =
-      Provider.of<LoginUserProvider>(context, listen: false);
-
-      loginUserProvider.setEmailAccount(emailController.text.trim());
-      loginUserProvider.setPassword(passwordController.text.trim());
-      loginUserProvider.setName(nameController.text.trim());
-      loginUserProvider.setAge(int.parse(ageController.text.trim()));
-      loginUserProvider.setPhoneNumber(phoneNumController.text.trim());
-      loginUserProvider.setJob(jobController.text.trim());
-      loginUserProvider.setGender(isMaleSelected == true ? "남성" : "여성");
-
-      Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => SignupScreenPage2()),
-      );
-    }
   }
 
   @override
@@ -247,6 +290,10 @@ class _SignupScreenPage1State extends State<SignupScreenPage1> {
                     hintText: '6자 이상의 영문/숫자 조합',
                     onChanged: (String value) {},
                     obscureText: true,
+                  ),
+                  ElevatedButton(
+                    onPressed: sendEmailVerification,
+                    child: Text('계정 인증하기'),
                   ),
                   SignupAskLabel(text: '이름'),
                   CustomTextFormField(
@@ -365,3 +412,4 @@ class CustomButton extends StatelessWidget {
     );
   }
 }
+
