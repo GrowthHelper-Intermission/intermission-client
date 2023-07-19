@@ -142,7 +142,7 @@ class LogoutSettingComponent extends StatelessWidget {
     await prefs.setBool('autoLogin', false);
     Navigator.pushNamedAndRemoveUntil(
       context,
-      '/login',
+      '/',
           (route) => false,
     );
   }
