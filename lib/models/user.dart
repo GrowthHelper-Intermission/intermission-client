@@ -25,10 +25,32 @@ class LoginUserProvider extends ChangeNotifier {
   int userPoint = 0;
   bool isAgree = true;
   bool emailVerified = false; //add
+  List<String> scrapedInterviews = []; // 스크랩한 인터뷰의 id 목록(인터뷰 제목을 id로)
 
   LoginUserProvider();
 
-  //add
+  //스크랩 하기
+  void addScrapedInterview(String interviewId) async {
+    FirebaseFirestore.instance.collection('users')
+        .doc(emailAccount)
+        .update({
+      'scrapedInterviews': FieldValue.arrayUnion([interviewId])
+    });
+    notifyListeners();
+  }
+
+
+  //스크랩 취소 하기
+  void removeScrapedInterview(String interviewId) async {
+    FirebaseFirestore.instance.collection('users')
+        .doc(emailAccount)
+        .update({
+      'scrapedInterviews': FieldValue.arrayRemove([interviewId])
+    });
+    notifyListeners();
+  }
+
+
   void setEmailVerified(bool emailVerified) {
     this.emailVerified = emailVerified;
     notifyListeners();
@@ -134,6 +156,9 @@ class LoginUserProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+
+
+
   LoginUserProvider.fromSnapshot(DocumentSnapshot snapshot) {
     emailAccount = snapshot['emailAccount'];
     phoneNumber = snapshot['phoneNumber'];
@@ -156,6 +181,7 @@ class LoginUserProvider extends ChangeNotifier {
     userPoint = snapshot['userPoint'];
     isAgree = snapshot['isAgree'];
     emailVerified = snapshot['emailVerified'];
+    scrapedInterviews = List<String>.from(snapshot['scrapedInterviews'] ?? []);
   }
 
   Map<String, dynamic> toJson() => {
@@ -180,6 +206,8 @@ class LoginUserProvider extends ChangeNotifier {
     'userPoint': userPoint,
     'isAgree': isAgree,
     'phoneNumber': phoneNumber,
+    'scrapedInterviews': scrapedInterviews,
   };
+
 
 }

@@ -8,6 +8,7 @@ import 'package:intermission_project/views/mypage/ask_info.dart';
 import 'package:intermission_project/views/mypage/recommend_friend.dart';
 import 'package:intermission_project/views/mypage/user_point_count.dart';
 import 'package:intermission_project/views/mypage/notices.dart';
+import 'package:intermission_project/views/mypage/user_scrap_interviews.dart';
 
 class MyPageScreen extends StatelessWidget {
   final LoginUserProvider user;
@@ -84,7 +85,11 @@ class MyPageScreen extends StatelessWidget {
                       ),
                       InkWell(
                         onTap: () {
-                          // 스크랩 클릭 이벤트를 처리하세요.
+                          // 스크랩 클릭 이벤트를 처리하세요.랩
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) => ScrapInterviews(),),
+                          );
                         },
                         child: SizedBox(
                           width: 80,

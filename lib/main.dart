@@ -28,7 +28,7 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
+    return ChangeNotifierProvider<LoginUserProvider>(
       create: (context) => LoginUserProvider(),
       child: ScreenUtilInit(
         //화면 사이즈

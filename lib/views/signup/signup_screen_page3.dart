@@ -97,6 +97,7 @@ class _SignupScreenPage3State extends State<SignupScreenPage3> {
         "createdTime": loginUserProvider.createdTime,
         "emailVerified": loginUserProvider.emailVerified,
         "phoneNumber": loginUserProvider.phoneNumber,
+        'scrapedInterviews': loginUserProvider.scrapedInterviews,
       };
 
       String uid = loginUserProvider.emailAccount;

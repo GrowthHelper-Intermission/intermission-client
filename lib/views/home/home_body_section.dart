@@ -47,7 +47,7 @@ class HomeBodySection extends StatelessWidget {
                   },
                 ),
                 //각 InterviewCard
-                OngoingInterviewList(interviews: interviews),
+                OngoingInterviewList(user: user, interviews: interviews),
                 //찬구 초대 버튼까지
                 SizedBox(
                   height: 5,
