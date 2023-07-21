@@ -1,11 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intermission_project/common/const/tabs.dart';
 import 'package:intermission_project/common/const/colors.dart';
-import 'package:flutter/material.dart';
-import 'package:intermission_project/common/const/tabs.dart';
-import 'package:intermission_project/views/home/home_appbar.dart';
-import 'package:intermission_project/views/login/login_screen.dart';
-import 'package:intermission_project/user/matching_screen.dart';
 
 class CustomBottomNavigationBar extends StatelessWidget {
   final int currentIndex;

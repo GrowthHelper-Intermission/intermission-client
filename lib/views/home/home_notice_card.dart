@@ -43,9 +43,6 @@ class NoticeCard extends StatelessWidget {
                 ),
               ),
             ),
-            // SizedBox(
-            //   height: 2,
-            // ),
             Expanded(
               child: Container(
                 height: 40,

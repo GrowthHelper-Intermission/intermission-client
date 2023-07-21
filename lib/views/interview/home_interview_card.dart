@@ -56,16 +56,6 @@ class _InterviewCardState extends State<InterviewCard> {
     // Add the interview id to the scrapedInterviews list.
     user.addScrapedInterview(widget.interviewId);
     print(widget.interviewId);
-    //String uid = userProvider.emailAccount;
-    // await FirebaseFirestore.instance
-    //     .collection("users")
-    //     .doc(user.emailAccount)
-    //     .update({
-    //   'scrapedInterviews': widget.interviewId,
-    // }).catchError((error) {
-    //   print("Error updating document: $error");
-    // });
-
 
     print(FirebaseFirestore.instance
         .collection("users")
