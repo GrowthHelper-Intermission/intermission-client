@@ -14,13 +14,14 @@ import 'package:intermission_project/common/const/colors.dart';
 //     'hourlyRate': '1시간 2만원',
 //   },
 
-class InterviewModel{
-  final String interviewId;
-  final String interviewDate;
-  final String title;
-  final String recruiting;
-  final eonlineAndOffline;
-  final String hourlyRate;
-  final String requester;
-
-}
+//작성중
+// class InterviewModel{
+//   final String interviewId;
+//   final String interviewDate;
+//   final String title;
+//   final String recruiting;
+//   final eonlineAndOffline;
+//   final String hourlyRate;
+//   final String requester;
+//
+// }
