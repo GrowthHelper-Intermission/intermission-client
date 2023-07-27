@@ -13,4 +13,5 @@ class InterviewCollectionScreen extends StatelessWidget {
       ),
     );
   }
+
 }
