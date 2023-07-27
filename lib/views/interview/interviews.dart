@@ -24,7 +24,7 @@ final List<Map<String, dynamic>> interviews = [
     'interviewId': '🙏전과/복수전공/부전공 도움 서비스',
     'interviewDate': '2023-07-22',
     'color': SUB_BLUE_COLOR,
-    'title': '🙏전과/복수전공/부전공 도움 서비스',
+    'title': '🙏전과/복수전공/부전공 도움 서비스!',
     'recruiting':
     '전과, 복수전공, 부전공 중 하나를 하신 분/ 혹은 생각하시다가 포기하신 분 (나이, 성별 무관)',
     'onlyOnline': true,
