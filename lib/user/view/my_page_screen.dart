@@ -1,14 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:intermission_project/common/component/normal_appbar.dart';
 import 'package:intermission_project/models/user.dart';
-import 'package:intermission_project/user/matching_screen.dart';
-import 'package:intermission_project/views/home/home_appbar.dart';
-import 'package:intermission_project/common/const/tabs.dart';
-import 'package:intermission_project/views/mypage/ask_info.dart';
-import 'package:intermission_project/views/mypage/recommend_friend.dart';
-import 'package:intermission_project/views/mypage/user_point_count.dart';
-import 'package:intermission_project/views/mypage/notices.dart';
-import 'package:intermission_project/views/mypage/user_scrap_interviews.dart';
+import 'package:intermission_project/user/view/user_report_screen.dart';
+import 'package:intermission_project/user/view/user_recommend_friend_screen.dart';
+import 'package:intermission_project/user/view/user_point_count_screen.dart';
+import 'package:intermission_project/common/view/notices.dart';
+import 'package:intermission_project/user/view/user_scrap_interview_screen.dart';
 
 class MyPageScreen extends StatelessWidget {
   final LoginUserProvider user;

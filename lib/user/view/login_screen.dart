@@ -12,7 +12,7 @@ import 'package:intermission_project/user/find_pw_button.dart';
 import 'package:intermission_project/common/component/custom_text_style.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:intermission_project/user/signup_button.dart';
-import 'package:intermission_project/views/home/home_body_section.dart';
+import 'package:intermission_project/views/home/home_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
