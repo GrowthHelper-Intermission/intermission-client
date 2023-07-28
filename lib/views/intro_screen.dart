@@ -7,7 +7,7 @@ import 'package:intermission_project/common/component/main_tab_controller.dart';
 import 'package:intermission_project/common/const/colors.dart';
 import 'package:intermission_project/common/const/data.dart';
 import 'package:intermission_project/models/user.dart';
-import 'package:intermission_project/views/login/login_screen.dart';
+import 'package:intermission_project/user/view/login_screen.dart';
 import 'package:intermission_project/views/signup/signup_screen_page1.dart';
 import 'package:intermission_project/views/signup/signup_screen_page2.dart';
 import 'package:shared_preferences/shared_preferences.dart';

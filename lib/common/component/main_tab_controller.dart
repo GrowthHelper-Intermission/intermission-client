@@ -2,12 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:intermission_project/common/const/tabs.dart';
 import 'package:intermission_project/common/const/colors.dart';
 import 'package:intermission_project/models/user.dart';
-import 'package:intermission_project/views/mypage/my_page_screen.dart';
-import 'package:intermission_project/views/home/home_appbar.dart';
+import 'package:intermission_project/user/view/my_page_screen.dart';
 import 'package:intermission_project/user/interview_collection_screen.dart';
-import 'package:intermission_project/views/login/login_screen.dart';
+import 'package:intermission_project/user/view/login_screen.dart';
 import 'package:intermission_project/user/matching_screen.dart';
-import 'package:intermission_project/views/home/home_body_section.dart';
+import 'package:intermission_project/views/home/home_screen.dart';
 import 'package:provider/provider.dart';
 
 class MainTabController extends StatefulWidget {
@@ -70,7 +69,7 @@ class _MainTabControllerState extends State<MainTabController>
         children: <Widget>[
           TabContentWidget(label: '쇼핑몰'),
           MatchingScreen(),
-          HomeBodySection(user: user, tabController: _tabController),
+          HomeScreen(user: user, tabController: _tabController),
           InterviewCollectionScreen(),
           MyPageScreen(tabController: _tabController,user: user),
         ],
