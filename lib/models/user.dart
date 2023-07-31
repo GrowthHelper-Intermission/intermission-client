@@ -3,6 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+
+
+
 class LoginUserProvider extends ChangeNotifier {
   String emailAccount = "";
   String password = "";
@@ -24,6 +27,7 @@ class LoginUserProvider extends ChangeNotifier {
   String recommendWho = "";
   int userPoint = 0;
   bool isAgree = true;
+  String accountNumber = "";
   bool emailVerified = false; //add
   List<String> scrapedInterviews = []; // 스크랩한 인터뷰의 id 목록(인터뷰 제목을 id로)
 

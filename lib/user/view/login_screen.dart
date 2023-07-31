@@ -4,7 +4,7 @@ import 'package:intermission_project/common/component/alert_dialog.dart';
 import 'package:intermission_project/common/component/custom_appbar.dart';
 import 'package:intermission_project/common/component/custom_text_form_field.dart';
 import 'package:intermission_project/common/component/login_next_button.dart';
-import 'package:intermission_project/common/component/main_tab_controller.dart';
+import 'package:intermission_project/common/view/root_tab.dart';
 import 'package:intermission_project/common/const/colors.dart';
 import 'package:intermission_project/common/const/data.dart';
 import 'package:intermission_project/models/user.dart';
@@ -73,7 +73,7 @@ class _LoginScreenState extends State<LoginScreen> {
         }
         Navigator.pop(context);
         Navigator.of(context).push(MaterialPageRoute(
-            builder: (BuildContext context) => MainTabController(user: user)));
+            builder: (BuildContext context) => MainTab(user: user)));
       } else if (autoLogin) { // 수정된 부분
         Navigator.pop(context);
         tryLogin(
