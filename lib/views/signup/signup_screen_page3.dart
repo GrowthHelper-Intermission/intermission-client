@@ -12,7 +12,7 @@ import 'package:intermission_project/common/component/signup_appbar.dart';
 import 'package:intermission_project/common/component/signup_ask_label.dart';
 import 'package:intermission_project/common/component/signup_either_button.dart';
 import 'package:intermission_project/common/component/signup_long_ask_label.dart';
-import 'package:intermission_project/common/component/main_tab_controller.dart';
+import 'package:intermission_project/common/view/root_tab.dart';
 import 'package:intermission_project/common/const/colors.dart';
 import 'package:intermission_project/common/const/data.dart';
 import 'package:intermission_project/models/user.dart';
@@ -114,7 +114,7 @@ class _SignupScreenPage3State extends State<SignupScreenPage3> {
       Navigator.pushAndRemoveUntil(
         context,
         MaterialPageRoute(
-          builder: (context) => MainTabController(
+          builder: (context) => MainTab(
             user: user,
           ),
         ),

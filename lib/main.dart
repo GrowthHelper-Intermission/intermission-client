@@ -1,11 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:intermission_project/common/component/main_tab_controller.dart';
+import 'package:intermission_project/common/view/root_tab.dart';
 import 'package:intermission_project/models/interviews.dart';
 import 'package:intermission_project/models/user.dart';
 import 'package:intermission_project/views/interview/interviews.dart';
-import 'package:intermission_project/views/intro_screen.dart';
+import 'package:intermission_project/common/view/intro_screen.dart';
 import 'package:intermission_project/views/setting/setting_screen.dart';
 import 'package:intermission_project/views/home/home_screen.dart';
 import 'package:intermission_project/user/view/login_screen.dart';

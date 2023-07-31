@@ -9,18 +9,18 @@ import 'package:intermission_project/user/matching_screen.dart';
 import 'package:intermission_project/views/home/home_screen.dart';
 import 'package:provider/provider.dart';
 
-class MainTabController extends StatefulWidget {
+class MainTab extends StatefulWidget {
   final LoginUserProvider user;
-  const MainTabController({
+  const MainTab({
     required this.user,
     Key? key,
   }) : super(key: key);
 
   @override
-  _MainTabControllerState createState() => _MainTabControllerState();
+  _MainTabState createState() => _MainTabState();
 }
 
-class _MainTabControllerState extends State<MainTabController>
+class _MainTabState extends State<MainTab>
     with SingleTickerProviderStateMixin {
   late TabController _tabController;
   int _currentIndex = 2; // Set the initial selected tab index to 2 (the "홈" tab)

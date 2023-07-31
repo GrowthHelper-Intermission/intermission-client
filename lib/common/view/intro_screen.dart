@@ -3,7 +3,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:intermission_project/common/component/alert_dialog.dart';
 import 'package:intermission_project/common/component/circular_progress_indicator.dart';
-import 'package:intermission_project/common/component/main_tab_controller.dart';
+import 'package:intermission_project/common/view/root_tab.dart';
 import 'package:intermission_project/common/const/colors.dart';
 import 'package:intermission_project/common/const/data.dart';
 import 'package:intermission_project/models/user.dart';
@@ -57,7 +57,7 @@ class _IntroScreenState extends State<IntroScreen> {
       // 로그인에 성공하면 다음 화면으로 이동
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(builder: (context) => MainTabController(user: user)),
+        MaterialPageRoute(builder: (context) => MainTab(user: user)),
       );
     } catch (e) {
       print(e);
