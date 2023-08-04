@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:intermission_project/01.user/user/find_pw_screen.dart';
 import 'package:intermission_project/common/const/colors.dart';
-import 'package:intermission_project/user/find_pw_screen.dart';
 
 class FindPWButton extends StatelessWidget {
   final String title;

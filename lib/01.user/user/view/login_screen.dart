@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:intermission_project/01.user/user/find_pw_button.dart';
 import 'package:intermission_project/common/component/alert_dialog.dart';
 import 'package:intermission_project/common/component/custom_appbar.dart';
 import 'package:intermission_project/common/component/custom_text_form_field.dart';
@@ -8,10 +9,8 @@ import 'package:intermission_project/common/view/root_tab.dart';
 import 'package:intermission_project/common/const/colors.dart';
 import 'package:intermission_project/common/const/data.dart';
 import 'package:intermission_project/models/user.dart';
-import 'package:intermission_project/user/find_pw_button.dart';
 import 'package:intermission_project/common/component/custom_text_style.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:intermission_project/user/signup_button.dart';
 import 'package:intermission_project/views/home/home_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:provider/provider.dart';
