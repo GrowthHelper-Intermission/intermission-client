@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:intermission_project/01.user/user/friend_invite_screen.dart';
 import 'package:intermission_project/common/const/colors.dart';
 import 'package:intermission_project/models/user.dart';
-import 'package:intermission_project/user/friend_invite_screen.dart';
 import 'package:intermission_project/views/interview/home_ongoing_interview_list.dart';
 import 'package:intermission_project/views/interview/interviews.dart';
 import 'package:intermission_project/views/setting/setting_screen.dart';

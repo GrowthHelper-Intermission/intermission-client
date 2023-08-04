@@ -1,13 +1,13 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:intermission_project/01.user/user/view/login_screen.dart';
 import 'package:intermission_project/common/component/alert_dialog.dart';
 import 'package:intermission_project/common/component/circular_progress_indicator.dart';
 import 'package:intermission_project/common/view/root_tab.dart';
 import 'package:intermission_project/common/const/colors.dart';
 import 'package:intermission_project/common/const/data.dart';
 import 'package:intermission_project/models/user.dart';
-import 'package:intermission_project/user/view/login_screen.dart';
 import 'package:intermission_project/views/signup/signup_screen_page1.dart';
 import 'package:intermission_project/views/signup/signup_screen_page2.dart';
 import 'package:shared_preferences/shared_preferences.dart';
