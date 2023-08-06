@@ -8,12 +8,10 @@ import 'package:intermission_project/common/view/notices.dart';
 import 'package:intermission_project/models/user.dart';
 
 class MyPageScreen extends StatelessWidget {
-  final LoginUserProvider user;
   final TabController tabController;
 
   const MyPageScreen({
     required this.tabController,
-    required this.user,
     Key? key,
   }) : super(key: key);
 
@@ -42,7 +40,7 @@ class MyPageScreen extends StatelessWidget {
                   child: SizedBox(
                     child: Center(
                       child: Text(
-                        user.name,
+                        '될거야',
                         style: TextStyle(
                           fontSize: 16,
                           color: Colors.black,

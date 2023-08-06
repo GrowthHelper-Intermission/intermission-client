@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intermission_project/common/component/custom_appbar.dart';
 import 'package:intermission_project/common/const/colors.dart';
-import 'package:intermission_project/layout/default_layout.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class LogoutScreen extends StatelessWidget {

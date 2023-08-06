@@ -5,9 +5,8 @@ import 'package:intermission_project/views/setting/setting_screen.dart';
 
 class OngoingInterviewList extends StatelessWidget {
   final List<Map<String, dynamic>> interviews;
-  final LoginUserProvider user;
 
-  const OngoingInterviewList({required this. user, required this.interviews});
+  const OngoingInterviewList({required this.interviews});
 
   @override
   Widget build(BuildContext context) {
@@ -17,7 +16,6 @@ class OngoingInterviewList extends StatelessWidget {
         itemBuilder: (context, index) {
           final interview = interviews[index];
           return InterviewCard(
-            user: user,
             interviewId: interview['interviewId'],
             interviewDate: interview['interviewDate'],
             color: interview['color'],

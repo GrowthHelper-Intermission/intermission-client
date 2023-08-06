@@ -9,23 +9,20 @@ import 'package:intermission_project/models/user.dart';
 import 'package:intermission_project/views/home/home_screen.dart';
 import 'package:provider/provider.dart';
 
-class MainTab extends StatefulWidget {
-  final LoginUserProvider user;
-  const MainTab({
-    required this.user,
+class RootTab extends StatefulWidget {
+  static String get routeName => 'home';
+  const RootTab({
     Key? key,
   }) : super(key: key);
 
   @override
-  _MainTabState createState() => _MainTabState();
+  _RootTabState createState() => _RootTabState();
 }
 
-class _MainTabState extends State<MainTab>
+class _RootTabState extends State<RootTab>
     with SingleTickerProviderStateMixin {
   late TabController _tabController;
   int _currentIndex = 2; // Set the initial selected tab index to 2 (the "홈" tab)
-
-  late LoginUserProvider user = widget.user;
 
   @override
   void initState() {
@@ -69,9 +66,9 @@ class _MainTabState extends State<MainTab>
         children: <Widget>[
           TabContentWidget(label: '쇼핑몰'),
           MatchingScreen(),
-          HomeScreen(user: user, tabController: _tabController),
+          HomeScreen(tabController: _tabController),
           InterviewCollectionScreen(),
-          MyPageScreen(tabController: _tabController,user: user),
+          MyPageScreen(tabController: _tabController),
         ],
       ),
       bottomNavigationBar: BottomNavigationBar(

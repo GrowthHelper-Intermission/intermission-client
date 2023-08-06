@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:intermission_project/layout/default_layout.dart';
-
 class AlarmSettingScreen extends StatelessWidget {
   const AlarmSettingScreen({super.key});
 

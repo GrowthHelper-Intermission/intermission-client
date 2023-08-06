@@ -1,7 +1,7 @@
 abstract class IModelWithId {
-  final String researchId;
+  final String id;
 
   IModelWithId({
-    required this.researchId,
+    required this.id,
   });
 }

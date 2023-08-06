@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intermission_project/common/component/custom_text_style.dart';
-import 'package:intermission_project/layout/default_layout.dart';
+import 'package:intermission_project/common/layout/default_layout.dart';
 import 'package:intermission_project/views/setting/alarm_setting_screen.dart';
 import 'package:intermission_project/views/setting/cancel_member.dart';
 import 'package:intermission_project/views/setting/logout_screen.dart';

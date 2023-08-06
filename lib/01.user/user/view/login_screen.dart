@@ -17,16 +17,18 @@ import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginScreen extends StatefulWidget {
+  static String get routeName => 'login';
+
   const LoginScreen({Key? key}) : super(key: key);
   @override
   _LoginScreenState createState() => _LoginScreenState();
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  final globalKey = GlobalKey<FormState>();
-  final autoLoginStyle = TextStyle(color: PRIMARY_COLOR);
+  // final globalKey = GlobalKey<FormState>();
+  // final autoLoginStyle = TextStyle(color: PRIMARY_COLOR);
   bool _isChecked = false;
-  bool _isAutoLogin = false;
+  // bool _isAutoLogin = false;
   TextEditingController _emailController = TextEditingController();
   TextEditingController _passwordController = TextEditingController();
   bool _isButtonEnabled = false;
@@ -46,54 +48,54 @@ class _LoginScreenState extends State<LoginScreen> {
     // navigateToNextScreen(); // 수정된 부분
   }
 
-  void tryLogin({String? email, String? password}) async {
-    FirebaseFirestore firestore = FirebaseFirestore.instance;
-    SharedPreferences sp = await SharedPreferences.getInstance();
-    bool autoLogin = sp.getBool(autoLoginKey) ?? false; // 추가된 부분
+  // void tryLogin({String? email, String? password}) async {
+  //   FirebaseFirestore firestore = FirebaseFirestore.instance;
+  //   SharedPreferences sp = await SharedPreferences.getInstance();
+  //   bool autoLogin = sp.getBool(autoLoginKey) ?? false; // 추가된 부분
+  //
+  //   String userEmail = email ?? _emailController.text;
+  //   String userPassword = password ?? _passwordController.text;
+  //
+  //   try {
+  //     //CustomCircular(context, '로그인중...');
+  //     CircularProgressIndicator(color: PRIMARY_COLOR,);
+  //     DocumentSnapshot userData =
+  //     await firestore.collection('users').doc(userEmail).get();
+  //
+  //     // Check if email and password match
+  //     if (userData['emailAccount'] == userEmail &&
+  //         userData['password'] == userPassword) {
+  //       LoginUserProvider user = LoginUserProvider.fromSnapshot(userData);
+  //       // 자동 로그인 정보 저장
+  //       if (_isChecked) {
+  //         sp.setString(userId, userEmail);
+  //         sp.setString(userPassword, userPassword);
+  //         sp.setBool(autoLoginKey, true);
+  //       }
+  //       Navigator.pop(context);
+  //       Navigator.of(context).push(MaterialPageRoute(
+  //           builder: (BuildContext context) => RootTab(user: user)));
+  //     } else if (autoLogin) { // 수정된 부분
+  //       Navigator.pop(context);
+  //       tryLogin(
+  //           email: sp.getString(userId), password: sp.getString(userPassword));
+  //     } else {
+  //       Navigator.pop(context);
+  //       DialogShow(context, 'error1.');
+  //       DialogShow(context, '회원정보가 잘못되었습니다.');
+  //     }
+  //   } catch (e) {
+  //     print('Error: $e');
+  //     Navigator.pop(context);
+  //     DialogShow(context, 'error2.');
+  //     DialogShow(context, '회원정보가 잘못되었습니다.');
+  //   }
+  // }
 
-    String userEmail = email ?? _emailController.text;
-    String userPassword = password ?? _passwordController.text;
-
-    try {
-      //CustomCircular(context, '로그인중...');
-      CircularProgressIndicator(color: PRIMARY_COLOR,);
-      DocumentSnapshot userData =
-      await firestore.collection('users').doc(userEmail).get();
-
-      // Check if email and password match
-      if (userData['emailAccount'] == userEmail &&
-          userData['password'] == userPassword) {
-        LoginUserProvider user = LoginUserProvider.fromSnapshot(userData);
-        // 자동 로그인 정보 저장
-        if (_isChecked) {
-          sp.setString(userId, userEmail);
-          sp.setString(userPassword, userPassword);
-          sp.setBool(autoLoginKey, true);
-        }
-        Navigator.pop(context);
-        Navigator.of(context).push(MaterialPageRoute(
-            builder: (BuildContext context) => MainTab(user: user)));
-      } else if (autoLogin) { // 수정된 부분
-        Navigator.pop(context);
-        tryLogin(
-            email: sp.getString(userId), password: sp.getString(userPassword));
-      } else {
-        Navigator.pop(context);
-        DialogShow(context, 'error1.');
-        DialogShow(context, '회원정보가 잘못되었습니다.');
-      }
-    } catch (e) {
-      print('Error: $e');
-      Navigator.pop(context);
-      DialogShow(context, 'error2.');
-      DialogShow(context, '회원정보가 잘못되었습니다.');
-    }
-  }
-
-  Future<void> setAutoLogin({required bool value}) async {
-    SharedPreferences sp = await SharedPreferences.getInstance();
-    await sp.setBool(autoLoginKey, value);
-  }
+  // Future<void> setAutoLogin({required bool value}) async {
+  //   SharedPreferences sp = await SharedPreferences.getInstance();
+  //   await sp.setBool(autoLoginKey, value);
+  // }
 
   @override
   void initState() {
@@ -181,20 +183,8 @@ class _LoginScreenState extends State<LoginScreen> {
                             ),
                             //SizedBox(height: 10),
                             Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              mainAxisAlignment: MainAxisAlignment.end,
                               children: [
-                                AutoLoginCheckbox(
-                                  isChecked: _isChecked,
-                                  onChanged: (bool? newValue) {
-                                    setState(() {
-                                      _isChecked = newValue!;
-                                      _isAutoLogin = newValue;
-                                    });
-                                  },
-                                  onAutoLoginChanged: (bool value) {
-                                    setAutoLogin(value: value);
-                                  },
-                                ),
                                 Padding(
                                   padding: const EdgeInsets.all(8.0),
                                   child: FindPWButton(title: '비밀번호 찾기'),
@@ -207,7 +197,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             LoginNextButton(
                               buttonName: '로그인',
                               isButtonEnabled: _isButtonEnabled,
-                              onPressed: tryLogin,
+                              onPressed: (){},
                             ),
                           ],
                         ),

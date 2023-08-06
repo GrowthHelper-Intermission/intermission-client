@@ -1,17 +1,17 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'alarm_set_model.dart';
+part of 'interview_req_chn_model.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-AlarmSetModel _$AlarmSetModelFromJson(Map<String, dynamic> json) =>
-    AlarmSetModel(
-      membNo: json['membNo'] as String,
-      notiTpCd: json['notiTpCd'] as String,
-      applStrtDay: json['applStrtDay'] as String,
-      applEndDay: json['applEndDay'] as String?,
+InterviewReqChn _$InterviewReqChnFromJson(Map<String, dynamic> json) =>
+    InterviewReqChn(
+      intvReqDay: json['intvReqDay'] as String,
+      intvReqSeqNo: json['intvReqSeqNo'] as String,
+      chnCd: json['chnCd'] as String,
+      remark: json['remark'] as String?,
       delYn: json['delYn'] as String?,
       frstRegtDt: json['frstRegtDt'] == null
           ? null
@@ -21,12 +21,12 @@ AlarmSetModel _$AlarmSetModelFromJson(Map<String, dynamic> json) =>
           : DateTime.parse(json['finlUpdtDt'] as String),
     );
 
-Map<String, dynamic> _$AlarmSetModelToJson(AlarmSetModel instance) =>
+Map<String, dynamic> _$InterviewReqChnToJson(InterviewReqChn instance) =>
     <String, dynamic>{
-      'membNo': instance.membNo,
-      'notiTpCd': instance.notiTpCd,
-      'applStrtDay': instance.applStrtDay,
-      'applEndDay': instance.applEndDay,
+      'intvReqDay': instance.intvReqDay,
+      'intvReqSeqNo': instance.intvReqSeqNo,
+      'chnCd': instance.chnCd,
+      'remark': instance.remark,
       'delYn': instance.delYn,
       'frstRegtDt': instance.frstRegtDt?.toIso8601String(),
       'finlUpdtDt': instance.finlUpdtDt?.toIso8601String(),

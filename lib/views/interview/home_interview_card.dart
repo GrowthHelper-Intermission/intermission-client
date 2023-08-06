@@ -7,7 +7,6 @@ import 'package:intermission_project/views/setting/setting_screen.dart';
 import 'package:provider/provider.dart';
 
 class InterviewCard extends StatefulWidget {
-  final LoginUserProvider user;
   final String interviewId;
   final String interviewDate;
   final Color color;
@@ -16,7 +15,6 @@ class InterviewCard extends StatefulWidget {
   final bool onlyOnline;
   final String hourlyRate;
   const InterviewCard({
-    required this.user,
     required this.interviewId,
     required this.interviewDate,
     required this.color,
@@ -33,7 +31,6 @@ class InterviewCard extends StatefulWidget {
 
 class _InterviewCardState extends State<InterviewCard> {
   int daysLeft = 0;
-  late LoginUserProvider user = widget.user;
 
   @override
   void initState() {
@@ -51,14 +48,14 @@ class _InterviewCardState extends State<InterviewCard> {
   //provider로 user 정보 받아서 추가해줘야 된다
   void _scrapInterview() async {
     // Get the LoginUserProvider instance from the provider context.
-    print(user.emailAccount);
+    // print(user.emailAccount);
     // Add the interview id to the scrapedInterviews list.
-    user.addScrapedInterview(widget.interviewId);
+    // user.addScrapedInterview(widget.interviewId);
     print(widget.interviewId);
 
-    print(FirebaseFirestore.instance
-        .collection("users")
-        .doc(user.emailAccount));
+    // print(FirebaseFirestore.instance
+    //     .collection("users")
+    //     .doc(user.emailAccount));
   }
 
 
