@@ -114,9 +114,7 @@ class _SignupScreenPage3State extends State<SignupScreenPage3> {
       Navigator.pushAndRemoveUntil(
         context,
         MaterialPageRoute(
-          builder: (context) => MainTab(
-            user: user,
-          ),
+          builder: (context) => RootTab(),
         ),
         (route) => false,
       );

@@ -3,7 +3,7 @@ part 'point_model.g.dart';
 
 @JsonSerializable()
 class PointModel {
-  /// 회원번호(PK인 동시에 FK)
+  /// 회원번호(PK, FK)
   final String membNo;
 
   /// 포인트발생일자(PK)

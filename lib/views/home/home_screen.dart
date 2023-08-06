@@ -8,9 +8,8 @@ import 'package:intermission_project/views/setting/setting_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   final TabController? tabController;
-  final LoginUserProvider user;
 
-  HomeScreen({required this.user, this.tabController});
+  HomeScreen({this.tabController});
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
@@ -40,11 +39,11 @@ class _HomeScreenState extends State<HomeScreen> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
-                    widget.user.name,
+                   '될거야',
                     style: TextStyle(fontSize: 16, fontWeight: FontWeight.w400),
                   ),
                   Text(
-                    '${widget.user.userPoint} P',
+                    '${'2000'} P',
                     style: TextStyle(
                       fontWeight: FontWeight.w600,
                       fontSize: 14.0,
@@ -158,7 +157,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   ],
                 ),
               ),
-              OngoingInterviewList(user: widget.user, interviews: interviews),
+              OngoingInterviewList(interviews: interviews),
               SizedBox(
                 height: 5,
               ),

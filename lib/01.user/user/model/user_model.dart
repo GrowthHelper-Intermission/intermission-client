@@ -123,44 +123,21 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'user_model.g.dart';
 
+abstract class UserModelBase {}
 
-enum GenderCd { A1,A2,A3 }
-enum UserTpCd{A1,A2,A3,A4,A9}
-//10(초등학생), 11(중학생), 12(고등학생), 13(대학생), 14(대학원생),
-// 15(직장인), 16(유학생), 17(공무원), 18(군인), 99(기타)
-enum JobCd { A10,A11,A12,A13,A14,A15,A16,A17,A18,A19 }
-enum WedTpCd { A1,A2,A3,A4 }
-enum HousTpCd { A1,A2,A3,A4,A5,A6,A7 }
-enum PetTpCd { A1,A2,A3,A9 }
-enum IsAgreeYn { T, F }
+class UserModelError extends UserModelBase {
+  final String message;
 
-enum BankRange {
-  hana,
-  sc,
-  kyongnam,
-  kwangju,
-  kookmin,
-  kiup,
-  nonghyup,
-  daegu,
-  busan,
-  sanup,
-  saemaeul,
-  suhyup,
-  shinhan,
-  shinhyup,
-  city,
-  woori,
-  post,
-  jeonbuk,
-  jeju,
-  kakaoBank,
-  kBank,
-  tossBank,
+  UserModelError({
+    required this.message,
+  });
 }
 
+class UserModelLoading extends UserModelBase {}
+
+
 @JsonSerializable()
-class UserModel {
+class UserModel extends UserModelBase{
   /// 회원번호
   final String userNo;
 
@@ -179,8 +156,8 @@ class UserModel {
   /// 가입일자
   final String joinDay;
 
-  /// 회원 은행
-  final BankRange bankAccount;
+  /// 회원 은행(차후 enum 변경)
+  final String bankAccount;
 
   /// 계좌번호
   final String accountNumber;
@@ -188,26 +165,29 @@ class UserModel {
   /// 생년월일
   final String birthDay;
 
-  /// 성별코드
-  final GenderCd genderCd;
+  /// 성별코드(차후 enum 변경)
+  final String genderCd;
 
-  /// 핸트폰사업자번호
-  final String hpBizNo;
+  // /// 핸트폰사업자번호
+  // final String hpBizNo;
+  //
+  // /// 핸드폰국번호
+  // final String hpExchgNo;
+  //
+  // /// 핸드폰회선번호
+  // final String hpLineNo;
+  //
+  // /// 유선전화지역번호
+  // final String cablePhonAreaNo;
+  //
+  // /// 유선전화국번호
+  // final String cablePhonExchgNo;
+  //
+  // /// 유선전화회선번호
+  // final String cablePhonLineNo;
 
-  /// 핸드폰국번호
-  final String hpExchgNo;
-
-  /// 핸드폰회선번호
-  final String hpLineNo;
-
-  /// 유선전화지역번호
-  final String cablePhonAreaNo;
-
-  /// 유선전화국번호
-  final String cablePhonExchgNo;
-
-  /// 유선전화회선번호
-  final String cablePhonLineNo;
+  /// 핸드폰 번호, 6개 종류였던거 일단 1개로 축약
+  final String hpNum;
 
   /// EMAIL주소
   final String email;
@@ -215,8 +195,8 @@ class UserModel {
   /// EMAIL인증여부
   final String emailVerfYn;
 
-  /// 직업코드
-  final JobCd jobCd;
+  /// 직업코드(차후 enum 변경. 10초등, 15)
+  final String jobCd;
 
   /// 직장명
   final String ofcNm;
@@ -230,19 +210,19 @@ class UserModel {
   /// 대표자여부
   final String ceoYn;
 
-  /// 결혼구분코드
-  final WedTpCd wedTpCd;
+  /// 결혼구분코드(차후 enum 변경(Y/N, Default = 'N'))
+  final String wedTpCd;
 
-  /// 주거형태코드
-  final HousTpCd housTpCd;
+  /// 주거형태코드(차후 enum 변경(1인가구, 2인가구, 3인가구, 4인가구, 5인가구, 6인가구 이상, 기타))
+  final String housTpCd;
 
-  /// 반려동물여부
+  /// 반려동물여부((Y/N, Default = 'N')
   final String petYn;
 
-  /// 반려동물구분코드
-  final PetTpCd petTpCd;
+  /// 반려동물구분코드(차후 enum 변경(강아지(1), 고양이(2), 기타(9)))
+  final String petTpCd;
 
-  /// 반려동물명
+  /// 반려동물명(petTpCd 9인 기타인 경우 기입)
   final String petNm;
 
   /// 주거지역시도코드
@@ -272,19 +252,19 @@ class UserModel {
   /// 추천회원번호
   final String rcmdUserCd;
 
-  /// 개인정보수집동의여부
-  final IsAgreeYn isAgreeYn;
+  /// 개인정보수집동의여부(Y/N, Default = 'Y')
+  final String isAgreeYn;
 
   /// 개인정보수집동일시 => DateTime
   final DateTime isAgreeDt;
 
-  /// 직원여부
+  /// 직원여부(직원이 회원일 경우 매칭 대상에서 제외하기 위하여 생성)
   final String empYn;
 
-  /// 사원번호
+  /// 사원번호(직원일시만 입력. 1000000부터 시작하여 사원 등록 시 자동 증가)
   final String empNo;
 
-  /// 삭제여부
+  /// 삭제여부(물리적인 데이터 삭제는 없으며, Flag 처리)
   final String delYn;
 
   /// 최초 입력 일시(최초 계정 회원가입한 시간) => DateTime
@@ -304,12 +284,13 @@ class UserModel {
     required this.accountNumber,
     required this.birthDay,
     required this.genderCd,
-    required this.hpBizNo,
-    required this.hpExchgNo,
-    required this.hpLineNo,
-    required this.cablePhonAreaNo,
-    required this.cablePhonExchgNo,
-    required this.cablePhonLineNo,
+    // required this.hpBizNo,
+    // required this.hpExchgNo,
+    // required this.hpLineNo,
+    // required this.cablePhonAreaNo,
+    // required this.cablePhonExchgNo,
+    // required this.cablePhonLineNo,
+    required this.hpNum,
     required this.email,
     required this.emailVerfYn,
     required this.jobCd,
