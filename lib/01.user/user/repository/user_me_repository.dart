@@ -26,6 +26,14 @@ abstract class UserMeRepository{
   })
   Future<UserModel> getMe();
 
+  @POST('/signup')
+  @Headers({
+    'accessToken' : 'true',
+  })
+  Future<UserModel> postUser(@Body() UserModel user);
+
+
+
   // @GET('/basket')
   // @Headers({
   //   'accessToken' : 'true',

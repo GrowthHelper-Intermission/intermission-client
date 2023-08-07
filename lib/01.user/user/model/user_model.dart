@@ -139,7 +139,7 @@ class UserModelLoading extends UserModelBase {}
 @JsonSerializable()
 class UserModel extends UserModelBase{
   /// 회원번호
-  final String userNo;
+  final String id;
 
   /// 회원 구분 코드
   final String userTpCd;
@@ -195,16 +195,16 @@ class UserModel extends UserModelBase{
   /// EMAIL인증여부
   final String emailVerfYn;
 
-  /// 직업코드(차후 enum 변경. 10초등, 15)
+  /// 직업코드(일단 직업명 그대로 적기. 차후 enum 변경. 10초등, 15)
   final String jobCd;
 
-  /// 직장명
+  /// 직장명(선택)
   final String ofcNm;
 
-  /// 직급명
+  /// 직급명(선택)
   final String jobGrdNm;
 
-  /// 담당업무코드
+  /// 담당업무코드(선택)
   final String asignJobCd;
 
   /// 대표자여부
@@ -224,6 +224,10 @@ class UserModel extends UserModelBase{
 
   /// 반려동물명(petTpCd 9인 기타인 경우 기입)
   final String petNm;
+
+  final String area;
+
+  final String interviewPossibleArea;
 
   /// 주거지역시도코드
   final String occpSidoCd;
@@ -256,7 +260,7 @@ class UserModel extends UserModelBase{
   final String isAgreeYn;
 
   /// 개인정보수집동일시 => DateTime
-  final DateTime isAgreeDt;
+  final String isAgreeDt;
 
   /// 직원여부(직원이 회원일 경우 매칭 대상에서 제외하기 위하여 생성)
   final String empYn;
@@ -268,13 +272,13 @@ class UserModel extends UserModelBase{
   final String delYn;
 
   /// 최초 입력 일시(최초 계정 회원가입한 시간) => DateTime
-  final DateTime frstRegtDt;
+  final String frstRegtDt;
 
   /// 최종수정일시(회원정보 최종 수정 시간) => DateTime
-  final DateTime finlUpdtDt;
+  final String finlUpdtDt;
 
   UserModel({
-    required this.userNo,
+    required this.id,
     required this.userTpCd,
     required this.userNm,
     required this.userId,
@@ -303,6 +307,8 @@ class UserModel extends UserModelBase{
     required this.petYn,
     required this.petTpCd,
     required this.petNm,
+    required this.area,
+    required this.interviewPossibleArea,
     required this.occpSidoCd,
     required this.occpSigunguCd,
     required this.intvSidoCd,
@@ -320,6 +326,95 @@ class UserModel extends UserModelBase{
     required this.frstRegtDt,
     required this.finlUpdtDt,
   });
+
+  UserModel copyWith({
+    String? id,
+    String? userTpCd,
+    String? userNm,
+    String? userId,
+    String? pwd,
+    String? joinDay,
+    String? bankAccount,
+    String? accountNumber,
+    String? birthDay,
+    String? genderCd,
+    String? hpNum,
+    String? email,
+    String? emailVerfYn,
+    String? jobCd,
+    String? ofcNm,
+    String? jobGrdNm,
+    String? asignJobCd,
+    String? ceoYn,
+    String? wedTpCd,
+    String? housTpCd,
+    String? petYn,
+    String? petTpCd,
+    String? petNm,
+    String? area,
+    String? interviewPossibleArea,
+    String? occpSidoCd,
+    String? occpSigunguCd,
+    String? intvSidoCd,
+    String? intvSigunguCd,
+    String? oflIntvRwdTpCd,
+    String? onlIntvRwdTpCd,
+    String? mainUseOnlSvcCn,
+    String? hobySubs,
+    String? rcmdUserCd,
+    String? isAgreeYn,
+    String? isAgreeDt,
+    String? empYn,
+    String? empNo,
+    String? delYn,
+    String? frstRegtDt,
+    String? finlUpdtDt,
+  }) {
+    return UserModel(
+      id: id ?? this.id,
+      userTpCd: userTpCd ?? this.userTpCd,
+      userNm: userNm ?? this.userNm,
+      userId: userId ?? this.userId,
+      pwd: pwd ?? this.pwd,
+      joinDay: joinDay ?? this.joinDay,
+      bankAccount: bankAccount ?? this.bankAccount,
+      accountNumber: accountNumber ?? this.accountNumber,
+      birthDay: birthDay ?? this.birthDay,
+      genderCd: genderCd ?? this.genderCd,
+      hpNum: hpNum ?? this.hpNum,
+      email: email ?? this.email,
+      emailVerfYn: emailVerfYn ?? this.emailVerfYn,
+      jobCd: jobCd ?? this.jobCd,
+      ofcNm: ofcNm ?? this.ofcNm,
+      jobGrdNm: jobGrdNm ?? this.jobGrdNm,
+      asignJobCd: asignJobCd ?? this.asignJobCd,
+      ceoYn: ceoYn ?? this.ceoYn,
+      wedTpCd: wedTpCd ?? this.wedTpCd,
+      housTpCd: housTpCd ?? this.housTpCd,
+      petYn: petYn ?? this.petYn,
+      petTpCd: petTpCd ?? this.petTpCd,
+      petNm: petNm ?? this.petNm,
+      area: area ?? this.area,
+      interviewPossibleArea: interviewPossibleArea ?? this.interviewPossibleArea,
+      occpSidoCd: occpSidoCd ?? this.occpSidoCd,
+      occpSigunguCd: occpSigunguCd ?? this.occpSigunguCd,
+      intvSidoCd: intvSidoCd ?? this.intvSidoCd,
+      intvSigunguCd: intvSigunguCd ?? this.intvSigunguCd,
+      oflIntvRwdTpCd: oflIntvRwdTpCd ?? this.oflIntvRwdTpCd,
+      onlIntvRwdTpCd: onlIntvRwdTpCd ?? this.onlIntvRwdTpCd,
+      mainUseOnlSvcCn: mainUseOnlSvcCn ?? this.mainUseOnlSvcCn,
+      hobySubs: hobySubs ?? this.hobySubs,
+      rcmdUserCd: rcmdUserCd ?? this.rcmdUserCd,
+      isAgreeYn: isAgreeYn ?? this.isAgreeYn,
+      isAgreeDt: isAgreeDt ?? this.isAgreeDt,
+      empYn: empYn ?? this.empYn,
+      empNo: empNo ?? this.empNo,
+      delYn: delYn ?? this.delYn,
+      frstRegtDt: frstRegtDt ?? this.frstRegtDt,
+      finlUpdtDt: finlUpdtDt ?? this.finlUpdtDt,
+    );
+  }
+
 
   factory UserModel.fromJson(Map<String, dynamic> json)
   => _$UserModelFromJson(json);

@@ -1,7 +1,10 @@
 import 'dart:ui';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:go_router/go_router.dart';
+import 'package:intermission_project/01.user/user/provider/user_me_provider.dart';
 import 'package:intermission_project/common/component/custom_appbar.dart';
 import 'package:intermission_project/common/component/custom_dropdown_button.dart';
 import 'package:intermission_project/common/component/custom_text_form_field.dart';
@@ -17,14 +20,15 @@ import 'package:intermission_project/views/signup/signup_screen_page3.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:provider/provider.dart';
 
-class SignupScreenPage2 extends StatefulWidget {
+class SignupScreenPage2 extends ConsumerStatefulWidget {
+  static String get routeName => 'signup2';
   const SignupScreenPage2({super.key});
 
   @override
-  State<SignupScreenPage2> createState() => _SignupScreenPage2State();
+  ConsumerState<SignupScreenPage2> createState() => _SignupScreenPage2State();
 }
 
-class _SignupScreenPage2State extends State<SignupScreenPage2> {
+class _SignupScreenPage2State extends ConsumerState<SignupScreenPage2> {
   final globalKey = GlobalKey<FormState>();
   TextEditingController raisePetController = TextEditingController();
   TextEditingController residenceAreaController = TextEditingController();
@@ -102,30 +106,30 @@ class _SignupScreenPage2State extends State<SignupScreenPage2> {
   //   }
   // }
 
-  void navigateToNextScreen() {
-    if (isButtonEnabled) {
-      final loginUserProvider =
-      Provider.of<LoginUserProvider>(context, listen: false);
-
-      loginUserProvider.setIsMarried(marriedSelected);
-      loginUserProvider.setResidenceType(selectedResidenceType!);
-      loginUserProvider.setIsRaisingPet(raisePet);
-      if (raisePet) {
-        loginUserProvider.setKindOfPet(raisePetController.text.trim());
-      }
-      else if(raiseNoPet){
-
-      }
-      loginUserProvider.setResidenceArea(residenceAreaController.text.trim());
-      loginUserProvider.setInterviewPossibleArea(
-          possibleAreaController.text.trim());
-
-      Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => SignupScreenPage3()),
-      );
-    }
-  }
+  // void navigateToNextScreen() {
+  //   if (isButtonEnabled) {
+  //     final loginUserProvider =
+  //     Provider.of<LoginUserProvider>(context, listen: false);
+  //
+  //     loginUserProvider.setIsMarried(marriedSelected);
+  //     loginUserProvider.setResidenceType(selectedResidenceType!);
+  //     loginUserProvider.setIsRaisingPet(raisePet);
+  //     if (raisePet) {
+  //       loginUserProvider.setKindOfPet(raisePetController.text.trim());
+  //     }
+  //     else if(raiseNoPet){
+  //
+  //     }
+  //     loginUserProvider.setResidenceArea(residenceAreaController.text.trim());
+  //     loginUserProvider.setInterviewPossibleArea(
+  //         possibleAreaController.text.trim());
+  //
+  //     Navigator.push(
+  //       context,
+  //       MaterialPageRoute(builder: (context) => SignupScreenPage3()),
+  //     );
+  //   }
+  // }
 
 
   @override
@@ -299,7 +303,16 @@ class _SignupScreenPage2State extends State<SignupScreenPage2> {
                     LoginNextButton(
                       buttonName: '다음',
                       isButtonEnabled: isButtonEnabled,
-                      onPressed: navigateToNextScreen,
+                      onPressed: (){
+                        ref.read(userMeProvider.notifier).updateUser(
+                          wedTpCd: marriedSelected == true ? "M" : "F",
+                          housTpCd: selectedResidenceType,
+                          petTpCd: raisePet == true ? "Y" : "N",
+                          area: residenceAreaController.text.trim(),
+                          interviewPossibleArea: possibleAreaController.text.trim(),
+                        );
+                        context.pushNamed(SignupScreenPage3.routeName);
+                      },
                     ),
                   ],
                 ),

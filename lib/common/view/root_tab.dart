@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:intermission_project/01.user/user/interview_collection_screen.dart';
+import 'package:intermission_project/04.research/04_2.interview/interview/view/interview_screen.dart';
 import 'package:intermission_project/01.user/user/matching_screen.dart';
 import 'package:intermission_project/01.user/user/view/login_screen.dart';
 import 'package:intermission_project/01.user/user/view/my_page_screen.dart';
@@ -67,7 +67,7 @@ class _RootTabState extends State<RootTab>
           TabContentWidget(label: '쇼핑몰'),
           MatchingScreen(),
           HomeScreen(tabController: _tabController),
-          InterviewCollectionScreen(),
+          InterviewScreen(),
           MyPageScreen(tabController: _tabController),
         ],
       ),
