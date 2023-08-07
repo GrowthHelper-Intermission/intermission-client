@@ -7,7 +7,7 @@ part of 'user_model.dart';
 // **************************************************************************
 
 UserModel _$UserModelFromJson(Map<String, dynamic> json) => UserModel(
-      userNo: json['userNo'] as String,
+      id: json['id'] as String,
       userTpCd: json['userTpCd'] as String,
       userNm: json['userNm'] as String,
       userId: json['userId'] as String,
@@ -30,6 +30,8 @@ UserModel _$UserModelFromJson(Map<String, dynamic> json) => UserModel(
       petYn: json['petYn'] as String,
       petTpCd: json['petTpCd'] as String,
       petNm: json['petNm'] as String,
+      area: json['area'] as String,
+      interviewPossibleArea: json['interviewPossibleArea'] as String,
       occpSidoCd: json['occpSidoCd'] as String,
       occpSigunguCd: json['occpSigunguCd'] as String,
       intvSidoCd: json['intvSidoCd'] as String,
@@ -40,16 +42,16 @@ UserModel _$UserModelFromJson(Map<String, dynamic> json) => UserModel(
       hobySubs: json['hobySubs'] as String,
       rcmdUserCd: json['rcmdUserCd'] as String,
       isAgreeYn: json['isAgreeYn'] as String,
-      isAgreeDt: DateTime.parse(json['isAgreeDt'] as String),
+      isAgreeDt: json['isAgreeDt'] as String,
       empYn: json['empYn'] as String,
       empNo: json['empNo'] as String,
       delYn: json['delYn'] as String,
-      frstRegtDt: DateTime.parse(json['frstRegtDt'] as String),
-      finlUpdtDt: DateTime.parse(json['finlUpdtDt'] as String),
+      frstRegtDt: json['frstRegtDt'] as String,
+      finlUpdtDt: json['finlUpdtDt'] as String,
     );
 
 Map<String, dynamic> _$UserModelToJson(UserModel instance) => <String, dynamic>{
-      'userNo': instance.userNo,
+      'id': instance.id,
       'userTpCd': instance.userTpCd,
       'userNm': instance.userNm,
       'userId': instance.userId,
@@ -72,6 +74,8 @@ Map<String, dynamic> _$UserModelToJson(UserModel instance) => <String, dynamic>{
       'petYn': instance.petYn,
       'petTpCd': instance.petTpCd,
       'petNm': instance.petNm,
+      'area': instance.area,
+      'interviewPossibleArea': instance.interviewPossibleArea,
       'occpSidoCd': instance.occpSidoCd,
       'occpSigunguCd': instance.occpSigunguCd,
       'intvSidoCd': instance.intvSidoCd,
@@ -82,10 +86,10 @@ Map<String, dynamic> _$UserModelToJson(UserModel instance) => <String, dynamic>{
       'hobySubs': instance.hobySubs,
       'rcmdUserCd': instance.rcmdUserCd,
       'isAgreeYn': instance.isAgreeYn,
-      'isAgreeDt': instance.isAgreeDt.toIso8601String(),
+      'isAgreeDt': instance.isAgreeDt,
       'empYn': instance.empYn,
       'empNo': instance.empNo,
       'delYn': instance.delYn,
-      'frstRegtDt': instance.frstRegtDt.toIso8601String(),
-      'finlUpdtDt': instance.finlUpdtDt.toIso8601String(),
+      'frstRegtDt': instance.frstRegtDt,
+      'finlUpdtDt': instance.finlUpdtDt,
     };

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intermission_project/01.user/user/friend_invite_screen.dart';
+import 'package:intermission_project/04.research/04_2.interview/interview/view/interview_detail_screen.dart';
+import 'package:intermission_project/04.research/04_2.interview/interview/view/interview_screen.dart';
 import 'package:intermission_project/common/const/colors.dart';
 import 'package:intermission_project/models/user.dart';
 import 'package:intermission_project/views/interview/home_ongoing_interview_list.dart';
@@ -157,7 +159,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   ],
                 ),
               ),
-              OngoingInterviewList(interviews: interviews),
+              InterviewScreen(),
               SizedBox(
                 height: 5,
               ),
@@ -165,12 +167,12 @@ class _HomeScreenState extends State<HomeScreen> {
                 alignment: Alignment.center,
                 child: GestureDetector(
                   onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => FriendInviteScreen(),
-                      ),
-                    );
+                    // Navigator.push(
+                    //   context,
+                    //   MaterialPageRoute(
+                    //     builder: (context) => FriendInviteScreen(),
+                    //   ),
+                    // );
                   },
                   child: Padding(
                     padding: const EdgeInsets.only(bottom: 3),

@@ -1,7 +1,11 @@
 import 'dart:ui';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:go_router/go_router.dart';
+import 'package:intermission_project/01.user/user/model/user_model.dart';
+import 'package:intermission_project/01.user/user/provider/user_me_provider.dart';
 import 'package:intermission_project/common/component/custom_appbar.dart';
 import 'package:intermission_project/common/component/custom_text_form_field.dart';
 import 'package:intermission_project/common/component/custom_text_style.dart';
@@ -29,17 +33,17 @@ extension InputValidate on String {
   }
 }
 
-class SignupScreenPage1 extends StatefulWidget {
+class SignupScreenPage1 extends ConsumerStatefulWidget {
+  static String get routeName => 'splash';
   const SignupScreenPage1({Key? key}) : super(key: key);
 
   @override
-  State<SignupScreenPage1> createState() => _SignupScreenPage1State();
+  ConsumerState<SignupScreenPage1> createState() => _SignupScreenPage1State();
 }
 
-class _SignupScreenPage1State extends State<SignupScreenPage1> {
-  final globalKey = GlobalKey<FormState>();
+class _SignupScreenPage1State extends ConsumerState<SignupScreenPage1> {
 
-  FirebaseFirestore firestore = FirebaseFirestore.instance;
+  //FirebaseFirestore firestore = FirebaseFirestore.instance;
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   TextEditingController nameController = TextEditingController();
@@ -75,31 +79,34 @@ class _SignupScreenPage1State extends State<SignupScreenPage1> {
 
   bool duplicate = false; //중복 검사용
 
-  FirebaseAuth auth = FirebaseAuth.instance;
-
+  // FirebaseAuth auth = FirebaseAuth.instance;
+  //
   void sendEmailVerification() async {
     try {
       String email = emailController.text.trim();
       String password = passwordController.text.trim();
 
-      UserCredential userCredential = await auth.createUserWithEmailAndPassword(
-        email: email,
-        password: password,
-      );
+      // UserCredential userCredential = await auth.createUserWithEmailAndPassword(
+      //   email: email,
+      //   password: password,
+      // );
+      //
+      // User? user = userCredential.user;
+      //
+      // if (user != null && !user.emailVerified) {
+      //   await user.sendEmailVerification();
+      //
+      //   final loginUserProvider =
+      //   Provider.of<LoginUserProvider>(context, listen: false);
+      //   loginUserProvider.setEmailVerified(user.emailVerified);
+      //
+      //   ScaffoldMessenger.of(context).showSnackBar(
+      //       SnackBar(content: Text('이메일 인증 링크가 전송되었습니다. 이메일을 확인해 주세요.'))
+      //   );
+      // }
 
-      User? user = userCredential.user;
-
-      if (user != null && !user.emailVerified) {
-        await user.sendEmailVerification();
-
-        final loginUserProvider =
-        Provider.of<LoginUserProvider>(context, listen: false);
-        loginUserProvider.setEmailVerified(user.emailVerified);
-
-        ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text('이메일 인증 링크가 전송되었습니다. 이메일을 확인해 주세요.'))
-        );
-      }
+      //Post 인증 구현
+      isEmailValid = true;
     } catch (e) {
       // Error handling
       // ...
@@ -107,44 +114,6 @@ class _SignupScreenPage1State extends State<SignupScreenPage1> {
     }
   }
 
-  void navigateToNextScreen() async {
-    User? user = auth.currentUser;
-
-    if (user != null) {
-      // User.reload() 메서드를 호출하여 사용자 상태를 최신화
-      await user.reload();
-
-      // 최신화된 사용자 정보를 다시 가져옴
-      user = auth.currentUser;
-
-      if (user!.emailVerified) {
-        // 이메일이 인증되었으므로 다음 페이지로 이동
-        if (isButtonEnabled) {
-          final loginUserProvider =
-          Provider.of<LoginUserProvider>(context, listen: false);
-
-          loginUserProvider.setEmailAccount(emailController.text.trim());
-          loginUserProvider.setPassword(passwordController.text.trim());
-          loginUserProvider.setName(nameController.text.trim());
-          loginUserProvider.setAge(int.parse(ageController.text.trim()));
-          loginUserProvider.setJob(jobController.text.trim());
-          loginUserProvider.setGender(isMaleSelected == true ? "남성" : "여성");
-          loginUserProvider.setPhoneNumber(phoneNumController.text.toString());
-          loginUserProvider.setEmailVerified(user!.emailVerified);
-          await user.reload();
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => SignupScreenPage2()),
-          );
-        }
-      } else {
-        // 이메일이 인증되지 않았으므로 에러 메시지를 표시
-        ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text('이메일을 인증해 주세요.'))
-        );
-      }
-    }
-  }
 
 
 
@@ -160,13 +129,15 @@ class _SignupScreenPage1State extends State<SignupScreenPage1> {
       return;
     }
 
-    QuerySnapshot querySnapshot = await FirebaseFirestore.instance
-        .collection("users")
-        .where("emailAccount", isEqualTo: email)
-        .get();
+    //쿼리로 ID중복 여부 확인
+
+    // QuerySnapshot querySnapshot = await FirebaseFirestore.instance
+    //     .collection("users")
+    //     .where("emailAccount", isEqualTo: email)
+    //     .get();
 
     // 쿼리 결과의 문서 개수를 사용하여 중복 여부 확인
-    duplicate = querySnapshot.size != 0;
+    // duplicate = querySnapshot.size != 0;
     setState(() {
       if (duplicate) {
         emailErrorText = '이미 사용 중인 이메일입니다.';
@@ -253,6 +224,8 @@ class _SignupScreenPage1State extends State<SignupScreenPage1> {
 
   @override
   Widget build(BuildContext context) {
+    final state = ref.watch(userMeProvider);
+
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: CustomAppBar(),
@@ -264,7 +237,6 @@ class _SignupScreenPage1State extends State<SignupScreenPage1> {
                 left: ScreenUtil().setWidth(12),
                 right: ScreenUtil().setWidth(12)),
              child: Form(
-              key: globalKey,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -375,7 +347,18 @@ class _SignupScreenPage1State extends State<SignupScreenPage1> {
                   LoginNextButton(
                     buttonName: '다음',
                     isButtonEnabled: isButtonEnabled,
-                    onPressed: navigateToNextScreen,
+                    onPressed: (){
+                      ref.read(userMeProvider.notifier).updateUser(
+                        email: emailController.text.trim(),
+                        userId: emailController.text.trim(),
+                        userNm: nameController.text.trim(),
+                        genderCd: isMaleSelected == true ? "M" : "F",
+                        birthDay: ageController.text.trim(),
+                        hpNum: phoneNumController.text.trim(),
+                        jobCd: jobController.text.trim(),
+                      );
+                      context.pushNamed(SignupScreenPage2.routeName);
+                    },
                   ),
                 ],
               ),
@@ -412,4 +395,40 @@ class CustomButton extends StatelessWidget {
     );
   }
 }
+
+
+
+// void navigateToNextScreen() async {
+//   User? user = auth.currentUser;
+//
+//   if (user != null) {
+//     if (user!.emailVerified) {
+//       // 이메일이 인증되었으므로 다음 페이지로 이동
+//       if (isButtonEnabled) {
+//         final loginUserProvider =
+//         Provider.of<LoginUserProvider>(context, listen: false);
+//
+//         loginUserProvider.setEmailAccount(emailController.text.trim());
+//         loginUserProvider.setPassword(passwordController.text.trim());
+//         loginUserProvider.setName(nameController.text.trim());
+//         loginUserProvider.setAge(int.parse(ageController.text.trim()));
+//         loginUserProvider.setJob(jobController.text.trim());
+//         loginUserProvider.setGender(isMaleSelected == true ? "남성" : "여성");
+//         loginUserProvider.setPhoneNumber(phoneNumController.text.toString());
+//         loginUserProvider.setEmailVerified(user!.emailVerified);
+//         await user.reload();
+//         Navigator.push(
+//           context,
+//           MaterialPageRoute(builder: (context) => SignupScreenPage2()),
+//         );
+//       }
+//     } else {
+//       // 이메일이 인증되지 않았으므로 에러 메시지를 표시
+//       ScaffoldMessenger.of(context).showSnackBar(
+//           SnackBar(content: Text('이메일을 인증해 주세요.'))
+//       );
+//     }
+//   }
+// }
+
 

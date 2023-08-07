@@ -2,7 +2,11 @@ import 'dart:ui';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:go_router/go_router.dart';
+import 'package:intermission_project/01.user/user/provider/user_me_provider.dart';
+import 'package:intermission_project/01.user/user/repository/user_me_repository.dart';
 import 'package:intermission_project/common/component/custom_appbar.dart';
 import 'package:intermission_project/common/component/custom_dropdown_button.dart';
 import 'package:intermission_project/common/component/custom_text_form_field.dart';
@@ -16,22 +20,23 @@ import 'package:intermission_project/common/view/root_tab.dart';
 import 'package:intermission_project/common/const/colors.dart';
 import 'package:intermission_project/common/const/data.dart';
 import 'package:intermission_project/models/user.dart';
+import 'package:intermission_project/views/home/home_screen.dart';
 import 'package:intermission_project/views/signup/signup_screen_page2.dart';
 import 'package:flutter/foundation.dart'; // Import the 'foundation' package
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class SignupScreenPage3 extends StatefulWidget {
+class SignupScreenPage3 extends ConsumerStatefulWidget {
+  static String get routeName => 'signup3';
   const SignupScreenPage3({super.key});
 
   @override
-  State<SignupScreenPage3> createState() => _SignupScreenPage3State();
+  ConsumerState<SignupScreenPage3> createState() => _SignupScreenPage3State();
 }
 
-class _SignupScreenPage3State extends State<SignupScreenPage3> {
+class _SignupScreenPage3State extends ConsumerState<SignupScreenPage3> {
   final globalKey = GlobalKey<FormState>();
-  late LoginUserProvider user = Provider.of<LoginUserProvider>(context);
 
   TextEditingController usingServiceController = TextEditingController();
   TextEditingController yourHobbyController = TextEditingController();
@@ -60,66 +65,66 @@ class _SignupScreenPage3State extends State<SignupScreenPage3> {
     });
   }
 
-  void navigateToNextScreen() async {
-    if (isButtonEnabled) {
-      final loginUserProvider =
-          Provider.of<LoginUserProvider>(context, listen: false);
-
-      loginUserProvider.setInterviewReward(selectedInterviewRewardType!);
-      loginUserProvider
-          .setOftenUsingService(usingServiceController.text.trim());
-      loginUserProvider.setHobby(yourHobbyController.text.trim());
-      loginUserProvider.setRecommendWho(recommandNameController.text.trim());
-      loginUserProvider.setIsAgree(isAgree);
-      loginUserProvider.setCreatedTime(DateTime.now().toString());
-      loginUserProvider.setUserPoint(1000);
-
-      Map<String, dynamic> userData = {
-        "emailAccount": loginUserProvider.emailAccount,
-        "password": loginUserProvider.password,
-        "name": loginUserProvider.name,
-        "createdTime": loginUserProvider.createdTime,
-        "gender": loginUserProvider.gender,
-        "age": loginUserProvider.age,
-        "job": loginUserProvider.job,
-        "isMarried": loginUserProvider.isMarried,
-        "residenceType": loginUserProvider.residenceType,
-        "isRaisePet": loginUserProvider.isRaisePet,
-        "kindOfPet": loginUserProvider.kindOfPet,
-        "residenceArea": loginUserProvider.residenceArea,
-        "interviewPossibleArea": loginUserProvider.interviewPossibleArea,
-        "interviewReward": loginUserProvider.interviewReward,
-        "oftenUsingService": loginUserProvider.oftenUsingService,
-        "hobby": loginUserProvider.hobby,
-        "recommendWho": loginUserProvider.recommendWho,
-        "userPoint": loginUserProvider.userPoint,
-        "isAgree": loginUserProvider.isAgree,
-        "createdTime": loginUserProvider.createdTime,
-        "emailVerified": loginUserProvider.emailVerified,
-        "phoneNumber": loginUserProvider.phoneNumber,
-        'scrapedInterviews': loginUserProvider.scrapedInterviews,
-      };
-
-      String uid = loginUserProvider.emailAccount;
-      await FirebaseFirestore.instance
-          .collection("users")
-          .doc(uid)
-          .set(userData);
-
-      SharedPreferences sp = await SharedPreferences.getInstance();
-      sp.setString(userId, loginUserProvider.emailAccount);
-      sp.setString(userPassword, loginUserProvider.password);
-      sp.setBool(autoLoginKey, true);
-
-      Navigator.pushAndRemoveUntil(
-        context,
-        MaterialPageRoute(
-          builder: (context) => RootTab(),
-        ),
-        (route) => false,
-      );
-    }
-  }
+  // void navigateToNextScreen() async {
+  //   if (isButtonEnabled) {
+  //     final loginUserProvider =
+  //         Provider.of<LoginUserProvider>(context, listen: false);
+  //
+  //     loginUserProvider.setInterviewReward(selectedInterviewRewardType!);
+  //     loginUserProvider
+  //         .setOftenUsingService(usingServiceController.text.trim());
+  //     loginUserProvider.setHobby(yourHobbyController.text.trim());
+  //     loginUserProvider.setRecommendWho(recommandNameController.text.trim());
+  //     loginUserProvider.setIsAgree(isAgree);
+  //     loginUserProvider.setCreatedTime(DateTime.now().toString());
+  //     loginUserProvider.setUserPoint(1000);
+  //
+  //     Map<String, dynamic> userData = {
+  //       "emailAccount": loginUserProvider.emailAccount,
+  //       "password": loginUserProvider.password,
+  //       "name": loginUserProvider.name,
+  //       "createdTime": loginUserProvider.createdTime,
+  //       "gender": loginUserProvider.gender,
+  //       "age": loginUserProvider.age,
+  //       "job": loginUserProvider.job,
+  //       "isMarried": loginUserProvider.isMarried,
+  //       "residenceType": loginUserProvider.residenceType,
+  //       "isRaisePet": loginUserProvider.isRaisePet,
+  //       "kindOfPet": loginUserProvider.kindOfPet,
+  //       "residenceArea": loginUserProvider.residenceArea,
+  //       "interviewPossibleArea": loginUserProvider.interviewPossibleArea,
+  //       "interviewReward": loginUserProvider.interviewReward,
+  //       "oftenUsingService": loginUserProvider.oftenUsingService,
+  //       "hobby": loginUserProvider.hobby,
+  //       "recommendWho": loginUserProvider.recommendWho,
+  //       "userPoint": loginUserProvider.userPoint,
+  //       "isAgree": loginUserProvider.isAgree,
+  //       "createdTime": loginUserProvider.createdTime,
+  //       "emailVerified": loginUserProvider.emailVerified,
+  //       "phoneNumber": loginUserProvider.phoneNumber,
+  //       'scrapedInterviews': loginUserProvider.scrapedInterviews,
+  //     };
+  //
+  //     String uid = loginUserProvider.emailAccount;
+  //     await FirebaseFirestore.instance
+  //         .collection("users")
+  //         .doc(uid)
+  //         .set(userData);
+  //
+  //     SharedPreferences sp = await SharedPreferences.getInstance();
+  //     sp.setString(userId, loginUserProvider.emailAccount);
+  //     sp.setString(userPassword, loginUserProvider.password);
+  //     sp.setBool(autoLoginKey, true);
+  //
+  //     Navigator.pushAndRemoveUntil(
+  //       context,
+  //       MaterialPageRoute(
+  //         builder: (context) => RootTab(),
+  //       ),
+  //       (route) => false,
+  //     );
+  //   }
+  // }
 
   @override
   void initState() {
@@ -215,7 +220,21 @@ class _SignupScreenPage3State extends State<SignupScreenPage3> {
                     child: LoginNextButton(
                       buttonName: '완료',
                       isButtonEnabled: isButtonEnabled,
-                      onPressed: navigateToNextScreen,
+                      onPressed: () async{
+                        ref.read(userMeProvider.notifier).updateUser(
+                          oflIntvRwdTpCd: selectedInterviewRewardType,
+                          onlIntvRwdTpCd: selectedInterviewRewardType,
+                          hobySubs: yourHobbyController.text.trim(),
+                          rcmdUserCd: recommandNameController.text.trim(),
+                          isAgreeYn: isAgree == true ? "동의함" : "동의하지 않음",
+                          frstRegtDt: DateTime.now().toString(),
+                          ///
+
+
+                        );
+                        //못돌아감
+                        context.goNamed(RootTab.routeName);
+                      },
                     ),
                   ),
                 ],
