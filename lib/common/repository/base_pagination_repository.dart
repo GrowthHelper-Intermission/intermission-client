@@ -1,6 +1,6 @@
-import 'package:intermission_project/models/cursor_pagination_model.dart';
-import 'package:intermission_project/models/model_with_id.dart';
-import 'package:intermission_project/models/pagination_params.dart';
+import 'package:intermission_project/common/model/cursor_pagination_model.dart';
+import 'package:intermission_project/common/model/model_with_id.dart';
+import 'package:intermission_project/common/model/pagination_params.dart';
 
 abstract class IBasePaginationRepository<T extends IModelWithId>{
   Future<CursorPagination<T>> paginate({

@@ -10,10 +10,9 @@ import 'package:intermission_project/04.research/04_2.interview/interview/view/i
 import 'package:intermission_project/04.research/04_2.interview/interview_req/view/interview_req_screen.dart';
 import 'package:intermission_project/common/view/root_tab.dart';
 import 'package:intermission_project/common/view/splash_screen.dart';
-import 'package:intermission_project/views/home/home_screen.dart';
-import 'package:intermission_project/views/signup/signup_screen_page1.dart';
-import 'package:intermission_project/views/signup/signup_screen_page2.dart';
-import 'package:intermission_project/views/signup/signup_screen_page3.dart';
+import 'package:intermission_project/common/views/signup/signup_screen_page1.dart';
+import 'package:intermission_project/common/views/signup/signup_screen_page2.dart';
+import 'package:intermission_project/common/views/signup/signup_screen_page3.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:intermission_project/04.research/04_2.interview/interview/view/interview_screen.dart';
 
