@@ -196,6 +196,8 @@ class UserModel extends UserModelBase{
   final String emailVerfYn;
 
   /// 직업코드(일단 직업명 그대로 적기. 차후 enum 변경. 10초등, 15)
+  /// 10(초등학생), 11(중학생), 12(고등학생), 13(대학생), 14(대학원생),
+  /// 15(직장인), 16(유학생), 17(공무원), 18(군인), 99(기타)
   final String jobCd;
 
   /// 직장명(선택)
@@ -205,6 +207,8 @@ class UserModel extends UserModelBase{
   final String jobGrdNm;
 
   /// 담당업무코드(선택)
+  /// 10(일반사무직), 20(재무/경리), 30(영업직), 40(홍보/마케팅),
+  /// 50(기획), 60(IT-기획), 70(IT-개발), 99(기타) 추가 생성 가
   final String asignJobCd;
 
   /// 대표자여부

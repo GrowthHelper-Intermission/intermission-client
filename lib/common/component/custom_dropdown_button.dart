@@ -43,7 +43,7 @@ class _CustomDropdownButtonState extends State<CustomDropdownButton> {
     return OverlayEntry(
       maintainState: true,
       builder: (context) => Positioned(
-        width: _dropdownWidth,
+        width: _dropdownWidth - 6,
         child: CompositedTransformFollower(
           link: _layerLink,
           offset: const Offset(0, _dropdownHeight),
