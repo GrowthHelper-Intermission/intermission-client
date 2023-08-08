@@ -2,8 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:intermission_project/04.research/04_2.interview/interview/model/interview_model.dart';
 import 'package:intermission_project/common/component/custom_text_style.dart';
 import 'package:intermission_project/common/const/colors.dart';
-import 'package:intermission_project/common/views/setting/setting_screen.dart';
-
+import 'package:intermission_project/common/view/setting/setting_screen.dart';
 // enum onlineCategory{
 //   online,
 //   offline,

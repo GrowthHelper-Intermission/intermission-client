@@ -1,9 +1,7 @@
-
-
 import 'package:flutter/material.dart';
 import 'package:intermission_project/01.user/user/view/login_screen.dart';
+import 'package:intermission_project/01.user/user/view/signup_screen_page1.dart';
 import 'package:intermission_project/common/const/colors.dart';
-import 'package:intermission_project/common/views/signup/signup_screen_page1.dart';
 class SelectScreen extends StatelessWidget {
   static String get routeName => 'select';
 

@@ -4,18 +4,29 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intermission_project/common/provider/go_router.dart';
 import 'firebase_options.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:syncfusion_flutter_core/localizations.dart';
+import 'package:flutter_localizations/flutter_localizations.dart'; // 다언어 설정
 
-Future<void> main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
-  );
+// Future<void> main() async {
+//   WidgetsFlutterBinding.ensureInitialized();
+//   // await Firebase.initializeApp(
+//   //   options: DefaultFirebaseOptions.currentPlatform,
+//   // );
+//
+//   //await uploadInterviews(interviews); // interviews 리스트를 파이어베이스에 업로드합니다.
+//
+//   runApp(
+//     ProviderScope(
+//       child: const MyApp(),
+//     ),
+//   );
+// }
 
-  //await uploadInterviews(interviews); // interviews 리스트를 파이어베이스에 업로드합니다.
-
+void main() {
   runApp(
     ProviderScope(
-      child: const _App(),
+      child: MyApp(),
     ),
   );
 }
@@ -97,15 +108,27 @@ Future<void> main() async {
 //   }
 // }
 
-class _App extends ConsumerWidget {
-  const _App({super.key});
+class MyApp extends ConsumerWidget {
+  const MyApp({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final route = ref.watch(routeProvider);
-    return MaterialApp.router(
-      debugShowCheckedModeBanner: false,
-      routerConfig: route,
+    return ScreenUtilInit(
+      designSize: Size(375, 812),
+      builder: (context, child) => MaterialApp.router(
+        debugShowCheckedModeBanner: false,
+        routerConfig: route,
+        localizationsDelegates: const [  // 다언어 설정
+          GlobalMaterialLocalizations.delegate,
+          GlobalWidgetsLocalizations.delegate,
+          GlobalCupertinoLocalizations.delegate,
+        ],
+        supportedLocales: [
+          const Locale('en', ''), // English
+          const Locale('ko', ''), // Korean
+        ],
+      ),
     );
   }
 }

@@ -5,7 +5,7 @@ import 'package:intermission_project/01.user/user/view/login_screen.dart';
 import 'package:intermission_project/01.user/user/view/my_page_screen.dart';
 import 'package:intermission_project/common/const/tabs.dart';
 import 'package:intermission_project/common/const/colors.dart';
-import 'package:intermission_project/common/views/home/home_screen.dart';
+import 'package:intermission_project/common/view/home_screen.dart';
 import 'package:provider/provider.dart';
 
 class RootTab extends StatefulWidget {
