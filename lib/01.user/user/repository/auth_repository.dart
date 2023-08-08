@@ -2,9 +2,9 @@ import 'dart:convert';
 import 'package:dio/dio.dart';
 import 'package:intermission_project/common/const/data.dart';
 import 'package:intermission_project/common/dio/dio.dart';
+import 'package:intermission_project/common/model/login_response.dart';
+import 'package:intermission_project/common/model/token_response.dart';
 import 'package:intermission_project/common/utils/data_utils.dart';
-import 'package:intermission_project/models/login_response.dart';
-import 'package:intermission_project/models/token_response.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 final authRepositoryProvider = Provider<AuthRepository>((ref){

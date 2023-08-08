@@ -5,10 +5,9 @@ import 'package:intermission_project/04.research/04_2.interview/interview/model/
 import 'package:intermission_project/04.research/04_2.interview/interview/repository/interview_repository.dart';
 import 'package:intermission_project/common/const/data.dart';
 import 'package:intermission_project/common/dio/dio.dart';
+import 'package:intermission_project/common/model/cursor_pagination_model.dart';
 import 'package:intermission_project/common/provider/pagination_provider.dart';
 import 'package:intermission_project/common/repository/base_pagination_repository.dart';
-import 'package:intermission_project/models/cursor_pagination_model.dart';
-import 'package:intermission_project/models/pagination_params.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:collection/collection.dart';
 

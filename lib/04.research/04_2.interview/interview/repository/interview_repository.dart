@@ -6,10 +6,10 @@ import 'package:intermission_project/04.research/04_2.interview/interview/model/
 import 'package:intermission_project/04.research/04_2.interview/interview/provider/interview_provider.dart';
 import 'package:intermission_project/common/const/data.dart';
 import 'package:intermission_project/common/dio/dio.dart';
+import 'package:intermission_project/common/model/cursor_pagination_model.dart';
+import 'package:intermission_project/common/model/pagination_params.dart';
 import 'package:intermission_project/common/provider/pagination_provider.dart';
 import 'package:intermission_project/common/repository/base_pagination_repository.dart';
-import 'package:intermission_project/models/cursor_pagination_model.dart';
-import 'package:intermission_project/models/pagination_params.dart'; //firstWhereOrNull 가능하게 해줌
 import 'package:retrofit/retrofit.dart';
 import 'package:dio/dio.dart' hide Headers;
 

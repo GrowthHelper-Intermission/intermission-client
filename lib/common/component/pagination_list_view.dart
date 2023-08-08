@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:intermission_project/common/model/cursor_pagination_model.dart';
+import 'package:intermission_project/common/model/model_with_id.dart';
 import 'package:intermission_project/common/provider/pagination_provider.dart';
 import 'package:intermission_project/common/utils/pagination_utils.dart';
-import 'package:intermission_project/models/cursor_pagination_model.dart';
-import 'package:intermission_project/models/model_with_id.dart';
 
 //3개의 파라미터를 입력받고(model은 IModelWithId를 extend한 모델)
 typedef PaginationWidgetBuilder<T extends IModelWithId> =

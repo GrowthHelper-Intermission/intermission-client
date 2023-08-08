@@ -1,4 +1,4 @@
-import 'package:intermission_project/models/model_with_id.dart';
+import 'package:intermission_project/common/model/model_with_id.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'interview_model.g.dart';
