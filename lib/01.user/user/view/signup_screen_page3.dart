@@ -1,10 +1,12 @@
 import 'dart:ui';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
+import 'package:intermission_project/01.user/user/model/user_model.dart';
 import 'package:intermission_project/01.user/user/provider/user_me_provider.dart';
 import 'package:intermission_project/01.user/user/repository/user_me_repository.dart';
 import 'package:intermission_project/common/component/custom_appbar.dart';
@@ -16,6 +18,7 @@ import 'package:intermission_project/common/component/signup_appbar.dart';
 import 'package:intermission_project/common/component/signup_ask_label.dart';
 import 'package:intermission_project/common/component/signup_either_button.dart';
 import 'package:intermission_project/common/component/signup_long_ask_label.dart';
+import 'package:intermission_project/common/storage/secure_storage.dart';
 import 'package:intermission_project/common/view/root_tab.dart';
 import 'package:intermission_project/common/const/colors.dart';
 import 'package:intermission_project/common/const/data.dart';
@@ -159,7 +162,7 @@ class _SignupScreenPage3State extends ConsumerState<SignupScreenPage3> {
                       hintText: '선택',
                       onItemSelected: (value) {
                         setState(
-                              () {
+                          () {
                             selectedInterviewRewardType = value;
                           },
                         );
@@ -205,7 +208,6 @@ class _SignupScreenPage3State extends ConsumerState<SignupScreenPage3> {
                   PrivacyAgreement(
                     isAgree: isAgree,
                     onChanged: (value) {
-                      // 여기을 onChanged에서 value를 받도록 수정했습니다.
                       setState(() {
                         isAgree = value!;
                         checkButtonEnabled();
@@ -217,18 +219,34 @@ class _SignupScreenPage3State extends ConsumerState<SignupScreenPage3> {
                     child: LoginNextButton(
                       buttonName: '완료',
                       isButtonEnabled: isButtonEnabled,
-                      onPressed: () async{
+                      onPressed: () async {
                         ref.read(userMeProvider.notifier).updateUser(
-                            oflIntvRwdTpCd: selectedInterviewRewardType,
-                            onlIntvRwdTpCd: selectedInterviewRewardType,
-                            hobySubs: yourHobbyController.text.trim(),
-                            rcmdUserCd: recommandNameController.text.trim(),
-                            isAgreeYn: isAgree == true ? "동의함" : "동의하지 않음",
-                            frstRegtDt: DateTime.now().toString(),
-                            joinDay: DateTime.now().toString()
-                          ///
-
+                              oflIntvRwdTpCd: selectedInterviewRewardType,
+                              onlIntvRwdTpCd: selectedInterviewRewardType,
+                              hobySubs: yourHobbyController.text.trim(),
+                              rcmdUserCd: recommandNameController.text.trim(),
+                              isAgreeYn: isAgree == true ? "동의함" : "동의하지 않음",
+                              frstRegtDt: DateTime.now().toString(),
+                              joinDay: DateTime.now().toString(),
+                            );
+                        Response response;
+                        Dio dio = new Dio();
+                        response = await dio.post(
+                          'http://localhost:8080/api/user/save',
+                          data: {
+                            "emailAccount": "rlrlfhtm1@gmail.com",
+                            "password": "1234",
+                            "name": "scott",
+                            "hobby": "재발 되라",
+                          },
                         );
+                        print(response.data.toString());
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (_) => RootTab(),
+                          ),
+                        );
+
                         //못돌아감
                         context.goNamed(RootTab.routeName);
                       },
@@ -247,7 +265,7 @@ class _SignupScreenPage3State extends ConsumerState<SignupScreenPage3> {
 class PrivacyAgreement extends StatelessWidget {
   final bool isAgree;
   final ValueChanged<bool?>
-  onChanged; // 여기을 VoidCallback에서 ValueChanged<bool?>로 변경했습니다.
+      onChanged; // 여기을 VoidCallback에서 ValueChanged<bool?>로 변경했습니다.
 
   const PrivacyAgreement({
     required this.isAgree,

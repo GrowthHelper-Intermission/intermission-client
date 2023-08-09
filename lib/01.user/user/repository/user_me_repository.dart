@@ -32,8 +32,6 @@ abstract class UserMeRepository{
   })
   Future<UserModel> postUser(@Body() UserModel user);
 
-
-
   // @GET('/basket')
   // @Headers({
   //   'accessToken' : 'true',

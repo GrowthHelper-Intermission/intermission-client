@@ -10,7 +10,7 @@ import 'package:intermission_project/common/storage/secure_storage.dart';
 import 'package:provider/provider.dart';
 
 final userMeProvider =
-StateNotifierProvider<UserMeStateNotifier, UserModelBase?>((ref) {
+    StateNotifierProvider<UserMeStateNotifier, UserModelBase?>((ref) {
   final authRepository = ref.watch(authRepositoryProvider);
   final userMeRepository = ref.watch(userMeRepositoryProvider);
   final storage = ref.watch(secureStorageProvider);
@@ -134,7 +134,6 @@ class UserMeStateNotifier extends StateNotifier<UserModelBase?> {
     }
   }
 
-
   Future<void> getMe() async {
     final refreshToken = await storage.read(key: REFRESH_TOKEN_KEY);
     final accessToken = await storage.read(key: ACCESS_TOKEN_KEY);
@@ -146,7 +145,7 @@ class UserMeStateNotifier extends StateNotifier<UserModelBase?> {
     try {
       final resp = await repository.getMe();
       state = resp;
-    }catch(e,stack){
+    } catch (e, stack) {
       print(e);
       print(stack);
 
@@ -166,7 +165,33 @@ class UserMeStateNotifier extends StateNotifier<UserModelBase?> {
         password: password,
       );
 
+      await storage.write(key: REFRESH_TOKEN_KEY, value: resp.refreshToken);
+      await storage.write(key: ACCESS_TOKEN_KEY, value: resp.accessToken);
 
+      final userResp = await repository.getMe();
+
+      state = userResp;
+
+      return userResp;
+    } catch (e) {
+      //ID잘못이다, PW잘못이다 세부작업 필요
+      state = UserModelError(message: '로그인에 실패했습니다');
+
+      return Future.value(state);
+    }
+  }
+
+  Future<UserModelBase> postUser({
+    required String username,
+    required String password,
+  }) async {
+    try {
+      state = UserModelLoading();
+
+      final resp = await authRepository.login(
+        username: username,
+        password: password,
+      );
 
       await storage.write(key: REFRESH_TOKEN_KEY, value: resp.refreshToken);
       await storage.write(key: ACCESS_TOKEN_KEY, value: resp.accessToken);
@@ -192,28 +217,4 @@ class UserMeStateNotifier extends StateNotifier<UserModelBase?> {
       storage.delete(key: ACCESS_TOKEN_KEY),
     ]);
   }
-
-  // Future<void> register({
-  //   required UserModel newUser,
-  // }) async {
-  //   try {
-  //     state = UserModelLoading();
-  //
-  //     final resp = await repository.postUser(newUser);
-  //
-  //     await storage.write(key: REFRESH_TOKEN_KEY, value: resp.refreshToken);
-  //     await storage.write(key: ACCESS_TOKEN_KEY, value: resp.accessToken);
-  //
-  //     state = resp;
-  //
-  //     return resp;
-  //   } catch (e) {
-  //     //등록에 실패하면 세부 작업이 필요합니다.
-  //     state = UserModelError(message: '회원가입에 실패했습니다');
-  //
-  //     return Future.value(state);
-  //   }
-  // }
-
-
 }

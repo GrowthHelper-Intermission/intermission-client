@@ -138,7 +138,7 @@ class UserModelLoading extends UserModelBase {}
 
 @JsonSerializable()
 class UserModel extends UserModelBase{
-  /// 회원번호
+  /// 회원번호(Server)
   final String id;
 
   /// 회원 구분 코드
@@ -292,12 +292,6 @@ class UserModel extends UserModelBase{
     required this.accountNumber,
     required this.birthDay,
     required this.genderCd,
-    // required this.hpBizNo,
-    // required this.hpExchgNo,
-    // required this.hpLineNo,
-    // required this.cablePhonAreaNo,
-    // required this.cablePhonExchgNo,
-    // required this.cablePhonLineNo,
     required this.hpNum,
     required this.email,
     required this.emailVerfYn,

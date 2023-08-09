@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:intermission_project/01.user/user/etc/matching_screen.dart';
 import 'package:intermission_project/04.research/04_2.interview/interview/view/interview_screen.dart';
-import 'package:intermission_project/01.user/user/matching_screen.dart';
 import 'package:intermission_project/01.user/user/view/login_screen.dart';
 import 'package:intermission_project/01.user/user/view/my_page_screen.dart';
 import 'package:intermission_project/common/const/tabs.dart';
