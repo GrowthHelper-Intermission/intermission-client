@@ -9,9 +9,14 @@ class CustomDropdownButton extends StatefulWidget {
   final String hintText;
   final Function(String) onItemSelected;
   final EdgeInsets padding;
+  // 새로운 속성들
+  final bool enabled;
+  final String? errorText;
 
   const CustomDropdownButton({
     Key? key,
+    this.enabled = true,
+    this.errorText,
     required this.items,
     required this.hintText,
     required this.onItemSelected,
@@ -122,11 +127,16 @@ class _CustomDropdownButtonState extends State<CustomDropdownButton> {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        //누를때마다 열리고 닫히게
-        if (_overlayEntry != null) {
-          _removeOverlay();
+        if (widget.enabled) { // enabled 값 확인
+          if (_overlayEntry != null) {
+            _removeOverlay();
+          } else {
+            _createOverlay();
+          }
         } else {
-          _createOverlay();
+          ScaffoldMessenger.of(context).showSnackBar( // 오류 메시지 표시
+            SnackBar(content: Text(widget.errorText ?? "오류!")),
+          );
         }
       },
       child: CompositedTransformTarget(

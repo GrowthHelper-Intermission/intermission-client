@@ -12,7 +12,9 @@ part 'user_me_repository.g.dart';
 final userMeRepositoryProvider = Provider<UserMeRepository>((ref){
   final dio = ref.watch(dioProvider);
 
-  return UserMeRepository(dio,baseUrl: 'http://$ip/user/me');
+  // return UserMeRepository(dio,baseUrl: 'http://$ip/user/me');
+  // 'http://localhost:8080/api/user/save'
+  return UserMeRepository(dio, baseUrl: 'http://localhost:8080/api/user');
 });
 
 // http://$ip/user/me
@@ -26,10 +28,10 @@ abstract class UserMeRepository{
   })
   Future<UserModel> getMe();
 
-  @POST('/signup')
-  @Headers({
-    'accessToken' : 'true',
-  })
+  @POST('/save')
+  // @Headers({
+  //   'accessToken' : 'true',
+  // })
   Future<UserModel> postUser(@Body() UserModel user);
 
   // @GET('/basket')

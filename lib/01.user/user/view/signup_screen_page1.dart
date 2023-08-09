@@ -43,60 +43,37 @@ class SignupScreenPage1 extends ConsumerStatefulWidget {
 }
 
 class _SignupScreenPage1State extends ConsumerState<SignupScreenPage1> {
-  //FirebaseFirestore firestore = FirebaseFirestore.instance;
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   TextEditingController nameController = TextEditingController();
   TextEditingController ageController = TextEditingController();
   TextEditingController phoneNumController = TextEditingController();
-  TextEditingController jobController = TextEditingController();
+  // TextEditingController jobController = TextEditingController();
   TextEditingController codeController = TextEditingController();
   TextEditingController accountNumberController = TextEditingController();
 
-  // DateTime selectedDate = DateTime(
-  //   DateTime
-  //       .now()
-  //       .year,
-  //   DateTime
-  //       .now()
-  //       .month,
-  //   DateTime
-  //       .now()
-  //       .day,
-  // );
-
   bool isEmailValid = false;
-  //bool isPasswordValid = false;
-
   bool isMaleSelected = false;
   bool isFemaleSelected = false;
   bool isNameValid = false;
   bool isAgeValid = false;
   bool isPhoneNumValid = false;
-  bool isJobValid = false;
+  // bool isJobValid = false;
   bool isEmailVerified = false;
   bool isAccountNumberVerified = false;
-
-  String? nameErrorText;
-  String? ageErrorText;
-  String? phoneNumErrorText;
-  String? jobErrorText;
-  String? emailErrorText;
-  String? emailValidText;
-  String? accountErrorText;
-
-
   bool isButtonEnabled = false;
   bool isGenderSelected = false;
   bool isFieldsValid = false;
   bool accountNumberValid = false;
-
-  int _duplicationIdCheck = 0;
-  int _duplbtnidchecker = 0;
-  int _duplicationNickCheck = 1;
-  int _duplbtnnickchecker = 0;
-
   bool duplicate = false; //중복 검사용
+
+  String? nameErrorText;
+  String? ageErrorText;
+  String? phoneNumErrorText;
+  // String? jobErrorText;
+  String? emailErrorText;
+  String? emailValidText;
+  String? accountErrorText;
 
   // 전역 변수로 코드를 저장합니다.
   String? serverCode;
@@ -181,14 +158,6 @@ class _SignupScreenPage1State extends ConsumerState<SignupScreenPage1> {
     }
 
     //쿼리로 ID중복 여부 확인
-
-    // QuerySnapshot querySnapshot = await FirebaseFirestore.instance
-    //     .collection("users")
-    //     .where("emailAccount", isEqualTo: email)
-    //     .get();
-
-    // 쿼리 결과의 문서 개수를 사용하여 중복 여부 확인
-    // duplicate = querySnapshot.size != 0;
     setState(() {
       if (duplicate) {
         emailErrorText = '이미 사용 중인 이메일입니다.';
@@ -225,6 +194,16 @@ class _SignupScreenPage1State extends ConsumerState<SignupScreenPage1> {
     checkButtonEnabled();
   }
 
+  // void checkJobEnabled() {
+  //   String job = jobController.text.trim();
+  //   bool isValid = job.length >= 3;
+  //
+  //   setState(() {
+  //     isJobValid = isValid;
+  //   });
+  //   checkButtonEnabled();
+  // }
+
   void checkPhoneNumEnabled() {
     String number = phoneNumController.text.trim();
     bool isValid = number.isValidPhoneNumberFormat();
@@ -236,22 +215,13 @@ class _SignupScreenPage1State extends ConsumerState<SignupScreenPage1> {
     checkButtonEnabled();
   }
 
-  void checkJobEnabled() {
-    String job = jobController.text.trim();
-    bool isValid = job.length >= 3;
-
-    setState(() {
-      isJobValid = isValid;
-    });
-    checkButtonEnabled();
-  }
-
-  void checkAccountEnabled(){
+  void checkAccountEnabled() {
     String accountNumber = accountNumberController.text.trim();
-    bool isAccountValid = accountNumber.length >= 12;
+    bool isAccountValid = accountNumber.length >= 9;
     setState(() {
-      accountErrorText = '숫자만 입력해 주세요!';
+      //phoneNumErrorText = isValid ? null : '올바른 전화번호 형식이 아닙니다';
       accountNumberValid = isAccountValid;
+      accountErrorText = accountNumberValid ? null : '숫자만 입력해 주세요';
     });
     checkButtonEnabled();
   }
@@ -262,7 +232,8 @@ class _SignupScreenPage1State extends ConsumerState<SignupScreenPage1> {
     nameController.addListener(checkNameEnabled);
     ageController.addListener(checkAgeEnabled);
     phoneNumController.addListener(checkPhoneNumEnabled);
-    jobController.addListener(checkJobEnabled);
+    // jobController.addListener(checkJobEnabled);
+    accountNumberController.addListener(checkAccountEnabled);
     selectedBankType = bankAccountType[0];
     super.initState();
   }
@@ -272,11 +243,14 @@ class _SignupScreenPage1State extends ConsumerState<SignupScreenPage1> {
     bool isFieldsValid = isEmailValid &&
         isNameValid &&
         isAgeValid &&
-        isPhoneNumValid &&
-        isJobValid;
+        isPhoneNumValid;
     bool bankAccountSelected = selectedBankType != bankAccountType[0];
     setState(() {
-      isButtonEnabled = isGenderSelected && isFieldsValid & isEmailVerified & bankAccountSelected & accountNumberValid;
+      isButtonEnabled = isGenderSelected &&
+          isFieldsValid &
+              isEmailVerified &
+              bankAccountSelected &
+              accountNumberValid;
     });
   }
 
@@ -290,105 +264,6 @@ class _SignupScreenPage1State extends ConsumerState<SignupScreenPage1> {
 
   TextEditingController birthdayController =
       TextEditingController(text: '생년월일을 선택해 주세요');
-
-  DateTime? tempPickedDate;
-  DateTime _selectedDate = DateTime.now();
-
-  _selectDate() async {
-    DateTime? pickedDate = await showModalBottomSheet<DateTime>(
-      backgroundColor: ThemeData.light().scaffoldBackgroundColor,
-      context: context,
-      builder: (context) {
-        // DateTime tempPickedDate;
-        return Container(
-          height: 300,
-          child: Column(
-            children: <Widget>[
-              Container(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: <Widget>[
-                    CupertinoButton(
-                      child: Text('취소'),
-                      onPressed: () {
-                        Navigator.of(context).pop();
-                        FocusScope.of(context).unfocus();
-                      },
-                    ),
-                    CupertinoButton(
-                      child: Text('완료'),
-                      onPressed: () {
-                        Navigator.of(context).pop(tempPickedDate);
-                        FocusScope.of(context).unfocus();
-                      },
-                    ),
-                  ],
-                ),
-              ),
-              Divider(
-                height: 0,
-                thickness: 1,
-              ),
-              Expanded(
-                child: Container(
-                  child: CupertinoDatePicker(
-                    backgroundColor: ThemeData.light().scaffoldBackgroundColor,
-                    minimumYear: 1900,
-                    maximumYear: DateTime.now().year,
-                    initialDateTime: DateTime.now(),
-                    maximumDate: DateTime.now(),
-                    mode: CupertinoDatePickerMode.date,
-                    onDateTimeChanged: (DateTime dateTime) {
-                      tempPickedDate = dateTime;
-                    },
-                  ),
-                ),
-              ),
-            ],
-          ),
-        );
-      },
-    );
-
-    if (pickedDate != null && pickedDate != _selectedDate) {
-      setState(() {
-        _selectedDate = pickedDate;
-        birthdayController.text = pickedDate.toString();
-        convertDateTimeDisplay(birthdayController.text);
-        isAgeValid = true;
-      });
-    }
-  }
-
-  String convertDateTimeDisplay(String date) {
-    final DateFormat displayFormater = DateFormat('yyyy-MM-dd HH:mm:ss.SSS');
-    final DateFormat serverFormater = DateFormat('yyyy-MM-dd');
-    final DateTime displayDate = displayFormater.parse(date);
-    return birthdayController.text = serverFormater.format(displayDate);
-  }
-
-  Widget BirthdayText() {
-    return GestureDetector(
-      onTap: () {
-        HapticFeedback.mediumImpact();
-        _selectDate();
-      },
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text('생년월일', style: customTextStyle),
-          TextFormField(
-            enabled: false,
-            decoration: InputDecoration(
-              isDense: true,
-            ),
-            controller: birthdayController,
-            style: TextStyle(fontSize: 20),
-          ),
-        ],
-      ),
-    );
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -415,7 +290,7 @@ class _SignupScreenPage1State extends ConsumerState<SignupScreenPage1> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Expanded(
-                        flex: 5,  // 비율을 사용하여 width를 조절
+                        flex: 5, // 비율을 사용하여 width를 조절
                         child: CustomTextFormField(
                           controller: emailController,
                           hintText: 'email@email.com',
@@ -425,7 +300,7 @@ class _SignupScreenPage1State extends ConsumerState<SignupScreenPage1> {
                           errorText: emailErrorText,
                         ),
                       ),
-                      SizedBox(width: 10),  // 텍스트 필드와 버튼 사이의 간격
+                      SizedBox(width: 10), // 텍스트 필드와 버튼 사이의 간격
                       Expanded(
                         flex: 2,
                         child: ElevatedButton(
@@ -434,9 +309,11 @@ class _SignupScreenPage1State extends ConsumerState<SignupScreenPage1> {
                           style: ElevatedButton.styleFrom(
                             backgroundColor: SUB_COLOR,
                             shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(8.0), // 모서리 깎기
+                              borderRadius:
+                                  BorderRadius.circular(8.0), // 모서리 깎기
                             ),
-                            padding: EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+                            padding: EdgeInsets.symmetric(
+                                horizontal: 20, vertical: 12),
                           ),
                         ),
                       )
@@ -451,23 +328,12 @@ class _SignupScreenPage1State extends ConsumerState<SignupScreenPage1> {
                   Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      // Expanded(
-                      //   flex: 3,
-                      //   child: TextFormField(
-                      //     controller: codeController,
-                      //     decoration: InputDecoration(
-                      //       labelText: "인증 코드",
-                      //       hintText: "이메일로 받은 인증 코드를 입력하세요.",
-                      //     ),
-                      //   ),
-                      // ),
                       Expanded(
-                        flex: 5,  // 비율을 사용하여 width를 조절
+                        flex: 5, // 비율을 사용하여 width를 조절
                         child: CustomTextFormField(
                           controller: codeController,
                           hintText: '인증코드 입력',
-                          onChanged: (String value) {
-                          },
+                          onChanged: (String value) {},
                         ),
                       ),
                       SizedBox(width: 10),
@@ -479,37 +345,24 @@ class _SignupScreenPage1State extends ConsumerState<SignupScreenPage1> {
                             if (isVerified) {
                               isEmailVerified = true;
                               ScaffoldMessenger.of(context).showSnackBar(
-                                  SnackBar(content: Text('인증이 완료되었습니다!'))
-                              );
+                                  SnackBar(content: Text('인증이 완료되었습니다!')));
                             } else {
                               ScaffoldMessenger.of(context).showSnackBar(
-                                  SnackBar(content: Text('인증 코드가 일치하지 않습니다.'))
-                              );
+                                  SnackBar(content: Text('인증 코드가 일치하지 않습니다.')));
                             }
                           },
                           style: ElevatedButton.styleFrom(
                             backgroundColor: SUB_COLOR,
                             shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(8.0), // 모서리 깎기
+                              borderRadius:
+                                  BorderRadius.circular(8.0), // 모서리 깎기
                             ),
-                            padding: EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+                            padding: EdgeInsets.symmetric(
+                                horizontal: 20, vertical: 12),
                           ),
                           child: Text('인증하기'),
                         ),
                       ),
-                      // Expanded(
-                      //   flex: 2,
-                      //   child: ElevatedButton(
-                      //     onPressed: sendEmailVerification,
-                      //     child: Text('인증하기'),
-                      //     style: ElevatedButton.styleFrom(
-                      //       shape: RoundedRectangleBorder(
-                      //         borderRadius: BorderRadius.circular(8.0), // 모서리 깎기
-                      //       ),
-                      //       padding: EdgeInsets.symmetric(horizontal: 20, vertical: 12),
-                      //     ),
-                      //   ),
-                      // )
                     ],
                   ),
                   SignupAskLabel(text: '비밀번호'),
@@ -567,6 +420,7 @@ class _SignupScreenPage1State extends ConsumerState<SignupScreenPage1> {
                         if (selectedDate != null) {
                           // 선택된 날짜를 사용하여 필요한 작업 수행
                           isAgeValid = true; // 예시
+                          checkButtonEnabled();
                         }
                       });
                     },
@@ -593,7 +447,7 @@ class _SignupScreenPage1State extends ConsumerState<SignupScreenPage1> {
                       hintText: '선택',
                       onItemSelected: (value) {
                         setState(
-                              () {
+                          () {
                             selectedBankType = value;
                           },
                         );
@@ -605,24 +459,15 @@ class _SignupScreenPage1State extends ConsumerState<SignupScreenPage1> {
                     height: 15,
                   ),
                   SignupAskLabel(text: '계좌번호'),
-                  CustomTextFormField(onChanged: (String value){
-                    checkAccountEnabled(); // 담에 수정
-                  },
+                  CustomTextFormField(
+                    controller: accountNumberController,
+                    onChanged: (String value) {
+                      checkAccountEnabled();
+                    },
                     errorText: accountNumberValid ? null : accountErrorText,
                   ),
-
-                  SignupAskLabel(text: '직업'),
-                  CustomTextFormField(
-                    controller: jobController,
-                    hintText: '학생(학교명), 직장인(직무) 형식으로 입력해 주세요',
-                    onChanged: (String value) {
-                      checkJobEnabled();
-                    },
-                    errorText: isJobValid ? null : jobErrorText,
-                    textFieldMinLine: 2,
-                  ),
                   SizedBox(
-                    height: 50,
+                    height: 15,
                   ),
                   LoginNextButton(
                     buttonName: '다음',
@@ -637,8 +482,10 @@ class _SignupScreenPage1State extends ConsumerState<SignupScreenPage1> {
                             genderCd: isMaleSelected == true ? "M" : "F",
                             birthDay: birthdayController.text,
                             hpNum: phoneNumController.text.trim(),
-                            jobCd: jobController.text.trim(),
+                            // jobCd: jobController.text.trim(),
                             emailVerfYn: isEmailVerified == true ? "Y" : "N",
+                            bankAccount: selectedBankType,
+                            accountNumber: accountNumberController.text.trim(),
                           );
                       context.pushNamed(SignupScreenPage2.routeName);
                     },

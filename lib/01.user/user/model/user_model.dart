@@ -200,19 +200,12 @@ class UserModel extends UserModelBase{
   /// 15(직장인), 16(유학생), 17(공무원), 18(군인), 99(기타)
   final String jobCd;
 
-  /// 직장명(선택)
-  final String ofcNm;
-
-  /// 직급명(선택)
-  final String jobGrdNm;
-
   /// 담당업무코드(선택)
   /// 10(일반사무직), 20(재무/경리), 30(영업직), 40(홍보/마케팅),
   /// 50(기획), 60(IT-기획), 70(IT-개발), 99(기타) 추가 생성 가
   final String asignJobCd;
 
-  /// 대표자여부
-  final String ceoYn;
+  final String jobNm;
 
   /// 결혼구분코드(차후 enum 변경(Y/N, Default = 'N'))
   final String wedTpCd;
@@ -228,10 +221,6 @@ class UserModel extends UserModelBase{
 
   /// 반려동물명(petTpCd 9인 기타인 경우 기입)
   final String petNm;
-
-  final String area;
-
-  final String interviewPossibleArea;
 
   /// 주거지역시도코드
   final String occpSidoCd;
@@ -296,17 +285,13 @@ class UserModel extends UserModelBase{
     required this.email,
     required this.emailVerfYn,
     required this.jobCd,
-    required this.ofcNm,
-    required this.jobGrdNm,
     required this.asignJobCd,
-    required this.ceoYn,
+    required this.jobNm,
     required this.wedTpCd,
     required this.housTpCd,
     required this.petYn,
     required this.petTpCd,
     required this.petNm,
-    required this.area,
-    required this.interviewPossibleArea,
     required this.occpSidoCd,
     required this.occpSigunguCd,
     required this.intvSidoCd,
@@ -340,31 +325,35 @@ class UserModel extends UserModelBase{
     String? email,
     String? emailVerfYn,
     String? jobCd,
-    String? ofcNm,
-    String? jobGrdNm,
     String? asignJobCd,
-    String? ceoYn,
+    String? jobNm,
     String? wedTpCd,
     String? housTpCd,
     String? petYn,
     String? petTpCd,
     String? petNm,
-    String? area,
-    String? interviewPossibleArea,
+    //거주지역 코드
     String? occpSidoCd,
     String? occpSigunguCd,
     String? intvSidoCd,
     String? intvSigunguCd,
+    //보상
     String? oflIntvRwdTpCd,
     String? onlIntvRwdTpCd,
     String? mainUseOnlSvcCn,
+    //취미
     String? hobySubs,
+    //추천인
     String? rcmdUserCd,
+    //동의 여부
     String? isAgreeYn,
     String? isAgreeDt,
+    //사원 여부
     String? empYn,
     String? empNo,
+    //강제 삭제 OR 탈퇴
     String? delYn,
+    //등록 날짜
     String? frstRegtDt,
     String? finlUpdtDt,
   }) {
@@ -383,17 +372,13 @@ class UserModel extends UserModelBase{
       email: email ?? this.email,
       emailVerfYn: emailVerfYn ?? this.emailVerfYn,
       jobCd: jobCd ?? this.jobCd,
-      ofcNm: ofcNm ?? this.ofcNm,
-      jobGrdNm: jobGrdNm ?? this.jobGrdNm,
       asignJobCd: asignJobCd ?? this.asignJobCd,
-      ceoYn: ceoYn ?? this.ceoYn,
+      jobNm: jobNm ?? this.jobNm,
       wedTpCd: wedTpCd ?? this.wedTpCd,
       housTpCd: housTpCd ?? this.housTpCd,
       petYn: petYn ?? this.petYn,
       petTpCd: petTpCd ?? this.petTpCd,
       petNm: petNm ?? this.petNm,
-      area: area ?? this.area,
-      interviewPossibleArea: interviewPossibleArea ?? this.interviewPossibleArea,
       occpSidoCd: occpSidoCd ?? this.occpSidoCd,
       occpSigunguCd: occpSigunguCd ?? this.occpSigunguCd,
       intvSidoCd: intvSidoCd ?? this.intvSidoCd,

@@ -42,7 +42,7 @@ class _SignupScreenPage3State extends ConsumerState<SignupScreenPage3> {
   TextEditingController yourHobbyController = TextEditingController();
   TextEditingController recommandNameController = TextEditingController();
 
-  final interviewRewards = [
+  final offlineInterviewRewards = [
     '선택',
     '5000원 ~ 10000원',
     '10000원 ~ 20000원',
@@ -51,14 +51,30 @@ class _SignupScreenPage3State extends ConsumerState<SignupScreenPage3> {
     '40000원 ~ 50000원',
     '50000원 이상',
   ];
-  String? selectedInterviewRewardType;
+
+  final onlineInterviewRewards = [
+    '선택',
+    '5000원 ~ 10000원',
+    '10000원 ~ 20000원',
+    '20000원 ~ 30000원',
+    '30000원 ~ 40000원',
+    '40000원 ~ 50000원',
+    '50000원 이상',
+  ];
+
+
+  String? selectedOfflineInterviewRewardType;
+  String? selectedOnlineInterviewRewardType;
   bool isButtonEnabled = false;
   bool isSelectedInterviewReward = false;
   bool isAgree = false;
 
+
+
   void checkButtonEnabled() {
     bool isSelectedInterviewReward =
-        selectedInterviewRewardType != interviewRewards[0]; //거주 형태
+        selectedOfflineInterviewRewardType != offlineInterviewRewards[0] &&
+            selectedOnlineInterviewRewardType != onlineInterviewRewards[0];
     bool isFieldsValid = isSelectedInterviewReward && isAgree;
     setState(() {
       isButtonEnabled = isFieldsValid;
@@ -131,7 +147,7 @@ class _SignupScreenPage3State extends ConsumerState<SignupScreenPage3> {
     // TODO: implement initState
     super.initState();
     setState(() {
-      selectedInterviewRewardType = interviewRewards[0];
+      selectedOfflineInterviewRewardType = offlineInterviewRewards[0];
     });
   }
 
@@ -155,15 +171,31 @@ class _SignupScreenPage3State extends ConsumerState<SignupScreenPage3> {
                 children: [
                   SignupAppBar(currentPage: '3/3'),
                   SignupLongAskLabel(
-                      text: '1시간이 걸리는 비대면(온라인) 인터뷰 보상이 어느정도 되어야 인터뷰에 응하시겠습니까?'),
+                      text: '비대면 인터뷰 보상이 어느정도 되어야 인터뷰에 응하시겠습니까?'),
                   Center(
                     child: CustomDropdownButton(
-                      items: interviewRewards,
+                      items: offlineInterviewRewards,
                       hintText: '선택',
                       onItemSelected: (value) {
                         setState(
                           () {
-                            selectedInterviewRewardType = value;
+                            selectedOfflineInterviewRewardType = value;
+                          },
+                        );
+                        checkButtonEnabled();
+                      },
+                    ),
+                  ),
+                  SignupLongAskLabel(
+                      text: '대면 인터뷰 보상이 어느 정도 되어야 인터뷰에 응하시겠습니까?'),
+                  Center(
+                    child: CustomDropdownButton(
+                      items: onlineInterviewRewards,
+                      hintText: '선택',
+                      onItemSelected: (value) {
+                        setState(
+                              () {
+                            selectedOnlineInterviewRewardType = value;
                           },
                         );
                         checkButtonEnabled();
@@ -221,34 +253,33 @@ class _SignupScreenPage3State extends ConsumerState<SignupScreenPage3> {
                       isButtonEnabled: isButtonEnabled,
                       onPressed: () async {
                         ref.read(userMeProvider.notifier).updateUser(
-                              oflIntvRwdTpCd: selectedInterviewRewardType,
-                              onlIntvRwdTpCd: selectedInterviewRewardType,
+                              oflIntvRwdTpCd: selectedOfflineInterviewRewardType,
+                              onlIntvRwdTpCd: selectedOfflineInterviewRewardType,
                               hobySubs: yourHobbyController.text.trim(),
                               rcmdUserCd: recommandNameController.text.trim(),
                               isAgreeYn: isAgree == true ? "동의함" : "동의하지 않음",
                               frstRegtDt: DateTime.now().toString(),
+                              finlUpdtDt: DateTime.now().toString(),
                               joinDay: DateTime.now().toString(),
+                              empNo: "",
+                              empYn: "Y",
                             );
-                        Response response;
-                        Dio dio = new Dio();
-                        response = await dio.post(
-                          'http://localhost:8080/api/user/save',
-                          data: {
-                            "emailAccount": "rlrlfhtm1@gmail.com",
-                            "password": "1234",
-                            "name": "scott",
-                            "hobby": "재발 되라",
-                          },
-                        );
-                        print(response.data.toString());
-                        Navigator.of(context).push(
-                          MaterialPageRoute(
-                            builder: (_) => RootTab(),
-                          ),
-                        );
-
+                        // updateUser 호출 후 POST 수행
+                        try {
+                          final userModelBase = ref.read(userMeProvider.notifier).state;
+                          if (userModelBase != null) {
+                            final userModel = userModelBase as UserModel; // 만약 UserModelBase가 UserModel을 확장하거나 구현한다면
+                            await ref.read(userMeRepositoryProvider).postUser(userModel);
+                          } else {
+                            // 에러 처리
+                            print('else에러');
+                          }
+                        } catch (e) {
+                          print('회원가입에 실패했습니다: $e');
+                          // 필요하다면 여기서 에러 처리를 추가합니다.
+                        }
                         //못돌아감
-                        context.goNamed(RootTab.routeName);
+                        context.pushNamed(RootTab.routeName);
                       },
                     ),
                   ),
