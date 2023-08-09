@@ -58,17 +58,13 @@ class UserMeStateNotifier extends StateNotifier<UserModelBase?> {
     String? email,
     String? emailVerfYn,
     String? jobCd,
-    String? ofcNm,
-    String? jobGrdNm,
     String? asignJobCd,
-    String? ceoYn,
+    String? jobNm,
     String? wedTpCd,
     String? housTpCd,
     String? petYn,
     String? petTpCd,
     String? petNm,
-    String? area,
-    String? interviewPossibleArea,
     String? occpSidoCd,
     String? occpSigunguCd,
     String? intvSidoCd,
@@ -103,17 +99,13 @@ class UserMeStateNotifier extends StateNotifier<UserModelBase?> {
         email: email,
         emailVerfYn: emailVerfYn,
         jobCd: jobCd,
-        ofcNm: ofcNm,
-        jobGrdNm: jobGrdNm,
+        jobNm: jobNm,
         asignJobCd: asignJobCd,
-        ceoYn: ceoYn,
         wedTpCd: wedTpCd,
         housTpCd: housTpCd,
         petYn: petYn,
         petTpCd: petTpCd,
         petNm: petNm,
-        area: area,
-        interviewPossibleArea: interviewPossibleArea,
         occpSidoCd: occpSidoCd,
         occpSigunguCd: occpSigunguCd,
         intvSidoCd: intvSidoCd,
@@ -181,33 +173,23 @@ class UserMeStateNotifier extends StateNotifier<UserModelBase?> {
     }
   }
 
-  Future<UserModelBase> postUser({
-    required String username,
-    required String password,
-  }) async {
+  Future<UserModelBase> postUser(UserModel userModel) async {
     try {
       state = UserModelLoading();
 
-      final resp = await authRepository.login(
-        username: username,
-        password: password,
-      );
-
-      await storage.write(key: REFRESH_TOKEN_KEY, value: resp.refreshToken);
-      await storage.write(key: ACCESS_TOKEN_KEY, value: resp.accessToken);
-
-      final userResp = await repository.getMe();
+      final userResp = await repository.postUser(userModel);
 
       state = userResp;
 
       return userResp;
     } catch (e) {
-      //ID잘못이다, PW잘못이다 세부작업 필요
-      state = UserModelError(message: '로그인에 실패했습니다');
-
+      state = UserModelError(message: '회원가입에 실패했습니다');
       return Future.value(state);
     }
   }
+
+
+
 
   Future<void> logout() async {
     state = null;
