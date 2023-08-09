@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:intermission_project/common/const/colors.dart';
+import 'dart:math';
+
 
 class CustomDropdownButton extends StatefulWidget {
   final List<String> items;
@@ -50,9 +52,10 @@ class _CustomDropdownButtonState extends State<CustomDropdownButton> {
           child: Material(
             color: Colors.white,
             child: Container(
-              height: (22.0 * widget.items.length) +
-                  (21 * (widget.items.length - 1)) +
-                  20,
+              // height: (22.0 * widget.items.length) +
+              //     (21 * (widget.items.length - 1)) +
+              //     20,
+              height: min(240.0, (22.0 * widget.items.length) + (21 * (widget.items.length - 1)) + 20),
               decoration: BoxDecoration(
                 border: Border.all(color: BORDER_COLOR),
                 borderRadius: BorderRadius.circular(6),

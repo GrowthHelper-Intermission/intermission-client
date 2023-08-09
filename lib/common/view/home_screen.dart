@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:intermission_project/01.user/user/friend_invite_screen.dart';
+import 'package:intermission_project/01.user/user/etc/friend_invite_screen.dart';
 import 'package:intermission_project/04.research/04_2.interview/interview/view/interview_detail_screen.dart';
 import 'package:intermission_project/04.research/04_2.interview/interview/view/interview_screen.dart';
 import 'package:intermission_project/common/const/colors.dart';

@@ -1,6 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:intermission_project/01.user/user/find_pw_button.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:intermission_project/01.user/user/etc/find_pw_button.dart';
+import 'package:intermission_project/01.user/user/model/user_model.dart';
+import 'package:intermission_project/01.user/user/provider/user_me_provider.dart';
 import 'package:intermission_project/common/component/alert_dialog.dart';
 import 'package:intermission_project/common/component/custom_appbar.dart';
 import 'package:intermission_project/common/component/custom_text_form_field.dart';
@@ -14,15 +17,15 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class LoginScreen extends StatefulWidget {
+class LoginScreen extends ConsumerStatefulWidget {
   static String get routeName => 'login';
 
   const LoginScreen({Key? key}) : super(key: key);
   @override
-  _LoginScreenState createState() => _LoginScreenState();
+  ConsumerState<LoginScreen> createState() => _LoginScreenState();
 }
 
-class _LoginScreenState extends State<LoginScreen> {
+class _LoginScreenState extends ConsumerState<LoginScreen> {
   // final globalKey = GlobalKey<FormState>();
   // final autoLoginStyle = TextStyle(color: PRIMARY_COLOR);
   bool _isChecked = false;
@@ -111,6 +114,8 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final state = ref.watch(userMeProvider);
+
     return Scaffold(
       backgroundColor: Colors.white,
       body: GestureDetector(
@@ -190,13 +195,60 @@ class _LoginScreenState extends State<LoginScreen> {
                               ],
                             ),
                             SizedBox(
-                              height: 250,
+                              height: 10,
                             ),
                             LoginNextButton(
                               buttonName: '로그인',
                               isButtonEnabled: _isButtonEnabled,
-                              onPressed: (){},
+                              onPressed: (){
+
+                              },
                             ),
+                            // ElevatedButton(
+                            //   onPressed: state is UserModelLoading
+                            //       ? null
+                            //       : () async {
+                            //     ref.read(userMeProvider.notifier).login(
+                            //       username: _emailController.text.trim(),
+                            //       password: _passwordController.text.trim(),
+                            //     );
+                            //     // // ID:비밀번호
+                            //     // final rawString = '$username:$password';
+                            //     //
+                            //     // Codec<String, String> stringToBase64 = utf8.fuse(base64);
+                            //     //
+                            //     // String token = stringToBase64.encode(rawString);
+                            //     //
+                            //     // final resp = await dio.post(
+                            //     //   'http://$ip/auth/login',
+                            //     //   options: Options(
+                            //     //     headers: {
+                            //     //       'authorization': 'Basic $token',
+                            //     //     },
+                            //     //   ),
+                            //     // );
+                            //     //
+                            //     // final refreshToken = resp.data['refreshToken'];
+                            //     // final accessToken = resp.data['accessToken'];
+                            //     //
+                            //     // final storage = ref.read(secureStorageProvider);
+                            //     //
+                            //     // await storage.write(key: REFRESH_TOKEN_KEY, value: refreshToken);
+                            //     // await storage.write(key: ACCESS_TOKEN_KEY, value: accessToken);
+                            //     //
+                            //     // Navigator.of(context).push(
+                            //     //   MaterialPageRoute(
+                            //     //     builder: (_) => RootTab(),
+                            //     //   ),
+                            //     // );
+                            //   },
+                            //   style: ElevatedButton.styleFrom(
+                            //     primary: PRIMARY_COLOR,
+                            //   ),
+                            //   child: Text(
+                            //     '로그인',
+                            //   ),
+                            // ),
                           ],
                         ),
                       ),
