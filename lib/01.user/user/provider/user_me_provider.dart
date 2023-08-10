@@ -1,6 +1,8 @@
 import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:intermission_project/01.user/user/model/signup_user_model.dart';
+import 'package:intermission_project/01.user/user/model/test_user_model.dart';
 import 'package:intermission_project/01.user/user/model/user_model.dart';
 import 'package:intermission_project/01.user/user/repository/auth_repository.dart';
 import 'package:intermission_project/01.user/user/repository/user_me_repository.dart';
@@ -37,93 +39,8 @@ class UserMeStateNotifier extends StateNotifier<UserModelBase?> {
     required this.storage,
     required this.dio,
   }) : super(UserModelLoading()) {
-    //내 정보 가져오기
-
     //유저 정보 바로 가져 오기
     getMe();
-  }
-
-  void updateUser({
-    String? id,
-    String? userTpCd,
-    String? userNm,
-    String? userId,
-    String? pwd,
-    String? joinDay,
-    String? bankAccount,
-    String? accountNumber,
-    String? birthDay,
-    String? genderCd,
-    String? hpNum,
-    String? email,
-    String? emailVerfYn,
-    String? jobCd,
-    String? asignJobCd,
-    String? jobNm,
-    String? wedTpCd,
-    String? housTpCd,
-    String? petYn,
-    String? petTpCd,
-    String? petNm,
-    String? occpSidoCd,
-    String? occpSigunguCd,
-    String? intvSidoCd,
-    String? intvSigunguCd,
-    String? oflIntvRwdTpCd,
-    String? onlIntvRwdTpCd,
-    String? mainUseOnlSvcCn,
-    String? hobySubs,
-    String? rcmdUserCd,
-    String? isAgreeYn,
-    String? isAgreeDt,
-    String? empYn,
-    String? empNo,
-    String? delYn,
-    String? frstRegtDt,
-    String? finlUpdtDt,
-  }) {
-    if (state is UserModel) {
-      final userModel = state as UserModel;
-      state = userModel.copyWith(
-        id: id,
-        userTpCd: userTpCd,
-        userNm: userNm,
-        userId: userId,
-        pwd: pwd,
-        joinDay: joinDay,
-        bankAccount: bankAccount,
-        accountNumber: accountNumber,
-        birthDay: birthDay,
-        genderCd: genderCd,
-        hpNum: hpNum,
-        email: email,
-        emailVerfYn: emailVerfYn,
-        jobCd: jobCd,
-        jobNm: jobNm,
-        asignJobCd: asignJobCd,
-        wedTpCd: wedTpCd,
-        housTpCd: housTpCd,
-        petYn: petYn,
-        petTpCd: petTpCd,
-        petNm: petNm,
-        occpSidoCd: occpSidoCd,
-        occpSigunguCd: occpSigunguCd,
-        intvSidoCd: intvSidoCd,
-        intvSigunguCd: intvSigunguCd,
-        oflIntvRwdTpCd: oflIntvRwdTpCd,
-        onlIntvRwdTpCd: onlIntvRwdTpCd,
-        mainUseOnlSvcCn: mainUseOnlSvcCn,
-        hobySubs: hobySubs,
-        rcmdUserCd: rcmdUserCd,
-        isAgreeYn: isAgreeYn,
-        isAgreeDt: isAgreeDt,
-        empYn: empYn,
-        empNo: empNo,
-        delYn: delYn,
-        frstRegtDt: frstRegtDt,
-        finlUpdtDt: finlUpdtDt,
-      );
-    }
   }
 
   Future<void> getMe() async {
@@ -136,7 +53,7 @@ class UserMeStateNotifier extends StateNotifier<UserModelBase?> {
 
     try {
       final resp = await repository.getMe();
-      state = resp;
+      state = resp; //상태에 바로 GET 한 유저모델저장
     } catch (e, stack) {
       print(e);
       print(stack);
@@ -160,6 +77,9 @@ class UserMeStateNotifier extends StateNotifier<UserModelBase?> {
       await storage.write(key: REFRESH_TOKEN_KEY, value: resp.refreshToken);
       await storage.write(key: ACCESS_TOKEN_KEY, value: resp.accessToken);
 
+      print(resp.refreshToken);
+      print('logining');
+
       final userResp = await repository.getMe();
 
       state = userResp;
@@ -173,12 +93,14 @@ class UserMeStateNotifier extends StateNotifier<UserModelBase?> {
     }
   }
 
-  Future<UserModelBase> postUser(UserModel userModel) async {
+  Future<UserModelBase> postUser(SignupUserModel userModel) async {
     try {
       state = UserModelLoading();
 
       final userResp = await repository.postUser(userModel);
+      print(userModel.petYn);
 
+      print("222");
       state = userResp;
 
       return userResp;
@@ -187,9 +109,6 @@ class UserMeStateNotifier extends StateNotifier<UserModelBase?> {
       return Future.value(state);
     }
   }
-
-
-
 
   Future<void> logout() async {
     state = null;

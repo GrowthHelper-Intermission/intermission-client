@@ -10,7 +10,7 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 final authRepositoryProvider = Provider<AuthRepository>((ref){
   final dio = ref.watch(dioProvider);
 
-  return AuthRepository(baseUrl: 'http://$ip/auth', dio: dio);
+  return AuthRepository(baseUrl: 'http://localhost:8080/api', dio: dio);
 });
 
 class AuthRepository {
@@ -28,7 +28,7 @@ class AuthRepository {
     required String password,
   }) async {
     final serialized = DataUtils.plainToBase64('$username:$password');
-
+    print(serialized);
     final resp = await dio.post(
       '$baseUrl/login',
       options: Options(
@@ -42,10 +42,11 @@ class AuthRepository {
 
   Future<TokenResponse> token() async {
     final resp = await dio.post(
-      '$baseUrl/token',
+      '$baseUrl/token/refresh',
       options: Options(headers: {'refreshToken': 'true'}),
     );
-
+    print(resp.data);
+    print('Hello');
     return TokenResponse.fromJson(resp.data);
   }
 

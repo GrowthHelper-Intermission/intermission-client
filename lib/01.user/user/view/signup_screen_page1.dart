@@ -6,6 +6,8 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
+import 'package:intermission_project/01.user/user/model/signup_user_model.dart';
+import 'package:intermission_project/01.user/user/provider/signup_user_provider.dart';
 import 'package:intermission_project/01.user/user/provider/user_me_provider.dart';
 import 'package:intermission_project/01.user/user/view/signup_screen_page2.dart';
 import 'package:intermission_project/common/component/custom_appbar.dart';
@@ -249,7 +251,7 @@ class _SignupScreenPage1State extends ConsumerState<SignupScreenPage1> {
 
   @override
   Widget build(BuildContext context) {
-    final state = ref.watch(userMeProvider);
+    // final state = ref.watch(userMeProvider);
 
     return Scaffold(
       backgroundColor: Colors.white,
@@ -455,20 +457,20 @@ class _SignupScreenPage1State extends ConsumerState<SignupScreenPage1> {
                     buttonName: '다음',
                     isButtonEnabled: isButtonEnabled,
                     onPressed: () {
-                      print(birthdayController.text);
-                      ref.read(userMeProvider.notifier).updateUser(
-                            email: emailController.text.trim(),
-                            userId: emailController.text.trim(),
-                            userNm: nameController.text.trim(),
-                            pwd: passwordController.text.trim(),
-                            genderCd: isMaleSelected == true ? "M" : "F",
-                            birthDay: birthdayController.text,
-                            hpNum: phoneNumController.text.trim(),
-                            // jobCd: jobController.text.trim(),
-                            emailVerfYn: isEmailVerified == true ? "Y" : "N",
-                            bankAccount: selectedBankType,
-                            accountNumber: accountNumberController.text.trim(),
-                          );
+                      final state = ref.read(signupUserProvider.notifier);
+                      //10개
+                      state.setUserNm(nameController.text.trim());
+                      state.setEmail(emailController.text.trim());
+                      state.setUserId(emailController.text.trim());
+                      state.setPwd(passwordController.text.trim());
+                      state.setGenderCd(isMaleSelected == true ? "M" : "F");
+                      state.setBirthDay(birthdayController.text.trim());
+                      state.setHpNum(phoneNumController.text.trim());
+                      state.setEmailVerfYn(isEmailVerified == true ? "Y" : "N");
+                      state.setBankAccount(selectedBankType);
+                      state.setAccountNumber(accountNumberController.text.trim());
+
+                      print(state.wedTpCd);
                       context.pushNamed(SignupScreenPage2.routeName);
                     },
                   ),

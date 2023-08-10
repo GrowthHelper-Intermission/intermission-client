@@ -6,7 +6,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
+import 'package:intermission_project/01.user/user/model/signup_user_model.dart';
+import 'package:intermission_project/01.user/user/model/test_user_model.dart';
 import 'package:intermission_project/01.user/user/model/user_model.dart';
+import 'package:intermission_project/01.user/user/provider/signup_user_provider.dart';
 import 'package:intermission_project/01.user/user/provider/user_me_provider.dart';
 import 'package:intermission_project/01.user/user/repository/user_me_repository.dart';
 import 'package:intermission_project/common/component/custom_appbar.dart';
@@ -190,40 +193,70 @@ class _SignupScreenPage3State extends ConsumerState<SignupScreenPage3> {
                       buttonName: '완료',
                       isButtonEnabled: isButtonEnabled,
                       onPressed: () async {
-                        ref.read(userMeProvider.notifier).updateUser(
-                              oflIntvRwdTpCd:
-                                  selectedOfflineInterviewRewardType,
-                              onlIntvRwdTpCd:
-                                  selectedOfflineInterviewRewardType,
-                              hobySubs: yourHobbyController.text.trim(),
-                              rcmdUserCd: recommandNameController.text.trim(),
-                              isAgreeYn: isAgree == true ? "동의함" : "동의하지 않음",
-                              frstRegtDt: DateTime.now().toString(),
-                              finlUpdtDt: DateTime.now().toString(),
-                              joinDay: DateTime.now().toString(),
-                              empNo: "",
-                              empYn: "Y",
-                            );
-                        // updateUser 호출 후 POST 수행
-                        try {
-                          final userModelBase =
-                              ref.read(userMeProvider.notifier).state;
 
-                          if (userModelBase is UserModel) {
-                            // Type check to ensure userModelBase is of type UserModel
-                            print(userModelBase.userNm);
-                            await ref
-                                .read(userMeRepositoryProvider)
-                                .postUser(userModelBase);
-                          } else {
-                            // Handle the error when userModelBase is not of type UserModel
-                            print('Invalid user data');
-                          }
-                        } catch (e) {
-                          print('회원가입에 실패했습니다: $e');
-                          // 필요하다면 여기서 에러 처리를 추가합니다.
-                        }
+                       final state = ref.read(signupUserProvider.notifier);
+                       state.setOflIntvRwdTpCd(selectedOfflineInterviewRewardType);
+                       state.setOnlIntvRwdTpCd(selectedOnlineInterviewRewardType);
+                       state.setHobySubs(yourHobbyController.text.trim());
+                       state.setRcmdUserCd(recommandNameController.text.trim());
+                       state.setIsAgreeYn( isAgree == true ? "동의함" : "동의하지 않음");
+                       state.setFinlUpdtDt(DateTime.now().toString());
+                       state.setFrstRegtDt(DateTime.now().toString());
+                       state.setJoinDay(DateTime.now().toString());
+                       state.setEmpNo("");
+                       state.setEmpYn("Y");
+                       state.setDelYn("N");
 
+                       final SignupUserModel newUser = SignupUserModel(
+                         userTpCd: state.userTpCd,
+                         empYn: state.empYn,
+                         empNo: state.empNo,
+                         intvSigunguCd: state.intvSigunguCd,
+                         intvSidoCd: state.intvSidoCd,
+                         jobNm: state.jobNm,
+                         jobCd: state.jobCd,
+                         asignJobCd: state.asignJobCd,
+                         accountNumber: state.accountNumber,
+                         bankAccount: state.bankAccount,
+                         emailVerfYn: state.emailVerfYn,
+                         joinDay: state.joinDay,
+                         frstRegtDt: state.frstRegtDt,
+                         isAgreeYn: state.isAgreeYn,
+                         rcmdUserCd: state.rcmdUserCd,
+                         hobySubs: state.hobySubs,
+                         onlIntvRwdTpCd: state.onlIntvRwdTpCd,
+                         oflIntvRwdTpCd: state.oflIntvRwdTpCd,
+                         petTpCd: state.petTpCd,
+                         housTpCd: state.housTpCd,
+                         wedTpCd: state.wedTpCd,
+                         id: state.id,
+                         birthDay: state.birthDay,
+                         delYn: state.delYn,
+                         email: state.email,
+                         finlUpdtDt: state.finlUpdtDt,
+                         genderCd: state.genderCd,
+                         hpNum: state.hpNum,
+                         isAgreeDt: state.isAgreeDt,
+                         mainUseOnlSvcCn: state.mainUseOnlSvcCn,
+                         occpSidoCd: state.occpSidoCd,
+                         occpSigunguCd: state.occpSigunguCd,
+                         petNm: state.petNm,
+                         petYn: state.petYn,
+                         pwd: state.pwd,
+                         userId: state.userId,
+                         userNm: state.userNm,
+                       );
+
+                       print(newUser.userId);
+
+                       try{
+                         ref.read(userMeProvider.notifier).postUser(newUser);
+                         print(newUser.userNm);
+                       }catch(e){
+                         print(e);
+                         print('에러');
+                       }
+                       ref.read(userMeProvider.notifier).getMe();
                         context.goNamed(RootTab.routeName);
                       },
                     ),
