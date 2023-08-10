@@ -135,7 +135,6 @@ class UserModelError extends UserModelBase {
 
 class UserModelLoading extends UserModelBase {}
 
-
 @JsonSerializable()
 class UserModel extends UserModelBase{
   /// 회원번호(Server)
@@ -167,24 +166,6 @@ class UserModel extends UserModelBase{
 
   /// 성별코드(차후 enum 변경)
   final String genderCd;
-
-  // /// 핸트폰사업자번호
-  // final String hpBizNo;
-  //
-  // /// 핸드폰국번호
-  // final String hpExchgNo;
-  //
-  // /// 핸드폰회선번호
-  // final String hpLineNo;
-  //
-  // /// 유선전화지역번호
-  // final String cablePhonAreaNo;
-  //
-  // /// 유선전화국번호
-  // final String cablePhonExchgNo;
-  //
-  // /// 유선전화회선번호
-  // final String cablePhonLineNo;
 
   /// 핸드폰 번호, 6개 종류였던거 일단 1개로 축약
   final String hpNum;
@@ -405,3 +386,4 @@ class UserModel extends UserModelBase{
   Map<String,dynamic> toJson() => _$UserModelToJson(this);
 
 }
+

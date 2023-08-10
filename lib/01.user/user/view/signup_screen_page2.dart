@@ -630,6 +630,7 @@ class _SignupScreenPage2State extends ConsumerState<SignupScreenPage2> {
                             text: '아니오',
                             isSelected: raiseNoPet,
                             onPressed: () {
+
                               setState(() {
                                 raiseNoPet = true;
                                 raisePet = false;
@@ -726,20 +727,13 @@ class _SignupScreenPage2State extends ConsumerState<SignupScreenPage2> {
                     SizedBox(
                       height: 6,
                     ),
-                    // CustomTextFormField(
-                    //   controller: possibleAreaController,
-                    //   hintText: '지역을 입력해 주세요',
-                    //   onChanged: (String value) {
-                    //     checkButtonEnabled();
-                    //   },
-                    // ),
                     CustomDropdownButton(
                       items: mapInfo.map((info) => info['name'].toString()).toList(),
                       hintText: '시/도를 선택하세요.',
                       onItemSelected: (value) {
                         setState(() {
                           intvSelectedCity = value;
-                          intvSelectedCity = null;
+                          intvSelectedCountry = null;
                           checkButtonEnabled();
                         });
                       },
@@ -748,7 +742,7 @@ class _SignupScreenPage2State extends ConsumerState<SignupScreenPage2> {
                     CustomDropdownButton(
                       items: (intvSelectedCity == null
                           ? []
-                          : (mapInfo.firstWhere((info) => info['name'] == selectedCity)['countries'] as List).map((country) => country.toString()).toList()),
+                          : (mapInfo.firstWhere((info) => info['name'] == intvSelectedCity)['countries'] as List).map((country) => country.toString()).toList()),
                       hintText: '구/군을 선택하세요.',
                       onItemSelected: (value) {
                         setState(() {

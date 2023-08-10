@@ -110,7 +110,7 @@ class AuthProvider extends ChangeNotifier {
     final logginIn = state.matchedLocation == '/login';
     print(state.matchedLocation);
 
-    if (state.matchedLocation == '/signup1' || state.matchedLocation == '/signup2' || state.matchedLocation == '/signup3') {
+    if (state.matchedLocation == '/signup1' || state.matchedLocation == '/signup2' || state.matchedLocation == '/signup3' || state.matchedLocation == '/') {
       return null;  // 회원가입 중이므로 리다이렉트하지 않음
     }
 
