@@ -46,8 +46,7 @@ class _UserMeRepository implements UserMeRepository {
   Future<UserModel> postUser(user) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
-    final _headers = <String, dynamic>{r'accessToken': 'true'};
-    _headers.removeWhere((k, v) => v == null);
+    final _headers = <String, dynamic>{};
     final _data = <String, dynamic>{};
     _data.addAll(user.toJson());
     final _result = await _dio
@@ -58,7 +57,7 @@ class _UserMeRepository implements UserMeRepository {
     )
             .compose(
               _dio.options,
-              '/signup',
+              '/save',
               queryParameters: queryParameters,
               data: _data,
             )

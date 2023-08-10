@@ -18,6 +18,7 @@ import 'package:intermission_project/common/component/signup_appbar.dart';
 import 'package:intermission_project/common/component/signup_ask_label.dart';
 import 'package:intermission_project/common/component/signup_either_button.dart';
 import 'package:intermission_project/common/component/signup_long_ask_label.dart';
+import 'package:intermission_project/common/dio/dio.dart';
 import 'package:intermission_project/common/storage/secure_storage.dart';
 import 'package:intermission_project/common/view/root_tab.dart';
 import 'package:intermission_project/common/const/colors.dart';
@@ -62,14 +63,11 @@ class _SignupScreenPage3State extends ConsumerState<SignupScreenPage3> {
     '50000원 이상',
   ];
 
-
   String? selectedOfflineInterviewRewardType;
   String? selectedOnlineInterviewRewardType;
   bool isButtonEnabled = false;
   bool isSelectedInterviewReward = false;
   bool isAgree = false;
-
-
 
   void checkButtonEnabled() {
     bool isSelectedInterviewReward =
@@ -80,67 +78,6 @@ class _SignupScreenPage3State extends ConsumerState<SignupScreenPage3> {
       isButtonEnabled = isFieldsValid;
     });
   }
-
-  // void navigateToNextScreen() async {
-  //   if (isButtonEnabled) {
-  //     final loginUserProvider =
-  //         Provider.of<LoginUserProvider>(context, listen: false);
-  //
-  //     loginUserProvider.setInterviewReward(selectedInterviewRewardType!);
-  //     loginUserProvider
-  //         .setOftenUsingService(usingServiceController.text.trim());
-  //     loginUserProvider.setHobby(yourHobbyController.text.trim());
-  //     loginUserProvider.setRecommendWho(recommandNameController.text.trim());
-  //     loginUserProvider.setIsAgree(isAgree);
-  //     loginUserProvider.setCreatedTime(DateTime.now().toString());
-  //     loginUserProvider.setUserPoint(1000);
-  //
-  //     Map<String, dynamic> userData = {
-  //       "emailAccount": loginUserProvider.emailAccount,
-  //       "password": loginUserProvider.password,
-  //       "name": loginUserProvider.name,
-  //       "createdTime": loginUserProvider.createdTime,
-  //       "gender": loginUserProvider.gender,
-  //       "age": loginUserProvider.age,
-  //       "job": loginUserProvider.job,
-  //       "isMarried": loginUserProvider.isMarried,
-  //       "residenceType": loginUserProvider.residenceType,
-  //       "isRaisePet": loginUserProvider.isRaisePet,
-  //       "kindOfPet": loginUserProvider.kindOfPet,
-  //       "residenceArea": loginUserProvider.residenceArea,
-  //       "interviewPossibleArea": loginUserProvider.interviewPossibleArea,
-  //       "interviewReward": loginUserProvider.interviewReward,
-  //       "oftenUsingService": loginUserProvider.oftenUsingService,
-  //       "hobby": loginUserProvider.hobby,
-  //       "recommendWho": loginUserProvider.recommendWho,
-  //       "userPoint": loginUserProvider.userPoint,
-  //       "isAgree": loginUserProvider.isAgree,
-  //       "createdTime": loginUserProvider.createdTime,
-  //       "emailVerified": loginUserProvider.emailVerified,
-  //       "phoneNumber": loginUserProvider.phoneNumber,
-  //       'scrapedInterviews': loginUserProvider.scrapedInterviews,
-  //     };
-  //
-  //     String uid = loginUserProvider.emailAccount;
-  //     await FirebaseFirestore.instance
-  //         .collection("users")
-  //         .doc(uid)
-  //         .set(userData);
-  //
-  //     SharedPreferences sp = await SharedPreferences.getInstance();
-  //     sp.setString(userId, loginUserProvider.emailAccount);
-  //     sp.setString(userPassword, loginUserProvider.password);
-  //     sp.setBool(autoLoginKey, true);
-  //
-  //     Navigator.pushAndRemoveUntil(
-  //       context,
-  //       MaterialPageRoute(
-  //         builder: (context) => RootTab(),
-  //       ),
-  //       (route) => false,
-  //     );
-  //   }
-  // }
 
   @override
   void initState() {
@@ -153,6 +90,7 @@ class _SignupScreenPage3State extends ConsumerState<SignupScreenPage3> {
 
   @override
   Widget build(BuildContext context) {
+    final dio = ref.watch(dioProvider);
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: CustomAppBar(),
@@ -194,7 +132,7 @@ class _SignupScreenPage3State extends ConsumerState<SignupScreenPage3> {
                       hintText: '선택',
                       onItemSelected: (value) {
                         setState(
-                              () {
+                          () {
                             selectedOnlineInterviewRewardType = value;
                           },
                         );
@@ -253,8 +191,10 @@ class _SignupScreenPage3State extends ConsumerState<SignupScreenPage3> {
                       isButtonEnabled: isButtonEnabled,
                       onPressed: () async {
                         ref.read(userMeProvider.notifier).updateUser(
-                              oflIntvRwdTpCd: selectedOfflineInterviewRewardType,
-                              onlIntvRwdTpCd: selectedOfflineInterviewRewardType,
+                              oflIntvRwdTpCd:
+                                  selectedOfflineInterviewRewardType,
+                              onlIntvRwdTpCd:
+                                  selectedOfflineInterviewRewardType,
                               hobySubs: yourHobbyController.text.trim(),
                               rcmdUserCd: recommandNameController.text.trim(),
                               isAgreeYn: isAgree == true ? "동의함" : "동의하지 않음",
@@ -266,20 +206,25 @@ class _SignupScreenPage3State extends ConsumerState<SignupScreenPage3> {
                             );
                         // updateUser 호출 후 POST 수행
                         try {
-                          final userModelBase = ref.read(userMeProvider.notifier).state;
-                          if (userModelBase != null) {
-                            final userModel = userModelBase as UserModel; // 만약 UserModelBase가 UserModel을 확장하거나 구현한다면
-                            await ref.read(userMeRepositoryProvider).postUser(userModel);
+                          final userModelBase =
+                              ref.read(userMeProvider.notifier).state;
+
+                          if (userModelBase is UserModel) {
+                            // Type check to ensure userModelBase is of type UserModel
+                            print(userModelBase.userNm);
+                            await ref
+                                .read(userMeRepositoryProvider)
+                                .postUser(userModelBase);
                           } else {
-                            // 에러 처리
-                            print('else에러');
+                            // Handle the error when userModelBase is not of type UserModel
+                            print('Invalid user data');
                           }
                         } catch (e) {
                           print('회원가입에 실패했습니다: $e');
                           // 필요하다면 여기서 에러 처리를 추가합니다.
                         }
-                        //못돌아감
-                        context.pushNamed(RootTab.routeName);
+
+                        context.goNamed(RootTab.routeName);
                       },
                     ),
                   ),
