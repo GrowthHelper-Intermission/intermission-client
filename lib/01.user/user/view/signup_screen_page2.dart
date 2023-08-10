@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
+import 'package:intermission_project/01.user/user/provider/signup_user_provider.dart';
 import 'package:intermission_project/01.user/user/provider/user_me_provider.dart';
 import 'package:intermission_project/01.user/user/view/signup_screen_page3.dart';
 import 'package:intermission_project/common/component/custom_appbar.dart';
@@ -760,20 +761,22 @@ class _SignupScreenPage2State extends ConsumerState<SignupScreenPage2> {
                       buttonName: '다음',
                       isButtonEnabled: isButtonEnabled,
                       onPressed: () {
-                        ref.read(userMeProvider.notifier).updateUser(
-                              wedTpCd: marriedSelected == true ? "M" : "F",
-                              housTpCd: selectedResidenceType,
-                              petYn: raisePet == true ? "Y" : "N",
-                              petTpCd: selectedPetType,
-                              petNm: raisePetController.text.trim(),
-                              asignJobCd: selectedAsignCdType,
-                              jobCd: selectedJobCdType,
-                              jobNm: jobController.text.trim(),
-                              occpSidoCd: selectedCity,
-                              occpSigunguCd: selectedCountry,
-                              intvSidoCd: intvSelectedCity,
-                              intvSigunguCd: intvSelectedCountry,
-                            );
+
+                        final state = ref.read(signupUserProvider.notifier);
+                        state.setWedTpCd(marriedSelected == true ? "M" : "F");
+                        state.setHousTpCd(selectedResidenceType);
+                        state.setPetYn(raisePet == true ? "Y" : "N");
+                        state.setPetTpCd(selectedPetType);
+                        state.setPetNm(raisePetController.text.trim());
+                        state.setAsignJobCd(selectedAsignCdType);
+                        state.setJobCd(selectedJobCdType);
+                        state.setJobNm(jobController.text.trim());
+                        state.setOccpSidoCd(selectedCity);
+                        state.setOccpSigunguCd(selectedCountry);
+                        state.setIntvSidoCd(intvSelectedCity);
+                        state.setIntvSigunguCd(intvSelectedCountry);
+                        print(state.userNm);
+
                         context.pushNamed(SignupScreenPage3.routeName);
                       },
                     ),

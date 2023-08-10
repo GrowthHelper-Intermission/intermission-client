@@ -114,8 +114,6 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final state = ref.watch(userMeProvider);
-
     return Scaffold(
       backgroundColor: Colors.white,
       body: GestureDetector(
@@ -200,8 +198,11 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                             LoginNextButton(
                               buttonName: '로그인',
                               isButtonEnabled: _isButtonEnabled,
-                              onPressed: (){
-
+                              onPressed: () {
+                                ref.read(userMeProvider.notifier).login(
+                                      username: _emailController.text.trim(),
+                                      password: _passwordController.text.trim(),
+                                    );
                               },
                             ),
                             // ElevatedButton(
@@ -275,7 +276,6 @@ Future CustomCircular(context, String contentText) async {
     },
   );
 }
-
 
 // Future CustomCircular(context, String contentText) async {
 //   final ts = TextStyle(color: PRIMARY_COLOR);

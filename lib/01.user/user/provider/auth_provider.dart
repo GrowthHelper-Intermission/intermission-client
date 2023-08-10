@@ -107,7 +107,7 @@ class AuthProvider extends ChangeNotifier {
   //로그인 스크린으로 보내줄지 홈 스크린으로 보내줄지 확인 과정 필요
   FutureOr<String?> redirectLogic(BuildContext context, GoRouterState state) {
     final UserModelBase? user = ref.read(userMeProvider);
-    final logginIn = state.matchedLocation == '/login';
+    final logginIn = state.matchedLocation == '/select';
     print(state.matchedLocation);
 
     if (state.matchedLocation == '/signup1' || state.matchedLocation == '/signup2' || state.matchedLocation == '/signup3' || state.matchedLocation == '/') {
@@ -125,10 +125,10 @@ class AuthProvider extends ChangeNotifier {
     //로그인중이거나 현재위치가 SplashScreen이면?
     //홈으로 이동('/'이게 홈임)
     if (user is UserModel) {
-      return logginIn || state.uri.toString() == '/splash' ? '/home' : '/select';
+      return logginIn || state.uri.toString() == '/splash' ? '/' : null;
     }
     if (user is UserModelError) {
-      return !logginIn ? '/login' : '/select';
+      return !logginIn ? '/select' : null;
     }
 
     return null;

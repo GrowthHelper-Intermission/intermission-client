@@ -1,5 +1,7 @@
 import 'package:dio/dio.dart' hide Headers;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:intermission_project/01.user/user/model/signup_user_model.dart';
+import 'package:intermission_project/01.user/user/model/test_user_model.dart';
 import 'package:intermission_project/01.user/user/model/user_model.dart';
 import 'package:intermission_project/common/const/data.dart';
 import 'package:intermission_project/common/dio/dio.dart';
@@ -32,7 +34,10 @@ abstract class UserMeRepository {
   // @Headers({
   //   'accessToken' : 'true',
   // })
-  Future<UserModel> postUser(@Body() UserModel user);
+  ////테스트용
+  // Future<UserModel> postUser(@Body() TestUserModel user);
+
+  Future<UserModel> postUser(@Body() SignupUserModel user);
 
   // @GET('/basket')
   // @Headers({
