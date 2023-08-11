@@ -58,7 +58,7 @@ class InterviewStateNotifier
 
     final pState = state as CursorPagination;
 
-    // 인터뷰 개수가 3개 이상인 경우 상위 3개를 가져오고, 그렇지 않으면 모든 인터뷰를 가져옵니다.
+    // 인터뷰 개수가 3개 이상인 경우 상위 3개를 가져오고, 그렇지 않으면 모든 인터뷰를 가져오기
     int count = pState.data.length;
     // 데이터 타입 변환
     List<InterviewModel> topThreeList = List<InterviewModel>.from(pState.data.sublist(0, count));
