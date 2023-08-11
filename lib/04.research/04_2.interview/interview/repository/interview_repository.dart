@@ -23,9 +23,6 @@ part 'interview_repository.g.dart';
 final interviewRepositoryProvider = Provider<InterviewRepository>(
       (ref) {
     final dio = ref.watch(dioProvider);
-    // final repository =
-    // InterviewRepository(dio, baseUrl: 'http://$ip/interview');
-    // return repository;
         return InterviewRepository(dio, baseUrl: 'http://localhost:8080/api/interview');
   },
 );
@@ -36,7 +33,6 @@ abstract class InterviewRepository implements
   factory InterviewRepository(Dio dio, {String baseUrl}) =
   _InterviewRepository;
 
-  // 'http://$ip/restaurant/'
   @GET('/') //일반 레스토랑용
   @Headers({
     'accessToken': 'true',
@@ -45,6 +41,8 @@ abstract class InterviewRepository implements
     //retrofit에서 쿼리 추가할때
     @Queries() PaginationParams? paginationParams = const PaginationParams(),
   });
+
+
   // http://34.64.77.5:8080/api/v1/test/interview
   // 'http://$ip/restaurant/:id'
   @GET('/{id}') //Detailrestaurant용

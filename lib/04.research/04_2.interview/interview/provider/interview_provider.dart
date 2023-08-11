@@ -29,6 +29,8 @@ Provider.family<InterviewModel?, String>((ref, id) {
   return state.data.firstWhereOrNull((element) => element.id == id);
 });
 
+
+
 final interviewProvider =
 StateNotifierProvider<InterviewStateNotifier, CursorPaginationBase>(
       (ref) {
@@ -38,6 +40,8 @@ StateNotifierProvider<InterviewStateNotifier, CursorPaginationBase>(
   },
 );
 
+
+
 class InterviewStateNotifier
     extends PaginationProvider<InterviewModel, InterviewRepository> {
   // final RestaurantRepository repository;
@@ -45,6 +49,21 @@ class InterviewStateNotifier
   InterviewStateNotifier({
     required super.repository,
   });
+
+  // 상위 3개의 인터뷰를 가져오는 함수
+  List<InterviewModel> getTopThreeInterviews() {
+    if (state is! CursorPagination) {
+      return [];
+    }
+
+    final pState = state as CursorPagination;
+
+    // 인터뷰 개수가 3개 이상인 경우 상위 3개를 가져오고, 그렇지 않으면 모든 인터뷰를 가져옵니다.
+    int count = pState.data.length;
+    // 데이터 타입 변환
+    List<InterviewModel> topThreeList = List<InterviewModel>.from(pState.data.sublist(0, count));
+    return topThreeList;
+  }
 
   getDetail({
     required String id,
@@ -87,7 +106,6 @@ class InterviewStateNotifier
             .toList(),
       );
     }
-
     // [RestaurantModel(1), RestaurantModel(2), RestaurantModel(3)]
     // id : 2인 친구를 Detail모델을 가져와라
     // getDetail(id: 2);

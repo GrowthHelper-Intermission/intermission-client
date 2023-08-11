@@ -670,10 +670,6 @@ class _SignupScreenPage2State extends ConsumerState<SignupScreenPage2> {
                         onChanged: (String value) {
                           setState(() {});
                         },
-                        // errorText:
-                        // raisePet && raisePetController.text.trim().isEmpty
-                        //     ? '반려동물을 입력해 주세요'
-                        //     : null,
                         enable: raisePet,
                       ),
                     SignupAskLabel(text: '거주 지역'),
@@ -704,15 +700,6 @@ class _SignupScreenPage2State extends ConsumerState<SignupScreenPage2> {
                       errorText: "시/도를 먼저 선택해주세요!",  // 이 부분 추가
                     ),
                     SizedBox(height: 20,),
-                    // CustomTextFormField(
-                    //   controller: residenceAreaController,
-                    //   hintText: '구까지 입력해 주세요',
-                    //   onChanged: (String value) {
-                    //     setState(() {});
-                    //     checkAreaEnabled();
-                    //   },
-                    //   errorText: isAreaValid ? null : residenceAreaErrorText,
-                    // ),
                     SignupAskLabel(text: '인터뷰 가능 지역'),
                     SizedBox(
                       child: Text(

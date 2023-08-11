@@ -14,7 +14,7 @@ InterviewModel _$InterviewModelFromJson(Map<String, dynamic> json) =>
       dueDate: json['dueDate'] as String,
       isOnline: $enumDecode(_$onlineCategoryEnumMap, json['isOnline']),
       hourlyRate: json['hourlyRate'] as String,
-      isOnGoing: json['isOnGoing'] as bool,
+      isOnGoing: json['isOnGoing'] as String,
     );
 
 Map<String, dynamic> _$InterviewModelToJson(InterviewModel instance) =>
