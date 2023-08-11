@@ -265,4 +265,3 @@ class UserModel extends UserModelBase{
   Map<String,dynamic> toJson() => _$UserModelToJson(this);
 
 }
-

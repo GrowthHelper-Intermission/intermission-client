@@ -36,6 +36,9 @@ class AuthProvider extends ChangeNotifier {
   }
 
   List<GoRoute> get routes => [
+    // 명심하자 -
+    // /는 루트 경로로 인식된다
+    //'interview' 아래에 ':rid'를 붙였을 때의 경로는 /interview/:rid 자동으로 /가 추가된다
     GoRoute(
       path: '/',
       name: RootTab.routeName,
@@ -45,13 +48,14 @@ class AuthProvider extends ChangeNotifier {
           path: 'interview',
           name: InterviewScreen.routeName,
           builder: (_, state) => InterviewScreen(),
-        ),
-        GoRoute(
-          path: 'interview/:rid',
-          name: InterviewDetailScreen.routeName,
-          builder: (_, state) =>
-              InterviewDetailScreen(id: state.pathParameters['rid']!),
-          //restaurantScreen의 goNamed와 연결
+          routes: [ // InterviewScreen 아래에 nested route로 DetailScreen 설정
+            GoRoute(
+              path: ':rid',
+              name: InterviewDetailScreen.routeName,
+              builder: (_, state) =>
+                  InterviewDetailScreen(id: state.pathParameters['rid']!),
+            ),
+          ],
         ),
       ],
     ),
@@ -106,11 +110,12 @@ class AuthProvider extends ChangeNotifier {
   //앱 처음 시작했을때 토큰 존재 확인하고
   //로그인 스크린으로 보내줄지 홈 스크린으로 보내줄지 확인 과정 필요
   FutureOr<String?> redirectLogic(BuildContext context, GoRouterState state) {
-    final UserModelBase? user = ref.read(userMeProvider);
+    print('hello');
+    final UserModelBase? user = ref.read(userMeProvider); //유저 상태를 가져온다
     final logginIn = state.matchedLocation == '/select';
     print(state.matchedLocation);
 
-    if (state.matchedLocation == '/signup1' || state.matchedLocation == '/signup2' || state.matchedLocation == '/signup3' || state.matchedLocation == '/') {
+    if (state.matchedLocation == '/signup1' || state.matchedLocation == '/signup2' || state.matchedLocation == '/signup3') {
       return null;  // 회원가입 중이므로 리다이렉트하지 않음
     }
 
@@ -124,8 +129,9 @@ class AuthProvider extends ChangeNotifier {
     //사용자 정보가 있는 상태면(유저정보를 가져왔는데)
     //로그인중이거나 현재위치가 SplashScreen이면?
     //홈으로 이동('/'이게 홈임)
-    if (user is UserModel) {
-      return logginIn || state.uri.toString() == '/splash' ? '/' : null;
+    if (user is UserModel) { //로그인이 이미 되어있는데,
+      return logginIn || state.matchedLocation == '/splash' ||  state.matchedLocation =='/select' ?
+      '/' : null;
     }
     if (user is UserModelError) {
       return !logginIn ? '/select' : null;

@@ -1,22 +1,36 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intermission_project/01.user/user/etc/friend_invite_screen.dart';
+import 'package:intermission_project/01.user/user/model/user_model.dart';
+import 'package:intermission_project/01.user/user/provider/user_me_provider.dart';
 import 'package:intermission_project/04.research/04_2.interview/interview/view/interview_detail_screen.dart';
 import 'package:intermission_project/04.research/04_2.interview/interview/view/interview_screen.dart';
 import 'package:intermission_project/common/const/colors.dart';
 import 'package:intermission_project/common/view/setting/setting_screen.dart';
-class HomeScreen extends StatefulWidget {
+
+class HomeScreen extends ConsumerStatefulWidget {
   final TabController? tabController;
 
   HomeScreen({this.tabController});
 
+
+
   @override
-  State<HomeScreen> createState() => _HomeScreenState();
+  ConsumerState<HomeScreen> createState() => _HomeScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
+class _HomeScreenState extends ConsumerState<HomeScreen> {
   int currentIndex = 0;
+
   @override
   Widget build(BuildContext context) {
+    final state = ref.read(userMeProvider); // 여기선 read, watch는 값 변경될때마다 빌드 ex(point)
+    String name = "";
+    int point = 0;
+    if(state is UserModel){
+      name = state.userNm;
+    }
+
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
@@ -37,11 +51,11 @@ class _HomeScreenState extends State<HomeScreen> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
-                    '될거야',
+                    name,
                     style: TextStyle(fontSize: 16, fontWeight: FontWeight.w400),
                   ),
                   Text(
-                    '${'2000'} P',
+                    '${'1000'} P',
                     style: TextStyle(
                       fontWeight: FontWeight.w600,
                       fontSize: 14.0,
