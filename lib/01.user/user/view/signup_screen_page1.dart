@@ -7,6 +7,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intermission_project/01.user/user/model/signup_user_model.dart';
+import 'package:intermission_project/01.user/user/model/user_model.dart';
 import 'package:intermission_project/01.user/user/provider/signup_user_provider.dart';
 import 'package:intermission_project/01.user/user/provider/user_me_provider.dart';
 import 'package:intermission_project/01.user/user/view/signup_screen_page2.dart';
@@ -469,6 +470,8 @@ class _SignupScreenPage1State extends ConsumerState<SignupScreenPage1> {
                       state.setEmailVerfYn(isEmailVerified == true ? "Y" : "N");
                       state.setBankAccount(selectedBankType);
                       state.setAccountNumber(accountNumberController.text.trim());
+
+                      // final state = ref.watch(userMeProvider.notifier) as UserModel;
 
                       print(state.wedTpCd);
                       context.pushNamed(SignupScreenPage2.routeName);

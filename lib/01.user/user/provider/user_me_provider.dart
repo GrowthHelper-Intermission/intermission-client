@@ -11,6 +11,9 @@ import 'package:intermission_project/common/dio/dio.dart';
 import 'package:intermission_project/common/storage/secure_storage.dart';
 import 'package:provider/provider.dart';
 
+// Provider-in-Provider
+final userModelProvider = StateProvider<UserModel?>((ref) => null);
+
 final userMeProvider =
     StateNotifierProvider<UserMeStateNotifier, UserModelBase?>((ref) {
   final authRepository = ref.watch(authRepositoryProvider);
@@ -23,6 +26,7 @@ final userMeProvider =
     repository: userMeRepository,
     storage: storage,
     dio: dio,
+    ref: ref, //getMe로 받은걸 뿌려주기 위함
   );
 });
 
@@ -32,12 +36,14 @@ class UserMeStateNotifier extends StateNotifier<UserModelBase?> {
   final FlutterSecureStorage storage;
   final AuthRepository authRepository;
   final Dio dio;
+  final Ref ref; // ProviderReference 인스턴스
 
   UserMeStateNotifier({
     required this.authRepository,
     required this.repository,
     required this.storage,
     required this.dio,
+    required this.ref,
   }) : super(UserModelLoading()) {
     //유저 정보 바로 가져 오기
     getMe();
@@ -46,6 +52,7 @@ class UserMeStateNotifier extends StateNotifier<UserModelBase?> {
   Future<void> getMe() async {
     final refreshToken = await storage.read(key: REFRESH_TOKEN_KEY);
     final accessToken = await storage.read(key: ACCESS_TOKEN_KEY);
+
     if (refreshToken == null || accessToken == null) {
       state = null; //토큰이 2중 1개라도 없다면 로그아웃
       return;
@@ -53,7 +60,17 @@ class UserMeStateNotifier extends StateNotifier<UserModelBase?> {
 
     try {
       final resp = await repository.getMe();
-      state = resp; //상태에 바로 GET 한 유저모델저장
+      // ref.watch(userModelProvider.notifier).state = resp; //추가
+      // state = resp; //상태에 바로 GET 한 유저모델저장
+      if(resp != null) {
+        ref
+            .watch(userModelProvider.notifier)
+            .state = resp; //추가
+        state = resp;
+      }
+      else{
+        print('getMe에서 에러');
+      }
     } catch (e, stack) {
       print(e);
       print(stack);
@@ -91,6 +108,7 @@ class UserMeStateNotifier extends StateNotifier<UserModelBase?> {
       // 유효한 토큰임을 인증
       final userResp = await repository.getMe();
 
+      ref.watch(userModelProvider.notifier).state = userResp; //추가
       state = userResp;
 
       return userResp;
@@ -106,15 +124,17 @@ class UserMeStateNotifier extends StateNotifier<UserModelBase?> {
     try {
       state = UserModelLoading();
 
-      //회원가입 POST
+      //1. 회원가입 POST
       final userResp = await repository.postUser(signupUserModel);
 
-      //회원가입 완료라 가정, 로그인
+      //2. 회원가입 완료라 가정, 로그인
       final loginResp = await login(
         username: signupUserModel.email!,
         password: signupUserModel.pwd!,
       );
 
+
+      //3. login 과정에서 state = getMe() 즉 UserModel로 변경
       state = loginResp;
 
       return loginResp;
@@ -136,10 +156,3 @@ class UserMeStateNotifier extends StateNotifier<UserModelBase?> {
     ]);
   }
 }
-
-
-
-// print(signupUserModel.petYn);
-//
-// // print("222");
-// // state = userResp;
