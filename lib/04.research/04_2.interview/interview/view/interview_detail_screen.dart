@@ -201,6 +201,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:intermission_project/01.user/user/provider/user_me_provider.dart';
 import 'package:intermission_project/04.research/04_2.interview/interview/component/interview_card.dart';
 import 'package:intermission_project/04.research/04_2.interview/interview/provider/interview_provider.dart';
 import 'package:intermission_project/common/component/pagination_list_view.dart';
@@ -239,6 +240,17 @@ class _InterviewDetailScreenState extends ConsumerState<InterviewDetailScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final state = ref.watch(interviewDetailProvider(widget.id));
+    final user = ref.watch(userMeProvider);
+
+    if (state == null) {
+      return DefaultLayout(
+        child: Center(
+          child: CircularProgressIndicator(),
+        ),
+      );
+    }
+
     return DefaultLayout(
         child: Center(
       child: Text(widget.id),

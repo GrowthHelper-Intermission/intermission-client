@@ -33,7 +33,7 @@ abstract class InterviewRepository implements
   factory InterviewRepository(Dio dio, {String baseUrl}) =
   _InterviewRepository;
 
-  @GET('/') //일반 레스토랑용
+  @GET('/') //일반 인터뷰
   @Headers({
     'accessToken': 'true',
   })
