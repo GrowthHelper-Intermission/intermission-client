@@ -49,55 +49,6 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
     // navigateToNextScreen(); // 수정된 부분
   }
 
-  // void tryLogin({String? email, String? password}) async {
-  //   FirebaseFirestore firestore = FirebaseFirestore.instance;
-  //   SharedPreferences sp = await SharedPreferences.getInstance();
-  //   bool autoLogin = sp.getBool(autoLoginKey) ?? false; // 추가된 부분
-  //
-  //   String userEmail = email ?? _emailController.text;
-  //   String userPassword = password ?? _passwordController.text;
-  //
-  //   try {
-  //     //CustomCircular(context, '로그인중...');
-  //     CircularProgressIndicator(color: PRIMARY_COLOR,);
-  //     DocumentSnapshot userData =
-  //     await firestore.collection('users').doc(userEmail).get();
-  //
-  //     // Check if email and password match
-  //     if (userData['emailAccount'] == userEmail &&
-  //         userData['password'] == userPassword) {
-  //       LoginUserProvider user = LoginUserProvider.fromSnapshot(userData);
-  //       // 자동 로그인 정보 저장
-  //       if (_isChecked) {
-  //         sp.setString(userId, userEmail);
-  //         sp.setString(userPassword, userPassword);
-  //         sp.setBool(autoLoginKey, true);
-  //       }
-  //       Navigator.pop(context);
-  //       Navigator.of(context).push(MaterialPageRoute(
-  //           builder: (BuildContext context) => RootTab(user: user)));
-  //     } else if (autoLogin) { // 수정된 부분
-  //       Navigator.pop(context);
-  //       tryLogin(
-  //           email: sp.getString(userId), password: sp.getString(userPassword));
-  //     } else {
-  //       Navigator.pop(context);
-  //       DialogShow(context, 'error1.');
-  //       DialogShow(context, '회원정보가 잘못되었습니다.');
-  //     }
-  //   } catch (e) {
-  //     print('Error: $e');
-  //     Navigator.pop(context);
-  //     DialogShow(context, 'error2.');
-  //     DialogShow(context, '회원정보가 잘못되었습니다.');
-  //   }
-  // }
-
-  // Future<void> setAutoLogin({required bool value}) async {
-  //   SharedPreferences sp = await SharedPreferences.getInstance();
-  //   await sp.setBool(autoLoginKey, value);
-  // }
-
   @override
   void initState() {
     _emailController.addListener(_checkButtonEnabled);
@@ -265,17 +216,17 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
   }
 }
 
-Future CustomCircular(context, String contentText) async {
-  return await showDialog(
-    context: context,
-    barrierDismissible: false,
-    builder: (BuildContext context) {
-      return CircularProgressIndicator(
-        backgroundColor: PRIMARY_COLOR,
-      );
-    },
-  );
-}
+// Future CustomCircular(context, String contentText) async {
+//   return await showDialog(
+//     context: context,
+//     barrierDismissible: false,
+//     builder: (BuildContext context) {
+//       return CircularProgressIndicator(
+//         backgroundColor: PRIMARY_COLOR,
+//       );
+//     },
+//   );
+// }
 
 // Future CustomCircular(context, String contentText) async {
 //   final ts = TextStyle(color: PRIMARY_COLOR);
@@ -297,49 +248,53 @@ Future CustomCircular(context, String contentText) async {
 //   );
 // }
 
-class AutoLoginCheckbox extends StatelessWidget {
-  final bool isChecked;
-  final ValueChanged<bool?> onChanged;
-  final ValueChanged<bool> onAutoLoginChanged;
-  const AutoLoginCheckbox({
-    required this.isChecked,
-    required this.onChanged,
-    required this.onAutoLoginChanged,
-  });
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(right: 15),
-      child: Container(
-        height: 60,
-        child: Row(
-          children: [
-            SizedBox(
-              width: 30,
-              height: 30,
-              child: Checkbox(
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(15),
-                ),
-                value: isChecked,
-                activeColor: Colors.black,
-                checkColor: Colors.white,
-                onChanged: (bool? newValue) {
-                  onChanged(newValue);
-                  onAutoLoginChanged(newValue!);
-                },
-              ),
-            ),
-            const Text(
-              '자동 로그인',
-              style: TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
+
+
+
+//
+// class AutoLoginCheckbox extends StatelessWidget {
+//   final bool isChecked;
+//   final ValueChanged<bool?> onChanged;
+//   final ValueChanged<bool> onAutoLoginChanged;
+//   const AutoLoginCheckbox({
+//     required this.isChecked,
+//     required this.onChanged,
+//     required this.onAutoLoginChanged,
+//   });
+//   @override
+//   Widget build(BuildContext context) {
+//     return Padding(
+//       padding: const EdgeInsets.only(right: 15),
+//       child: Container(
+//         height: 60,
+//         child: Row(
+//           children: [
+//             SizedBox(
+//               width: 30,
+//               height: 30,
+//               child: Checkbox(
+//                 shape: RoundedRectangleBorder(
+//                   borderRadius: BorderRadius.circular(15),
+//                 ),
+//                 value: isChecked,
+//                 activeColor: Colors.black,
+//                 checkColor: Colors.white,
+//                 onChanged: (bool? newValue) {
+//                   onChanged(newValue);
+//                   onAutoLoginChanged(newValue!);
+//                 },
+//               ),
+//             ),
+//             const Text(
+//               '자동 로그인',
+//               style: TextStyle(
+//                 fontSize: 16,
+//                 fontWeight: FontWeight.bold,
+//               ),
+//             ),
+//           ],
+//         ),
+//       ),
+//     );
+//   }
+// }

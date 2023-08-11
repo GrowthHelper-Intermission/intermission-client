@@ -15,7 +15,7 @@ class InterviewScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return PaginationListView(
       provider: interviewProvider,
-      itemBuilder: <RestaurantModel>(_, index, model) {
+      itemBuilder: <InterviewModel>(_, index, model) {
         return GestureDetector(
           onTap: () {
             // context.go('/restaurant/${model.id}');

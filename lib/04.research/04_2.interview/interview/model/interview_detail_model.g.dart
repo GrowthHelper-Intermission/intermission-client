@@ -15,7 +15,7 @@ InterviewDetailModel _$InterviewDetailModelFromJson(
       isOnline: $enumDecode(_$onlineCategoryEnumMap, json['isOnline']),
       hourlyRate: json['hourlyRate'] as String,
       dueDate: json['dueDate'] as String,
-      isOnGoing: json['isOnGoing'] as bool,
+      isOnGoing: json['isOnGoing'] as String,
       detail: json['detail'] as String,
     );
 

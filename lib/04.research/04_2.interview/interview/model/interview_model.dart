@@ -3,13 +3,6 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'interview_model.g.dart';
 
-// enum researchCategory{
-//   interview,
-//   survey,
-//   appTester,
-//   experiment,
-// }
-
 enum onlineCategory{
   online,
   offline,
@@ -24,7 +17,7 @@ class InterviewModel implements IModelWithId {
   final onlineCategory isOnline; //대면여부
   final String hourlyRate; //1시간 3만원
   final String dueDate; //yyyy-mm-dd
-  final bool isOnGoing; //진행여부
+  final String isOnGoing; //진행여부
 
   InterviewModel({
     required this.id,
