@@ -460,7 +460,6 @@ class _SignupScreenPage2State extends ConsumerState<SignupScreenPage2> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    final initialState = ref.read(userMeProvider);  // userMeProvider의 상태를 가져옴
     setState(
       () {
         selectedResidenceType = residenceType[0];

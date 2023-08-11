@@ -47,15 +47,6 @@ class _RootTabState extends State<RootTab>
     super.dispose();
   }
 
-  void navigateToLoginScreen() {
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => LoginScreen(),
-      ),
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(

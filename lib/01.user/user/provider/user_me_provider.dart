@@ -62,6 +62,10 @@ class UserMeStateNotifier extends StateNotifier<UserModelBase?> {
     }
   }
 
+  //UserModeBase를 반환타입으로 한 이유는 3가지 경우때문
+  //1. 정상 로그인
+  //2. 로그인이 안될수도 있음
+  //3. 로딩중
   Future<UserModelBase> login({
     required String username,
     required String password,
@@ -74,40 +78,53 @@ class UserMeStateNotifier extends StateNotifier<UserModelBase?> {
         password: password,
       );
 
+      //응답받은 refresh, accesstoken을 storage에 그대로 넣어준다
+      //
+
       await storage.write(key: REFRESH_TOKEN_KEY, value: resp.refreshToken);
       await storage.write(key: ACCESS_TOKEN_KEY, value: resp.accessToken);
 
       print(resp.refreshToken);
       print('logining');
 
+      //storage에 넣은 토큰이 유효한지 판단하기 위해서(서버에서 내 유저정보를 가져올 수 있다면?) getMe()
+      // 유효한 토큰임을 인증
       final userResp = await repository.getMe();
 
       state = userResp;
 
       return userResp;
     } catch (e) {
-      //ID잘못이다, PW잘못이다 세부작업 필요
+      //ID잘못이다, PW잘못이다 세부작업 필요 ->  Repository 수정필요
       state = UserModelError(message: '로그인에 실패했습니다');
 
       return Future.value(state);
     }
   }
 
-  Future<UserModelBase> postUser(SignupUserModel userModel) async {
+  Future<UserModelBase> postUser(SignupUserModel signupUserModel) async {
     try {
       state = UserModelLoading();
 
-      final userResp = await repository.postUser(userModel);
-      print(userModel.petYn);
+      //회원가입 POST
+      final userResp = await repository.postUser(signupUserModel);
 
-      print("222");
-      state = userResp;
+      //회원가입 완료라 가정, 로그인
+      final loginResp = await login(
+        username: signupUserModel.email!,
+        password: signupUserModel.pwd!,
+      );
 
-      return userResp;
+      state = loginResp;
+
+      return loginResp;
+
+
     } catch (e) {
       state = UserModelError(message: '회원가입에 실패했습니다');
       return Future.value(state);
     }
+
   }
 
   Future<void> logout() async {
@@ -119,3 +136,10 @@ class UserMeStateNotifier extends StateNotifier<UserModelBase?> {
     ]);
   }
 }
+
+
+
+// print(signupUserModel.petYn);
+//
+// // print("222");
+// // state = userResp;
