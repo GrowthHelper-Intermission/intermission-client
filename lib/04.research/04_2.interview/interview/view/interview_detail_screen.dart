@@ -201,12 +201,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:intermission_project/01.user/user/model/user_model.dart';
 import 'package:intermission_project/01.user/user/provider/user_me_provider.dart';
 import 'package:intermission_project/04.research/04_2.interview/interview/component/interview_card.dart';
 import 'package:intermission_project/04.research/04_2.interview/interview/provider/interview_provider.dart';
 import 'package:intermission_project/common/component/pagination_list_view.dart';
 import 'package:intermission_project/common/utils/pagination_utils.dart';
 import 'package:intermission_project/common/view/default_layout.dart';
+
 class InterviewDetailScreen extends ConsumerStatefulWidget {
   static String get routeName => 'interviewDetail';
   final String id;
@@ -241,7 +243,8 @@ class _InterviewDetailScreenState extends ConsumerState<InterviewDetailScreen> {
   @override
   Widget build(BuildContext context) {
     final state = ref.watch(interviewDetailProvider(widget.id));
-    final user = ref.watch(userMeProvider);
+    final user = ref.watch(userMeProvider.notifier) as UserModel;
+
 
     if (state == null) {
       return DefaultLayout(
@@ -252,8 +255,14 @@ class _InterviewDetailScreenState extends ConsumerState<InterviewDetailScreen> {
     }
 
     return DefaultLayout(
-        child: Center(
-      child: Text(widget.id),
-    ));
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(state.mainTitle),
+          Text(state.hourlyRate),
+          Text(state.isOnline.toString()),
+        ],
+      ),
+    );
   }
 }
