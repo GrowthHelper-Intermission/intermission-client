@@ -243,8 +243,6 @@ class _InterviewDetailScreenState extends ConsumerState<InterviewDetailScreen> {
   @override
   Widget build(BuildContext context) {
     final state = ref.watch(interviewDetailProvider(widget.id));
-    final user = ref.watch(userMeProvider.notifier) as UserModel;
-
 
     if (state == null) {
       return DefaultLayout(
@@ -255,6 +253,7 @@ class _InterviewDetailScreenState extends ConsumerState<InterviewDetailScreen> {
     }
 
     return DefaultLayout(
+      //구현 필요
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [

@@ -9,6 +9,9 @@ part 'interview_detail_model.g.dart';
 @JsonSerializable()
 class InterviewDetailModel extends InterviewModel{
   final String detail;
+  final String researchType;
+  final String exceptTime;
+  final String minAge;
 
   InterviewDetailModel({
     required super.id,
@@ -19,6 +22,9 @@ class InterviewDetailModel extends InterviewModel{
     required super.dueDate,
     required super.isOnGoing,
     required this.detail,
+    required this.researchType,
+    required this.exceptTime,
+    required this.minAge,
     //comment 필요
 });
 

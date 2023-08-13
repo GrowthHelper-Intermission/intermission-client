@@ -23,7 +23,8 @@ part 'interview_repository.g.dart';
 final interviewRepositoryProvider = Provider<InterviewRepository>(
       (ref) {
     final dio = ref.watch(dioProvider);
-        return InterviewRepository(dio, baseUrl: 'http://localhost:8080/api/interview');
+        return InterviewRepository(dio, baseUrl: 'http://34.64.77.5:8080/api/v1/test/interview');
+    // 'http://localhost:8080/api/interview'
   },
 );
 
@@ -34,9 +35,9 @@ abstract class InterviewRepository implements
   _InterviewRepository;
 
   @GET('/') //일반 인터뷰
-  @Headers({
-    'accessToken': 'true',
-  })
+  // @Headers({
+  //   'accessToken': 'true',
+  // })
   Future<CursorPagination<InterviewModel>> paginate({
     //retrofit에서 쿼리 추가할때
     @Queries() PaginationParams? paginationParams = const PaginationParams(),

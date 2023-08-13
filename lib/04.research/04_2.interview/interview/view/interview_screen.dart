@@ -5,6 +5,7 @@ import 'package:intermission_project/04.research/04_2.interview/interview/compon
 import 'package:intermission_project/04.research/04_2.interview/interview/model/interview_model.dart';
 import 'package:intermission_project/04.research/04_2.interview/interview/provider/interview_provider.dart';
 import 'package:intermission_project/04.research/04_2.interview/interview/view/interview_detail_screen.dart';
+import 'package:intermission_project/04.research/04_2.interview/interview/view/interview_detail_test_screen.dart';
 import 'package:intermission_project/common/component/custom_appbar.dart';
 import 'package:intermission_project/common/component/pagination_list_view.dart';
 
@@ -20,6 +21,7 @@ class InterviewScreen extends StatelessWidget {
         return GestureDetector(
           onTap: () {
             // context.go('/restaurant/${model.id}');
+
             context.goNamed(InterviewDetailScreen.routeName,
                 pathParameters: {'rid': model.id});
           },

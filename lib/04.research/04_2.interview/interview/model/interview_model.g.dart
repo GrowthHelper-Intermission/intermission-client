@@ -12,7 +12,7 @@ InterviewModel _$InterviewModelFromJson(Map<String, dynamic> json) =>
       mainTitle: json['mainTitle'] as String,
       subTitle: json['subTitle'] as String,
       dueDate: json['dueDate'] as String,
-      isOnline: $enumDecode(_$onlineCategoryEnumMap, json['isOnline']),
+      isOnline: json['isOnline'] as String,
       hourlyRate: json['hourlyRate'] as String,
       isOnGoing: json['isOnGoing'] as String,
     );
@@ -22,14 +22,8 @@ Map<String, dynamic> _$InterviewModelToJson(InterviewModel instance) =>
       'id': instance.id,
       'mainTitle': instance.mainTitle,
       'subTitle': instance.subTitle,
-      'isOnline': _$onlineCategoryEnumMap[instance.isOnline]!,
+      'isOnline': instance.isOnline,
       'hourlyRate': instance.hourlyRate,
       'dueDate': instance.dueDate,
       'isOnGoing': instance.isOnGoing,
     };
-
-const _$onlineCategoryEnumMap = {
-  onlineCategory.online: 'online',
-  onlineCategory.offline: 'offline',
-  onlineCategory.both: 'both',
-};
