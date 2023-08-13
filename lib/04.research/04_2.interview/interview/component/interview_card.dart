@@ -3,17 +3,17 @@ import 'package:intermission_project/04.research/04_2.interview/interview/model/
 import 'package:intermission_project/common/component/custom_text_style.dart';
 import 'package:intermission_project/common/const/colors.dart';
 import 'package:intermission_project/common/view/setting/setting_screen.dart';
-enum onlineCategory {
-  online,
-  offline,
-  both,
-}
+// enum onlineCategory {
+//   online,
+//   offline,
+//   both,
+// }
 
 class InterviewCard extends StatefulWidget {
   final String id; // PK
   final String mainTitle; // ex)뇌졸중 환자 및 보호자
   final String subTitle; //ex)온라인, 서울 관악구 기준 30분 거리면 오프라인 방문 가능
-  final onlineCategory isOnline; //대면여부
+  final String isOnline; //대면여부
   final String hourlyRate; //1시간 3만원
   final String dueDate; //yyyy-mm-dd
   final String isOnGoing; //진행여부
@@ -37,8 +37,9 @@ class InterviewCard extends StatefulWidget {
       id: model.id,
       mainTitle: model.mainTitle,
       subTitle: model.subTitle,
-      isOnline: onlineCategory.values.firstWhere((e) =>
-      e.name.toString() == model.isOnline.toString()),
+      // isOnline: onlineCategory.values.firstWhere((e) =>
+      // e.name.toString() == model.isOnline.toString()),
+      isOnline: model.isOnline,
       hourlyRate: model.hourlyRate,
       dueDate: model.dueDate,
       isOnGoing: model.isOnGoing,
@@ -172,11 +173,12 @@ class _InterviewCardState extends State<InterviewCard> {
                     SizedBox(
                       height: 18,
                       child:   Text(
-                        widget.isOnline == onlineCategory.online
-                            ? '비대면'
-                            : widget.isOnline == onlineCategory.offline
-                            ? '대면'
-                            : '대면/비대면',
+                        // widget.isOnline == onlineCategory.online
+                        //     ? '비대면'
+                        //     : widget.isOnline == onlineCategory.offline
+                        //     ? '대면'
+                        //     : '대면/비대면',
+                        widget.isOnline,
                         style: InterviewOnlyOnlineStyle,
                       ),
                     ),

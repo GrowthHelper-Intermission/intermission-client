@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:intermission_project/01.user/user/etc/find_pw_button.dart';
 import 'package:intermission_project/01.user/user/model/user_model.dart';
 import 'package:intermission_project/01.user/user/provider/user_me_provider.dart';
@@ -150,10 +151,11 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                               buttonName: '로그인',
                               isButtonEnabled: _isButtonEnabled,
                               onPressed: () {
-                                ref.read(userMeProvider.notifier).login(
-                                      username: _emailController.text.trim(),
-                                      password: _passwordController.text.trim(),
-                                    );
+                                // ref.read(userMeProvider.notifier).login(
+                                //       username: _emailController.text.trim(),
+                                //       password: _passwordController.text.trim(),
+                                //     );
+                                context.goNamed(RootTab.routeName);
                               },
                             ),
                             // ElevatedButton(

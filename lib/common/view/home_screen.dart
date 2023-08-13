@@ -25,7 +25,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final user = ref.watch(userModelProvider.notifier).state!; // 여기선 read, watch는 값 변경될때마다 빌드 ex(point)
+    // final user = ref.watch(userModelProvider.notifier).state!; // 여기선 read, watch는 값 변경될때마다 빌드 ex(point)
     int point = 0;
 
     return Scaffold(
@@ -48,7 +48,8 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
-                    user.userNm,
+                    // user.userNm,
+                    '이도형',
                     style: TextStyle(fontSize: 16, fontWeight: FontWeight.w400),
                   ),
                   Text(

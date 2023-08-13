@@ -62,6 +62,7 @@ class InterviewStateNotifier
     int count = pState.data.length;
     // 데이터 타입 변환
     List<InterviewModel> topThreeList = List<InterviewModel>.from(pState.data.sublist(0, count));
+    print('Debog');
     return topThreeList;
   }
 
