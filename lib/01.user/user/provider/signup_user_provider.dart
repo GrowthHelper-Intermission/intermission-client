@@ -12,6 +12,9 @@ class SignupUserNotifier extends ChangeNotifier {
 
   SignupUserModel get getUserData => _userData;
 
+  String? ofcNm;
+  String? jobGrdNm;
+  String? ceoYn;
   String? id;
   String? userTpCd;
   String? userNm;

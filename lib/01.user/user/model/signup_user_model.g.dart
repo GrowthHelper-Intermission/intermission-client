@@ -8,12 +8,10 @@ part of 'signup_user_model.dart';
 
 SignupUserModel _$SignupUserModelFromJson(Map<String, dynamic> json) =>
     SignupUserModel(
-      id: json['id'] as String?,
       userTpCd: json['userTpCd'] as String?,
       userNm: json['userNm'] as String?,
       userId: json['userId'] as String?,
       pwd: json['pwd'] as String?,
-      joinDay: json['joinDay'] as String?,
       bankAccount: json['bankAccount'] as String?,
       accountNumber: json['accountNumber'] as String?,
       birthDay: json['birthDay'] as String?,
@@ -43,18 +41,14 @@ SignupUserModel _$SignupUserModelFromJson(Map<String, dynamic> json) =>
       empYn: json['empYn'] as String?,
       empNo: json['empNo'] as String?,
       delYn: json['delYn'] as String?,
-      frstRegtDt: json['frstRegtDt'] as String?,
-      finlUpdtDt: json['finlUpdtDt'] as String?,
     );
 
 Map<String, dynamic> _$SignupUserModelToJson(SignupUserModel instance) =>
     <String, dynamic>{
-      'id': instance.id,
       'userTpCd': instance.userTpCd,
       'userNm': instance.userNm,
       'userId': instance.userId,
       'pwd': instance.pwd,
-      'joinDay': instance.joinDay,
       'bankAccount': instance.bankAccount,
       'accountNumber': instance.accountNumber,
       'birthDay': instance.birthDay,
@@ -84,6 +78,4 @@ Map<String, dynamic> _$SignupUserModelToJson(SignupUserModel instance) =>
       'empYn': instance.empYn,
       'empNo': instance.empNo,
       'delYn': instance.delYn,
-      'frstRegtDt': instance.frstRegtDt,
-      'finlUpdtDt': instance.finlUpdtDt,
     };

@@ -6,12 +6,10 @@ part 'signup_user_model.g.dart';
 
 @JsonSerializable()
 class SignupUserModel extends UserModelBase {
-  final String? id;
   final String? userTpCd;
   final String? userNm;
   final String? userId;
   final String? pwd;
-  final String? joinDay;
   final String? bankAccount;
   final String? accountNumber;
   final String? birthDay;
@@ -41,16 +39,12 @@ class SignupUserModel extends UserModelBase {
   final String? empYn;
   final String? empNo;
   final String? delYn;
-  final String? frstRegtDt;
-  final String? finlUpdtDt;
 
   SignupUserModel({
-    this.id,
     this.userTpCd,
     this.userNm,
     this.userId,
     this.pwd,
-    this.joinDay,
     this.bankAccount,
     this.accountNumber,
     this.birthDay,
@@ -80,8 +74,6 @@ class SignupUserModel extends UserModelBase {
     this.empYn,
     this.empNo,
     this.delYn,
-    this.frstRegtDt,
-    this.finlUpdtDt,
   });
 
   factory SignupUserModel.fromJson(Map<String, dynamic> json) =>

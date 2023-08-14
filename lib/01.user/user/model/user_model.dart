@@ -16,8 +16,8 @@ class UserModelLoading extends UserModelBase {}
 
 @JsonSerializable()
 class UserModel extends UserModelBase{
-  /// 회원번호(Server)
-  final String id;
+  // /// 회원번호(Server)
+  // final String id;
 
   /// 회원 구분 코드
   final String userTpCd;
@@ -131,7 +131,7 @@ class UserModel extends UserModelBase{
   final String finlUpdtDt;
 
   UserModel({
-    required this.id,
+    // required this.id,
     required this.userTpCd,
     required this.userNm,
     required this.userId,
@@ -171,7 +171,6 @@ class UserModel extends UserModelBase{
   });
 
   UserModel copyWith({
-    String? id,
     String? userTpCd,
     String? userNm,
     String? userId,
@@ -218,11 +217,10 @@ class UserModel extends UserModelBase{
     String? finlUpdtDt,
   }) {
     return UserModel(
-      id: id ?? this.id,
-      userTpCd: userTpCd ?? this.userTpCd,
+      userTpCd: userTpCd ?? '',
       userNm: userNm ?? this.userNm,
       userId: userId ?? this.userId,
-      pwd: pwd ?? this.pwd,
+      pwd: pwd ?? '',
       joinDay: joinDay ?? this.joinDay,
       bankAccount: bankAccount ?? this.bankAccount,
       accountNumber: accountNumber ?? this.accountNumber,
@@ -243,9 +241,9 @@ class UserModel extends UserModelBase{
       occpSigunguCd: occpSigunguCd ?? this.occpSigunguCd,
       intvSidoCd: intvSidoCd ?? this.intvSidoCd,
       intvSigunguCd: intvSigunguCd ?? this.intvSigunguCd,
-      oflIntvRwdTpCd: oflIntvRwdTpCd ?? this.oflIntvRwdTpCd,
-      onlIntvRwdTpCd: onlIntvRwdTpCd ?? this.onlIntvRwdTpCd,
-      mainUseOnlSvcCn: mainUseOnlSvcCn ?? this.mainUseOnlSvcCn,
+      oflIntvRwdTpCd: oflIntvRwdTpCd ?? '',
+      onlIntvRwdTpCd: onlIntvRwdTpCd ?? '',
+      mainUseOnlSvcCn: mainUseOnlSvcCn ?? '',
       hobySubs: hobySubs ?? this.hobySubs,
       rcmdUserCd: rcmdUserCd ?? this.rcmdUserCd,
       isAgreeYn: isAgreeYn ?? this.isAgreeYn,

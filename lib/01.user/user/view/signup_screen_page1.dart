@@ -97,16 +97,18 @@ class _SignupScreenPage1State extends ConsumerState<SignupScreenPage1> {
 
       var dio = Dio();
       var data = {
-        "emailAccount": email,
+        "email": email,
       };
 
       var response = await dio.post(
-        'http://localhost:8080/api/email',
+        'http://localhost:8080/api/auth/email',
         data: data,
       );
 
       if (response.statusCode == 200) {
         serverCode = response.data["code"]; // 서버에서 반환된 코드를 저장합니다.
+        // serverCode = response.data["data"]["code"];
+        print(serverCode);
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
           content: Text('이메일 인증 링크가 전송되었습니다. 이메일을 확인해 주세요.'),
         ));

@@ -24,7 +24,7 @@ final userMeRepositoryProvider = Provider<UserMeRepository>(
 abstract class UserMeRepository {
   factory UserMeRepository(Dio dio, {String baseUrl}) = _UserMeRepository;
 
-  @GET('/')
+  @GET('/me')
   @Headers({
     'accessToken': 'true',
   })
@@ -38,6 +38,9 @@ abstract class UserMeRepository {
   // Future<UserModel> postUser(@Body() TestUserModel user);
 
   Future<UserModel> postUser(@Body() SignupUserModel user);
+
+
+
 
   // @GET('/basket')
   // @Headers({

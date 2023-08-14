@@ -208,19 +208,17 @@ class _SignupScreenPage3State extends ConsumerState<SignupScreenPage3> {
                        state.setDelYn("N");
 
                        final SignupUserModel newUser = SignupUserModel(
-                         userTpCd: state.userTpCd,
+                         userTpCd: state.userTpCd ?? "blank",
                          empYn: state.empYn,
                          empNo: state.empNo,
-                         intvSigunguCd: state.intvSigunguCd,
-                         intvSidoCd: state.intvSidoCd,
+                         intvSigunguCd: state.intvSigunguCd ?? "blank",
+                         intvSidoCd: state.intvSidoCd ?? "blank",
                          jobNm: state.jobNm,
                          jobCd: state.jobCd,
                          asignJobCd: state.asignJobCd,
                          accountNumber: state.accountNumber,
                          bankAccount: state.bankAccount,
                          emailVerfYn: state.emailVerfYn,
-                         joinDay: state.joinDay,
-                         frstRegtDt: state.frstRegtDt,
                          isAgreeYn: state.isAgreeYn,
                          rcmdUserCd: state.rcmdUserCd,
                          hobySubs: state.hobySubs,
@@ -229,20 +227,17 @@ class _SignupScreenPage3State extends ConsumerState<SignupScreenPage3> {
                          petTpCd: state.petTpCd,
                          housTpCd: state.housTpCd,
                          wedTpCd: state.wedTpCd,
-                         id: state.id,
                          birthDay: state.birthDay,
                          delYn: state.delYn,
                          email: state.email,
-                         finlUpdtDt: state.finlUpdtDt,
                          genderCd: state.genderCd,
                          hpNum: state.hpNum,
-                         isAgreeDt: state.isAgreeDt,
-                         mainUseOnlSvcCn: state.mainUseOnlSvcCn,
+                         mainUseOnlSvcCn: state.mainUseOnlSvcCn ?? "blank",
                          occpSidoCd: state.occpSidoCd,
                          occpSigunguCd: state.occpSigunguCd,
                          petNm: state.petNm,
                          petYn: state.petYn,
-                         pwd: state.pwd,
+                         pwd: state.pwd ?? "blank",
                          userId: state.userId,
                          userNm: state.userNm,
                        );
@@ -251,7 +246,7 @@ class _SignupScreenPage3State extends ConsumerState<SignupScreenPage3> {
 
                        try{
                          ref.read(userMeProvider.notifier).postUser(newUser);
-                         print(newUser.userNm);
+                         print('성공적 수행');
                        }catch(e){
                          print(e);
                          print('에러');

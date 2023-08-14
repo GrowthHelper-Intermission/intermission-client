@@ -151,11 +151,11 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                               buttonName: '로그인',
                               isButtonEnabled: _isButtonEnabled,
                               onPressed: () {
-                                // ref.read(userMeProvider.notifier).login(
-                                //       username: _emailController.text.trim(),
-                                //       password: _passwordController.text.trim(),
-                                //     );
-                                context.goNamed(RootTab.routeName);
+                                ref.read(userMeProvider.notifier).login(
+                                      username: _emailController.text.trim(),
+                                      password: _passwordController.text.trim(),
+                                    );
+                                // context.goNamed(RootTab.routeName);
                               },
                             ),
                             // ElevatedButton(

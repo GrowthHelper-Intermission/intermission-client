@@ -50,10 +50,10 @@ class AuthProvider extends ChangeNotifier {
           builder: (_, state) => InterviewScreen(),
           routes: [ // InterviewScreen 아래에 nested route로 DetailScreen 설정
             GoRoute(
-              path: ':rid',
+              path: ':id',
               name: InterviewDetailScreen.routeName,
               builder: (_, state) =>
-                  InterviewDetailScreen(id: state.pathParameters['rid']!),
+                  InterviewDetailScreen(id: state.pathParameters['id']!),
             ),
           ],
         ),
@@ -116,9 +116,11 @@ class AuthProvider extends ChangeNotifier {
     // final logginIn = state.matchedLocation == '/select';
     // print(state.matchedLocation);
     //
-    // if (state.matchedLocation == '/signup1' || state.matchedLocation == '/signup2' || state.matchedLocation == '/signup3' || state.matchedLocation == '/') {
+    // if (state.matchedLocation == '/signup1' || state.matchedLocation == '/signup2' || state.matchedLocation == '/signup3') {
     //   return null;  // 회원가입 중이므로 리다이렉트하지 않음
     // }
+    //
+    // // || state.matchedLocation == '/'
     //
     // //유저 정보 없는데 로그인중이면 그대로 로그인 페이지,
     // // 만약 로그인중 아니면 로그인 페이지 이동
@@ -130,11 +132,17 @@ class AuthProvider extends ChangeNotifier {
     // //사용자 정보가 있는 상태면(유저정보를 가져왔는데)
     // //로그인중이거나 현재위치가 SplashScreen이면?
     // //홈으로 이동('/'이게 홈임)
-    // if (user is UserModel) { //로그인이 이미 되어있는데,
-    //   return logginIn || state.matchedLocation == '/splash' ||  state.matchedLocation =='/select' ?
-    //   '/' : null;
+    //
+    // // if (user is UserModel) { //로그인이 이미 되어있는데,
+    // //   return logginIn || state.matchedLocation == '/splash' ||  state.matchedLocation =='/select' ?
+    // //   '/' : null;
+    // // }
+    //
+    // if (user is UserModel) {
+    //   return logginIn || state.matchedLocation == '/splash' ||state.matchedLocation == '/login'  ? '/' : null;
     // }
     // if (user is UserModelError) {
+    //   print('usermodelerror');
     //   return !logginIn ? '/select' : null;
     // }
 

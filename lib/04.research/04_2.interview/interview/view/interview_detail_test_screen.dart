@@ -3,6 +3,7 @@ import 'package:intermission_project/common/component/custom_appbar.dart';
 import 'package:intermission_project/common/component/custom_text_form_field.dart';
 
 class InterviewDetailTestScreen extends StatelessWidget {
+  static String get routeName => 'interviewTestDetail';
 
   const InterviewDetailTestScreen({super.key});
 

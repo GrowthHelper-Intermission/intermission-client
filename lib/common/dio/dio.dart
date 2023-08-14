@@ -119,6 +119,7 @@ class CustomInterceptor extends Interceptor {
         // A->B->A->B->A->B...
         //usermeprovider는 dio, dio는 usermeprovider가 필요함
         ref.read(authProvider.notifier).logout();
+
         return handler.reject(err);
       }
     }
