@@ -15,18 +15,10 @@ class InterviewScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return PaginationListView<InterviewModel>(
+    return PaginationListView(
       provider: interviewProvider,
       itemBuilder: <InterviewModel>(_, index, model) {
-        return GestureDetector(
-          onTap: () {
-            // context.go('/restaurant/${model.id}');
-
-            context.goNamed(InterviewDetailScreen.routeName,
-                pathParameters: {'rid': model.id});
-          },
-          child: InterviewCard.fromModel(model: model),
-        );
+        return InterviewCard.fromModel(model: model);
       },
     );
   }

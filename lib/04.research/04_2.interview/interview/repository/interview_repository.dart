@@ -47,10 +47,11 @@ abstract class InterviewRepository implements
   // http://34.64.77.5:8080/api/v1/test/interview
   // 'http://$ip/restaurant/:id'
   @GET('/{id}') //Detailrestaurant용
+
   //@Headers는 강제 삽입
-  @Headers({
-    'accessToken': 'true',
-  })
+  // @Headers({
+  //   'accessToken': 'true',
+  // })
   Future<InterviewDetailModel> getInterviewDetail({
     @Path() required String id,
   });

@@ -56,7 +56,7 @@ class _RootTabState extends State<RootTab>
         physics: NeverScrollableScrollPhysics(), // Disable swiping between tabs
         children: <Widget>[
           TabContentWidget(label: '쇼핑몰'),
-          InterviewDetailTestScreen(),
+          MatchingScreen(),
           HomeScreen(tabController: _tabController),
           InterviewScreen(),
           MyPageScreen(tabController: _tabController),

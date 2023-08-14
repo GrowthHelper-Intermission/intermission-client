@@ -46,7 +46,9 @@ class UserMeStateNotifier extends StateNotifier<UserModelBase?> {
     required this.ref,
   }) : super(UserModelLoading()) {
     //유저 정보 바로 가져 오기
+    print(13);
     getMe();
+    print(15);
   }
 
   Future<void> getMe() async {
@@ -62,6 +64,8 @@ class UserMeStateNotifier extends StateNotifier<UserModelBase?> {
       final resp = await repository.getMe();
       // ref.watch(userModelProvider.notifier).state = resp; //추가
       // state = resp; //상태에 바로 GET 한 유저모델저장
+      print(resp);
+      print("Hello resp");
       if(resp != null) {
         ref
             .watch(userModelProvider.notifier)
@@ -89,14 +93,18 @@ class UserMeStateNotifier extends StateNotifier<UserModelBase?> {
   }) async {
     try {
       state = UserModelLoading();
-
+      print('login1');
       final resp = await authRepository.login(
         username: username,
         password: password,
       );
 
+      print('login3');
       //응답받은 refresh, accesstoken을 storage에 그대로 넣어준다
       //
+
+      print(resp.refreshToken);
+      print(resp.accessToken);
 
       await storage.write(key: REFRESH_TOKEN_KEY, value: resp.refreshToken);
       await storage.write(key: ACCESS_TOKEN_KEY, value: resp.accessToken);
@@ -108,24 +116,55 @@ class UserMeStateNotifier extends StateNotifier<UserModelBase?> {
       // 유효한 토큰임을 인증
       final userResp = await repository.getMe();
 
-      ref.watch(userModelProvider.notifier).state = userResp; //추가
+      // ref.watch(userModelProvider.notifier).state = userResp; //추가
+      ref.watch(userMeProvider.notifier).state = userResp;
       state = userResp;
 
       return userResp;
     } catch (e) {
       //ID잘못이다, PW잘못이다 세부작업 필요 ->  Repository 수정필요
-      state = UserModelError(message: '로그인에 실패했습니다');
+      state = UserModelError(message: '로그인에 실갸패했습니다');
 
       return Future.value(state);
     }
   }
 
-  Future<UserModelBase> postUser(SignupUserModel signupUserModel) async {
+  // Future<UserModelBase> postUser(SignupUserModel signupUserModel) async {
+  //   try {
+  //     state = UserModelLoading();
+  //
+  //     //1. 회원가입 POST
+  //     final userResp = await repository.postUser(signupUserModel);
+  //
+  //     print(userResp.birthDay);
+  //
+  //     //2. 회원가입 완료라 가정, 로그인
+  //     final loginResp = await login(
+  //       username: signupUserModel.email!,
+  //       password: signupUserModel.pwd!,
+  //     );
+  //
+  //     //3. login 과정에서 state = getMe() 즉 UserModel로 변경
+  //     state = loginResp;
+  //
+  //     return loginResp;
+  //
+  //
+  //   } catch (e) {
+  //     print('Hallo');
+  //     state = UserModelError(message: '회원가입에 실패했습니다');
+  //     return Future.value(state);
+  //   }
+  // }
+
+  Future<UserModel> postUser(SignupUserModel signupUserModel) async {
     try {
       state = UserModelLoading();
 
       //1. 회원가입 POST
       final userResp = await repository.postUser(signupUserModel);
+
+      print(userResp.birthDay);
 
       //2. 회원가입 완료라 가정, 로그인
       final loginResp = await login(
@@ -133,18 +172,17 @@ class UserMeStateNotifier extends StateNotifier<UserModelBase?> {
         password: signupUserModel.pwd!,
       );
 
-
       //3. login 과정에서 state = getMe() 즉 UserModel로 변경
       state = loginResp;
 
-      return loginResp;
+      return loginResp as UserModel; // 타입을 UserModel로 캐스팅
 
 
     } catch (e) {
+      print('Hallo');
       state = UserModelError(message: '회원가입에 실패했습니다');
-      return Future.value(state);
+      return Future.error(UserModelError(message: '회원가입에 실패했습니다')); //Future.error를 사용하여 에러 반환
     }
-
   }
 
   Future<void> logout() async {
