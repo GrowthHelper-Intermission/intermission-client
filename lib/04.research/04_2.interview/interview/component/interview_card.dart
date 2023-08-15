@@ -74,121 +74,123 @@ class _InterviewCardState extends State<InterviewCard> {
   Widget build(BuildContext context) {
     daysLeft = _getDaysLeft(); // Every time the widget is built, update the days left.
     return Padding(
-    padding: const EdgeInsets.fromLTRB(21, 12, 21, 2),
-    child: InkWell(
-      onTap: () {
-        context.goNamed(InterviewDetailScreen.routeName, pathParameters: {'id': widget.id});
-      },
-      child: Container(
-        width: 335,
-        height: 138,
-        decoration: BoxDecoration(
-          border: Border.all(
-            width: 1.0,
+    padding: const EdgeInsets.fromLTRB(11, 0, 21, 0),
+    child: Card(
+      child: InkWell(
+        onTap: () {
+          context.goNamed(InterviewDetailScreen.routeName, pathParameters: {'id': widget.id});
+        },
+        child: Container(
+          width: 335,
+          height: 138,
+          decoration: BoxDecoration(
+            border: Border.all(
+              width: 1.0,
+              color: Colors.grey.shade200,
+            ),
             color: Colors.white,
+            borderRadius: BorderRadius.circular(10.0),
           ),
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(10.0),
-        ),
-        child: Padding(
-          padding: const EdgeInsets.all(15.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(
-                //mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Container(
-                    width: 38,
-                    height: 21,
-                    decoration: BoxDecoration(
-                      color: daysLeft <= 3 ? Colors.white : SUB_BLUE_COLOR,
-                      borderRadius: BorderRadius.circular(5),
-                      border: Border.all(
-                        color: SUB_BLUE_COLOR,
-                        width: 1,
+          child: Padding(
+            padding: const EdgeInsets.all(15.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  //mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Container(
+                      width: 38,
+                      height: 21,
+                      decoration: BoxDecoration(
+                        color: daysLeft <= 3 ? Colors.white : SUB_BLUE_COLOR,
+                        borderRadius: BorderRadius.circular(5),
+                        border: Border.all(
+                          color: SUB_BLUE_COLOR,
+                          width: 1,
+                        ),
                       ),
-                    ),
-                    child: Center(
-                      child: Text(
-                        'D-$daysLeft',  // 수정된 부분
-                        style: TextStyle(
-                          color: daysLeft <= 3 ? SUB_BLUE_COLOR : Colors.white,
-                          fontSize: 12.0,
-                          fontWeight: FontWeight.w700,
+                      child: Center(
+                        child: Text(
+                          'D-$daysLeft',  // 수정된 부분
+                          style: TextStyle(
+                            color: daysLeft <= 3 ? SUB_BLUE_COLOR : Colors.white,
+                            fontSize: 12.0,
+                            fontWeight: FontWeight.w700,
+                          ),
                         ),
                       ),
                     ),
-                  ),
-                  SizedBox(
-                    width: 10,
-                  ),
-                  Expanded(
-                    child: Container(
-                      height: 21,
-                      child: Text(
-                        widget.id,
-                        style: InterviewTitleStyle,
+                    SizedBox(
+                      width: 10,
+                    ),
+                    Expanded(
+                      child: Container(
+                        height: 21,
+                        child: Text(
+                          widget.id,
+                          style: InterviewTitleStyle,
+                        ),
                       ),
                     ),
-                  ),
-                  SizedBox(
-                    width: 20,
-                  ),
-                  // InkWell(
-                  //   onTap: _scrapInterview,
-                  //   splashColor: Colors.red, // 클릭 효과의 색상 설정
-                  //   child: Icon(
-                  //     Icons.arrow_forward_ios,
-                  //     size: 18,
-                  //   ),
-                  // ),
-                ],
-              ),
-              SizedBox(
-                height: 12,
-              ),
-              Container(
-                height: 1,
-                width: 293,
-                color: Colors.grey[300],
-              ),
-              SizedBox(
-                height: 12,
-              ),
-              SizedBox(
-                width: 293, //same with line
-                height: 40,
-                child: Text(
-                  widget.subTitle,
-                  style: InterviewRecruitingStyle,
-                  maxLines: 2,
+                    SizedBox(
+                      width: 20,
+                    ),
+                    // InkWell(
+                    //   onTap: _scrapInterview,
+                    //   splashColor: Colors.red, // 클릭 효과의 색상 설정
+                    //   child: Icon(
+                    //     Icons.arrow_forward_ios,
+                    //     size: 18,
+                    //   ),
+                    // ),
+                  ],
                 ),
-              ),
-              Row(
-                children: [
-                  SizedBox(
-                    height: 18,
-                    child:   Text(
-                      // widget.isOnline == onlineCategory.online
-                      //     ? '비대면'
-                      //     : widget.isOnline == onlineCategory.offline
-                      //     ? '대면'
-                      //     : '대면/비대면',
-                      widget.isOnline,
-                      style: InterviewOnlyOnlineStyle,
-                    ),
+                SizedBox(
+                  height: 12,
+                ),
+                Container(
+                  height: 1,
+                  width: 293,
+                  color: Colors.grey[300],
+                ),
+                SizedBox(
+                  height: 12,
+                ),
+                SizedBox(
+                  width: 293, //same with line
+                  height: 30,
+                  child: Text(
+                    widget.subTitle,
+                    style: InterviewRecruitingStyle,
+                    maxLines: 2,
                   ),
-                  SizedBox(
-                    height: 18,
-                    child: Text(
-                      widget.hourlyRate,
-                      style: InterviewHourlyRateStyle,
+                ),
+                Row(
+                  children: [
+                    SizedBox(
+                      height: 18,
+                      child:   Text(
+                        // widget.isOnline == onlineCategory.online
+                        //     ? '비대면'
+                        //     : widget.isOnline == onlineCategory.offline
+                        //     ? '대면'
+                        //     : '대면/비대면',
+                        widget.isOnline,
+                        style: InterviewOnlyOnlineStyle,
+                      ),
                     ),
-                  ),
-                ],
-              )
-            ],
+                    SizedBox(
+                      height: 18,
+                      child: Text(
+                        widget.hourlyRate,
+                        style: InterviewHourlyRateStyle,
+                      ),
+                    ),
+                  ],
+                )
+              ],
+            ),
           ),
         ),
       ),
