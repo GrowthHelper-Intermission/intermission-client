@@ -14,8 +14,6 @@ class HomeScreen extends ConsumerStatefulWidget {
 
   HomeScreen({this.tabController});
 
-
-
   @override
   ConsumerState<HomeScreen> createState() => _HomeScreenState();
 }
@@ -38,7 +36,8 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Expanded(
-              child: Image.asset('assets/img/intermissionLogo.png', width: 60, height: 38),
+              child: Image.asset('assets/img/intermissionLogo.png',
+                  width: 60, height: 38),
             ),
             SizedBox(width: 100),
             Expanded(
@@ -70,7 +69,8 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                   MaterialPageRoute(builder: (context) => SettingScreen()),
                 );
               },
-              icon: Image.asset('assets/img/Setting.png', width: 32, height: 32),
+              icon:
+                  Image.asset('assets/img/Setting.png', width: 32, height: 32),
             ),
           ],
         ),
@@ -149,7 +149,8 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                   children: [
                     Text(
                       '진행 중인 인터뷰',
-                      style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
+                      style:
+                          TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
                     ),
                     TextButton(
                       onPressed: () {
@@ -183,7 +184,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                     // );
                   },
                   child: Padding(
-                    padding: const EdgeInsets.only(bottom: 3),
+                    padding: const EdgeInsets.fromLTRB(0,10,0,3),
                     child: Container(
                       width: 335,
                       height: 48,

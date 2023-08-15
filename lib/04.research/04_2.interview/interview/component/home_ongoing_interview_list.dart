@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intermission_project/04.research/04_2.interview/interview/component/interview_card.dart';
 import 'package:intermission_project/04.research/04_2.interview/interview/provider/interview_provider.dart';
+import 'package:intermission_project/common/model/cursor_pagination_model.dart';
 
 class OngoingInterviewList extends ConsumerWidget {
   const OngoingInterviewList({super.key});
@@ -11,12 +12,24 @@ class OngoingInterviewList extends ConsumerWidget {
     final interviewNotifier = ref.watch(interviewProvider.notifier);
     final ongoingInterviews = interviewNotifier.getTopThreeInterviews();
 
+    final interviewState = ref.watch(interviewProvider);
+
+    if (interviewState is! CursorPagination) {
+      return Container(
+        height: 441,
+        child: Center(
+          child: CircularProgressIndicator(),
+        ),
+      );
+    }
+
     // 최신 데이터 순으로 인터뷰 목록을 정렬
     ongoingInterviews.sort((a, b) => b.dueDate.compareTo(a.dueDate));
 
     print(ongoingInterviews);
 
-    final int itemCount = (ongoingInterviews.length > 3) ? 3 : ongoingInterviews.length;
+    final int itemCount =
+        (ongoingInterviews.length > 3) ? 3 : ongoingInterviews.length;
 
     return Expanded(
       child: ListView.builder(

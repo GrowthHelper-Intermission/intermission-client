@@ -11,7 +11,7 @@ class _PaginationInfo {
   final bool forceRefetch;
 
   _PaginationInfo({
-    this.fetchCount = 20,
+    this.fetchCount = 10,
     this.fetchMore = false,
     this.forceRefetch = false,
   });
@@ -43,7 +43,7 @@ U extends IBasePaginationRepository<T>>
   }
 
   Future<void> paginate({
-    int fetchCount = 20,
+    int fetchCount = 10,
     //추가로 데이터 더 가져오기
     //true - 추가로 데이터 더 가져옴
     //false - 새로고침(현재 상태 덮어씌움)
@@ -83,8 +83,10 @@ U extends IBasePaginationRepository<T>>
       if (state is CursorPagination && !forceRefetch) {
         //pagination 1번이상 한 경우
         final pState = state as CursorPagination; //
+        print(pState.meta.hasMore);
         //더이상 데이터 없다면?
         if (!pState.meta.hasMore) {
+          print(pState.meta.hasMore);
           return; //1) 기존 상태에서 이미 다음 데이터가 없다고 되어있다면? -> 리턴
         }
       }
