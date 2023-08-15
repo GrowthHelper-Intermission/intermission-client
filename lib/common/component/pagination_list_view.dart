@@ -6,12 +6,13 @@ import 'package:intermission_project/common/provider/pagination_provider.dart';
 import 'package:intermission_project/common/utils/pagination_utils.dart';
 
 //3개의 파라미터를 입력받고(model은 IModelWithId를 extend한 모델)
-typedef PaginationWidgetBuilder<T extends IModelWithId> =
-Widget Function(BuildContext context, int index, T model);
+typedef PaginationWidgetBuilder<T extends IModelWithId> = Widget Function(
+    BuildContext context, int index, T model);
 
-class PaginationListView<T extends IModelWithId> extends ConsumerStatefulWidget {
+class PaginationListView<T extends IModelWithId>
+    extends ConsumerStatefulWidget {
   final StateNotifierProvider<PaginationProvider, CursorPaginationBase>
-  provider;
+      provider;
 
   final PaginationWidgetBuilder<T> itemBuilder;
 
@@ -22,10 +23,12 @@ class PaginationListView<T extends IModelWithId> extends ConsumerStatefulWidget 
   });
 
   @override
-  ConsumerState<PaginationListView> createState() => _PaginationListViewState<T>();
+  ConsumerState<PaginationListView> createState() =>
+      _PaginationListViewState<T>();
 }
 
-class _PaginationListViewState<T extends IModelWithId> extends ConsumerState<PaginationListView> {
+class _PaginationListViewState<T extends IModelWithId>
+    extends ConsumerState<PaginationListView> {
   final ScrollController controller = ScrollController();
 
   @override
@@ -76,8 +79,8 @@ class _PaginationListViewState<T extends IModelWithId> extends ConsumerState<Pag
           ElevatedButton(
             onPressed: () {
               ref.read(widget.provider.notifier).paginate(
-                forceRefetch: true,
-              );
+                    forceRefetch: true,
+                  );
             },
             child: Text('다시 시도'),
           )
@@ -92,26 +95,33 @@ class _PaginationListViewState<T extends IModelWithId> extends ConsumerState<Pag
     final cp = state as CursorPagination<T>;
 
     return RefreshIndicator(
-      onRefresh: () async{
-        ref.read(widget.provider.notifier).paginate(
-            forceRefetch: true
-        );
+      onRefresh: () async {
+        ref.read(widget.provider.notifier).paginate(forceRefetch: true);
       },
       child: ListView.separated(
         physics: AlwaysScrollableScrollPhysics(),
         controller: controller,
+        padding: const EdgeInsets.only(top: 10.0), // 여기서 패딩을 추가
         itemCount: cp.data.length + 1,
         itemBuilder: (_, index) {
           if (index == cp.data.length) {
             return Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-              child: Center(
-                child: cp is CursorPaginationFetchingMore
-                    ? CircularProgressIndicator()
-                    : Text('마지막 데이터입니다.'),
-              ),
-            );
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                child: Center(
+                  //상태가 CursorPaginationFetchingMore 아니라면
+                  // cp가 CursorPagination이고 추가로 데이터가 더 있을 경우까지 판단
+                  //cp가 CursorPaginationFetchingMore인 경우에는
+                  // 먼저 CircularProgressIndicator 표시후
+                  //hasMore체크했는데 False라면? 마지막데이터로
+                  child: cp is! CursorPaginationFetchingMore
+                      ? (cp is CursorPagination && cp.meta.hasMore
+                          ? CircularProgressIndicator()
+                          : Dialog(child: Text('마지막 데이터입니다 ')))
+                      : CircularProgressIndicator(),
+                ));
           }
+          print(index);
           final pItem = cp.data[index];
           return widget.itemBuilder(
             context,
@@ -121,7 +131,7 @@ class _PaginationListViewState<T extends IModelWithId> extends ConsumerState<Pag
         },
         separatorBuilder: (_, index) {
           return SizedBox(
-            height: 16,
+            height: 12,
           );
         },
       ),

@@ -19,7 +19,7 @@ import 'package:collection/collection.dart';
 //<RestaurantModel, String> 반환값은 왼쪽, 넣을건 id 오른쪽
 
 final interviewDetailProvider =
-Provider.family<InterviewModel?, String>((ref, id) {
+    Provider.family<InterviewModel?, String>((ref, id) {
   final state = ref.watch(interviewProvider);
 
   if (state is! CursorPagination) {
@@ -29,18 +29,14 @@ Provider.family<InterviewModel?, String>((ref, id) {
   return state.data.firstWhereOrNull((element) => element.id == id);
 });
 
-
-
 final interviewProvider =
-StateNotifierProvider<InterviewStateNotifier, CursorPaginationBase>(
-      (ref) {
+    StateNotifierProvider<InterviewStateNotifier, CursorPaginationBase>(
+  (ref) {
     final repository = ref.watch(interviewRepositoryProvider);
     final notifier = InterviewStateNotifier(repository: repository);
     return notifier;
   },
 );
-
-
 
 class InterviewStateNotifier
     extends PaginationProvider<InterviewModel, InterviewRepository> {
@@ -61,8 +57,9 @@ class InterviewStateNotifier
     // 인터뷰 개수가 3개 이상인 경우 상위 3개를 가져오고, 그렇지 않으면 모든 인터뷰를 가져오기
     int count = pState.data.length;
     // 데이터 타입 변환
-    List<InterviewModel> topThreeList = List<InterviewModel>.from(pState.data.sublist(0, count));
-    print('Debog');
+    List<InterviewModel> topThreeList = List<InterviewModel>.from(
+      pState.data.sublist(0, count),
+    );
     return topThreeList;
   }
 
@@ -91,19 +88,19 @@ class InterviewStateNotifier
     // 데이터가 없을때는 그냥 캐시의 끝에다가 데이터를 추가해버린다
     // [RestaurantModel(1), RestaurantModel(2), RestaurantModel(3)],
     // RestaurantDetailModel(10)
-    if(pState.data.where((e) => e.id == id).isEmpty){
+    if (pState.data.where((e) => e.id == id).isEmpty) {
       state = pState.copyWith(
         data: <InterviewModel>[
           ...pState.data,
           resp,
         ],
       );
-    }else{
+    } else {
       state = pState.copyWith(
         data: pState.data
             .map<InterviewModel>(
               (e) => e.id == id ? resp : e,
-        )
+            )
             .toList(),
       );
     }
@@ -111,6 +108,5 @@ class InterviewStateNotifier
     // id : 2인 친구를 Detail모델을 가져와라
     // getDetail(id: 2);
     // [RestaurantModel(1), RestaurantDetailModel(2), RestaurantModel(3)]
-
   }
 }
