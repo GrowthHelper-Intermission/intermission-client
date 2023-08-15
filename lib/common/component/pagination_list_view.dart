@@ -91,42 +91,39 @@ class _PaginationListViewState<T extends IModelWithId> extends ConsumerState<Pag
 
     final cp = state as CursorPagination<T>;
 
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16.0),
-      child: RefreshIndicator(
-        onRefresh: () async{
-          ref.read(widget.provider.notifier).paginate(
-              forceRefetch: true
+    return RefreshIndicator(
+      onRefresh: () async{
+        ref.read(widget.provider.notifier).paginate(
+            forceRefetch: true
+        );
+      },
+      child: ListView.separated(
+        physics: AlwaysScrollableScrollPhysics(),
+        controller: controller,
+        itemCount: cp.data.length + 1,
+        itemBuilder: (_, index) {
+          if (index == cp.data.length) {
+            return Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+              child: Center(
+                child: cp is CursorPaginationFetchingMore
+                    ? CircularProgressIndicator()
+                    : Text('마지막 데이터입니다.'),
+              ),
+            );
+          }
+          final pItem = cp.data[index];
+          return widget.itemBuilder(
+            context,
+            index,
+            pItem,
           );
         },
-        child: ListView.separated(
-          physics: AlwaysScrollableScrollPhysics(),
-          controller: controller,
-          itemCount: cp.data.length + 1,
-          itemBuilder: (_, index) {
-            if (index == cp.data.length) {
-              return Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                child: Center(
-                  child: cp is CursorPaginationFetchingMore
-                      ? CircularProgressIndicator()
-                      : Text('마지막 데이터입니다.'),
-                ),
-              );
-            }
-            final pItem = cp.data[index];
-            return widget.itemBuilder(
-              context,
-              index,
-              pItem,
-            );
-          },
-          separatorBuilder: (_, index) {
-            return SizedBox(
-              height: 16,
-            );
-          },
-        ),
+        separatorBuilder: (_, index) {
+          return SizedBox(
+            height: 16,
+          );
+        },
       ),
     );
   }
