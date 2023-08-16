@@ -34,15 +34,22 @@ abstract class InterviewRepository implements
   factory InterviewRepository(Dio dio, {String baseUrl}) =
   _InterviewRepository;
 
-  @GET('/') //일반 인터뷰
+  // @GET('/') //일반 인터뷰
   // @Headers({
   //   'accessToken': 'true',
   // })
+  // Future<CursorPagination<InterviewModel>> paginate({
+  //   //retrofit에서 쿼리 추가할때
+  //   @Queries() PaginationParams? paginationParams = const PaginationParams(),
+  // });
+
+
+  // http://34.64.77.5:8080/api/v1/test/interview/interview?researchType=1
+  @GET('/')
   Future<CursorPagination<InterviewModel>> paginate({
-    //retrofit에서 쿼리 추가할때
+    @Query('researchType') String? researchType,
     @Queries() PaginationParams? paginationParams = const PaginationParams(),
   });
-
 
   // http://34.64.77.5:8080/api/v1/test/interview
   // 'http://$ip/restaurant/:id'

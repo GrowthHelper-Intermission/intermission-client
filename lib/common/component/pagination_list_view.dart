@@ -28,8 +28,11 @@ class PaginationListView<T extends IModelWithId>
 }
 
 class _PaginationListViewState<T extends IModelWithId>
-    extends ConsumerState<PaginationListView> {
+    extends ConsumerState<PaginationListView> with AutomaticKeepAliveClientMixin {
   final ScrollController controller = ScrollController();
+
+  @override
+  bool get wantKeepAlive => true;
 
   @override
   void initState() {
@@ -55,6 +58,7 @@ class _PaginationListViewState<T extends IModelWithId>
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     final state = ref.watch(widget.provider);
     //완전 처음 로딩일때
     if (state is CursorPaginationLoading) {

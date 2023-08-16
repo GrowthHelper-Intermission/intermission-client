@@ -235,6 +235,9 @@ class _InterviewDetailScreenState extends ConsumerState<InterviewDetailScreen> {
     // TODO: implement initState
     super.initState();
     ref.read(interviewProvider.notifier).getDetail(id: widget.id);
+    ref.read(interviewInterviewProvider.notifier).getDetail(id: widget.id);
+    ref.read(surveyProvider.notifier).getDetail(id: widget.id);
+    ref.read(testerProvider.notifier).getDetail(id: widget.id);
   }
 
   // void listener() {
@@ -247,11 +250,21 @@ class _InterviewDetailScreenState extends ConsumerState<InterviewDetailScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final state = ref.watch(interviewDetailProvider(widget.id));
+    final interviewState = ref.watch(interviewDetailProvider(widget.id));
+    //     final testerState = ref.watch(testerDetailProvider(widget.id));
+    // final surveyState = ref.watch(surveyDetailProvider(widget.id));
+    //
+    // final interviewInterviewState = ref.watch(interviewInterviewDetailProvider(widget.id));
+
+
+    //final state = testerState ?? surveyState ?? interviewState ?? interviewInterviewState;
+
+    final state= interviewState;
+
     print('statre');
 
     if(state == null){
-      Center(
+      return Center(
         child: CircularProgressIndicator(),
       );
     }
