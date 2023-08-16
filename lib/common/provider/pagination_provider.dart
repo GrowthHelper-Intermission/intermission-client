@@ -9,13 +9,27 @@ class _PaginationInfo {
   final int fetchCount;
   final bool fetchMore;
   final bool forceRefetch;
+  final String? researchType;
 
   _PaginationInfo({
     this.fetchCount = 10,
     this.fetchMore = false,
     this.forceRefetch = false,
+    this.researchType = "1"
   });
 }
+
+// class _PaginationInfo {
+//   final int fetchCount;
+//   final bool fetchMore;
+//   final bool forceRefetch;
+//
+//   _PaginationInfo({
+//     this.fetchCount = 10,
+//     this.fetchMore = false,
+//     this.forceRefetch = false,
+//   });
+// }
 
 //pagination 일반화 시작
 //여기 extends == implements
@@ -42,7 +56,26 @@ U extends IBasePaginationRepository<T>>
     );
   }
 
+  // Future<void> paginate({
+  //   int fetchCount = 10,
+  //   //추가로 데이터 더 가져오기
+  //   //true - 추가로 데이터 더 가져옴
+  //   //false - 새로고침(현재 상태 덮어씌움)
+  //   bool fetchMore = false,
+  //   //강제로 다시 로딩하기
+  //   //true - CursorPaginationLoading()
+  //   bool forceRefetch = false,
+  // }) async {
+  //   paginationThrottle.setValue(_PaginationInfo(
+  //     fetchMore: fetchMore,
+  //     fetchCount: fetchCount,
+  //     forceRefetch: forceRefetch,
+  //   )); //1개 밖에 못넣기때메 fetch관련 3개를 클래스로 묶어전달
+  // }
+
   Future<void> paginate({
+    ///
+    String? researchType,
     int fetchCount = 10,
     //추가로 데이터 더 가져오기
     //true - 추가로 데이터 더 가져옴
@@ -52,10 +85,12 @@ U extends IBasePaginationRepository<T>>
     //true - CursorPaginationLoading()
     bool forceRefetch = false,
   }) async {
+    // print('Paginate called with researchType: $researchType');
     paginationThrottle.setValue(_PaginationInfo(
       fetchMore: fetchMore,
       fetchCount: fetchCount,
       forceRefetch: forceRefetch,
+      researchType: researchType,
     )); //1개 밖에 못넣기때메 fetch관련 3개를 클래스로 묶어전달
   }
 
@@ -63,6 +98,7 @@ U extends IBasePaginationRepository<T>>
     final fetchCount = info.fetchCount;
     final fetchMore = info.fetchMore;
     final forceRefetch = info.forceRefetch;
+    final researchType = info.researchType; // 여기서 researchType 정보를 가져옵니다.
     try {
       // final resp = await repository.paginate(); //20개 가져오고
       // state = resp;
@@ -103,6 +139,7 @@ U extends IBasePaginationRepository<T>>
       //PaginationParams 생성(copywith으로 after나 count변경가능)
       PaginationParams paginationParams = PaginationParams(
         count: fetchCount, //안넣어줘도 되긴함 이미 default 20
+
       );
 
       // fetchMore
@@ -139,8 +176,11 @@ U extends IBasePaginationRepository<T>>
 
       //paginate실제 수행하여 데이터받아온다
       final resp = await repository.paginate(
+        researchType: researchType,
         paginationParams: paginationParams, //쿼리로 자동 반환되는 paginationParams
       );
+
+      print(researchType);
 
       if (state is CursorPaginationFetchingMore) {
         final pState = state as CursorPaginationFetchingMore<T>;

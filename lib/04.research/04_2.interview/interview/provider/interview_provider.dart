@@ -11,12 +11,46 @@ import 'package:intermission_project/common/repository/base_pagination_repositor
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:collection/collection.dart';
 
-//캐시 공유 시작
-//restaurantDetailProvider는 restaurantProvider를 watch하고 있기에
-//restaurantProvider가 빌드되거나 상태가 변경되면
-//restaurantDetailProvider도 마찬가지로 변경된다
+final interviewInterviewProvider = StateNotifierProvider<InterviewStateNotifier, CursorPaginationBase>(
+      (ref) {
+    final repository = ref.watch(interviewRepositoryProvider);
+    final notifier = InterviewStateNotifier(repository: repository,researchType: "1");
+    return notifier;
+  },
+);
 
-//<RestaurantModel, String> 반환값은 왼쪽, 넣을건 id 오른쪽
+final testerProvider = StateNotifierProvider<InterviewStateNotifier, CursorPaginationBase>(
+      (ref) {
+    final repository = ref.watch(interviewRepositoryProvider);
+    final notifier = InterviewStateNotifier(repository: repository,researchType: "3");
+    return notifier;
+  },
+);
+
+
+
+final surveyProvider = StateNotifierProvider<InterviewStateNotifier, CursorPaginationBase>(
+      (ref) {
+    final repository = ref.watch(interviewRepositoryProvider);
+    final notifier = InterviewStateNotifier(repository: repository,researchType: "2");
+    return notifier;
+  },
+);
+
+ makeDetailProvider(ProviderBase providerBase) {
+  return Provider.family<InterviewModel?, String>((ref, id) {
+    final state = ref.watch(interviewProvider);
+
+    if (state is! CursorPagination) {
+      return null;
+    }
+
+    return state.data.firstWhereOrNull((element) => element.id == id);
+  });
+}
+
+
+// final interviewDetailProvider = makeDetailProvider(interviewProvider);
 
 final interviewDetailProvider =
     Provider.family<InterviewModel?, String>((ref, id) {
@@ -42,15 +76,25 @@ class InterviewStateNotifier
     extends PaginationProvider<InterviewModel, InterviewRepository> {
   // final RestaurantRepository repository;
 
+  final String? researchType;
+
   InterviewStateNotifier({
     required super.repository,
-  });
+    this.researchType,
+  }): super() {
+    // 클래스가 초기화될 때 researchType을 출력합니다.
+    paginate(researchType: researchType);
+    // print("Research Type: $researchType");
+  }
+
+
 
   // 상위 3개의 인터뷰를 가져오는 함수
   List<InterviewModel> getTopThreeInterviews() {
     if (state is! CursorPagination) {
       return [];
     }
+
 
     final pState = state as CursorPagination;
 
@@ -69,7 +113,11 @@ class InterviewStateNotifier
     // 만약에 아직 데이터가 하나도 없는 상태라면? (CursorPagination 아니라면)
     // 데이터를 가져오는 시도를 한다
     if (state is! CursorPagination) {
-      await paginate();
+      if (researchType == null) {
+        await this.paginate();
+      } else {
+        await this.paginate(researchType: researchType!);
+      }
     }
 
     //state가 CursorPagination이 아닐때는 그냥 리턴

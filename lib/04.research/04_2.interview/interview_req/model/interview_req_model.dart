@@ -4,32 +4,45 @@ part 'interview_req_model.g.dart';
 
 @JsonSerializable()
 class InterviewReqModel {
-  /// 인터뷰의뢰일자(PK) 필수
+  /// 인터뷰 유일 ID(PK) 필수
   final String id;
-
-  /// 회원번호(의뢰하는 userId) 필수
-  final String? userId;
 
   /// 인터뷰명
   final String mainTitle;
 
+  /// 부제목
   final String subTitle;
 
-  final String intvMethTpCd;
-
-  final String? intvRewdAmt;
-
+  /// 예정 날짜 (2022-02-03)
   final String dueDate;
 
+  /// 예상 소요 시간
   final String exceptTime;
 
+  /// 최소 연령대(이후에 8개의 bool 타입으로 바꿀 예정 일단 String)
   final String minAge;
 
+  /// 인터뷰 설명
   final String detail;
 
+  /// 리서치 종류(인터뷰, 설문, 테스트)
   final String researchType;
 
-  /// 직무유형코드(테스트후 변경예정 10,20,30,40,90,99)
+  /// 인터뷰 방법(온라인, 오프라인, 기존의 isOnline변수)
+  final String intvMethTpCd;
+
+  /// 보상 금액(1만원, 2만원, 기존의 hourlyRate 변수)
+  final String? intvRewdAmt;
+
+  //// 여기까지가 유저가 앱에서 보이는 것들 (기존에 테스트했던 10개의 변수 그대로)
+
+  /// 회원번호(일단 임의로 한개 지정, 의뢰하는 userId) 필수
+  final String? userId;
+
+  /// EMAIL주소(일단 임의로 한개 지정!!! User정보에서 가져와야함. GET 요청 필수)
+  final String? email;
+
+  /// 직무유형코드(개발,디자인 등등, 테스트후 변경 예정 10,20,30,40,90,99)
   final String? taskTpCd;
 
   /// 기타직급내용(99일때만 입력하게끔)
@@ -38,22 +51,13 @@ class InterviewReqModel {
   /// 회사명(회사명, 학교명, 단체명 등 소속 조직의 명칭)
   final String? compNm;
 
-  /// 아이템명
-  final String? itemNm;
-
-  /// 아이템한줄소개내용
-  final String? item1LnIntroCn;
-
   /// 인터뷰대상성별코드(M/F)
   final String? intvTgtZendTpCd;
 
-  /// 인터뷰대상내용(인터뷰 세부 설명)
-  final String? intvTgtSubs;
-
   /// 인터뷰대상인원수
-  final int? intvEntryCnt;
+  final String? intvEntryCnt;
 
-  /// 기타요청사항내용(원하는 인터뷰 인원 특성, 조건기입하기)
+  /// 기타요청사항내용(조건사항, 원하는 인터뷰 인원 특성, 조건기입하기)
   final String? etcReqCn;
 
   /// 인터뷰게시동의여부
@@ -62,17 +66,20 @@ class InterviewReqModel {
   /// 선택적 기입(의뢰자가 기업소속이나, 다른 단체 휴대폰 있을때 위함)
   final String? hpNum;
 
-  /// EMAIL주소(User정보에서 가져와야함. GET 요청 필수)
-  final String? email;
-
   /// 삭제여부(물리적인 삭제는 없으며, Flag 처리)
   final String? delYn;
 
-  /// 최초입력일시(데이터를 입력한 최초 일시 , SYSTEM DATE)
-  final DateTime? frstRegtDt;
+  // /// 최초입력일시(데이터를 입력한 최초 일시 , SYSTEM DATE)
+  // final DateTime? frstRegtDt;
+  //
+  // /// 최종수정일시
+  // final DateTime? finlUpdtDt;
 
-  /// 최종수정일시
-  final DateTime? finlUpdtDt;
+  // /// 아이템명
+  // final String? itemNm;
+  //
+  // /// 아이템한줄소개내용
+  // final String? item1LnIntroCn;
 
   // /// 인터뷰연령대10대여부(Y/N, Default = 'N')
   // final String? intvAge10Yn;
@@ -104,8 +111,6 @@ class InterviewReqModel {
     this.taskTpCd,
     this.etcTaskSubs,
     this.compNm,
-    this.itemNm,
-    this.item1LnIntroCn,
     required this.mainTitle,
     required this.subTitle,
     required this.intvMethTpCd,
@@ -116,15 +121,12 @@ class InterviewReqModel {
     required this.detail,
     required this.researchType,
     this.intvTgtZendTpCd,
-    this.intvTgtSubs,
     this.intvEntryCnt,
     this.etcReqCn,
     this.intvPostAgreeYn,
     this.hpNum,
     this.email,
     this.delYn,
-    this.frstRegtDt,
-    this.finlUpdtDt,
   });
 
   factory InterviewReqModel.fromJson(Map<String, dynamic> json) =>

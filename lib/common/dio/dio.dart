@@ -10,10 +10,11 @@ final dioProvider = Provider<Dio>((ref) {
   final dio = Dio();
   final storage = ref.watch(secureStorageProvider);
   dio.interceptors.add(
-    CustomInterceptor(
-      storage: storage,
-      ref: ref,
-    ),
+    LogInterceptor(requestBody: true, responseBody: true),
+    // CustomInterceptor(
+    //   storage: storage,
+    //   ref: ref,
+    // ),
   );
   return dio;
 });
