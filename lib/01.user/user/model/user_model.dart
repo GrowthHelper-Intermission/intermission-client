@@ -28,8 +28,8 @@ class UserModel extends UserModelBase{
   /// 회원ID
   final String userId;
 
-  /// 비밀번호
-  final String pwd;
+  // /// 비밀번호
+  // final String pwd;
 
   /// 가입일자
   final String joinDay;
@@ -65,7 +65,7 @@ class UserModel extends UserModelBase{
   /// 50(기획), 60(IT-기획), 70(IT-개발), 99(기타) 추가 생성 가
   final String asignJobCd;
 
-  final String jobNm;
+  // final String jobGrdNm;
 
   /// 결혼구분코드(차후 enum 변경(Y/N, Default = 'N'))
   final String wedTpCd;
@@ -135,7 +135,7 @@ class UserModel extends UserModelBase{
     required this.userTpCd,
     required this.userNm,
     required this.userId,
-    required this.pwd,
+    // required this.pwd,
     required this.joinDay,
     required this.bankAccount,
     required this.accountNumber,
@@ -146,7 +146,7 @@ class UserModel extends UserModelBase{
     required this.emailVerfYn,
     required this.jobCd,
     required this.asignJobCd,
-    required this.jobNm,
+    // required this.jobGrdNm,
     required this.wedTpCd,
     required this.housTpCd,
     required this.petYn,
@@ -174,7 +174,7 @@ class UserModel extends UserModelBase{
     String? userTpCd,
     String? userNm,
     String? userId,
-    String? pwd,
+    // String? pwd,
     String? joinDay,
     String? bankAccount,
     String? accountNumber,
@@ -185,7 +185,7 @@ class UserModel extends UserModelBase{
     String? emailVerfYn,
     String? jobCd,
     String? asignJobCd,
-    String? jobNm,
+    // String? jobGrdNm,
     String? wedTpCd,
     String? housTpCd,
     String? petYn,
@@ -220,7 +220,7 @@ class UserModel extends UserModelBase{
       userTpCd: userTpCd ?? '',
       userNm: userNm ?? this.userNm,
       userId: userId ?? this.userId,
-      pwd: pwd ?? '',
+      // pwd: pwd ?? '',
       joinDay: joinDay ?? this.joinDay,
       bankAccount: bankAccount ?? this.bankAccount,
       accountNumber: accountNumber ?? this.accountNumber,
@@ -231,7 +231,7 @@ class UserModel extends UserModelBase{
       emailVerfYn: emailVerfYn ?? this.emailVerfYn,
       jobCd: jobCd ?? this.jobCd,
       asignJobCd: asignJobCd ?? this.asignJobCd,
-      jobNm: jobNm ?? this.jobNm,
+      // jobNm: jobNm ?? this.jobNm,
       wedTpCd: wedTpCd ?? this.wedTpCd,
       housTpCd: housTpCd ?? this.housTpCd,
       petYn: petYn ?? this.petYn,

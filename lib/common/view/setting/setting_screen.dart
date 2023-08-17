@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:intermission_project/01.user/user/provider/user_me_provider.dart';
 import 'package:intermission_project/common/component/custom_text_style.dart';
 import 'package:intermission_project/common/layout/default_layout.dart';
 import 'package:intermission_project/common/view/setting/password_change_screen.dart';
@@ -84,14 +86,14 @@ class SettingComponent extends StatelessWidget {
   }
 }
 
-class LogoutSettingComponent extends StatelessWidget {
+class LogoutSettingComponent extends ConsumerWidget {
   final String title;
   const LogoutSettingComponent({
     required this.title,
   });
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Container(
       height: 50,
       child: ListTile(
@@ -120,7 +122,8 @@ class LogoutSettingComponent extends StatelessWidget {
             },
           ).then((value) {
             if (value == '예') {
-              logout(context);
+              // logout(context);
+              ref.read(userMeProvider.notifier).logout();
             }
           });
         },
@@ -137,13 +140,13 @@ class LogoutSettingComponent extends StatelessWidget {
     );
   }
 
-  Future<void> logout(BuildContext context) async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    await prefs.setBool('autoLogin', false);
-    Navigator.pushNamedAndRemoveUntil(
-      context,
-      '/',
-          (route) => false,
-    );
-  }
+  // Future<void> logout(BuildContext context) async {
+  //   SharedPreferences prefs = await SharedPreferences.getInstance();
+  //   await prefs.setBool('autoLogin', false);
+  //   Navigator.pushNamedAndRemoveUntil(
+  //     context,
+  //     '/',
+  //         (route) => false,
+  //   );
+  // }
 }

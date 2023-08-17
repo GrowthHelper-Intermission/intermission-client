@@ -128,8 +128,8 @@ class SignupUserNotifier extends ChangeNotifier {
     notifyListeners();
   }
 
-  void setJobNm(String? jobNm) {
-    this.jobNm = jobNm;
+  void setJobGrdNm(String? jobGrdNm) {
+    this.jobGrdNm = jobGrdNm;
     notifyListeners();
   }
 

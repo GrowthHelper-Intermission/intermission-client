@@ -111,40 +111,40 @@ class AuthProvider extends ChangeNotifier {
   //로그인 스크린으로 보내줄지 홈 스크린으로 보내줄지 확인 과정 필요
   FutureOr<String?> redirectLogic(BuildContext context, GoRouterState state) {
 
-    // print('hello');
-    // final UserModelBase? user = ref.read(userMeProvider); //유저 상태를 가져온다
-    // final logginIn = state.matchedLocation == '/select';
-    // print(state.matchedLocation);
-    //
-    // if (state.matchedLocation == '/signup1' || state.matchedLocation == '/signup2' || state.matchedLocation == '/signup3') {
-    //   return null;  // 회원가입 중이므로 리다이렉트하지 않음
+    print('hello');
+    final UserModelBase? user = ref.read(userMeProvider); //유저 상태를 가져온다
+    final logginIn = state.matchedLocation == '/select';
+    print(state.matchedLocation);
+
+    if (state.matchedLocation == '/signup1' || state.matchedLocation == '/signup2' || state.matchedLocation == '/signup3') {
+      return null;  // 회원가입 중이므로 리다이렉트하지 않음
+    }
+
+    // || state.matchedLocation == '/'
+
+    //유저 정보 없는데 로그인중이면 그대로 로그인 페이지,
+    // 만약 로그인중 아니면 로그인 페이지 이동
+    if (user == null) {
+      return logginIn ? null : '/select';
+    }
+    //user != null
+    //UserModel
+    //사용자 정보가 있는 상태면(유저정보를 가져왔는데)
+    //로그인중이거나 현재위치가 SplashScreen이면?
+    //홈으로 이동('/'이게 홈임)
+
+    // if (user is UserModel) { //로그인이 이미 되어있는데,
+    //   return logginIn || state.matchedLocation == '/splash' ||  state.matchedLocation =='/select' ?
+    //   '/' : null;
     // }
-    //
-    // // || state.matchedLocation == '/'
-    //
-    // //유저 정보 없는데 로그인중이면 그대로 로그인 페이지,
-    // // 만약 로그인중 아니면 로그인 페이지 이동
-    // if (user == null) {
-    //   return logginIn ? null : '/select';
-    // }
-    // //user != null
-    // //UserModel
-    // //사용자 정보가 있는 상태면(유저정보를 가져왔는데)
-    // //로그인중이거나 현재위치가 SplashScreen이면?
-    // //홈으로 이동('/'이게 홈임)
-    //
-    // // if (user is UserModel) { //로그인이 이미 되어있는데,
-    // //   return logginIn || state.matchedLocation == '/splash' ||  state.matchedLocation =='/select' ?
-    // //   '/' : null;
-    // // }
-    //
-    // if (user is UserModel) {
-    //   return logginIn || state.matchedLocation == '/splash' ||state.matchedLocation == '/login'  ? '/' : null;
-    // }
-    // if (user is UserModelError) {
-    //   print('usermodelerror');
-    //   return !logginIn ? '/select' : null;
-    // }
+
+    if (user is UserModel) {
+      return logginIn || state.matchedLocation == '/splash' ||state.matchedLocation == '/login'  ? '/' : null;
+    }
+    if (user is UserModelError) {
+      print('usermodelerror');
+      return !logginIn ? '/select' : null;
+    }
 
     return null;
   }

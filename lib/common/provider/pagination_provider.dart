@@ -139,7 +139,6 @@ U extends IBasePaginationRepository<T>>
       //PaginationParams 생성(copywith으로 after나 count변경가능)
       PaginationParams paginationParams = PaginationParams(
         count: fetchCount, //안넣어줘도 되긴함 이미 default 20
-
       );
 
       // fetchMore
