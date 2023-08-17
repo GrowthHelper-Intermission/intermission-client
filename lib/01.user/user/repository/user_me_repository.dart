@@ -24,11 +24,14 @@ final userMeRepositoryProvider = Provider<UserMeRepository>(
 abstract class UserMeRepository {
   factory UserMeRepository(Dio dio, {String baseUrl}) = _UserMeRepository;
 
+  // @GET('/me')
+  // @Headers({
+  //   'accessToken': 'true',
+  // })
+  // Future<UserModel> getMe();
+
   @GET('/me')
-  @Headers({
-    'accessToken': 'true',
-  })
-  Future<UserModel> getMe();
+  Future<UserModel> getMe(@Header('Authorization') String token);
 
   @POST('/save')
   // @Headers({

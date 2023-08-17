@@ -25,12 +25,8 @@ class LogoutScreen extends ConsumerWidget {
         children: [
           ElevatedButton(
             onPressed: () {
+              print('fws');
               ref.read(userMeProvider.notifier).logout();
-              // Navigator.pushNamedAndRemoveUntil(
-              //   context,
-              //   '/select',
-              //       (route) => false,
-              // );
             },
             child: Text('로그아웃 하기'),
             style: ButtonStyle(

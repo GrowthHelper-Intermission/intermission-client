@@ -756,7 +756,7 @@ class _SignupScreenPage2State extends ConsumerState<SignupScreenPage2> {
                         state.setPetNm(raisePetController.text.trim());
                         state.setAsignJobCd(selectedAsignCdType);
                         state.setJobCd(selectedJobCdType);
-                        state.setJobNm(jobController.text.trim());
+                        state.setJobGrdNm(jobController.text.trim());
                         state.setOccpSidoCd(selectedCity);
                         state.setOccpSigunguCd(selectedCountry);
                         state.setIntvSidoCd(intvSelectedCity);

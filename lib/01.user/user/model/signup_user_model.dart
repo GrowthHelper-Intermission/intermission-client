@@ -19,7 +19,7 @@ class SignupUserModel extends UserModelBase {
   final String? emailVerfYn;
   final String? jobCd;
   final String? asignJobCd;
-  final String? jobNm;
+  final String? jobGrdNm;
   final String? wedTpCd;
   final String? housTpCd;
   final String? petYn;
@@ -54,7 +54,7 @@ class SignupUserModel extends UserModelBase {
     this.emailVerfYn,
     this.jobCd,
     this.asignJobCd,
-    this.jobNm,
+    this.jobGrdNm,
     this.wedTpCd,
     this.housTpCd,
     this.petYn,

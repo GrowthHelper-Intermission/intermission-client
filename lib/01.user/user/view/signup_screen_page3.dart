@@ -213,7 +213,7 @@ class _SignupScreenPage3State extends ConsumerState<SignupScreenPage3> {
                          empNo: state.empNo,
                          intvSigunguCd: state.intvSigunguCd ?? "blank",
                          intvSidoCd: state.intvSidoCd ?? "blank",
-                         jobNm: state.jobNm,
+                         jobGrdNm: state.jobNm,
                          jobCd: state.jobCd,
                          asignJobCd: state.asignJobCd,
                          accountNumber: state.accountNumber,
