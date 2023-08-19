@@ -1,11 +1,11 @@
 import 'package:json_annotation/json_annotation.dart';
 
-part 'interview_req_model.g.dart';
+part 'research_req_model.g.dart';
 
 @JsonSerializable()
-class InterviewReqModel {
-  /// 인터뷰 유일 ID(PK) 필수
-  final String id;
+class ResearchReqModel {
+  // /// 인터뷰 유일 ID(PK) 필수
+  // final String id;
 
   /// 인터뷰명
   final String mainTitle;
@@ -29,10 +29,10 @@ class InterviewReqModel {
   final String researchType;
 
   /// 인터뷰 방법(온라인, 오프라인, 기존의 isOnline변수)
-  final String intvMethTpCd;
+  final String researchMethTpCd;
 
   /// 보상 금액(1만원, 2만원, 기존의 hourlyRate 변수)
-  final String? intvRewdAmt;
+  final String? researchRewdAmt;
 
   //// 여기까지가 유저가 앱에서 보이는 것들 (기존에 테스트했던 10개의 변수 그대로)
 
@@ -52,16 +52,16 @@ class InterviewReqModel {
   final String? compNm;
 
   /// 인터뷰대상성별코드(M/F)
-  final String? intvTgtZendTpCd;
+  final String? researchTgtZendTpCd;
 
   /// 인터뷰대상인원수
-  final String? intvEntryCnt;
+  final String? researchEntryCnt;
 
   /// 기타요청사항내용(조건사항, 원하는 인터뷰 인원 특성, 조건기입하기)
   final String? etcReqCn;
 
   /// 인터뷰게시동의여부
-  final String? intvPostAgreeYn;
+  final String? researchPostAgreeYn;
 
   /// 선택적 기입(의뢰자가 기업소속이나, 다른 단체 휴대폰 있을때 위함)
   final String? hpNum;
@@ -105,32 +105,31 @@ class InterviewReqModel {
   // /// 무직위여부(연령 성별 구분없이 Random하게 추출하는 지에 대한 여부,Y/N)
   // final String? intvAgeRandYn;
 
-  InterviewReqModel({
-    required this.id,
+  ResearchReqModel({
     this.userId,
     this.taskTpCd,
     this.etcTaskSubs,
     this.compNm,
     required this.mainTitle,
     required this.subTitle,
-    required this.intvMethTpCd,
-    this.intvRewdAmt,
+    required this.researchMethTpCd,
+    this.researchRewdAmt,
     required this.dueDate,
     required this.exceptTime,
     required this.minAge,
     required this.detail,
     required this.researchType,
-    this.intvTgtZendTpCd,
-    this.intvEntryCnt,
+    this.researchTgtZendTpCd,
+    this.researchEntryCnt,
     this.etcReqCn,
-    this.intvPostAgreeYn,
+    this.researchPostAgreeYn,
     this.hpNum,
     this.email,
     this.delYn,
   });
 
-  factory InterviewReqModel.fromJson(Map<String, dynamic> json) =>
-      _$InterviewReqModelFromJson(json);
+  factory ResearchReqModel.fromJson(Map<String, dynamic> json) =>
+      _$ResearchReqModelFromJson(json);
 
-  Map<String, dynamic> toJson() => _$InterviewReqModelToJson(this);
+  Map<String, dynamic> toJson() => _$ResearchReqModelToJson(this);
 }

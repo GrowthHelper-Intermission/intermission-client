@@ -10,7 +10,7 @@ import 'package:go_router/go_router.dart';
 import 'package:intermission_project/01.user/user/view/login_screen.dart';
 import 'package:intermission_project/01.user/user/view/select_screen.dart';
 import 'package:intermission_project/04.research/04_2.interview/interview/view/interview_detail_screen.dart';
-import 'package:intermission_project/04.research/04_2.interview/interview_req/view/interview_req_screen.dart';
+import 'package:intermission_project/04.research/04_2.interview/interview_req/view/research_req_screen.dart';
 import 'package:intermission_project/common/view/root_tab.dart';
 import 'package:intermission_project/common/view/splash_screen.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -96,8 +96,8 @@ class AuthProvider extends ChangeNotifier {
     ),
     GoRoute(
       path: '/request',
-      name: InterviewReqScreen.routeName,
-      builder: (_, __) => InterviewReqScreen(),
+      name: ResearchReqScreen.routeName,
+      builder: (_, __) => ResearchReqScreen(),
     ),
   ];
 

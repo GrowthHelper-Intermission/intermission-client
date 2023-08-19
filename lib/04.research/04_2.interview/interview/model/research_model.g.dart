@@ -1,13 +1,13 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'interview_model.dart';
+part of 'research_model.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-InterviewModel _$InterviewModelFromJson(Map<String, dynamic> json) =>
-    InterviewModel(
+ResearchModel _$ResearchModelFromJson(Map<String, dynamic> json) =>
+    ResearchModel(
       id: json['id'] as String,
       mainTitle: json['mainTitle'] as String,
       subTitle: json['subTitle'] as String,
@@ -17,7 +17,7 @@ InterviewModel _$InterviewModelFromJson(Map<String, dynamic> json) =>
       isOnGoing: json['isOnGoing'] as String,
     );
 
-Map<String, dynamic> _$InterviewModelToJson(InterviewModel instance) =>
+Map<String, dynamic> _$ResearchModelToJson(ResearchModel instance) =>
     <String, dynamic>{
       'id': instance.id,
       'mainTitle': instance.mainTitle,

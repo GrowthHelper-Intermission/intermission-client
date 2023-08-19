@@ -1,7 +1,7 @@
 import 'package:dio/dio.dart' hide Headers;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:intermission_project/04.research/04_2.interview/interview/model/interview_detail_model.dart';
-import 'package:intermission_project/04.research/04_2.interview/interview/model/interview_model.dart';
+import 'package:intermission_project/04.research/04_2.interview/interview/model/research_detail_model.dart';
+import 'package:intermission_project/04.research/04_2.interview/interview/model/research_model.dart';
 import 'package:intermission_project/04.research/04_2.interview/interview/repository/interview_repository.dart';
 import 'package:intermission_project/common/const/data.dart';
 import 'package:intermission_project/common/dio/dio.dart';
@@ -11,49 +11,35 @@ import 'package:intermission_project/common/repository/base_pagination_repositor
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:collection/collection.dart';
 
-final interviewInterviewProvider = StateNotifierProvider<InterviewStateNotifier, CursorPaginationBase>(
+final interviewInterviewProvider = StateNotifierProvider<ResearchStateNotifier, CursorPaginationBase>(
       (ref) {
     final repository = ref.watch(interviewRepositoryProvider);
-    final notifier = InterviewStateNotifier(repository: repository,researchType: "1");
-    return notifier;
-  },
-);
-
-final testerProvider = StateNotifierProvider<InterviewStateNotifier, CursorPaginationBase>(
-      (ref) {
-    final repository = ref.watch(interviewRepositoryProvider);
-    final notifier = InterviewStateNotifier(repository: repository,researchType: "3");
+    final notifier = ResearchStateNotifier(repository: repository,researchType: "interview");
     return notifier;
   },
 );
 
 
-
-final surveyProvider = StateNotifierProvider<InterviewStateNotifier, CursorPaginationBase>(
+final surveyProvider = StateNotifierProvider<ResearchStateNotifier, CursorPaginationBase>(
       (ref) {
     final repository = ref.watch(interviewRepositoryProvider);
-    final notifier = InterviewStateNotifier(repository: repository,researchType: "2");
+    final notifier = ResearchStateNotifier(repository: repository,researchType: "survey");
     return notifier;
   },
 );
 
- makeDetailProvider(ProviderBase providerBase) {
-  return Provider.family<InterviewModel?, String>((ref, id) {
-    final state = ref.watch(interviewProvider);
-
-    if (state is! CursorPagination) {
-      return null;
-    }
-
-    return state.data.firstWhereOrNull((element) => element.id == id);
-  });
-}
-
+final testerProvider = StateNotifierProvider<ResearchStateNotifier, CursorPaginationBase>(
+      (ref) {
+    final repository = ref.watch(interviewRepositoryProvider);
+    final notifier = ResearchStateNotifier(repository: repository,researchType: "test");
+    return notifier;
+  },
+);
 
 // final interviewDetailProvider = makeDetailProvider(interviewProvider);
 
 final interviewDetailProvider =
-    Provider.family<InterviewModel?, String>((ref, id) {
+    Provider.family<ResearchModel?, String>((ref, id) {
   final state = ref.watch(interviewProvider);
 
   if (state is! CursorPagination) {
@@ -64,33 +50,37 @@ final interviewDetailProvider =
 });
 
 final interviewProvider =
-    StateNotifierProvider<InterviewStateNotifier, CursorPaginationBase>(
+    StateNotifierProvider<ResearchStateNotifier, CursorPaginationBase>(
   (ref) {
     final repository = ref.watch(interviewRepositoryProvider);
-    final notifier = InterviewStateNotifier(repository: repository);
+    final notifier = ResearchStateNotifier(repository: repository);
     return notifier;
   },
 );
 
-class InterviewStateNotifier
-    extends PaginationProvider<InterviewModel, InterviewRepository> {
+class ResearchStateNotifier
+    extends PaginationProvider<ResearchModel, InterviewRepository> {
   // final RestaurantRepository repository;
 
   final String? researchType;
 
-  InterviewStateNotifier({
+  ResearchStateNotifier({
     required super.repository,
     this.researchType,
-  }): super() {
-    // 클래스가 초기화될 때 researchType을 출력합니다.
+  }): super(autoFetch: false) {
+    // 클래스가 초기화될 때 researchType을 출력!
     paginate(researchType: researchType);
     // print("Research Type: $researchType");
+  }
+
+  void resetState() {
+    paginate(researchType: researchType);   // 새로운 데이터 요청
   }
 
 
 
   // 상위 3개의 인터뷰를 가져오는 함수
-  List<InterviewModel> getTopThreeInterviews() {
+  List<ResearchModel> getTopThreeResearches() {
     if (state is! CursorPagination) {
       return [];
     }
@@ -101,7 +91,7 @@ class InterviewStateNotifier
     // 인터뷰 개수가 3개 이상인 경우 상위 3개를 가져오고, 그렇지 않으면 모든 인터뷰를 가져오기
     int count = pState.data.length;
     // 데이터 타입 변환
-    List<InterviewModel> topThreeList = List<InterviewModel>.from(
+    List<ResearchModel> topThreeList = List<ResearchModel>.from(
       pState.data.sublist(0, count),
     );
     return topThreeList;
@@ -128,7 +118,7 @@ class InterviewStateNotifier
     final pState = state as CursorPagination;
 
     //응답으로 받은 restaurantDetailModel
-    final resp = await repository.getInterviewDetail(id: id);
+    final resp = await repository.getResearchDetail(id: id);
 
     // [RestaurantModel(1), RestaurantModel(2), RestaurantModel(3)]
     // 요청 id: 10
@@ -138,7 +128,7 @@ class InterviewStateNotifier
     // RestaurantDetailModel(10)
     if (pState.data.where((e) => e.id == id).isEmpty) {
       state = pState.copyWith(
-        data: <InterviewModel>[
+        data: <ResearchModel>[
           ...pState.data,
           resp,
         ],
@@ -146,7 +136,7 @@ class InterviewStateNotifier
     } else {
       state = pState.copyWith(
         data: pState.data
-            .map<InterviewModel>(
+            .map<ResearchModel>(
               (e) => e.id == id ? resp : e,
             )
             .toList(),

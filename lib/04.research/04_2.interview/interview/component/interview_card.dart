@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:intermission_project/04.research/04_2.interview/interview/model/interview_model.dart';
+import 'package:intermission_project/04.research/04_2.interview/interview/model/research_model.dart';
 import 'package:intermission_project/04.research/04_2.interview/interview/view/interview_detail_screen.dart';
 import 'package:intermission_project/common/component/custom_text_style.dart';
 import 'package:intermission_project/common/const/colors.dart';
@@ -11,7 +11,7 @@ import 'package:intermission_project/common/view/setting/setting_screen.dart';
 //   both,
 // }
 
-class InterviewCard extends StatefulWidget {
+class ResearchCard extends StatefulWidget {
   final String id; // PK
   final String mainTitle; // ex)뇌졸중 환자 및 보호자
   final String subTitle; //ex)온라인, 서울 관악구 기준 30분 거리면 오프라인 방문 가능
@@ -20,7 +20,7 @@ class InterviewCard extends StatefulWidget {
   final String dueDate; //yyyy-mm-dd
   final String isOnGoing; //진행여부
 
-  const InterviewCard({
+  const ResearchCard({
     required this.id,
     required this.mainTitle,
     required this.subTitle,
@@ -31,11 +31,11 @@ class InterviewCard extends StatefulWidget {
     super.key,
   });
 
-  factory InterviewCard.fromModel({
-    required InterviewModel model,
+  factory ResearchCard.fromModel({
+    required ResearchModel model,
     bool isDetail = false,
   }) {
-    return InterviewCard(
+    return ResearchCard(
       id: model.id,
       mainTitle: model.mainTitle,
       subTitle: model.subTitle,
@@ -49,12 +49,12 @@ class InterviewCard extends StatefulWidget {
   }
 
   @override
-  State<InterviewCard> createState() => _InterviewCardState();
+  State<ResearchCard> createState() => _ResearchCardState();
 
 }
 
 
-class _InterviewCardState extends State<InterviewCard> {
+class _ResearchCardState extends State<ResearchCard> {
   int daysLeft = 0;
 
   @override

@@ -15,7 +15,7 @@ class _PaginationInfo {
     this.fetchCount = 10,
     this.fetchMore = false,
     this.forceRefetch = false,
-    this.researchType = "1"
+    this.researchType,
   });
 }
 
@@ -47,8 +47,9 @@ U extends IBasePaginationRepository<T>>
 
   PaginationProvider({
     required this.repository,
+    bool autoFetch = true, // 새로운 매개변수 추가
   }) : super(CursorPaginationLoading()) {
-    paginate();
+    if(autoFetch) paginate();
     paginationThrottle.values.listen(
           (state) {
         _throttledPagination(state);
@@ -75,7 +76,7 @@ U extends IBasePaginationRepository<T>>
 
   Future<void> paginate({
     ///
-    String? researchType,
+    String? researchType = null,
     int fetchCount = 10,
     //추가로 데이터 더 가져오기
     //true - 추가로 데이터 더 가져옴

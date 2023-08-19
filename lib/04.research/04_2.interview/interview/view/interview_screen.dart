@@ -3,8 +3,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intermission_project/01.user/user/provider/user_me_provider.dart';
 import 'package:intermission_project/04.research/04_2.interview/interview/component/interview_card.dart';
-import 'package:intermission_project/04.research/04_2.interview/interview/model/interview_model.dart';
-import 'package:intermission_project/04.research/04_2.interview/interview/provider/interview_provider.dart';
+import 'package:intermission_project/04.research/04_2.interview/interview/model/research_model.dart';
+import 'package:intermission_project/04.research/04_2.interview/interview/provider/research_provider.dart';
 import 'package:intermission_project/04.research/04_2.interview/interview/view/interview_detail_screen.dart';
 import 'package:intermission_project/04.research/04_2.interview/interview/view/interview_detail_test_screen.dart';
 import 'package:intermission_project/common/component/custom_appbar.dart';
@@ -12,33 +12,19 @@ import 'package:intermission_project/common/component/custom_text_style.dart';
 import 'package:intermission_project/common/component/pagination_list_view.dart';
 import 'package:intermission_project/common/model/cursor_pagination_model.dart';
 import 'package:intermission_project/common/model/model_with_id.dart';
+import 'package:provider/provider.dart';
 
 import '../../../../common/provider/pagination_provider.dart';
 import '../../../../common/repository/base_pagination_repository.dart';
 
-// class InterviewScreen extends StatelessWidget {
-//   static String get routeName => 'interview';
-//   const InterviewScreen({super.key});
-//
-//   @override
-//   Widget build(BuildContext context) {
-//     return PaginationListView(
-//       provider: interviewProvider,
-//       itemBuilder: <InterviewModel>(_, index, model) {
-//         return InterviewCard.fromModel(model: model);
-//       },
-//     );
-//   }
-// }
 
-
-class InterviewScreen extends StatefulWidget {
+class InterviewScreen extends ConsumerStatefulWidget {
   static String get routeName => 'interview';
   @override
   _InterviewScreenState createState() => _InterviewScreenState();
 }
 
-class _InterviewScreenState extends State<InterviewScreen> with SingleTickerProviderStateMixin,AutomaticKeepAliveClientMixin {
+class _InterviewScreenState extends ConsumerState<InterviewScreen> with SingleTickerProviderStateMixin,AutomaticKeepAliveClientMixin {
   TabController? _tabController;
 
   @override
@@ -48,6 +34,11 @@ class _InterviewScreenState extends State<InterviewScreen> with SingleTickerProv
   void initState() {
     super.initState();
     _tabController = TabController(length: 4, vsync: this);  // 4개의 탭
+    // ref.read(interviewProvider.notifier).paginate();
+    // ref.read(interviewInterviewProvider.notifier).paginate();
+    // ref.read(surveyProvider.notifier).paginate();
+    // ref.read(testerProvider.notifier).paginate();
+
   }
 
   @override
@@ -99,13 +90,6 @@ class _InterviewScreenState extends State<InterviewScreen> with SingleTickerProv
             Expanded(
               child: TabBarView(
                 controller: _tabController,
-                 //children: List.generate(4, (index) => _buildInterviewPage(),),
-                 //  children: [
-                 //    _buildInterviewPage(null), // "전체" 탭
-                 //    _buildInterviewPage("1"), // "인터뷰" 탭
-                 //    _buildInterviewPage("20"), // "설문조사" 탭
-                 //    _buildInterviewPage("5"), // "테스트 참여" 탭
-                 //  ]
                   children: [
                     _buildInterviewPage(interviewProvider), // "전체" 탭
                     _buildInterviewPage(interviewInterviewProvider), // "인터뷰" 탭
@@ -128,25 +112,14 @@ class _InterviewScreenState extends State<InterviewScreen> with SingleTickerProv
     );
   }
 
-  // // 1, 20, 9
-  // Widget _buildInterviewPage() {
-  //   return PaginationListView(
-  //     provider: interviewProvider,
-  //     itemBuilder: <InterviewModel>(_, index, model)  {
-  //       return InterviewCard.fromModel(model: model);
-  //     },
-  //   );
-  // }
 
-  Widget _buildInterviewPage(StateNotifierProvider<InterviewStateNotifier, CursorPaginationBase> provider) {
+  Widget _buildInterviewPage(StateNotifierProvider<ResearchStateNotifier, CursorPaginationBase> provider) {
     print("ha");
     return PaginationListView(
       provider: provider,
       itemBuilder: <InterviewModel>(BuildContext context, int index, model) {
-        return InterviewCard.fromModel(model: model);
+        return ResearchCard.fromModel(model: model);
       },
     );
   }
-
-
 }

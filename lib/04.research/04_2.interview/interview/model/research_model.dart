@@ -1,7 +1,7 @@
 import 'package:intermission_project/common/model/model_with_id.dart';
 import 'package:json_annotation/json_annotation.dart';
 
-part 'interview_model.g.dart';
+part 'research_model.g.dart';
 
 // enum onlineCategory{
 //   online,
@@ -10,7 +10,7 @@ part 'interview_model.g.dart';
 // }
 
 @JsonSerializable()
-class InterviewModel implements IModelWithId {
+class ResearchModel implements IModelWithId {
   final String id; // PK
   final String mainTitle; // ex)뇌졸중 환자 및 보호자
   final String subTitle; //ex)온라인, 서울 관악구 기준 30분 거리면 오프라인 방문 가능
@@ -19,7 +19,7 @@ class InterviewModel implements IModelWithId {
   final String dueDate; //yyyy-mm-dd
   final String isOnGoing; //진행여부
 
-  InterviewModel({
+  ResearchModel({
     required this.id,
     required this.mainTitle,
     required this.subTitle,
@@ -29,8 +29,8 @@ class InterviewModel implements IModelWithId {
     required this.isOnGoing,
   });
 
-  factory InterviewModel.fromJson(Map<String, dynamic> json)
-  => _$InterviewModelFromJson(json);
+  factory ResearchModel.fromJson(Map<String, dynamic> json)
+  => _$ResearchModelFromJson(json);
 
-  Map<String,dynamic> toJson() => _$InterviewModelToJson(this);
+  Map<String,dynamic> toJson() => _$ResearchModelToJson(this);
 }

@@ -186,7 +186,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                     ],
                   ),
                 ),
-                OngoingInterviewList(),
+                OngoingResearchList(),
                 SizedBox(
                   height: 5,
                 ),
