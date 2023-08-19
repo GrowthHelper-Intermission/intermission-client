@@ -19,7 +19,7 @@ class _InterviewRepository implements InterviewRepository {
   String? baseUrl;
 
   @override
-  Future<CursorPagination<InterviewModel>> paginate({
+  Future<CursorPagination<ResearchModel>> paginate({
     researchType,
     paginationParams = const PaginationParams(),
   }) async {
@@ -30,7 +30,7 @@ class _InterviewRepository implements InterviewRepository {
     final _headers = <String, dynamic>{};
     final Map<String, dynamic>? _data = null;
     final _result = await _dio.fetch<Map<String, dynamic>>(
-        _setStreamType<CursorPagination<InterviewModel>>(Options(
+        _setStreamType<CursorPagination<ResearchModel>>(Options(
       method: 'GET',
       headers: _headers,
       extra: _extra,
@@ -42,21 +42,21 @@ class _InterviewRepository implements InterviewRepository {
               data: _data,
             )
             .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
-    final value = CursorPagination<InterviewModel>.fromJson(
+    final value = CursorPagination<ResearchModel>.fromJson(
       _result.data!,
-      (json) => InterviewModel.fromJson(json as Map<String, dynamic>),
+      (json) => ResearchModel.fromJson(json as Map<String, dynamic>),
     );
     return value;
   }
 
   @override
-  Future<InterviewDetailModel> getInterviewDetail({required id}) async {
+  Future<ResearchDetailModel> getResearchDetail({required id}) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{};
     final Map<String, dynamic>? _data = null;
     final _result = await _dio.fetch<Map<String, dynamic>>(
-        _setStreamType<InterviewDetailModel>(Options(
+        _setStreamType<ResearchDetailModel>(Options(
       method: 'GET',
       headers: _headers,
       extra: _extra,
@@ -68,7 +68,7 @@ class _InterviewRepository implements InterviewRepository {
               data: _data,
             )
             .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
-    final value = InterviewDetailModel.fromJson(_result.data!);
+    final value = ResearchDetailModel.fromJson(_result.data!);
     return value;
   }
 

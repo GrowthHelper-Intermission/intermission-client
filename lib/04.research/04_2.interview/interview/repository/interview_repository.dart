@@ -1,9 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:collection/collection.dart';
-import 'package:intermission_project/04.research/04_2.interview/interview/model/interview_detail_model.dart';
-import 'package:intermission_project/04.research/04_2.interview/interview/model/interview_model.dart';
-import 'package:intermission_project/04.research/04_2.interview/interview/provider/interview_provider.dart';
+import 'package:intermission_project/04.research/04_2.interview/interview/model/research_detail_model.dart';
+import 'package:intermission_project/04.research/04_2.interview/interview/model/research_model.dart';
+import 'package:intermission_project/04.research/04_2.interview/interview/provider/research_provider.dart';
 import 'package:intermission_project/common/const/data.dart';
 import 'package:intermission_project/common/dio/dio.dart';
 import 'package:intermission_project/common/model/cursor_pagination_model.dart';
@@ -30,23 +30,14 @@ final interviewRepositoryProvider = Provider<InterviewRepository>(
 
 @RestApi()
 abstract class InterviewRepository implements
-    IBasePaginationRepository<InterviewModel> {
+    IBasePaginationRepository<ResearchModel> {
   factory InterviewRepository(Dio dio, {String baseUrl}) =
   _InterviewRepository;
-
-  // @GET('/') //일반 인터뷰
-  // @Headers({
-  //   'accessToken': 'true',
-  // })
-  // Future<CursorPagination<InterviewModel>> paginate({
-  //   //retrofit에서 쿼리 추가할때
-  //   @Queries() PaginationParams? paginationParams = const PaginationParams(),
-  // });
 
 
   // http://34.64.77.5:8080/api/v1/test/interview/interview?researchType=1
   @GET('/')
-  Future<CursorPagination<InterviewModel>> paginate({
+  Future<CursorPagination<ResearchModel>> paginate({
     @Query('researchType') String? researchType,
     @Queries() PaginationParams? paginationParams = const PaginationParams(),
   });
@@ -59,7 +50,11 @@ abstract class InterviewRepository implements
   // @Headers({
   //   'accessToken': 'true',
   // })
-  Future<InterviewDetailModel> getInterviewDetail({
+  Future<ResearchDetailModel> getResearchDetail({
     @Path() required String id,
   });
 }
+
+
+
+

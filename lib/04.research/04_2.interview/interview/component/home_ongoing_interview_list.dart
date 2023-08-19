@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intermission_project/04.research/04_2.interview/interview/component/interview_card.dart';
-import 'package:intermission_project/04.research/04_2.interview/interview/provider/interview_provider.dart';
+import 'package:intermission_project/04.research/04_2.interview/interview/provider/research_provider.dart';
 import 'package:intermission_project/common/model/cursor_pagination_model.dart';
 
-class OngoingInterviewList extends ConsumerWidget {
-  const OngoingInterviewList({super.key});
+class OngoingResearchList extends ConsumerWidget {
+  const OngoingResearchList({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final interviewNotifier = ref.watch(interviewProvider.notifier);
-    final ongoingInterviews = interviewNotifier.getTopThreeInterviews();
+    final ongoingInterviews = interviewNotifier.getTopThreeResearches();
 
     final interviewState = ref.watch(interviewProvider);
 
@@ -36,7 +36,7 @@ class OngoingInterviewList extends ConsumerWidget {
         itemCount: itemCount,
         itemBuilder: (context, index) {
           final interview = ongoingInterviews[index];
-          return InterviewCard.fromModel(model: interview);
+          return ResearchCard.fromModel(model: interview);
         },
       ),
     );

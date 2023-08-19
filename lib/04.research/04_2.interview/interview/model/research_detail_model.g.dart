@@ -1,14 +1,13 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'interview_detail_model.dart';
+part of 'research_detail_model.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-InterviewDetailModel _$InterviewDetailModelFromJson(
-        Map<String, dynamic> json) =>
-    InterviewDetailModel(
+ResearchDetailModel _$ResearchDetailModelFromJson(Map<String, dynamic> json) =>
+    ResearchDetailModel(
       id: json['id'] as String,
       mainTitle: json['mainTitle'] as String,
       subTitle: json['subTitle'] as String,
@@ -22,8 +21,8 @@ InterviewDetailModel _$InterviewDetailModelFromJson(
       minAge: json['minAge'] as String,
     );
 
-Map<String, dynamic> _$InterviewDetailModelToJson(
-        InterviewDetailModel instance) =>
+Map<String, dynamic> _$ResearchDetailModelToJson(
+        ResearchDetailModel instance) =>
     <String, dynamic>{
       'id': instance.id,
       'mainTitle': instance.mainTitle,
