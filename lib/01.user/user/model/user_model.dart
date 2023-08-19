@@ -14,6 +14,8 @@ class UserModelError extends UserModelBase {
 
 class UserModelLoading extends UserModelBase {}
 
+class UserModelSuccess extends UserModelBase {}
+
 @JsonSerializable()
 class UserModel extends UserModelBase{
   // /// 회원번호(Server)
@@ -103,11 +105,11 @@ class UserModel extends UserModelBase{
   /// 주이용온라인서비스내용
   final String mainUseOnlSvcCn;
 
-  /// 취미내용
-  final String hobySubs;
+  // /// 취미내용
+  // final String hobySubs;
 
-  /// 추천회원번호
-  final String rcmdUserCd;
+  // /// 추천회원번호
+  // final String rcmdUserCd;
 
   /// 개인정보수집동의여부(Y/N, Default = 'Y')
   final String isAgreeYn;
@@ -159,8 +161,8 @@ class UserModel extends UserModelBase{
     required this.oflIntvRwdTpCd,
     required this.onlIntvRwdTpCd,
     required this.mainUseOnlSvcCn,
-    required this.hobySubs,
-    required this.rcmdUserCd,
+    // required this.hobySubs,
+    // required this.rcmdUserCd,
     required this.isAgreeYn,
     required this.isAgreeDt,
     required this.empYn,
@@ -244,8 +246,8 @@ class UserModel extends UserModelBase{
       oflIntvRwdTpCd: oflIntvRwdTpCd ?? '',
       onlIntvRwdTpCd: onlIntvRwdTpCd ?? '',
       mainUseOnlSvcCn: mainUseOnlSvcCn ?? '',
-      hobySubs: hobySubs ?? this.hobySubs,
-      rcmdUserCd: rcmdUserCd ?? this.rcmdUserCd,
+      // hobySubs: hobySubs ?? this.hobySubs ?? '',
+      // rcmdUserCd: rcmdUserCd ?? this.rcmdUserCd,
       isAgreeYn: isAgreeYn ?? this.isAgreeYn,
       isAgreeDt: isAgreeDt ?? this.isAgreeDt,
       empYn: empYn ?? this.empYn,
