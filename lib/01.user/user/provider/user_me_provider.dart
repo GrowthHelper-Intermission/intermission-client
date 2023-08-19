@@ -12,7 +12,7 @@ import 'package:intermission_project/common/storage/secure_storage.dart';
 import 'package:provider/provider.dart';
 
 // Provider-in-Provider
-final userModelProvider = StateProvider<UserModel?>((ref) => null);
+// final userModelProvider = StateProvider<UserModel?>((ref) => null);
 
 final userMeProvider =
     StateNotifierProvider<UserMeStateNotifier, UserModelBase?>((ref) {
@@ -56,15 +56,17 @@ class UserMeStateNotifier extends StateNotifier<UserModelBase?> {
     final accessToken = await storage.read(key: ACCESS_TOKEN_KEY);
 
 
-    print('accessToken is : ${accessToken}');
+    print('accessToken is : $accessToken');
 
     //refreshToken이 만료된게 아니라면 -> 강제 로그아웃(이대로하면 너무 자주로그아웃됨)
-    if (refreshToken == null || accessToken == null) {
+    if (refreshToken == null) {
       state = null; //토큰이 2중 1개라도 없다면 로그아웃
       return;
     }
 
-    final resp = await repository.getMe('Bearer ${accessToken}');
+    final resp = await repository.getMe('Bearer $accessToken');
+
+    // ref.watch(userModelProvider.notifier).state = resp;
 
     state = resp;
 
@@ -119,7 +121,8 @@ class UserMeStateNotifier extends StateNotifier<UserModelBase?> {
       await storage.write(key: REFRESH_TOKEN_KEY, value: resp.refreshToken);
       await storage.write(key: ACCESS_TOKEN_KEY, value: resp.accessToken);
 
-      print(resp.refreshToken);
+      print('refreshToken: ${resp.refreshToken}');
+      print('accessToken: ${resp.accessToken}');
       print('logining');
 
       //storage에 넣은 토큰이 유효한지 판단하기 위해서(서버에서 내 유저정보를 가져올 수 있다면?) getMe()
@@ -143,29 +146,36 @@ class UserMeStateNotifier extends StateNotifier<UserModelBase?> {
     try {
       state = UserModelLoading();
 
-      //1. 회원가입 POST
+      // 1. 회원가입 POST
       final userResp = await repository.postUser(signupUserModel);
-
       print(userResp.birthDay);
 
-      //2. 회원가입 완료라 가정, 로그인
+      // 딜레이 추가: 2초 동안 대기
+      await Future.delayed(Duration(seconds: 2));
+
+      // 2. 회원가입 완료라 가정, 로그인
       final loginResp = await login(
         username: signupUserModel.email!,
         password: signupUserModel.pwd!,
       );
 
-      //3. login 과정에서 state = getMe() 즉 UserModel로 변경
-      state = loginResp;
+      // 딜레이 추가: 2초 동안 대기
+      await Future.delayed(Duration(seconds: 2));
 
-      return loginResp as UserModel; // 타입을 UserModel로 캐스팅
+      // 3. 딜레이 후 getMe() 호출하거나 다른 로직 수행
+      // 이렇게 하면 딜레이 후에 getMe()가 호출되어 사용자 정보를 가져옵니다.
+      getMe();
 
+      // 4. 최종 결과 반환
+      return loginResp as UserModel;
 
     } catch (e) {
       print('Hallo');
       state = UserModelError(message: '회원가입에 실패했습니다');
-      return Future.error(UserModelError(message: '회원가입에 실패했습니다')); //Future.error를 사용하여 에러 반환
+      return Future.error(UserModelError(message: '회원가입에 실패했습니다'));
     }
   }
+
 
   Future<void> logout() async {
     state = null;

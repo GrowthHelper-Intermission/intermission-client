@@ -29,6 +29,9 @@ class LoginScreen extends ConsumerStatefulWidget {
 class _LoginScreenState extends ConsumerState<LoginScreen> {
   // final globalKey = GlobalKey<FormState>();
   // final autoLoginStyle = TextStyle(color: PRIMARY_COLOR);
+
+  bool _isLoading = false; // 로딩 중 상태를 나타내는 변수
+
   bool _isChecked = false;
   // bool _isAutoLogin = false;
   TextEditingController _emailController = TextEditingController();
@@ -147,17 +150,41 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                             SizedBox(
                               height: 10,
                             ),
+                            // LoginNextButton(
+                            //   buttonName: '로그인',
+                            //   isButtonEnabled: _isButtonEnabled,
+                            //   onPressed: () {
+                            //     ref.read(userMeProvider.notifier).login(
+                            //           username: _emailController.text.trim(),
+                            //           password: _passwordController.text.trim(),
+                            //         );
+                            //     // context.goNamed(RootTab.routeName);
+                            //   },
+                            // ),
                             LoginNextButton(
-                              buttonName: '로그인',
-                              isButtonEnabled: _isButtonEnabled,
-                              onPressed: () {
-                                ref.read(userMeProvider.notifier).login(
-                                      username: _emailController.text.trim(),
-                                      password: _passwordController.text.trim(),
-                                    );
-                                // context.goNamed(RootTab.routeName);
+                              buttonName: _isLoading ? '로그인 중...' : '로그인', // 버튼 텍스트 조건부 설정
+                              isButtonEnabled: _isButtonEnabled && !_isLoading, // 로딩 중일 때 버튼 비활성화
+                              onPressed: () async {
+                                setState(() {
+                                  _isLoading = true; // 로딩 중 상태로 변경
+                                });
+                                try {
+                                  await ref.read(userMeProvider.notifier).login(
+                                    username: _emailController.text.trim(),
+                                    password: _passwordController.text.trim(),
+                                  );
+                                } catch (e) {
+                                  // 로그인 실패 시 예외 처리
+                                } finally {
+                                  setState(() {
+                                    _isLoading = false; // 로딩 상태 해제
+                                  });
+                                }
                               },
                             ),
+
+
+
                             // ElevatedButton(
                             //   onPressed: state is UserModelLoading
                             //       ? null
