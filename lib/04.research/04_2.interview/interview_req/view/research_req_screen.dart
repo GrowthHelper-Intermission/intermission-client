@@ -24,7 +24,7 @@ class ResearchReqScreen extends ConsumerWidget {
                 subTitle: '온라인, 서울 관악구 기준 30분 거리면 오프라인 방문 가능',
                 dueDate: '2023-09-01',
                 exceptTime: '2',
-                minAge: '10대/20대',
+                minAge: 'Y',
                 detail: '이러이러한 긴내용입니다.',
                 researchType: "survey",
                 researchMethTpCd: 'researchMethTpCd',
