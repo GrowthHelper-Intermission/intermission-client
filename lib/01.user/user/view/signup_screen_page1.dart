@@ -101,7 +101,7 @@ class _SignupScreenPage1State extends ConsumerState<SignupScreenPage1> {
       };
 
       var response = await dio.post(
-        'http://localhost:8080/api/auth/email',
+        'http://34.64.77.5:8080/api/auth/email',
         data: data,
       );
 

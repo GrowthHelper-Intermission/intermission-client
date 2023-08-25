@@ -23,7 +23,7 @@ part 'interview_repository.g.dart';
 final interviewRepositoryProvider = Provider<InterviewRepository>(
       (ref) {
     final dio = ref.watch(dioProvider);
-        return InterviewRepository(dio, baseUrl: 'http://34.64.77.5:8080/api/v1/test/interview');
+        return InterviewRepository(dio, baseUrl: 'http://34.64.77.5:8080/api/v1/test/research');
     // 'http://localhost:8080/api/interview'
   },
 );
