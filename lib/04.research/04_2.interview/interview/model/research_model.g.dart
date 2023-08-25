@@ -12,9 +12,9 @@ ResearchModel _$ResearchModelFromJson(Map<String, dynamic> json) =>
       mainTitle: json['mainTitle'] as String,
       subTitle: json['subTitle'] as String,
       dueDate: json['dueDate'] as String,
-      isOnline: json['isOnline'] as String,
-      hourlyRate: json['hourlyRate'] as String,
-      isOnGoing: json['isOnGoing'] as String,
+      exceptTime: json['exceptTime'] as String,
+      researchMethTpCd: json['researchMethTpCd'] as String,
+      researchRewdAmt: json['researchRewdAmt'] as String,
     );
 
 Map<String, dynamic> _$ResearchModelToJson(ResearchModel instance) =>
@@ -22,8 +22,8 @@ Map<String, dynamic> _$ResearchModelToJson(ResearchModel instance) =>
       'id': instance.id,
       'mainTitle': instance.mainTitle,
       'subTitle': instance.subTitle,
-      'isOnline': instance.isOnline,
-      'hourlyRate': instance.hourlyRate,
       'dueDate': instance.dueDate,
-      'isOnGoing': instance.isOnGoing,
+      'exceptTime': instance.exceptTime,
+      'researchMethTpCd': instance.researchMethTpCd,
+      'researchRewdAmt': instance.researchRewdAmt,
     };
