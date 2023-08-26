@@ -6,7 +6,7 @@ import 'package:intermission_project/01.user/user/view/user_point_count_screen.d
 import 'package:intermission_project/01.user/user/view/user_recommend_friend_screen.dart';
 import 'package:intermission_project/01.user/user/view/user_report_screen.dart';
 import 'package:intermission_project/01.user/user/view/user_scrap_interview_screen.dart';
-import 'package:intermission_project/04.research/04_2.interview/interview_req/view/research_req_screen.dart';
+import 'package:intermission_project/04.research/research_req/view/research_req_screen.dart';
 import 'package:intermission_project/common/component/normal_appbar.dart';
 import 'package:intermission_project/common/view/notices.dart';
 

@@ -1,6 +1,8 @@
 import 'package:dio/dio.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:intermission_project/01.user/user/model/password_change.dart';
 import 'package:intermission_project/01.user/user/model/signup_user_model.dart';
 import 'package:intermission_project/01.user/user/model/test_user_model.dart';
 import 'package:intermission_project/01.user/user/model/user_model.dart';
@@ -51,10 +53,38 @@ class UserMeStateNotifier extends StateNotifier<UserModelBase?> {
     print(15);
   }
 
+  // UserMeStateNotifier 클래스 내부에 추가
+  Future<void> changePassword(String checkPassword, String newPassword) async {
+    try {
+      // 저장된 액세스 토큰을 가져옵니다.
+      final accessToken = await storage.read(key: ACCESS_TOKEN_KEY);
+      if (accessToken == null) {
+        // 토큰이 없는 경우 처리...
+        print('잘못된 접근입니다.');
+        return;
+      }
+
+      // 비밀번호 변경 API 호출 로직
+      final passwordChangeModel = PasswordChangeModel(
+        checkPassword: checkPassword,
+        newPassword: newPassword,
+      );
+
+      final resp = await repository.changePassword(
+          'Bearer $accessToken', // Bearer 토큰 형식을 사용합니다.
+          passwordChangeModel
+      );
+
+      // 비밀번호 변경에 성공한 경우의 로직...
+    } catch (e) {
+      // 비밀번호 변경에 실패한 경우의 로직 (예: 에러 메시지 표시 등)
+    }
+  }
+
+
   Future<void> getMe() async {
     final refreshToken = await storage.read(key: REFRESH_TOKEN_KEY);
     final accessToken = await storage.read(key: ACCESS_TOKEN_KEY);
-
 
     print('accessToken is : $accessToken');
 

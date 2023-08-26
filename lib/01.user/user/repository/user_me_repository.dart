@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart' hide Headers;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:intermission_project/01.user/user/model/password_change.dart';
 import 'package:intermission_project/01.user/user/model/signup_user_model.dart';
 import 'package:intermission_project/01.user/user/model/test_user_model.dart';
 import 'package:intermission_project/01.user/user/model/user_model.dart';
@@ -42,6 +43,11 @@ abstract class UserMeRepository {
 
   Future<UserModel> postUser(@Body() SignupUserModel user);
 
+  @PATCH('/password')
+  Future<UserModel> changePassword(
+      @Header('Authorization') String token,
+      @Body() PasswordChangeModel passwordChangeModel
+      );
 
 
 
