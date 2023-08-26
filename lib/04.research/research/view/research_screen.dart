@@ -8,20 +8,15 @@ import 'package:intermission_project/common/component/custom_appbar.dart';
 import 'package:intermission_project/common/component/custom_text_style.dart';
 import 'package:intermission_project/common/component/pagination_list_view.dart';
 import 'package:intermission_project/common/model/cursor_pagination_model.dart';
-import 'package:intermission_project/common/model/model_with_id.dart';
-import 'package:provider/provider.dart';
-
-import '../../../../common/provider/pagination_provider.dart';
-import '../../../../common/repository/base_pagination_repository.dart';
 
 
-class InterviewScreen extends ConsumerStatefulWidget {
-  static String get routeName => 'interview';
+class ResearchScreen extends ConsumerStatefulWidget {
+  static String get routeName => 'research';
   @override
-  _InterviewScreenState createState() => _InterviewScreenState();
+  _ResearchScreenState createState() => _ResearchScreenState();
 }
 
-class _InterviewScreenState extends ConsumerState<InterviewScreen> with SingleTickerProviderStateMixin,AutomaticKeepAliveClientMixin {
+class _ResearchScreenState extends ConsumerState<ResearchScreen> with SingleTickerProviderStateMixin,AutomaticKeepAliveClientMixin {
   TabController? _tabController;
 
   @override
@@ -88,8 +83,8 @@ class _InterviewScreenState extends ConsumerState<InterviewScreen> with SingleTi
               child: TabBarView(
                 controller: _tabController,
                   children: [
-                    _buildInterviewPage(interviewProvider), // "전체" 탭
-                    _buildInterviewPage(interviewInterviewProvider), // "인터뷰" 탭
+                    _buildInterviewPage(researchProvider), // "전체" 탭
+                    _buildInterviewPage(interviewProvider), // "인터뷰" 탭
                     _buildInterviewPage(surveyProvider), // "설문조사" 탭
                     _buildInterviewPage(testerProvider), // "테스트 참여" 탭
                   ]
@@ -111,10 +106,9 @@ class _InterviewScreenState extends ConsumerState<InterviewScreen> with SingleTi
 
 
   Widget _buildInterviewPage(StateNotifierProvider<ResearchStateNotifier, CursorPaginationBase> provider) {
-    print("ha");
     return PaginationListView(
       provider: provider,
-      itemBuilder: <InterviewModel>(BuildContext context, int index, model) {
+      itemBuilder: <ResearchModel>(BuildContext context, int index, model) {
         return ResearchCard.fromModel(model: model);
       },
     );

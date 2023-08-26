@@ -1,13 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:intermission_project/01.user/user/model/password_change_model.dart';
 import 'package:intermission_project/01.user/user/model/user_model.dart';
 import 'package:intermission_project/01.user/user/provider/user_me_provider.dart';
+import 'package:intermission_project/01.user/user/view/my_page_screen.dart';
 import 'package:intermission_project/common/component/custom_text_form_field.dart';
 import 'package:intermission_project/common/component/login_next_button.dart';
 import 'package:intermission_project/common/component/signup_ask_label.dart';
 import 'package:intermission_project/common/view/default_layout.dart';
 import 'package:intermission_project/common/view/home_screen.dart';
+import 'package:intermission_project/common/view/root_tab.dart';
 
 class PasswordChangeScreen extends ConsumerStatefulWidget {
   const PasswordChangeScreen({Key? key}) : super(key: key);
@@ -68,7 +71,9 @@ class _PasswordChangeScreenState extends ConsumerState<PasswordChangeScreen> {
               },
               obscureText: true,
             ),
-            SizedBox(height: 10,),
+            SizedBox(
+              height: 10,
+            ),
             LoginNextButton(
               onPressed: isButtonEnabled ? _changePassword : () {}, // 변경된 부분
               buttonName: '완료',
@@ -97,11 +102,12 @@ class _PasswordChangeScreenState extends ConsumerState<PasswordChangeScreen> {
   void _changePassword() {
     final userNotifier = ref.read(userMeProvider.notifier);
     userNotifier.changePassword(
-      currentPasswordController.text.trim(),
-      newPasswordController.text.trim(),
+      PasswordChangeModel(
+        checkPassword: currentPasswordController.text.trim(),
+        newPassword: newPasswordController.text.trim(),
+      ),
     );
-    context.pushReplacementNamed('/');
+    Navigator.pushReplacement(
+        context, MaterialPageRoute(builder: (context) => RootTab()));
   }
-
-
 }

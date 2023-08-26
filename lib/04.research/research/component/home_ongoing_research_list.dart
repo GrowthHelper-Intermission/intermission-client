@@ -9,19 +9,20 @@ class OngoingResearchList extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final interviewNotifier = ref.watch(interviewProvider.notifier);
+    final interviewNotifier = ref.watch(researchProvider.notifier);
     final ongoingInterviews = interviewNotifier.getTopThreeResearches();
 
-    final interviewState = ref.watch(interviewProvider);
+    final interviewState = ref.watch(researchProvider);
 
-    if (interviewState is! CursorPagination) {
+    if (interviewState is! CursorPagination || ongoingInterviews.isEmpty) {
       return Container(
         height: 441,
         child: Center(
-          child: CircularProgressIndicator(),
+          child: Text("현재 진행 중인 리서치가 없습니다."), // or another appropriate widget
         ),
       );
     }
+
 
     // 최신 데이터 순으로 인터뷰 목록을 정렬
     ongoingInterviews.sort((a, b) => b.dueDate.compareTo(a.dueDate));

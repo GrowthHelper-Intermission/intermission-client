@@ -35,7 +35,7 @@ class ResearchReqScreen extends ConsumerWidget {
                 etcTaskSubs: "기타직",
                 compNm: "카카오",
                 researchTgtZendTpCd: "M",
-                researchEntryCnt: "4명",
+                researchEntryCnt: "4",
                 etcReqCn: "동대생",
                 researchPostAgreeYn: "동의",
                 hpNum: "010-1313-2424",
@@ -48,7 +48,7 @@ class ResearchReqScreen extends ConsumerWidget {
                 print(e);
                 print('에러');
               }
-              context.goNamed(InterviewScreen.routeName);
+              context.goNamed(ResearchScreen.routeName);
             },
             child: Text('리서치 등록'),
           ),

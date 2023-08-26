@@ -1,6 +1,6 @@
 import 'package:dio/dio.dart' hide Headers;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:intermission_project/01.user/user/model/password_change.dart';
+import 'package:intermission_project/01.user/user/model/password_change_model.dart';
 import 'package:intermission_project/01.user/user/model/signup_user_model.dart';
 import 'package:intermission_project/01.user/user/model/test_user_model.dart';
 import 'package:intermission_project/01.user/user/model/user_model.dart';
@@ -25,31 +25,25 @@ final userMeRepositoryProvider = Provider<UserMeRepository>(
 abstract class UserMeRepository {
   factory UserMeRepository(Dio dio, {String baseUrl}) = _UserMeRepository;
 
-  // @GET('/me')
-  // @Headers({
-  //   'accessToken': 'true',
-  // })
-  // Future<UserModel> getMe();
-
   @GET('/me')
-  Future<UserModel> getMe(@Header('Authorization') String token);
+  @Headers({
+    'accessToken': 'true',
+  })
+  Future<UserModel> getMe();
 
   @POST('/save')
-  // @Headers({
-  //   'accessToken' : 'true',
-  // })
-  ////테스트용
-  // Future<UserModel> postUser(@Body() TestUserModel user);
-
+  @Headers({
+    'accessToken': 'true',
+  })
   Future<UserModel> postUser(@Body() SignupUserModel user);
 
   @PATCH('/password')
-  Future<UserModel> changePassword(
-      @Header('Authorization') String token,
-      @Body() PasswordChangeModel passwordChangeModel
-      );
-
-
+  @Headers({
+    'accessToken': 'true',
+  })
+  Future<PasswordChangeModel> changePassword({
+    @Body() required PasswordChangeModel passwordChangeModel,
+  });
 
   // @GET('/basket')
   // @Headers({

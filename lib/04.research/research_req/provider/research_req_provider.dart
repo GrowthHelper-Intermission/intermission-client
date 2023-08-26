@@ -18,7 +18,7 @@ class ResearchReqStateNotifier extends StateNotifier<ResearchReqModel?> {
 
   Future<ResearchReqModel> postResearch(ResearchReqModel researchReqModel) async {
     try {
-      final researchResp = await repository.postResearch(researchReqModel);
+      final researchResp = await repository.postResearch(researchReqModel: researchReqModel);
       state = researchResp;  // 상태 업데이트
       print('게시 성공');
       return researchResp;

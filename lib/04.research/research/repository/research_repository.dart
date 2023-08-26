@@ -22,7 +22,7 @@ part 'research_repository.g.dart';
 final interviewRepositoryProvider = Provider<InterviewRepository>(
       (ref) {
     final dio = ref.watch(dioProvider);
-        return InterviewRepository(dio, baseUrl: 'http://34.64.77.5:8080/api/v1/test/research');
+        return InterviewRepository(dio, baseUrl: 'http://34.64.77.5:8080/api/research');
     // 'http://localhost:8080/api/interview'
   },
 );
@@ -38,17 +38,18 @@ abstract class InterviewRepository implements
   @GET('/')
   Future<CursorPagination<ResearchModel>> paginate({
     @Query('researchType') String? researchType,
+    @Headers({
+      'accessToken': 'true',
+    })
     @Queries() PaginationParams? paginationParams = const PaginationParams(),
   });
 
   // http://34.64.77.5:8080/api/v1/test/interview
   // 'http://$ip/restaurant/:id'
   @GET('/{id}') //Detailrestaurant용
-
-  //@Headers는 강제 삽입
-  // @Headers({
-  //   'accessToken': 'true',
-  // })
+  @Headers({
+    'accessToken': 'true',
+  })
   Future<ResearchDetailModel> getResearchDetail({
     @Path() required String id,
   });

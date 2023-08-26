@@ -15,7 +15,7 @@ class FriendButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 26, vertical: 5),
+      padding: const EdgeInsets.symmetric(vertical: 8),
       child: Container(
         width: 340,
         height: 60,
@@ -33,7 +33,7 @@ class FriendButton extends StatelessWidget {
               Row(
                 children: [
                   Padding(
-                    padding: const EdgeInsets.all(10.0),
+                    padding: const EdgeInsets.all(3.0),
                     child: Text(
                       text,
                       style: TextStyle(
@@ -51,7 +51,7 @@ class FriendButton extends StatelessWidget {
                     child: Image.asset(
                       imageAsset,
                       width: 24,
-                      height: 23,
+                      height: 24,
                     ),
                   ),
                 ],

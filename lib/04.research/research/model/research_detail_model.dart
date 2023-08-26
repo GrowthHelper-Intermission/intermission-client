@@ -10,6 +10,7 @@ class ResearchDetailModel extends ResearchModel{
   final String researchType;
   final String minAge;
   final String detail;
+  final String researchEntryCnt;
   final String isOnGoing;
 
 
@@ -21,10 +22,12 @@ class ResearchDetailModel extends ResearchModel{
     required super.exceptTime,
     required super.researchMethTpCd,
     required super.researchRewdAmt,
+    // required super.isOnGoing,
+    required this.isOnGoing,
     required this.detail,
     required this.researchType,
     required this.minAge,
-    required this.isOnGoing,
+    required this.researchEntryCnt,
     //comment 필요
 });
 

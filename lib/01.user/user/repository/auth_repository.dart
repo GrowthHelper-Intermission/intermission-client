@@ -7,7 +7,7 @@ import 'package:intermission_project/common/model/token_response.dart';
 import 'package:intermission_project/common/utils/data_utils.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-final authRepositoryProvider = Provider<AuthRepository>((ref){
+final authRepositoryProvider = Provider<AuthRepository>((ref) {
   final dio = ref.watch(dioProvider);
 
   // return AuthRepository(baseUrl: 'http://localhost:8080/api/auth', dio: dio);
@@ -29,28 +29,32 @@ class AuthRepository {
     required String username,
     required String password,
   }) async {
-    print('seiral');
     final serialized = DataUtils.plainToBase64('$username:$password');
-    print(serialized);
+
     final resp = await dio.post(
       '$baseUrl/login',
       options: Options(
         headers: {
-          'Authorization': 'Basic $serialized',
+          'authorization': 'Basic $serialized',
         },
       ),
     );
-    return LoginResponse.fromJson(resp.data);
+    return LoginResponse.fromJson(
+      resp.data,
+    );
   }
 
   Future<TokenResponse> token() async {
     final resp = await dio.post(
       '$baseUrl/token',
-      options: Options(headers: {'refreshToken': 'true'}),
+      options: Options(
+        headers: {
+          'refreshToken': 'true',
+        },
+      ),
     );
-    print(resp.data);
-    print('Hello');
-    return TokenResponse.fromJson(resp.data);
+    return TokenResponse.fromJson(
+      resp.data,
+    );
   }
-
 }

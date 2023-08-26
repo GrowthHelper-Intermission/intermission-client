@@ -192,12 +192,12 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                   alignment: Alignment.center,
                   child: GestureDetector(
                     onTap: () {
-                      // Navigator.push(
-                      //   context,
-                      //   MaterialPageRoute(
-                      //     builder: (context) => FriendInviteScreen(),
-                      //   ),
-                      // );
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => FriendInviteScreen(),
+                        ),
+                      );
                     },
                     child: Padding(
                       padding: const EdgeInsets.fromLTRB(0, 10, 0, 3),
