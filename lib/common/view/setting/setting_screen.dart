@@ -3,7 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intermission_project/01.user/user/provider/user_me_provider.dart';
 import 'package:intermission_project/common/component/custom_text_style.dart';
 import 'package:intermission_project/common/layout/default_layout.dart';
-import 'package:intermission_project/common/view/setting/password_change_screen.dart';
+import 'package:intermission_project/01.user/user/view/password_change_screen.dart';
 import 'package:intermission_project/common/view/setting/personal_info.dart';
 import 'package:intermission_project/common/view/setting/rule_exlpain_screen.dart';
 import 'package:intermission_project/common/view/setting/version_info.dart';
@@ -21,7 +21,7 @@ class SettingScreen extends StatelessWidget {
       child: Column(
         children: [
           SettingComponent(
-            title: '비밀번호 찾기',
+            title: '비밀번호 변경',
             otherScreen: PasswordChangeScreen(),
           ),
           SettingComponent(

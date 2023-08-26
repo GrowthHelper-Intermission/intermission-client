@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:intermission_project/04.research/04_2.interview/interview/view/matching_screen.dart';
-import 'package:intermission_project/04.research/04_2.interview/interview/view/interview_detail_test_screen.dart';
-import 'package:intermission_project/04.research/04_2.interview/interview/view/interview_screen.dart';
 import 'package:intermission_project/01.user/user/view/login_screen.dart';
 import 'package:intermission_project/01.user/user/view/my_page_screen.dart';
+import 'package:intermission_project/04.research/research/view/matching_screen.dart';
+import 'package:intermission_project/04.research/research/view/research_screen.dart';
 import 'package:intermission_project/common/const/tabs.dart';
 import 'package:intermission_project/common/const/colors.dart';
 import 'package:intermission_project/common/view/home_screen.dart';

@@ -3,9 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intermission_project/01.user/user/etc/friend_invite_screen.dart';
 import 'package:intermission_project/01.user/user/model/user_model.dart';
 import 'package:intermission_project/01.user/user/provider/user_me_provider.dart';
-import 'package:intermission_project/04.research/04_2.interview/interview/component/home_ongoing_interview_list.dart';
-import 'package:intermission_project/04.research/04_2.interview/interview/view/interview_detail_screen.dart';
-import 'package:intermission_project/04.research/04_2.interview/interview/view/interview_screen.dart';
+import 'package:intermission_project/04.research/research/component/home_ongoing_research_list.dart';
 import 'package:intermission_project/common/const/colors.dart';
 import 'package:intermission_project/common/view/setting/setting_screen.dart';
 
