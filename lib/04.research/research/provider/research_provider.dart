@@ -1,16 +1,12 @@
-import 'package:dio/dio.dart' hide Headers;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intermission_project/04.research/research/model/research_model.dart';
 import 'package:intermission_project/04.research/research/repository/research_repository.dart';
-import 'package:intermission_project/common/const/data.dart';
-import 'package:intermission_project/common/dio/dio.dart';
 import 'package:intermission_project/common/model/cursor_pagination_model.dart';
 import 'package:intermission_project/common/provider/pagination_provider.dart';
-import 'package:intermission_project/common/repository/base_pagination_repository.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:collection/collection.dart';
 
-final interviewInterviewProvider = StateNotifierProvider<ResearchStateNotifier, CursorPaginationBase>(
+final interviewProvider = StateNotifierProvider<ResearchStateNotifier, CursorPaginationBase>(
       (ref) {
     final repository = ref.watch(interviewRepositoryProvider);
     final notifier = ResearchStateNotifier(repository: repository,researchType: "interview");
@@ -35,11 +31,9 @@ final testerProvider = StateNotifierProvider<ResearchStateNotifier, CursorPagina
   },
 );
 
-// final interviewDetailProvider = makeDetailProvider(interviewProvider);
-
-final interviewDetailProvider =
+final researchDetailProvider =
     Provider.family<ResearchModel?, String>((ref, id) {
-  final state = ref.watch(interviewProvider);
+  final state = ref.watch(researchProvider);
 
   if (state is! CursorPagination) {
     return null;
@@ -48,7 +42,7 @@ final interviewDetailProvider =
   return state.data.firstWhereOrNull((element) => element.id == id);
 });
 
-final interviewProvider =
+final researchProvider =
     StateNotifierProvider<ResearchStateNotifier, CursorPaginationBase>(
   (ref) {
     final repository = ref.watch(interviewRepositoryProvider);
@@ -83,8 +77,6 @@ class ResearchStateNotifier
     if (state is! CursorPagination) {
       return [];
     }
-
-
     final pState = state as CursorPagination;
 
     // 인터뷰 개수가 3개 이상인 경우 상위 3개를 가져오고, 그렇지 않으면 모든 인터뷰를 가져오기
@@ -103,9 +95,9 @@ class ResearchStateNotifier
     // 데이터를 가져오는 시도를 한다
     if (state is! CursorPagination) {
       if (researchType == null) {
-        await this.paginate();
+        await paginate();
       } else {
-        await this.paginate(researchType: researchType!);
+        await paginate(researchType: researchType!);
       }
     }
 

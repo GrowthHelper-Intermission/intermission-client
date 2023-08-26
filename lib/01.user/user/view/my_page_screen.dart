@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:intermission_project/01.user/user/etc/friend_invite_screen.dart';
 import 'package:intermission_project/01.user/user/model/user_model.dart';
 import 'package:intermission_project/01.user/user/provider/user_me_provider.dart';
 import 'package:intermission_project/01.user/user/view/user_point_count_screen.dart';
@@ -186,7 +187,7 @@ class MyPageScreen extends ConsumerWidget {
                   ),
                   SettingComponent(
                     title: '친구 추천',
-                    otherScreen: RecommendFriend(),
+                    otherScreen: FriendInviteScreen(),
                     icon: 'assets/tabimg/mypage/recommendFriend.png',
                   ),
                   SettingComponent(

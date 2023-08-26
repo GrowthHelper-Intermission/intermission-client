@@ -19,10 +19,11 @@ class _ResearchReqRepository implements ResearchReqRepository {
   String? baseUrl;
 
   @override
-  Future<ResearchReqModel> postResearch(researchReqModel) async {
+  Future<ResearchReqModel> postResearch({required researchReqModel}) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
-    final _headers = <String, dynamic>{};
+    final _headers = <String, dynamic>{r'accessToken': 'true'};
+    _headers.removeWhere((k, v) => v == null);
     final _data = <String, dynamic>{};
     _data.addAll(researchReqModel.toJson());
     final _result = await _dio

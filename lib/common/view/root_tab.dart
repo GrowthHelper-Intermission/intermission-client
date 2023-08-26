@@ -57,7 +57,7 @@ class _RootTabState extends State<RootTab>
           TabContentWidget(label: '쇼핑몰'),
           MatchingScreen(),
           HomeScreen(tabController: _tabController),
-          InterviewScreen(),
+          ResearchScreen(),
           MyPageScreen(tabController: _tabController),
         ],
       ),

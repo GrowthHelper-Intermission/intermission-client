@@ -19,10 +19,10 @@ class _UserMeRepository implements UserMeRepository {
   String? baseUrl;
 
   @override
-  Future<UserModel> getMe(token) async {
+  Future<UserModel> getMe() async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
-    final _headers = <String, dynamic>{r'Authorization': token};
+    final _headers = <String, dynamic>{r'accessToken': 'true'};
     _headers.removeWhere((k, v) => v == null);
     final Map<String, dynamic>? _data = null;
     final _result = await _dio
@@ -46,7 +46,8 @@ class _UserMeRepository implements UserMeRepository {
   Future<UserModel> postUser(user) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
-    final _headers = <String, dynamic>{};
+    final _headers = <String, dynamic>{r'accessToken': 'true'};
+    _headers.removeWhere((k, v) => v == null);
     final _data = <String, dynamic>{};
     _data.addAll(user.toJson());
     final _result = await _dio
@@ -67,17 +68,16 @@ class _UserMeRepository implements UserMeRepository {
   }
 
   @override
-  Future<UserModel> changePassword(
-    token,
-    passwordChangeModel,
-  ) async {
+  Future<PasswordChangeModel> changePassword(
+      {required passwordChangeModel}) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
-    final _headers = <String, dynamic>{r'Authorization': token};
+    final _headers = <String, dynamic>{r'accessToken': 'true'};
     _headers.removeWhere((k, v) => v == null);
-    final _data = passwordChangeModel;
-    final _result = await _dio
-        .fetch<Map<String, dynamic>>(_setStreamType<UserModel>(Options(
+    final _data = <String, dynamic>{};
+    _data.addAll(passwordChangeModel.toJson());
+    final _result = await _dio.fetch<Map<String, dynamic>>(
+        _setStreamType<PasswordChangeModel>(Options(
       method: 'PATCH',
       headers: _headers,
       extra: _extra,
@@ -89,7 +89,7 @@ class _UserMeRepository implements UserMeRepository {
               data: _data,
             )
             .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
-    final value = UserModel.fromJson(_result.data!);
+    final value = PasswordChangeModel.fromJson(_result.data!);
     return value;
   }
 

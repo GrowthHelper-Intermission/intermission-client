@@ -15,10 +15,11 @@ ResearchDetailModel _$ResearchDetailModelFromJson(Map<String, dynamic> json) =>
       exceptTime: json['exceptTime'] as String,
       researchMethTpCd: json['researchMethTpCd'] as String,
       researchRewdAmt: json['researchRewdAmt'] as String,
+      isOnGoing: json['isOnGoing'] as String,
       detail: json['detail'] as String,
       researchType: json['researchType'] as String,
       minAge: json['minAge'] as String,
-      isOnGoing: json['isOnGoing'] as String,
+      researchEntryCnt: json['researchEntryCnt'] as String,
     );
 
 Map<String, dynamic> _$ResearchDetailModelToJson(
@@ -34,5 +35,6 @@ Map<String, dynamic> _$ResearchDetailModelToJson(
       'researchType': instance.researchType,
       'minAge': instance.minAge,
       'detail': instance.detail,
+      'researchEntryCnt': instance.researchEntryCnt,
       'isOnGoing': instance.isOnGoing,
     };

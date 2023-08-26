@@ -12,20 +12,20 @@ import 'package:intermission_project/common/utils/pagination_utils.dart';
 import 'package:intermission_project/common/view/default_layout.dart';
 import 'package:skeletons/skeletons.dart';
 
-class InterviewDetailScreen extends ConsumerStatefulWidget {
-  static String get routeName => 'interviewDetail';
+class ResearchDetailScreen extends ConsumerStatefulWidget {
+  static String get routeName => 'researchDetail';
   final String id;
-  const InterviewDetailScreen({
+  const ResearchDetailScreen({
     required this.id,
     super.key,
   });
 
   @override
-  ConsumerState<InterviewDetailScreen> createState() =>
-      _InterviewDetailScreenState();
+  ConsumerState<ResearchDetailScreen> createState() =>
+      _ResearchDetailScreenState();
 }
 
-class _InterviewDetailScreenState extends ConsumerState<InterviewDetailScreen> {
+class _ResearchDetailScreenState extends ConsumerState<ResearchDetailScreen> {
   // final ScrollController controller = ScrollController();
   TextEditingController commentController = TextEditingController();
 
@@ -33,8 +33,8 @@ class _InterviewDetailScreenState extends ConsumerState<InterviewDetailScreen> {
   void initState() {
     // TODO: implement initState
     super.initState();
+    ref.read(researchProvider.notifier).getDetail(id: widget.id);
     ref.read(interviewProvider.notifier).getDetail(id: widget.id);
-    ref.read(interviewInterviewProvider.notifier).getDetail(id: widget.id);
     ref.read(surveyProvider.notifier).getDetail(id: widget.id);
     ref.read(testerProvider.notifier).getDetail(id: widget.id);
   }
@@ -49,7 +49,7 @@ class _InterviewDetailScreenState extends ConsumerState<InterviewDetailScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final interviewState = ref.watch(interviewDetailProvider(widget.id));
+    final interviewState = ref.watch(researchDetailProvider(widget.id));
     //     final testerState = ref.watch(testerDetailProvider(widget.id));
     // final surveyState = ref.watch(surveyDetailProvider(widget.id));
     //
@@ -70,7 +70,6 @@ class _InterviewDetailScreenState extends ConsumerState<InterviewDetailScreen> {
 
     // if (state is! InterviewDetailModel) renderLoading();
     return Scaffold(
-
       appBar: AppBar(
           backgroundColor: Colors.white,
           elevation: 0,
@@ -109,9 +108,10 @@ class _InterviewDetailScreenState extends ConsumerState<InterviewDetailScreen> {
                     Text(state.researchMethTpCd),
                     Text(state.dueDate),
                     Text(state.id),
-                    Text(state.isOnGoing),
+                    // Text(state.isOnGoing),
                     Text(state.detail),
                     Text(state.minAge),
+
                   ],
                 ),
               )

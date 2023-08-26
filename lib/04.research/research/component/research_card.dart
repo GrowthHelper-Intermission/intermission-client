@@ -79,7 +79,7 @@ class _ResearchCardState extends State<ResearchCard> {
     child: Card(
       child: InkWell(
         onTap: () {
-          context.goNamed(InterviewDetailScreen.routeName, pathParameters: {'id': widget.id});
+          context.goNamed(ResearchDetailScreen.routeName, pathParameters: {'id': widget.id});
         },
         child: Container(
           width: 335,
