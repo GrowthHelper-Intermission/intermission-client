@@ -8,7 +8,7 @@ import 'package:collection/collection.dart';
 
 final interviewProvider = StateNotifierProvider<ResearchStateNotifier, CursorPaginationBase>(
       (ref) {
-    final repository = ref.watch(interviewRepositoryProvider);
+    final repository = ref.watch(researchRepositoryProvider);
     final notifier = ResearchStateNotifier(repository: repository,researchType: "interview");
     return notifier;
   },
@@ -17,7 +17,7 @@ final interviewProvider = StateNotifierProvider<ResearchStateNotifier, CursorPag
 
 final surveyProvider = StateNotifierProvider<ResearchStateNotifier, CursorPaginationBase>(
       (ref) {
-    final repository = ref.watch(interviewRepositoryProvider);
+    final repository = ref.watch(researchRepositoryProvider);
     final notifier = ResearchStateNotifier(repository: repository,researchType: "survey");
     return notifier;
   },
@@ -25,7 +25,7 @@ final surveyProvider = StateNotifierProvider<ResearchStateNotifier, CursorPagina
 
 final testerProvider = StateNotifierProvider<ResearchStateNotifier, CursorPaginationBase>(
       (ref) {
-    final repository = ref.watch(interviewRepositoryProvider);
+    final repository = ref.watch(researchRepositoryProvider);
     final notifier = ResearchStateNotifier(repository: repository,researchType: "test");
     return notifier;
   },
@@ -45,7 +45,7 @@ final researchDetailProvider =
 final researchProvider =
     StateNotifierProvider<ResearchStateNotifier, CursorPaginationBase>(
   (ref) {
-    final repository = ref.watch(interviewRepositoryProvider);
+    final repository = ref.watch(researchRepositoryProvider);
     final notifier = ResearchStateNotifier(repository: repository);
     return notifier;
   },
@@ -70,9 +70,25 @@ class ResearchStateNotifier
     paginate(researchType: researchType);   // 새로운 데이터 요청
   }
 
-  Future<void> participateInResearch({required String id}) async {
-    await repository.participateResearch(id: id);
+  // Future<void> participateInResearch({required String id}) async {
+  //   await repository.participateResearch(id: id);
+  // }
+
+  Future<ParticipationResponse> participateInResearch({required String id}) async {
+    return await repository.participateResearch(id: id);
   }
+
+
+  // Future<void> participateInResearch({required String id}) async {
+  //   var response = await repository.participateResearch(id: id);
+  //   if (response['isJoin'] == 'Y') {
+  //     setState(() {
+  //       isButtonDisabled = true;
+  //     });
+  //   }
+  // }
+
+
 
 
 

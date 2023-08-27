@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:intermission_project/01.user/point/model/point_model.dart';
 import 'package:intermission_project/01.user/user/model/password_change_model.dart';
 import 'package:intermission_project/01.user/user/model/signup_user_model.dart';
 import 'package:intermission_project/01.user/user/model/test_user_model.dart';
@@ -72,6 +73,17 @@ class UserMeStateNotifier extends StateNotifier<UserModelBase?> {
       // 비밀번호 변경에 실패한 경우의 로직 (예: 에러 메시지 표시 등)
     }
   }
+
+  // Future<void> getPoint() async {
+  //   try {
+  //     final pointResponse = await repository.getPoint();
+  //     // 이제 pointResponse에는 meta 정보와 data 리스트가 포함되어 있습니다.
+  //     // 필요한 작업을 수행하세요. 예: 상태 업데이트, 데이터 처리 등.
+  //   } catch (e) {
+  //     // 요청 실패 시 에러 처리
+  //   }
+  // }
+  //
 
 
   Future<void> getMe() async {
