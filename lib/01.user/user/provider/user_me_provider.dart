@@ -48,6 +48,7 @@ class UserMeStateNotifier extends StateNotifier<UserModelBase?> {
     required this.ref,
   }) : super(UserModelLoading()) {
     //유저 정보 바로 가져 오기
+    //logout();
     getMe();
   }
 
@@ -108,17 +109,11 @@ class UserMeStateNotifier extends StateNotifier<UserModelBase?> {
       await storage.write(key: REFRESH_TOKEN_KEY, value: resp.refreshToken);
       await storage.write(key: ACCESS_TOKEN_KEY, value: resp.accessToken);
 
-      // print('refreshToken: ${resp.refreshToken}');
-      // print('accessToken: ${resp.accessToken}');
-      // print('logining');
-
       //storage에 넣은 토큰이 유효한지 판단하기 위해서(서버에서 내 유저정보를 가져올 수 있다면?) getMe()
       // 유효한 토큰임을 인증
-      final userResp = await repository.getMe();
+      final userResp = await repository.
+      getMe();
 
-      // ref.watch(userModelProvider.notifier).state = userResp; //추가
-
-      // ref.watch(userMeProvider.notifier).state = userResp;
       state = userResp;
 
       return userResp;

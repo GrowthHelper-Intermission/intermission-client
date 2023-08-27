@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intermission_project/01.user/user/etc/friend_invite_screen.dart';
 import 'package:intermission_project/01.user/user/model/user_model.dart';
 import 'package:intermission_project/01.user/user/provider/user_me_provider.dart';
+import 'package:intermission_project/01.user/user/view/user_partcipated_research_screen.dart';
 import 'package:intermission_project/01.user/user/view/user_point_count_screen.dart';
 import 'package:intermission_project/01.user/user/view/user_recommend_friend_screen.dart';
 import 'package:intermission_project/01.user/user/view/user_report_screen.dart';
@@ -32,8 +33,7 @@ class MyPageScreen extends ConsumerWidget {
       return Center(
         child: CircularProgressIndicator(),
       );
-    }
-    else {
+    } else {
       return Scaffold(
         appBar: NormalAppbar(
           title: 'My PAGE',
@@ -74,7 +74,13 @@ class MyPageScreen extends ConsumerWidget {
                       children: [
                         InkWell(
                           onTap: () {
-                            // 참여한 인터뷰 클릭 이벤트를 처리하세요.
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) =>
+                                    ParticipatedResearchScreen(),
+                              ),
+                            );
                           },
                           child: SizedBox(
                             width: 80,
@@ -101,7 +107,8 @@ class MyPageScreen extends ConsumerWidget {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => ScrapInterviews(),),
+                                builder: (context) => ScrapInterviews(),
+                              ),
                             );
                           },
                           child: SizedBox(
@@ -125,8 +132,8 @@ class MyPageScreen extends ConsumerWidget {
                         ),
                         InkWell(
                           onTap: () {
-                            tabController.animateTo(
-                                1); // MatchingScreen이 있는 인덱스로 탭 이동
+                            tabController
+                                .animateTo(1); // MatchingScreen이 있는 인덱스로 탭 이동
                           },
                           child: SizedBox(
                             width: 80,
@@ -169,7 +176,7 @@ class MyPageScreen extends ConsumerWidget {
                   ),
                   SettingComponent(
                     title: '공지사항',
-                    otherScreen: Notices(),
+                    otherScreen: NoticeScreen(),
                     icon: 'assets/tabimg/mypage/notification.png',
                   ),
                   Container(
@@ -178,7 +185,7 @@ class MyPageScreen extends ConsumerWidget {
                   ),
                   SettingComponent(
                     title: '문의하기',
-                    otherScreen: askInfo(),
+                    otherScreen: UserReportScreen(),
                     icon: 'assets/tabimg/mypage/askInfo.png',
                   ),
                   Container(
@@ -227,7 +234,11 @@ class SettingComponent extends StatelessWidget {
             MaterialPageRoute(builder: (context) => otherScreen),
           );
         },
-        leading: Image.asset(icon,width: 30,height: 30,), // 이미지를 이용하여 아이콘 추가
+        leading: Image.asset(
+          icon,
+          width: 30,
+          height: 30,
+        ), // 이미지를 이용하여 아이콘 추가
         title: Text(
           title,
           style: TextStyle(
@@ -236,11 +247,13 @@ class SettingComponent extends StatelessWidget {
             fontWeight: FontWeight.w600,
           ),
         ),
-        trailing: Image.asset('assets/img/forwardArrow.png',width: 30,height: 30,color: Colors.grey[600],), // 오른쪽 화살표 아이콘 추가
+        trailing: Image.asset(
+          'assets/img/forwardArrow.png',
+          width: 30,
+          height: 30,
+          color: Colors.grey[600],
+        ), // 오른쪽 화살표 아이콘 추가
       ),
     );
   }
 }
-
-
-

@@ -8,8 +8,8 @@ part of 'research_repository.dart';
 
 // ignore_for_file: unnecessary_brace_in_string_interps,no_leading_underscores_for_local_identifiers
 
-class _InterviewRepository implements InterviewRepository {
-  _InterviewRepository(
+class _ResearchRepository implements ResearchRepository {
+  _ResearchRepository(
     this._dio, {
     this.baseUrl,
   });
@@ -27,7 +27,8 @@ class _InterviewRepository implements InterviewRepository {
     final queryParameters = <String, dynamic>{r'researchType': researchType};
     queryParameters.addAll(paginationParams?.toJson() ?? <String, dynamic>{});
     queryParameters.removeWhere((k, v) => v == null);
-    final _headers = <String, dynamic>{};
+    final _headers = <String, dynamic>{r'accessToken': 'true'};
+    _headers.removeWhere((k, v) => v == null);
     final Map<String, dynamic>? _data = null;
     final _result = await _dio.fetch<Map<String, dynamic>>(
         _setStreamType<CursorPagination<ResearchModel>>(Options(

@@ -52,7 +52,7 @@ final researchProvider =
 );
 
 class ResearchStateNotifier
-    extends PaginationProvider<ResearchModel, InterviewRepository> {
+    extends PaginationProvider<ResearchModel, ResearchRepository> {
   // final RestaurantRepository repository;
 
   final String? researchType;

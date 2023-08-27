@@ -4,7 +4,7 @@ import 'package:intermission_project/common/const/colors.dart';
 class LoginNextButton extends StatefulWidget {
   final String buttonName;
   final bool isButtonEnabled;
-  final VoidCallback onPressed;
+  final VoidCallback? onPressed;
 
   const LoginNextButton({
     required this.onPressed,

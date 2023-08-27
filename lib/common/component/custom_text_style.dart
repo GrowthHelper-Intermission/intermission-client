@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 TextStyle customTextStyle = TextStyle(
-  fontWeight: FontWeight.w600,
+  fontWeight: FontWeight.w500,
   fontSize: 16.0,
   color: Colors.black,
 );
@@ -17,21 +17,16 @@ TextStyle InterviewTitleStyle = TextStyle(
   color: Colors.black,
 );
 
-TextStyle InterviewRecruitingStyle = TextStyle(
-  fontWeight: FontWeight.w700,
-  fontSize: 12.0,
-  color: Colors.black,
-);
 
-TextStyle InterviewHourlyRateStyle = TextStyle(
+
+TextStyle whiteSmallTextStyle = TextStyle(
   fontWeight: FontWeight.w700,
-  fontSize: 12.0,
+  fontSize: 13.0,
   color: Colors.grey[400],
 );
 
-TextStyle InterviewOnlyOnlineStyle = TextStyle(
+TextStyle whiteMiddleTextStyle = TextStyle(
   fontWeight: FontWeight.w700,
-  fontSize: 12.0,
+  fontSize: 15.0,
   color: Colors.grey[400],
 );
-
