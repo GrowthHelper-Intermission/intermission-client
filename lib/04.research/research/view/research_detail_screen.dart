@@ -14,6 +14,7 @@ import 'package:intermission_project/common/const/colors.dart';
 import 'package:intermission_project/common/utils/pagination_utils.dart';
 import 'package:intermission_project/common/view/default_layout.dart';
 import 'package:skeletons/skeletons.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class ResearchDetailScreen extends ConsumerStatefulWidget {
   static String get routeName => 'researchDetail';
@@ -42,7 +43,6 @@ class _ResearchDetailScreenState extends ConsumerState<ResearchDetailScreen> {
     Duration difference = interviewDate.difference(now);
     return difference.inDays + 1;
   }
-
 
   @override
   void initState() {
@@ -100,10 +100,12 @@ class _ResearchDetailScreenState extends ConsumerState<ResearchDetailScreen> {
               Divider(color: Colors.grey[200], thickness: 12.0),
               _buildDescription(state),
               Divider(color: Colors.grey[200], thickness: 12.0),
+              // _buildComment(state),
             ],
           ),
         ),
       ),
+      bottomNavigationBar: _buildBottomButtons(),
     );
   }
 
@@ -112,9 +114,23 @@ class _ResearchDetailScreenState extends ConsumerState<ResearchDetailScreen> {
       padding: const EdgeInsets.all(10.0),
       child: Row(
         children: [
-          _buildScrapButton(),
-          Spacer(),
-          LoginNextButton(onPressed: (){}, buttonName: '참여하기', isButtonEnabled: true),
+          // _buildScrapButton(),
+          // Spacer(),
+          Container(
+            height: 100.0,
+            width: 350.0,
+            child: LoginNextButton(
+                onPressed: () async {
+                  await ref
+                      .read(researchProvider.notifier)
+                      .participateInResearch(id: widget.id);
+                  final url = Uri.parse(
+                      'https://docs.google.com/forms/d/1AkYT38aaIB9ACx1C60xcbzGJxF_BHTyRebaZt2_QPsQ/viewform?edit_requested=true&pli=1');
+                  launchUrl(url, mode: LaunchMode.externalApplication);
+                },
+                buttonName: '참여하기',
+                isButtonEnabled: true),
+          ),
         ],
       ),
     );
@@ -216,8 +232,8 @@ class _ResearchDetailScreenState extends ConsumerState<ResearchDetailScreen> {
   }
 
   Widget _buildRowInfo(String title, String value) {
-    const double titleWidth = 80.0;  // 원하는 title의 넓이를 지정합니다.
-    const double valueWidth = 200.0;  // 원하는 value의 넓이를 지정합니다.
+    const double titleWidth = 80.0; // 원하는 title의 넓이를 지정합니다.
+    const double valueWidth = 200.0; // 원하는 value의 넓이를 지정합니다.
 
     return Padding(
       padding: const EdgeInsets.fromLTRB(8, 8, 20, 5),
@@ -227,10 +243,12 @@ class _ResearchDetailScreenState extends ConsumerState<ResearchDetailScreen> {
             width: titleWidth,
             child: Text(title, style: whiteSmallTextStyle),
           ),
-          Expanded(child: SizedBox.shrink()), // to push the next text to the end
+          Expanded(
+              child: SizedBox.shrink()), // to push the next text to the end
           Container(
             width: valueWidth,
-            child: Text(value, style: TextStyle(fontWeight: FontWeight.w400, fontSize: 12)),
+            child: Text(value,
+                style: TextStyle(fontWeight: FontWeight.w400, fontSize: 12)),
           ),
         ],
       ),
@@ -265,7 +283,10 @@ class _ResearchDetailScreenState extends ConsumerState<ResearchDetailScreen> {
                 TextSpan(text: '현재 ', style: whiteMiddleTextStyle),
                 TextSpan(
                   text: '${state.researchCnt}',
-                  style: TextStyle(color: Colors.blue, fontSize: 16, fontWeight: FontWeight.w700),
+                  style: TextStyle(
+                      color: Colors.blue,
+                      fontSize: 16,
+                      fontWeight: FontWeight.w700),
                 ),
                 TextSpan(text: '명이 참여했어요!', style: whiteMiddleTextStyle),
               ],
@@ -288,7 +309,6 @@ class _ResearchDetailScreenState extends ConsumerState<ResearchDetailScreen> {
     );
   }
 
-
   String _mapResearchTypeToText(String researchType) {
     switch (researchType) {
       case 'survey':
@@ -298,7 +318,7 @@ class _ResearchDetailScreenState extends ConsumerState<ResearchDetailScreen> {
       case 'test':
         return '테스트 참여';
       default:
-        return researchType; // 기본값을 반환 (혹은 다른 기본 문자열을 지정해도 좋습니다)
+        return researchType;
     }
   }
 
@@ -312,7 +332,7 @@ class _ResearchDetailScreenState extends ConsumerState<ResearchDetailScreen> {
       child: Column(
         children: List.generate(
           3,
-              (index) => Padding(
+          (index) => Padding(
             padding: const EdgeInsets.only(bottom: 32.0),
             child: SkeletonParagraph(
               style: SkeletonParagraphStyle(

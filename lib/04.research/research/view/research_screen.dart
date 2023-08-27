@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:intermission_project/01.user/user/model/user_model.dart';
 import 'package:intermission_project/01.user/user/provider/user_me_provider.dart';
 import 'package:intermission_project/04.research/research/component/research_card.dart';
 import 'package:intermission_project/04.research/research/provider/research_provider.dart';
@@ -18,6 +19,8 @@ class ResearchScreen extends ConsumerStatefulWidget {
 
 class _ResearchScreenState extends ConsumerState<ResearchScreen> with SingleTickerProviderStateMixin,AutomaticKeepAliveClientMixin {
   TabController? _tabController;
+
+
 
   @override
   bool get wantKeepAlive => true;
@@ -42,6 +45,20 @@ class _ResearchScreenState extends ConsumerState<ResearchScreen> with SingleTick
   @override
   @override
   Widget build(BuildContext context) {
+    final userState = ref.watch(userMeProvider); // 상태를 읽어옴
+    UserModel? user; // UserModel을 nullable로 선언
+
+    if (userState is UserModel) {
+      user = userState; // UserModel로 캐스팅
+    }
+
+    int point = 0;
+
+    if (user == null) {
+      return Center(
+        child: CircularProgressIndicator(),
+      );
+    }
     super.build(context);
     return DefaultTabController(
       length: 4,
@@ -58,7 +75,7 @@ class _ResearchScreenState extends ConsumerState<ResearchScreen> with SingleTick
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    "안녕하세요 이도형님\n이 인터뷰는 어떠세요?",
+                    "안녕하세요 ${user.userNm}님\n이 인터뷰는 어떠세요?",
                     style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                   ),
                   SizedBox(

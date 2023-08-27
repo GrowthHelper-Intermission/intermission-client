@@ -70,6 +70,11 @@ class ResearchStateNotifier
     paginate(researchType: researchType);   // 새로운 데이터 요청
   }
 
+  Future<void> participateInResearch({required String id}) async {
+    await repository.participateResearch(id: id);
+  }
+
+
 
 
   // 상위 3개의 인터뷰를 가져오는 함수
