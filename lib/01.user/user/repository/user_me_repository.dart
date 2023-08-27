@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart' hide Headers;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intermission_project/01.user/user/model/password_change_model.dart';
+import 'package:intermission_project/01.user/user/model/point_model.dart';
 import 'package:intermission_project/01.user/user/model/signup_user_model.dart';
 import 'package:intermission_project/01.user/user/model/test_user_model.dart';
 import 'package:intermission_project/01.user/user/model/user_model.dart';
@@ -28,6 +29,12 @@ abstract class UserMeRepository {
     'accessToken': 'true',
   })
   Future<UserModel> getMe();
+
+  // @GET('/point')
+  // @Headers({
+  //   'accessToken': 'true',
+  // })
+  // Future<PointModel> getPoint();
 
   @POST('/save')
   @Headers({

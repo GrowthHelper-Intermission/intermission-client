@@ -56,19 +56,23 @@ class CursorPagination<T> extends CursorPaginationBase {
 class CursorPaginationMeta {
   final int count;
   final bool hasMore;
+  final int? totalPoint;
 
   CursorPaginationMeta({
     required this.count,
     required this.hasMore,
+    this.totalPoint,
   });
 
   CursorPaginationMeta copyWith({
     int? count,
     bool? hasMore,
+    int? totalCount,
   }) {
     return CursorPaginationMeta(
       count: count ?? this.count,
       hasMore: hasMore ?? this.hasMore,
+      totalPoint: totalPoint ?? totalPoint, // 선택적으로 설정할 수 있도록 변경
     );
   }
 

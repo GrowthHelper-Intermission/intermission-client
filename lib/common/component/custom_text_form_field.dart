@@ -60,7 +60,7 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
         obscureText: widget.obscureText,
         obscuringCharacter: '●',
         minLines: widget.expands == true ? null : widget.textFieldMinLine, // 수정된 부분
-        maxLines: widget.obscureText ? 1 : (widget.maxLines ?? 1),
+        maxLines: widget.expands == true ? null : (widget.maxLines ?? 1),
         expands: widget.expands ?? false, // 연결
         autofocus: widget.autofocus,
         onChanged: widget.onChanged,

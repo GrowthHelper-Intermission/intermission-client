@@ -44,9 +44,10 @@ U extends IBasePaginationRepository<T>>
       },
     );
   }
+
   Future<void> paginate({
     ///
-    String? researchType = null,
+    String? researchType,
     int fetchCount = 10,
     //추가로 데이터 더 가져오기
     //true - 추가로 데이터 더 가져옴
@@ -56,6 +57,7 @@ U extends IBasePaginationRepository<T>>
     //true - CursorPaginationLoading()
     bool forceRefetch = false,
   }) async {
+    researchType = researchType ?? paginationThrottle.value.researchType; // 현재의 researchType을 사용하거나 새로운 값을 설정합니다.
     // print('Paginate called with researchType: $researchType');
     paginationThrottle.setValue(_PaginationInfo(
       fetchMore: fetchMore,
@@ -69,7 +71,17 @@ U extends IBasePaginationRepository<T>>
     final fetchCount = info.fetchCount;
     final fetchMore = info.fetchMore;
     final forceRefetch = info.forceRefetch;
-    final researchType = info.researchType; // 여기서 researchType 정보를 가져옵니다.
+    var researchType = info.researchType; // 여기서 researchType 정보를 가져옵니다.
+
+    // 결정할 path 값
+    String path = '/';
+    if (researchType == 'me') {
+      path = '/me';
+      researchType = null;  // /me 엔드포인트에는 researchType이 필요하지 않으므로 null로 설정
+    }
+
+
+
     try {
       // final resp = await repository.paginate(); //20개 가져오고
       // state = resp;
@@ -144,8 +156,11 @@ U extends IBasePaginationRepository<T>>
         }
       }
 
+      print(path);
+
       //paginate실제 수행하여 데이터받아온다
       final resp = await repository.paginate(
+        path: path,
         researchType: researchType,
         paginationParams: paginationParams, //쿼리로 자동 반환되는 paginationParams
       );

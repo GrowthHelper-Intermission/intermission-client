@@ -20,6 +20,7 @@ class _ResearchRepository implements ResearchRepository {
 
   @override
   Future<CursorPagination<ResearchModel>> paginate({
+    path = '/',
     researchType,
     paginationParams = const PaginationParams(),
   }) async {
@@ -38,7 +39,7 @@ class _ResearchRepository implements ResearchRepository {
     )
             .compose(
               _dio.options,
-              '/',
+              '${path}',
               queryParameters: queryParameters,
               data: _data,
             )
@@ -75,24 +76,27 @@ class _ResearchRepository implements ResearchRepository {
   }
 
   @override
-  Future<void> participateResearch({required id}) async {
+  Future<ParticipationResponse> participateResearch({required id}) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{r'accessToken': 'true'};
     _headers.removeWhere((k, v) => v == null);
     final Map<String, dynamic>? _data = null;
-    await _dio.fetch<void>(_setStreamType<void>(Options(
+    final _result = await _dio.fetch<Map<String, dynamic>>(
+        _setStreamType<ParticipationResponse>(Options(
       method: 'POST',
       headers: _headers,
       extra: _extra,
     )
-        .compose(
-          _dio.options,
-          '/${id}',
-          queryParameters: queryParameters,
-          data: _data,
-        )
-        .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
+            .compose(
+              _dio.options,
+              '/${id}',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
+    final value = ParticipationResponse.fromJson(_result.data!);
+    return value;
   }
 
   RequestOptions _setStreamType<T>(RequestOptions requestOptions) {

@@ -5,10 +5,12 @@ part 'pagination_params.g.dart';
 class PaginationParams{
   final String? after;
   final int? count;
+  final int? totalPoint;
 
   const PaginationParams({
     this.after,
     this.count,
+    this.totalPoint,
   });
 
   PaginationParams copyWith({
@@ -18,6 +20,7 @@ class PaginationParams{
     return PaginationParams(
       after: after ?? this.after,
       count: count ?? this.count,
+      totalPoint: totalPoint ?? this.totalPoint,
     );
   }
 
@@ -26,3 +29,5 @@ class PaginationParams{
 
   Map<String, dynamic> toJson() => _$PaginationParamsToJson(this);
 }
+
+
