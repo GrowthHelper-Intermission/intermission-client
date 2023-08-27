@@ -6,6 +6,7 @@ import 'package:intermission_project/01.user/user/provider/user_me_provider.dart
 import 'package:intermission_project/04.research/research/model/research_detail_model.dart';
 import 'package:intermission_project/04.research/research/model/research_model.dart';
 import 'package:intermission_project/04.research/research/provider/research_provider.dart';
+import 'package:intermission_project/04.research/research/repository/research_repository.dart';
 import 'package:intermission_project/common/component/custom_appbar.dart';
 import 'package:intermission_project/common/component/custom_text_style.dart';
 import 'package:intermission_project/common/component/login_next_button.dart';
@@ -53,6 +54,18 @@ class _ResearchDetailScreenState extends ConsumerState<ResearchDetailScreen> {
     ref.read(surveyProvider.notifier).getDetail(id: widget.id);
     ref.read(testerProvider.notifier).getDetail(id: widget.id);
   }
+
+  Future<void> _handleParticipation() async {
+    var response = await ref
+        .read(researchProvider.notifier)
+        .participateInResearch(id: widget.id);
+    if (response is ParticipationResponse && response.isJoin == 'Y') {
+      setState(() {
+        isButtonEnabled = false; // 참여했으므로 버튼을 비활성화합니다.
+      });
+    }
+  }
+
 
   // void listener() {
   //   //댓글로 수정
@@ -120,16 +133,17 @@ class _ResearchDetailScreenState extends ConsumerState<ResearchDetailScreen> {
             height: 100.0,
             width: 350.0,
             child: LoginNextButton(
-                onPressed: () async {
-                  await ref
-                      .read(researchProvider.notifier)
-                      .participateInResearch(id: widget.id);
-                  final url = Uri.parse(
-                      'https://docs.google.com/forms/d/1AkYT38aaIB9ACx1C60xcbzGJxF_BHTyRebaZt2_QPsQ/viewform?edit_requested=true&pli=1');
-                  launchUrl(url, mode: LaunchMode.externalApplication);
-                },
-                buttonName: '참여하기',
-                isButtonEnabled: true),
+              onPressed: isButtonEnabled
+                  ? () async {
+                await _handleParticipation();
+                final url = Uri.parse(
+                    'https://docs.google.com/forms/d/1AkYT38aaIB9ACx1C60xcbzGJxF_BHTyRebaZt2_QPsQ/viewform?edit_requested=true&pli=1');
+                launchUrl(url, mode: LaunchMode.externalApplication);
+              }
+                  : null, // 비활성화 상태일 때 null
+              buttonName: '참여하기',
+              isButtonEnabled: isButtonEnabled,
+            ),
           ),
         ],
       ),

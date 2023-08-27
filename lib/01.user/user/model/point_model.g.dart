@@ -7,16 +7,22 @@ part of 'point_model.dart';
 // **************************************************************************
 
 PointModel _$PointModelFromJson(Map<String, dynamic> json) => PointModel(
-      userPoint: json['userPoint'] as int?,
-      userId: json['userId'] as String?,
-      pointDate: json['pointDate'] as String?,
-      researchId: json['researchId'] as String?,
+      id: json['id'] as String,
+      createdAt: json['createdAt'] as String,
+      expireTime: json['expireTime'] as String,
+      pointStatus: json['pointStatus'] as String,
+      pointAmount: json['pointAmount'] as int,
+      researchTitle: json['researchTitle'] as String,
+      researchType: json['researchType'] as String,
     );
 
 Map<String, dynamic> _$PointModelToJson(PointModel instance) =>
     <String, dynamic>{
-      'userPoint': instance.userPoint,
-      'userId': instance.userId,
-      'pointDate': instance.pointDate,
-      'researchId': instance.researchId,
+      'id': instance.id,
+      'createdAt': instance.createdAt,
+      'expireTime': instance.expireTime,
+      'pointStatus': instance.pointStatus,
+      'pointAmount': instance.pointAmount,
+      'researchTitle': instance.researchTitle,
+      'researchType': instance.researchType,
     };

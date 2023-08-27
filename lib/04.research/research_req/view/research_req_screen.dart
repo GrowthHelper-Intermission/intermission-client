@@ -20,7 +20,7 @@ class ResearchReqScreen extends ConsumerWidget {
           ElevatedButton(
             onPressed: () {
               ResearchReqModel newResearch = ResearchReqModel(
-                mainTitle: '인터미션 사전 조사',
+                mainTitle: '열세시 인터미션 사전 조사 참여 테스트 열두시',
                 subTitle: '오프라인, 서울 관악구 기준 30분 거리면 오프 라인 방문 가능',
                 dueDate: '2023-09-05',
                 exceptTime: '2',
