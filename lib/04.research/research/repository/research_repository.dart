@@ -48,6 +48,15 @@ abstract class ResearchRepository implements
   Future<ResearchDetailModel> getResearchDetail({
     @Path() required String id,
   });
+
+
+  @POST('/{id}')
+  @Headers({
+    'accessToken': 'true',
+  })
+  Future<void> participateResearch({@Path() required String id});
+
+
 }
 
 

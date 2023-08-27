@@ -182,54 +182,6 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                                 }
                               },
                             ),
-
-
-
-                            // ElevatedButton(
-                            //   onPressed: state is UserModelLoading
-                            //       ? null
-                            //       : () async {
-                            //     ref.read(userMeProvider.notifier).login(
-                            //       username: _emailController.text.trim(),
-                            //       password: _passwordController.text.trim(),
-                            //     );
-                            //     // // ID:비밀번호
-                            //     // final rawString = '$username:$password';
-                            //     //
-                            //     // Codec<String, String> stringToBase64 = utf8.fuse(base64);
-                            //     //
-                            //     // String token = stringToBase64.encode(rawString);
-                            //     //
-                            //     // final resp = await dio.post(
-                            //     //   'http://$ip/auth/login',
-                            //     //   options: Options(
-                            //     //     headers: {
-                            //     //       'authorization': 'Basic $token',
-                            //     //     },
-                            //     //   ),
-                            //     // );
-                            //     //
-                            //     // final refreshToken = resp.data['refreshToken'];
-                            //     // final accessToken = resp.data['accessToken'];
-                            //     //
-                            //     // final storage = ref.read(secureStorageProvider);
-                            //     //
-                            //     // await storage.write(key: REFRESH_TOKEN_KEY, value: refreshToken);
-                            //     // await storage.write(key: ACCESS_TOKEN_KEY, value: accessToken);
-                            //     //
-                            //     // Navigator.of(context).push(
-                            //     //   MaterialPageRoute(
-                            //     //     builder: (_) => RootTab(),
-                            //     //   ),
-                            //     // );
-                            //   },
-                            //   style: ElevatedButton.styleFrom(
-                            //     primary: PRIMARY_COLOR,
-                            //   ),
-                            //   child: Text(
-                            //     '로그인',
-                            //   ),
-                            // ),
                           ],
                         ),
                       ),
