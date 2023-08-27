@@ -15,6 +15,7 @@ ResearchModel _$ResearchModelFromJson(Map<String, dynamic> json) =>
       exceptTime: json['exceptTime'] as String,
       researchMethTpCd: json['researchMethTpCd'] as String,
       researchRewdAmt: json['researchRewdAmt'] as String,
+      isOnGoing: json['isOnGoing'] as String,
     );
 
 Map<String, dynamic> _$ResearchModelToJson(ResearchModel instance) =>
@@ -26,4 +27,5 @@ Map<String, dynamic> _$ResearchModelToJson(ResearchModel instance) =>
       'exceptTime': instance.exceptTime,
       'researchMethTpCd': instance.researchMethTpCd,
       'researchRewdAmt': instance.researchRewdAmt,
+      'isOnGoing': instance.isOnGoing,
     };

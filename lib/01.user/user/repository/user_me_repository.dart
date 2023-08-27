@@ -14,8 +14,6 @@ final userMeRepositoryProvider = Provider<UserMeRepository>(
   (ref) {
     final dio = ref.watch(dioProvider);
 
-    // return UserMeRepository(dio,baseUrl: 'http://$ip/user/me');
-    // 'http://localhost:8080/api/user/save'
     return UserMeRepository(dio, baseUrl: 'http://34.64.77.5:8080/api/user');
   },
 );

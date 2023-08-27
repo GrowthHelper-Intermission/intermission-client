@@ -19,18 +19,6 @@ class _PaginationInfo {
   });
 }
 
-// class _PaginationInfo {
-//   final int fetchCount;
-//   final bool fetchMore;
-//   final bool forceRefetch;
-//
-//   _PaginationInfo({
-//     this.fetchCount = 10,
-//     this.fetchMore = false,
-//     this.forceRefetch = false,
-//   });
-// }
-
 //pagination 일반화 시작
 //여기 extends == implements
 //model type, repository type
@@ -56,24 +44,6 @@ U extends IBasePaginationRepository<T>>
       },
     );
   }
-
-  // Future<void> paginate({
-  //   int fetchCount = 10,
-  //   //추가로 데이터 더 가져오기
-  //   //true - 추가로 데이터 더 가져옴
-  //   //false - 새로고침(현재 상태 덮어씌움)
-  //   bool fetchMore = false,
-  //   //강제로 다시 로딩하기
-  //   //true - CursorPaginationLoading()
-  //   bool forceRefetch = false,
-  // }) async {
-  //   paginationThrottle.setValue(_PaginationInfo(
-  //     fetchMore: fetchMore,
-  //     fetchCount: fetchCount,
-  //     forceRefetch: forceRefetch,
-  //   )); //1개 밖에 못넣기때메 fetch관련 3개를 클래스로 묶어전달
-  // }
-
   Future<void> paginate({
     ///
     String? researchType = null,

@@ -62,8 +62,10 @@ class CustomInterceptor extends Interceptor {
   @override
   void onResponse(Response response, ResponseInterceptorHandler handler) {
     // TODO: implement onResponse
-    print(
-        '[RES] [${response.requestOptions.method}] ${response.requestOptions.uri}');
+    // print(
+    //     '[RES] [${response.requestOptions.method}] ${response.requestOptions.uri}');
+    print('서버 응답: ${response.data}');
+    return super.onResponse(response, handler);
     return super.onResponse(response, handler);
   }
 
@@ -84,17 +86,18 @@ class CustomInterceptor extends Interceptor {
     }
 
     final isStatus401 = err.response?.statusCode == 401; //401
+    final isStatus403 = err.response?.statusCode == 403; //401
     final isPathRefresh = err.requestOptions.path == '/auth/token';
     final isStatus500 = err.response?.statusCode == 500; // 추가: 500 에러 체크
 
     print('tlqkf');
     print(refreshToken);
     //토큰을 refresh하려는 의도가 아니었는데 403에러가 났다면?
-    if (isStatus401 == true && isPathRefresh == false) {
+    if ((isStatus401 == true && isPathRefresh == false) || (isStatus403 && isPathRefresh == false)) {
       final dio = Dio();
       try {
         final resp = await dio.post(
-          'http://localhost:8080/api/auth/token', //수정
+          'http://34.64.77.5:8080/api/auth/token', //수정
           options: Options(
             headers: {
               'authorization': 'Bearer $refreshToken',
@@ -104,6 +107,8 @@ class CustomInterceptor extends Interceptor {
         //refreshtoken으로 accesstoken발급 과정에서 에러가 낫다면?
 
         final accessToken = resp.data['accessToken'];
+
+        print('please$accessToken');
 
         final options = err.requestOptions; //요청을보낼때 필요한 모든값은 equestOptions에 잇다
 
@@ -118,6 +123,7 @@ class CustomInterceptor extends Interceptor {
 
         //요청 재전송(원래 요청을 토큰만 변경시킨채로 다시보냄)
         final response = await dio.fetch(options);
+
         return handler.resolve(response); //외부에서는 이 과정만보임 (요청이 잘 끝났음 의미)
       } on DioError catch (e) {
         print('DioError Occurred: ${e.message}');

@@ -1,9 +1,6 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:collection/collection.dart';
 import 'package:intermission_project/04.research/research/model/research_detail_model.dart';
 import 'package:intermission_project/04.research/research/model/research_model.dart';
-import 'package:intermission_project/common/const/data.dart';
 import 'package:intermission_project/common/dio/dio.dart';
 import 'package:intermission_project/common/model/cursor_pagination_model.dart';
 import 'package:intermission_project/common/model/pagination_params.dart';
@@ -19,28 +16,26 @@ part 'research_repository.g.dart';
 //restaurantDetailProvider도 마찬가지로 변경된다
 
 //<RestaurantModel, String> 반환값은 왼쪽, 넣을건 id 오른쪽
-final interviewRepositoryProvider = Provider<InterviewRepository>(
+final interviewRepositoryProvider = Provider<ResearchRepository>(
       (ref) {
     final dio = ref.watch(dioProvider);
-        return InterviewRepository(dio, baseUrl: 'http://34.64.77.5:8080/api/research');
+    return ResearchRepository(dio, baseUrl: 'http://34.64.77.5:8080/api/research');
     // 'http://localhost:8080/api/interview'
   },
 );
 
 @RestApi()
-abstract class InterviewRepository implements
+abstract class ResearchRepository implements
     IBasePaginationRepository<ResearchModel> {
-  factory InterviewRepository(Dio dio, {String baseUrl}) =
-  _InterviewRepository;
+  factory ResearchRepository(Dio dio, {String baseUrl}) =
+  _ResearchRepository;
 
-
-  // http://34.64.77.5:8080/api/v1/test/interview/interview?researchType=1
   @GET('/')
+  @Headers({
+    'accessToken': 'true',
+  })
   Future<CursorPagination<ResearchModel>> paginate({
     @Query('researchType') String? researchType,
-    @Headers({
-      'accessToken': 'true',
-    })
     @Queries() PaginationParams? paginationParams = const PaginationParams(),
   });
 

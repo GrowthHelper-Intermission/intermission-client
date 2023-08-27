@@ -18,7 +18,7 @@ class ResearchModel implements IModelWithId {
   final String exceptTime;
   final String researchMethTpCd;
   final String researchRewdAmt;
-  // final String isOnGoing;
+  final String isOnGoing;
 
 
   // final String isOnline; //대면여부
@@ -34,7 +34,7 @@ class ResearchModel implements IModelWithId {
     required this.exceptTime,
     required this.researchMethTpCd,
     required this.researchRewdAmt,
-    // required this.isOnGoing,
+    required this.isOnGoing,
   });
 
   factory ResearchModel.fromJson(Map<String, dynamic> json)

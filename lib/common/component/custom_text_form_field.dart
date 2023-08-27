@@ -7,21 +7,25 @@ class CustomTextFormField extends StatefulWidget {
   final bool obscureText;
   final bool autofocus;
   final ValueChanged<String>? onChanged;
-  final TextEditingController? controller; // 추가된 controller 파라미터
+  final TextEditingController? controller;
   final String? name;
   final int? textFieldMinLine;
   final bool? enable;
+  final int? maxLines; // 추가
+  final bool? expands; // 추가
 
   const CustomTextFormField({
     this.enable,
     required this.onChanged,
-    this.textFieldMinLine = 1 ,
+    this.textFieldMinLine = 1,
     this.autofocus = false,
     this.obscureText = false,
     this.errorText,
     this.hintText,
-    this.controller, // controller 파라미터 추가
+    this.controller,
     this.name,
+    this.maxLines, // 추가
+    this.expands, // 추가
     super.key,
   });
 
@@ -31,9 +35,9 @@ class CustomTextFormField extends StatefulWidget {
 
 class _CustomTextFormFieldState extends State<CustomTextFormField> {
   bool showErrorText = false;
+
   @override
   Widget build(BuildContext context) {
-
     final baseBorder = OutlineInputBorder(
       borderSide: BorderSide(
         color: BORDER_COLOR,
@@ -46,18 +50,18 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
       padding: const EdgeInsets.fromLTRB(0, 4, 14, 6),
       child: TextFormField(
         enabled: widget.enable ?? true,
-        // 텍스트 필드를 선택할 때마다 에러 텍스트 상태 초기화
         onTap: () {
           setState(() {
             showErrorText = false;
           });
         },
-        controller: widget.controller, // 추가된 controller를 TextField에 연결
+        controller: widget.controller,
         cursorColor: CURSOR_COLOR,
         obscureText: widget.obscureText,
         obscuringCharacter: '●',
-        minLines: widget.textFieldMinLine,
-        maxLines: widget.textFieldMinLine,
+        minLines: widget.expands == true ? null : widget.textFieldMinLine, // 수정된 부분
+        maxLines: widget.obscureText ? 1 : (widget.maxLines ?? 1),
+        expands: widget.expands ?? false, // 연결
         autofocus: widget.autofocus,
         onChanged: widget.onChanged,
         decoration: InputDecoration(
@@ -81,4 +85,3 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
     );
   }
 }
-
