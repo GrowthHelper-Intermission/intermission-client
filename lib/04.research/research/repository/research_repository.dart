@@ -1,4 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:intermission_project/01.user/point/model/point_model.dart';
 import 'package:intermission_project/04.research/research/model/research_detail_model.dart';
 import 'package:intermission_project/04.research/research/model/research_model.dart';
 import 'package:intermission_project/common/dio/dio.dart';
@@ -16,7 +17,7 @@ part 'research_repository.g.dart';
 //restaurantDetailProvider도 마찬가지로 변경된다
 
 //<RestaurantModel, String> 반환값은 왼쪽, 넣을건 id 오른쪽
-final interviewRepositoryProvider = Provider<ResearchRepository>(
+final researchRepositoryProvider = Provider<ResearchRepository>(
       (ref) {
     final dio = ref.watch(dioProvider);
     return ResearchRepository(dio, baseUrl: 'http://34.64.77.5:8080/api/research');
@@ -24,20 +25,43 @@ final interviewRepositoryProvider = Provider<ResearchRepository>(
   },
 );
 
+
+
 @RestApi()
 abstract class ResearchRepository implements
     IBasePaginationRepository<ResearchModel> {
   factory ResearchRepository(Dio dio, {String baseUrl}) =
   _ResearchRepository;
 
-  @GET('/')
+  // @GET('/')
+  // @Headers({
+  //   'accessToken': 'true',
+  // })
+  // Future<CursorPagination<ResearchModel>> paginate({
+  //   @Query('researchType') String? researchType,
+  //   @Queries() PaginationParams? paginationParams = const PaginationParams(),
+  // });
+
+
+  @GET('{path}')
   @Headers({
     'accessToken': 'true',
   })
   Future<CursorPagination<ResearchModel>> paginate({
+    @Path() String path = '/', // 기본값을 root path로 설정
     @Query('researchType') String? researchType,
     @Queries() PaginationParams? paginationParams = const PaginationParams(),
   });
+
+
+  // @GET('/me')
+  // @Headers({
+  //   'accessToken': 'true',
+  // })
+  // Future<CursorPagination<ResearchModel>> paginate2({
+  //   // @Query('researchType') String? researchType,
+  //   @Queries() PaginationParams? paginationParams = const PaginationParams(),
+  // });
 
   // http://34.64.77.5:8080/api/v1/test/interview
   // 'http://$ip/restaurant/:id'
@@ -54,11 +78,24 @@ abstract class ResearchRepository implements
   @Headers({
     'accessToken': 'true',
   })
-  Future<void> participateResearch({@Path() required String id});
+  Future<ParticipationResponse> participateResearch({@Path() required String id});
+
+// Future<Map<String, dynamic>> participateInResearch({required String id}) async {
+  //   return await repository.participateResearch(id: id);
+  // }
 
 
 }
 
 
+class ParticipationResponse {
+  final String isJoin;
+
+  ParticipationResponse({required this.isJoin});
+
+  factory ParticipationResponse.fromJson(Map<String, dynamic> json) {
+    return ParticipationResponse(isJoin: json['isJoin']);
+  }
+}
 
 
