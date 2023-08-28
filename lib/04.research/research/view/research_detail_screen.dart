@@ -37,6 +37,7 @@ class _ResearchDetailScreenState extends ConsumerState<ResearchDetailScreen> {
   int daysLeft = 0;
 
   bool isButtonEnabled = true;
+  bool isScrapped = false;
 
   int _getDaysLeft(String dueDate) {
     DateTime now = DateTime.now();
@@ -123,32 +124,93 @@ class _ResearchDetailScreenState extends ConsumerState<ResearchDetailScreen> {
   }
 
   Widget _buildBottomButtons() {
-    return Padding(
-      padding: const EdgeInsets.all(10.0),
-      child: Row(
-        children: [
-          // _buildScrapButton(),
-          // Spacer(),
-          Container(
-            height: 100.0,
-            width: 350.0,
-            child: LoginNextButton(
-              onPressed: isButtonEnabled
-                  ? () async {
-                await _handleParticipation();
-                final url = Uri.parse(
-                    'https://docs.google.com/forms/d/1AkYT38aaIB9ACx1C60xcbzGJxF_BHTyRebaZt2_QPsQ/viewform?edit_requested=true&pli=1');
-                launchUrl(url, mode: LaunchMode.externalApplication);
-              }
-                  : null, // 비활성화 상태일 때 null
-              buttonName: '참여하기',
-              isButtonEnabled: isButtonEnabled,
-            ),
+    return Container(
+      height: 120,
+      decoration: BoxDecoration(
+        boxShadow: [
+          BoxShadow(
+            color: Colors.grey.withOpacity(0.2),
+            spreadRadius: 1,
+            blurRadius: 1,
+            offset: Offset(0, -1), // changes position of shadow
           ),
         ],
       ),
+      child: BottomAppBar(
+        child: Row(
+          children: [
+            Column(
+              children: [
+                IconButton(
+                  icon: Transform.scale(
+                    scale: 1.5, // 이 값을 조절하여 높이를 조절하세요.
+                    child: Icon(
+                      isScrapped ? Icons.bookmark : Icons.bookmark_border,
+                      color: Colors.grey[400],
+                    ),
+                  ),
+                  iconSize: 30,
+                  onPressed: () {
+                    setState(() {
+                      isScrapped = !isScrapped;
+                    });
+                  },
+                ),
+                Flexible(
+                  child: SizedBox(
+                    height: 20, // Text 위젯의 최대 높이를 제한
+                    child: Text('10', style: TextStyle(fontSize: 13)),
+                  ),
+                ),
+              ],
+            ),
+            Expanded(
+              child: SimpleButton(
+                onPressed: isButtonEnabled
+                    ? () async {
+                  await _handleParticipation();
+                  final url = Uri.parse(
+                      'https://docs.google.com/forms/d/1AkYT38aaIB9ACx1C60xcbzGJxF_BHTyRebaZt2_QPsQ/viewform?edit_requested=true&pli=1');
+                  launchUrl(url, mode: LaunchMode.externalApplication);
+                }
+                    : null, // 비활성화 상태일 때 null
+                buttonName: '참여하기',
+                isButtonEnabled: isButtonEnabled,
+              ),
+            ),
+          ],
+        ),
+      ),
     );
   }
+
+  // Widget _buildBottomButtons() {
+  //   return Padding(
+  //     padding: const EdgeInsets.all(10.0),
+  //     child: Row(
+  //       children: [
+  //         // _buildScrapButton(),
+  //         // Spacer(),
+  //         Container(
+  //           height: 100.0,
+  //           width: 350.0,
+  //           child: LoginNextButton(
+  //             onPressed: isButtonEnabled
+  //                 ? () async {
+  //               await _handleParticipation();
+  //               final url = Uri.parse(
+  //                   'https://docs.google.com/forms/d/1AkYT38aaIB9ACx1C60xcbzGJxF_BHTyRebaZt2_QPsQ/viewform?edit_requested=true&pli=1');
+  //               launchUrl(url, mode: LaunchMode.externalApplication);
+  //             }
+  //                 : null, // 비활성화 상태일 때 null
+  //             buttonName: '참여하기',
+  //             isButtonEnabled: isButtonEnabled,
+  //           ),
+  //         ),
+  //       ],
+  //     ),
+  //   );
+  // }
 
   Widget _buildScrapButton() {
     // 스크랩 버튼 디자인. 실제 디자인에 맞게 수정이 필요합니다.
@@ -360,3 +422,42 @@ class _ResearchDetailScreenState extends ConsumerState<ResearchDetailScreen> {
     );
   }
 }
+
+class SimpleButton extends StatelessWidget {
+  final String buttonName;
+  final bool isButtonEnabled;
+  final VoidCallback? onPressed;
+
+  const SimpleButton({
+    required this.onPressed,
+    required this.buttonName,
+    required this.isButtonEnabled,
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      height: 60,
+      width: double.infinity,
+      child: ElevatedButton(
+        onPressed: isButtonEnabled ? onPressed : null,
+        style: ElevatedButton.styleFrom(
+          primary: isButtonEnabled ? PRIMARY_COLOR : Colors.grey[200],
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10),
+          ),
+        ),
+        child: Text(
+          buttonName,
+          style: TextStyle(
+            fontWeight: FontWeight.w800,
+            fontSize: 16,
+            color: Colors.white,
+          ),
+        ),
+      ),
+    );
+  }
+}
+
