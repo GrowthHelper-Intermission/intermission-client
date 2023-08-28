@@ -13,6 +13,7 @@ class ResearchDetailModel extends ResearchModel{
   final String detail;
   final String researchEntryCnt;
   final String researchCnt;
+  final String isJoin;
 
 
   ResearchDetailModel({
@@ -30,6 +31,7 @@ class ResearchDetailModel extends ResearchModel{
     required this.minAge,
     required this.researchEntryCnt,
     required this.researchCnt,
+    required this.isJoin,
     //comment 필요
 });
 

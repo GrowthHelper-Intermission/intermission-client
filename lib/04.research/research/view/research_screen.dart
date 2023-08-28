@@ -30,11 +30,6 @@ class _ResearchScreenState extends ConsumerState<ResearchScreen> with SingleTick
   void initState() {
     super.initState();
     _tabController = TabController(length: 4, vsync: this);  // 4개의 탭
-    // ref.read(interviewProvider.notifier).paginate();
-    // ref.read(interviewInterviewProvider.notifier).paginate();
-    // ref.read(surveyProvider.notifier).paginate();
-    // ref.read(testerProvider.notifier).paginate();
-
   }
 
   @override

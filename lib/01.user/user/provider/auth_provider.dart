@@ -8,6 +8,8 @@ import 'package:intermission_project/01.user/user/provider/user_me_provider.dart
 import 'package:go_router/go_router.dart';
 import 'package:intermission_project/01.user/user/view/login_screen.dart';
 import 'package:intermission_project/01.user/user/view/select_screen.dart';
+import 'package:intermission_project/04.research/research/view/notice_detail_screen.dart';
+import 'package:intermission_project/04.research/research/view/notice_screen.dart';
 import 'package:intermission_project/04.research/research/view/research_detail_screen.dart';
 import 'package:intermission_project/04.research/research/view/research_screen.dart';
 import 'package:intermission_project/04.research/research_req/view/research_req_screen.dart';
@@ -54,6 +56,19 @@ class AuthProvider extends ChangeNotifier {
               name: ResearchDetailScreen.routeName,
               builder: (_, state) =>
                   ResearchDetailScreen(id: state.pathParameters['id']!),
+            ),
+          ],
+        ),
+        GoRoute(
+          path: 'noti',
+          name: NoticeScreen.routeName,
+          builder: (_, state) => NoticeScreen(),
+          routes: [ // InterviewScreen 아래에 nested route로 DetailScreen 설정
+            GoRoute(
+              path: ':id',
+              name: NoticeDetailScreen.routeName,
+              builder: (_, state) =>
+                  NoticeDetailScreen(id: state.pathParameters['id']!),
             ),
           ],
         ),

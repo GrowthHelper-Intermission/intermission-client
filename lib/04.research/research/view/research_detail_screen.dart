@@ -6,6 +6,7 @@ import 'package:intermission_project/01.user/user/provider/user_me_provider.dart
 import 'package:intermission_project/04.research/research/model/research_detail_model.dart';
 import 'package:intermission_project/04.research/research/model/research_model.dart';
 import 'package:intermission_project/04.research/research/provider/research_provider.dart';
+import 'package:intermission_project/04.research/research/provider/scrap_provider.dart';
 import 'package:intermission_project/04.research/research/repository/research_repository.dart';
 import 'package:intermission_project/common/component/custom_appbar.dart';
 import 'package:intermission_project/common/component/custom_text_style.dart';
@@ -46,6 +47,22 @@ class _ResearchDetailScreenState extends ConsumerState<ResearchDetailScreen> {
     return difference.inDays + 1;
   }
 
+  Future<void> _handleScrap() async {
+    var response = await ref
+        .read(scrapProvider.notifier)
+        .scrapResearch(id: widget.id);
+    if (response is ParticipationResponse && response.isJoin == 'Y') {
+      setState(() {
+        isScrapped = true; // 스크랩되었으므로 아이콘 상태를 변경합니다.
+      });
+    } else {
+      setState(() {
+        isScrapped = false; // 스크랩 취소되었으므로 아이콘 상태를 변경합니다.
+      });
+    }
+  }
+
+
   @override
   void initState() {
     // TODO: implement initState
@@ -80,6 +97,7 @@ class _ResearchDetailScreenState extends ConsumerState<ResearchDetailScreen> {
   Widget build(BuildContext context) {
     final state = ref.watch(researchDetailProvider(widget.id));
 
+
     // 데이터가 없거나 로딩 중인 경우
     if (state == null || state is! ResearchDetailModel) {
       return Scaffold(body: renderLoading());
@@ -87,6 +105,10 @@ class _ResearchDetailScreenState extends ConsumerState<ResearchDetailScreen> {
 
     // `state`가 ResearchDetailModel인 경우
     daysLeft = _getDaysLeft(state.dueDate);
+
+    if (state.isJoin == "Y") {
+      isButtonEnabled = false;
+    }
 
     return Scaffold(
       backgroundColor: Colors.white,
@@ -143,7 +165,7 @@ class _ResearchDetailScreenState extends ConsumerState<ResearchDetailScreen> {
               children: [
                 IconButton(
                   icon: Transform.scale(
-                    scale: 1.5, // 이 값을 조절하여 높이를 조절하세요.
+                    scale: 1.5,
                     child: Icon(
                       isScrapped ? Icons.bookmark : Icons.bookmark_border,
                       color: Colors.grey[400],
@@ -152,7 +174,7 @@ class _ResearchDetailScreenState extends ConsumerState<ResearchDetailScreen> {
                   iconSize: 30,
                   onPressed: () {
                     setState(() {
-                      isScrapped = !isScrapped;
+                      _handleScrap();
                     });
                   },
                 ),
@@ -174,7 +196,7 @@ class _ResearchDetailScreenState extends ConsumerState<ResearchDetailScreen> {
                   launchUrl(url, mode: LaunchMode.externalApplication);
                 }
                     : null, // 비활성화 상태일 때 null
-                buttonName: '참여하기',
+                buttonName: isButtonEnabled ? '참여하기' : '참여완료',
                 isButtonEnabled: isButtonEnabled,
               ),
             ),
@@ -412,7 +434,7 @@ class _ResearchDetailScreenState extends ConsumerState<ResearchDetailScreen> {
             padding: const EdgeInsets.only(bottom: 32.0),
             child: SkeletonParagraph(
               style: SkeletonParagraphStyle(
-                lines: 5,
+                lines: 3,
                 padding: EdgeInsets.zero,
               ),
             ),

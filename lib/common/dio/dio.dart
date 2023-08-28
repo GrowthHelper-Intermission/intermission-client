@@ -48,24 +48,20 @@ class CustomInterceptor extends Interceptor {
       options.headers.remove('refreshToken');
       final token = await storage.read(key: REFRESH_TOKEN_KEY);
       //실제 토근으로 대체
-      options.headers.addAll({'authorization': 'Bearer $token'});
+      options.headers.addAll({
+        'authorization': 'Bearer $token',
+      });
     }
 
     return super.onRequest(options, handler);
   }
 
-  // print('REQUEST');
-  // print(options);
-  // super.onRequest(options, handler);
-
 // 2) 응답을 받을때
   @override
   void onResponse(Response response, ResponseInterceptorHandler handler) {
     // TODO: implement onResponse
-    // print(
-    //     '[RES] [${response.requestOptions.method}] ${response.requestOptions.uri}');
-    print('서버 응답: ${response.data}');
-    return super.onResponse(response, handler);
+    print(
+        '[RES] [${response.requestOptions.method}] ${response.requestOptions.uri}');
     return super.onResponse(response, handler);
   }
 
@@ -82,18 +78,22 @@ class CustomInterceptor extends Interceptor {
     //refreshToken 아예 없으면 당연히 에러 던진다
     if (refreshToken == null) {
       //에러 던질때는 reject 사용
+      print('refreshNull?');
       return handler.reject(err);
     }
 
     final isStatus401 = err.response?.statusCode == 401; //401
-    final isStatus403 = err.response?.statusCode == 403; //401
+    final isStatus402 = err.response?.statusCode == 402; //401
+    final isStatus403 = err.response?.statusCode == 403; //403
     final isPathRefresh = err.requestOptions.path == '/auth/token';
     final isStatus500 = err.response?.statusCode == 500; // 추가: 500 에러 체크
 
     print('tlqkf');
     print(refreshToken);
     //토큰을 refresh하려는 의도가 아니었는데 403에러가 났다면?
-    if ((isStatus401 == true && isPathRefresh == false) || (isStatus403 && isPathRefresh == false)) {
+    if ((isStatus401 && !isPathRefresh) ||
+        (isStatus403 && !isPathRefresh) ||
+        ((isStatus402 && !isPathRefresh))) {
       final dio = Dio();
       try {
         final resp = await dio.post(

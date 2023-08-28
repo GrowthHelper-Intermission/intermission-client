@@ -63,14 +63,20 @@ class _ParticipatedResearchScreenState extends ConsumerState<ParticipatedResearc
   Widget _buildTabContent(String title) {
     if (title == "전체") {
       ref.read(researchProvider.notifier).paginate(researchType: 'me');
-      return _buildInterviewPage(researchProvider);
     } else if (title == "진행중" || title == "마감") {
       ref.read(researchProvider.notifier).paginate();
-      return _buildInterviewPage(researchProvider);
+    }
+
+    // 데이터의 상태를 확인합니다.
+    final state = ref.watch(researchProvider);
+
+    if (state == null || state is! CursorPagination) {
+      return Center(child: CircularProgressIndicator());
     } else {
-      return Center(child: Text(title));
+      return _buildInterviewPage(researchProvider);
     }
   }
+
 
 
 
