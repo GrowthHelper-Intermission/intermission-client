@@ -7,6 +7,7 @@ import 'package:intermission_project/04.research/research/component/research_car
 import 'package:intermission_project/04.research/research/provider/research_provider.dart';
 import 'package:intermission_project/common/component/custom_appbar.dart';
 import 'package:intermission_project/common/component/custom_text_style.dart';
+import 'package:intermission_project/common/component/normal_appbar.dart';
 import 'package:intermission_project/common/component/pagination_list_view.dart';
 import 'package:intermission_project/common/model/cursor_pagination_model.dart';
 
@@ -63,10 +64,7 @@ class _ResearchScreenState extends ConsumerState<ResearchScreen> with SingleTick
     return DefaultTabController(
       length: 4,
       child: Scaffold(
-        appBar: AppBar(
-          title: Text("인터뷰모음",style: customTextStyle),
-          centerTitle: false,
-        ),
+        appBar: NormalAppbar(title: '리서치모음',),
         body: Column(
           children: [
             Padding(

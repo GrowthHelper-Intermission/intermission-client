@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intermission_project/01.user/user/view/login_screen.dart';
 import 'package:intermission_project/01.user/user/view/my_page_screen.dart';
+import 'package:intermission_project/01.user/user/view/shopping_screen.dart';
 import 'package:intermission_project/04.research/research/view/matching_screen.dart';
 import 'package:intermission_project/04.research/research/view/research_screen.dart';
 import 'package:intermission_project/common/const/tabs.dart';
@@ -54,7 +55,7 @@ class _RootTabState extends State<RootTab>
         controller: _tabController,
         physics: NeverScrollableScrollPhysics(), // Disable swiping between tabs
         children: <Widget>[
-          TabContentWidget(label: '쇼핑몰'),
+          ShoppingScreen(),
           MatchingScreen(),
           HomeScreen(tabController: _tabController),
           ResearchScreen(),
@@ -102,16 +103,16 @@ class _RootTabState extends State<RootTab>
   }
 }
 
-class TabContentWidget extends StatelessWidget {
-  final String label;
-
-  const TabContentWidget({required this.label});
-
-  @override
-  Widget build(BuildContext context) {
-    // Replace this with the content you want to display for each tab
-    return Center(
-      child: Text(label),
-    );
-  }
-}
+// class TabContentWidget extends StatelessWidget {
+//   final String label;
+//
+//   const TabContentWidget({required this.label});
+//
+//   @override
+//   Widget build(BuildContext context) {
+//     // Replace this with the content you want to display for each tab
+//     return Center(
+//       child: Text(label),
+//     );
+//   }
+// }
