@@ -8,9 +8,10 @@ import 'package:intermission_project/01.user/user/view/user_point_count_screen.d
 import 'package:intermission_project/01.user/user/view/user_recommend_friend_screen.dart';
 import 'package:intermission_project/01.user/user/view/user_report_screen.dart';
 import 'package:intermission_project/01.user/user/view/user_scrap_interview_screen.dart';
+import 'package:intermission_project/04.research/research/view/notice_screen.dart';
 import 'package:intermission_project/04.research/research_req/view/research_req_screen.dart';
 import 'package:intermission_project/common/component/normal_appbar.dart';
-import 'package:intermission_project/common/view/notices.dart';
+
 
 class MyPageScreen extends ConsumerWidget {
   final TabController tabController;
@@ -107,7 +108,7 @@ class MyPageScreen extends ConsumerWidget {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => ScrapInterviews(),
+                                builder: (context) => ScrapedResearchScreen(),
                               ),
                             );
                           },

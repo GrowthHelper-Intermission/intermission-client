@@ -3,11 +3,7 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'research_model.g.dart';
 
-// enum onlineCategory{
-//   online,
-//   offline,
-//   both,
-// }
+
 
 @JsonSerializable()
 class ResearchModel implements IModelWithId {

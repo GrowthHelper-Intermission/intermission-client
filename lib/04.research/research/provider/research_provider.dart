@@ -66,31 +66,9 @@ class ResearchStateNotifier
     // print("Research Type: $researchType");
   }
 
-  void resetState() {
-    paginate(researchType: researchType);   // 새로운 데이터 요청
-  }
-
-  // Future<void> participateInResearch({required String id}) async {
-  //   await repository.participateResearch(id: id);
-  // }
-
   Future<ParticipationResponse> participateInResearch({required String id}) async {
     return await repository.participateResearch(id: id);
   }
-
-
-  // Future<void> participateInResearch({required String id}) async {
-  //   var response = await repository.participateResearch(id: id);
-  //   if (response['isJoin'] == 'Y') {
-  //     setState(() {
-  //       isButtonDisabled = true;
-  //     });
-  //   }
-  // }
-
-
-
-
 
 
   // 상위 3개의 인터뷰를 가져오는 함수

@@ -21,6 +21,7 @@ ResearchDetailModel _$ResearchDetailModelFromJson(Map<String, dynamic> json) =>
       minAge: json['minAge'] as String,
       researchEntryCnt: json['researchEntryCnt'] as String,
       researchCnt: json['researchCnt'] as String,
+      isJoin: json['isJoin'] as String,
     );
 
 Map<String, dynamic> _$ResearchDetailModelToJson(
@@ -39,4 +40,5 @@ Map<String, dynamic> _$ResearchDetailModelToJson(
       'detail': instance.detail,
       'researchEntryCnt': instance.researchEntryCnt,
       'researchCnt': instance.researchCnt,
+      'isJoin': instance.isJoin,
     };
