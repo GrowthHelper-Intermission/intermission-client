@@ -1,11 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:intermission_project/01.user/user/model/report_card.dart';
+import 'package:intermission_project/01.user/user/model/report_req_model.dart';
+import 'package:intermission_project/01.user/user/provider/report_provider.dart';
+import 'package:intermission_project/01.user/user/provider/report_req_provider.dart';
+import 'package:intermission_project/01.user/user/repository/report_req_repository.dart';
+import 'package:intermission_project/01.user/user/view/user_point_count_screen.dart';
+import 'package:intermission_project/04.research/research/view/notice_card.dart';
 import 'package:intermission_project/common/component/custom_text_form_field.dart';
 import 'package:intermission_project/common/component/login_next_button.dart';
+import 'package:intermission_project/common/component/pagination_list_view.dart';
+import 'package:intermission_project/common/model/cursor_pagination_model.dart';
 import 'package:intermission_project/common/view/default_layout.dart';
 import 'package:intermission_project/common/view/root_tab.dart';
 
 class UserReportScreen extends ConsumerStatefulWidget {
+  static String get routeName => 'report';
   const UserReportScreen({super.key});
 
   @override
@@ -108,11 +118,23 @@ class _UserReportScreenState extends ConsumerState<UserReportScreen>
               hintText: '문의내용을 작성해 주세요',
             ),
           ),
-          SizedBox(height: 50,),
+          SizedBox(height: 50),
           LoginNextButton(
-              onPressed: isButtonEnabled
-                  ? () {
-                      showDialog(
+            onPressed: isButtonEnabled
+                ? () async {
+                    ReportReqModel newReport = ReportReqModel(
+                      mainTitle: titleController.text.trim(),
+                      detail: contentsController.text.trim(),
+                    );
+
+                    // Post the report
+                    ref
+                        .read(reportReqStateNotifierProvider.notifier)
+                        .postReport(newReport);
+                    print('Report posted successfully');
+
+                    // Show the confirmation dialog
+                    showDialog(
                         context: context,
                         builder: (BuildContext context) {
                           return AlertDialog(
@@ -121,31 +143,65 @@ class _UserReportScreenState extends ConsumerState<UserReportScreen>
                             actions: [
                               TextButton(
                                 child: Text("확인"),
-                                onPressed: () {
-                                  Navigator.of(context).pushReplacement(
-                                    MaterialPageRoute(
-                                      builder: (context) => RootTab(),
-                                    ),
-                                  );
+                                onPressed: () async {
+                                  Navigator.of(context)
+                                      .pop(); // Close the dialog
+
+                                  // Add a delay before switching tabs
+                                  await Future.delayed(
+                                      Duration(milliseconds: 500));
+
+                                  // Move to the report history tab
+                                  _tabController?.animateTo(1);
+
+                                  // Refresh the report history
+                                  ref.refresh(reportProvider);
                                 },
                               ),
                             ],
                           );
-                        },
-                      );
-                    }
-                  : null,
-              buttonName: '등록',
-              isButtonEnabled: isButtonEnabled)
+                        });
+                  }
+                : null,
+            buttonName: '등록',
+            isButtonEnabled: isButtonEnabled,
+          ),
         ],
       ),
     );
   }
 
   Widget _buildTabContentForHistory() {
-    // 두 번째 탭의 내용
-    return Center(
-      child: Text("문의 내역을 여기에 표시합니다."),
+    final state = ref.watch(reportProvider);
+
+    if (state is CursorPaginationLoading || state == null) {
+      return renderLoading();
+    }
+
+    return RefreshIndicator(
+      onRefresh: () async {
+        await Future.delayed(
+            Duration(seconds: 1)); // 임의로 1초 지연을 줍니다. 필요에 따라 조절하실 수 있습니다.
+        ref.refresh(reportProvider);
+      },
+      child: Column(
+        children: [
+          _buildReportPage(reportProvider),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildReportPage(
+      StateNotifierProvider<ReportStateNotifier, CursorPaginationBase>
+          provider) {
+    return Expanded(
+      child: PaginationListView(
+        provider: provider,
+        itemBuilder: <ReportModel>(BuildContext context, int index, model) {
+          return ReportCard.fromModel(model); // ReportCard 위젯도 적절하게 정의해야 합니다.
+        },
+      ),
     );
   }
 

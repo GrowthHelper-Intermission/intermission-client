@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:intermission_project/01.user/user/model/report_detail_model.dart';
+import 'package:intermission_project/01.user/user/provider/report_provider.dart';
 import 'package:intermission_project/01.user/user/view/user_point_count_screen.dart';
-import 'package:intermission_project/04.research/research/model/noti_detail_model.dart';
-import 'package:intermission_project/04.research/research/provider/notice_provider.dart';
-import 'package:intermission_project/04.research/research/view/notice_screen.dart';
 import 'package:intermission_project/common/view/default_layout.dart';
 
 // static String get routeName => 'researchDetail';
@@ -13,37 +12,37 @@ import 'package:intermission_project/common/view/default_layout.dart';
 // super.key,
 // });
 
-class NoticeDetailScreen extends ConsumerStatefulWidget {
-  static String get routeName => 'notiDetail';
+class ReportDetailScreen extends ConsumerStatefulWidget {
+  static String get routeName => 'reportDetail';
   final String id;
 
-  const NoticeDetailScreen({
+  const ReportDetailScreen({
     super.key,
     required this.id,
   });
   @override
-  ConsumerState<NoticeDetailScreen> createState() => _NoticeDetailScreenState();
+  ConsumerState<ReportDetailScreen> createState() => _ReportDetailScreenState();
 }
 
-class _NoticeDetailScreenState extends ConsumerState<NoticeDetailScreen> {
+class _ReportDetailScreenState extends ConsumerState<ReportDetailScreen> {
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    ref.watch(noticeProvider.notifier).getDetail(id: widget.id);
+    ref.watch(reportProvider.notifier).getDetail(id: widget.id);
   }
 
   @override
   Widget build(BuildContext context) {
 
-    final state = ref.watch(noticeDetailProvider(widget.id));
+    final state = ref.watch(reportDetailProvider(widget.id));
 
     // 데이터가 없거나 로딩 중인 경우
-    if (state == null || state is! NotiDetailModel) {
+    if (state == null || state is! ReportDetailModel) {
       return Scaffold(body: renderLoading());
     }
 
     return DefaultLayout(
-      title: '공지 세부 사항',
+      title: '문의 세부 사항',
       child: Column(
         children: [
           Text(state.detail),
