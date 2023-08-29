@@ -33,15 +33,6 @@ abstract class ResearchRepository implements
   factory ResearchRepository(Dio dio, {String baseUrl}) =
   _ResearchRepository;
 
-  // @GET('/')
-  // @Headers({
-  //   'accessToken': 'true',
-  // })
-  // Future<CursorPagination<ResearchModel>> paginate({
-  //   @Query('researchType') String? researchType,
-  //   @Queries() PaginationParams? paginationParams = const PaginationParams(),
-  // });
-
 
   @GET('{path}')
   @Headers({
@@ -52,16 +43,6 @@ abstract class ResearchRepository implements
     @Query('researchType') String? researchType,
     @Queries() PaginationParams? paginationParams = const PaginationParams(),
   });
-
-
-  // @GET('/me')
-  // @Headers({
-  //   'accessToken': 'true',
-  // })
-  // Future<CursorPagination<ResearchModel>> paginate2({
-  //   // @Query('researchType') String? researchType,
-  //   @Queries() PaginationParams? paginationParams = const PaginationParams(),
-  // });
 
   // http://34.64.77.5:8080/api/v1/test/interview
   // 'http://$ip/restaurant/:id'

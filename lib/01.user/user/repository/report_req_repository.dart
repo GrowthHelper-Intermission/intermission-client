@@ -1,3 +1,4 @@
+import 'package:intermission_project/01.user/user/model/report_req_model.dart';
 import 'package:intermission_project/04.research/research_req/model/research_req_model.dart';
 import 'package:intermission_project/common/dio/dio.dart';
 import 'package:dio/dio.dart' hide Headers; //주의
@@ -5,29 +6,29 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:retrofit/retrofit.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-part 'research_req_repository.g.dart';
+part 'report_req_repository.g.dart';
 
-final researchReqRepositoryProvider = Provider<ResearchReqRepository>(
-  (ref) {
+final reportReqRepositoryProvider = Provider<ReportReqRepository>(
+      (ref) {
     final dio = ref.watch(dioProvider);
 
     // return UserMeRepository(dio,baseUrl: 'http://$ip/user/me');
     // 'http://localhost:8080/api/user/save'
-    return ResearchReqRepository(dio,
-        baseUrl: 'http://34.64.77.5:8080/api/research');
+    return ReportReqRepository(dio,
+        baseUrl: 'http://34.64.77.5:8080/api/ask');
   },
 );
 
 @RestApi()
-abstract class ResearchReqRepository {
-  factory ResearchReqRepository(Dio dio, {String baseUrl}) =
-      _ResearchReqRepository;
+abstract class ReportReqRepository {
+  factory ReportReqRepository(Dio dio, {String baseUrl}) =
+  _ReportReqRepository;
 
   @POST('/')
   @Headers({
     'accessToken': 'true',
   })
-  Future<ResearchReqModel> postResearch({
-    @Body() required ResearchReqModel researchReqModel,
+  Future<ReportReqModel> postReport({
+    @Body() required ReportReqModel reportReqModel,
   });
 }

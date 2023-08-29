@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:intermission_project/01.user/user/view/report_detail_screen.dart';
 import 'package:intermission_project/01.user/user/view/signup_screen_page1.dart';
 import 'package:intermission_project/01.user/user/view/signup_screen_page2.dart';
 import 'package:intermission_project/01.user/user/view/signup_screen_page3.dart';
@@ -8,6 +9,7 @@ import 'package:intermission_project/01.user/user/provider/user_me_provider.dart
 import 'package:go_router/go_router.dart';
 import 'package:intermission_project/01.user/user/view/login_screen.dart';
 import 'package:intermission_project/01.user/user/view/select_screen.dart';
+import 'package:intermission_project/01.user/user/view/user_report_screen.dart';
 import 'package:intermission_project/04.research/research/view/notice_detail_screen.dart';
 import 'package:intermission_project/04.research/research/view/notice_screen.dart';
 import 'package:intermission_project/04.research/research/view/research_detail_screen.dart';
@@ -69,6 +71,19 @@ class AuthProvider extends ChangeNotifier {
               name: NoticeDetailScreen.routeName,
               builder: (_, state) =>
                   NoticeDetailScreen(id: state.pathParameters['id']!),
+            ),
+          ],
+        ),
+        GoRoute(
+          path: 'report',
+          name: UserReportScreen.routeName,
+          builder: (_, state) => UserReportScreen(),
+          routes: [ // InterviewScreen 아래에 nested route로 DetailScreen 설정
+            GoRoute(
+              path: ':id',
+              name: ReportDetailScreen.routeName,
+              builder: (_, state) =>
+                  ReportDetailScreen(id: state.pathParameters['id']!),
             ),
           ],
         ),
