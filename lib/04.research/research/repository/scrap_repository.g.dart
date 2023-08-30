@@ -76,14 +76,14 @@ class _ScrapRepository implements ScrapRepository {
   }
 
   @override
-  Future<ParticipationResponse> scrapResearch({required id}) async {
+  Future<ScrapResponse> scrapResearch({required id}) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{r'accessToken': 'true'};
     _headers.removeWhere((k, v) => v == null);
     final Map<String, dynamic>? _data = null;
-    final _result = await _dio.fetch<Map<String, dynamic>>(
-        _setStreamType<ParticipationResponse>(Options(
+    final _result = await _dio
+        .fetch<Map<String, dynamic>>(_setStreamType<ScrapResponse>(Options(
       method: 'POST',
       headers: _headers,
       extra: _extra,
@@ -95,7 +95,7 @@ class _ScrapRepository implements ScrapRepository {
               data: _data,
             )
             .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
-    final value = ParticipationResponse.fromJson(_result.data!);
+    final value = ScrapResponse.fromJson(_result.data!);
     return value;
   }
 

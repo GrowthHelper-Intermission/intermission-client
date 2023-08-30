@@ -38,7 +38,6 @@ final researchDetailProvider =
   if (state is! CursorPagination) {
     return null;
   }
-
   return state.data.firstWhereOrNull((element) => element.id == id);
 });
 

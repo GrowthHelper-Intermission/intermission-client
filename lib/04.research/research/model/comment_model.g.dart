@@ -1,0 +1,27 @@
+// GENERATED CODE - DO NOT MODIFY BY HAND
+
+part of 'comment_model.dart';
+
+// **************************************************************************
+// JsonSerializableGenerator
+// **************************************************************************
+
+Comment _$CommentFromJson(Map<String, dynamic> json) => Comment(
+      commentId: json['commentId'] as int,
+      writer: json['writer'] as String,
+      content: json['content'] as String,
+      createdDate: json['createdDate'] as String,
+      isUpdate: json['isUpdate'] as String,
+      reComments: (json['reComments'] as List<dynamic>)
+          .map((e) => ReComment.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+
+Map<String, dynamic> _$CommentToJson(Comment instance) => <String, dynamic>{
+      'commentId': instance.commentId,
+      'writer': instance.writer,
+      'content': instance.content,
+      'createdDate': instance.createdDate,
+      'isUpdate': instance.isUpdate,
+      'reComments': instance.reComments,
+    };

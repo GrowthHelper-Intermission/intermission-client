@@ -65,7 +65,6 @@ abstract class ResearchRepository implements
   //   return await repository.participateResearch(id: id);
   // }
 
-
 }
 
 
@@ -78,5 +77,6 @@ class ParticipationResponse {
     return ParticipationResponse(isJoin: json['isJoin']);
   }
 }
+
 
 

@@ -48,8 +48,6 @@ class _ResearchScreenState extends ConsumerState<ResearchScreen> with SingleTick
       user = userState; // UserModel로 캐스팅
     }
 
-    int point = 0;
-
     if (user == null) {
       return Center(
         child: CircularProgressIndicator(),

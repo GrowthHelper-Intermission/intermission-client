@@ -35,7 +35,7 @@ class ScrapStateNotifier
     paginate();
   }
 
-  Future<ParticipationResponse> scrapResearch({required String id}) async {
+  Future<ScrapResponse> scrapResearch({required String id}) async {
     return await repository.scrapResearch(id: id);
   }
 

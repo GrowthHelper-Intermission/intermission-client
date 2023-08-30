@@ -22,6 +22,11 @@ ResearchDetailModel _$ResearchDetailModelFromJson(Map<String, dynamic> json) =>
       researchEntryCnt: json['researchEntryCnt'] as String,
       researchCnt: json['researchCnt'] as String,
       isJoin: json['isJoin'] as String,
+      isScrap: json['isScrap'] as String,
+      scrapCnt: json['scrapCnt'] as String,
+      comments: (json['comments'] as List<dynamic>)
+          .map((e) => Comment.fromJson(e as Map<String, dynamic>))
+          .toList(),
     );
 
 Map<String, dynamic> _$ResearchDetailModelToJson(
@@ -41,4 +46,7 @@ Map<String, dynamic> _$ResearchDetailModelToJson(
       'researchEntryCnt': instance.researchEntryCnt,
       'researchCnt': instance.researchCnt,
       'isJoin': instance.isJoin,
+      'isScrap': instance.isScrap,
+      'scrapCnt': instance.scrapCnt,
+      'comments': instance.comments,
     };

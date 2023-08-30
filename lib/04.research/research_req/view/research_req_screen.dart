@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:intermission_project/04.research/research/provider/research_provider.dart';
 import 'package:intermission_project/04.research/research/view/research_screen.dart';
 import 'package:intermission_project/04.research/research_req/model/research_req_model.dart';
 import 'package:intermission_project/04.research/research_req/provider/research_req_provider.dart';
@@ -21,14 +22,14 @@ class ResearchReqScreen extends ConsumerWidget {
           ElevatedButton(
             onPressed: ()  async{
               ResearchReqModel newResearch = ResearchReqModel(
-                  mainTitle: '사랑집 인터미션 사전 조사 참여 테스트 열두시',
+                  mainTitle: '고기고기 그로스헬퍼 사전 조사 참여 테스트 열두시',
                   subTitle: '오프라인, 서울 관악구 기준 30분 거리면 오프 라인 방문 가능',
-                  dueDate: '2023-09-05',
+                  dueDate: '2023-09-01',
                   exceptTime: '2',
                   minAge: '20대 / 10대 / 30대 / 40대',
                   detail:
                       '안녕하세요. 한국대학병원 서비스 조사팀 김철수입니다. 현재 한국대학에서는 뇌졸중 환자 및 보호자 설문 모집하고 있습니다. 본 설문조사는 뇌졸중 연구 논문에 참고 자료로 사용될 예정입니다. 작성해주신 모든 응답과 신상 정보는 철저히 보호될 것을 약속드립니다. 감사합니다.',
-                  researchType: "test",
+                  researchType: "interview",
                   researchMethTpCd: '온라인',
                   researchRewdAmt: "30000원",
                   userId: "12",
@@ -47,6 +48,8 @@ class ResearchReqScreen extends ConsumerWidget {
                     .read(researchReqStateNotifierProvider.notifier)
                     .postResearch(newResearch);
                 print('Research posted successfully');
+
+                ref.read(researchProvider.notifier).getTopThreeResearches();
 
                 // Show the confirmation dialog
                 await showDialog(
