@@ -1,10 +1,15 @@
 import 'dart:convert';
+import 'dart:ffi';
 
 import 'package:intermission_project/common/const/data.dart';
 
 class DataUtils{
   static DateTime stringToDateTime(String value){
     return DateTime.parse(value);
+  }
+
+  static int stringToInt(String value){
+    return int.parse(value);
   }
 
   static String pathToUrl(String value){

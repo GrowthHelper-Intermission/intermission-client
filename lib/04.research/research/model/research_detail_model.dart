@@ -1,4 +1,5 @@
 
+import 'package:intermission_project/04.research/research/model/comment_model.dart';
 import 'package:intermission_project/04.research/research/model/research_model.dart';
 import 'package:json_annotation/json_annotation.dart';
 
@@ -14,6 +15,9 @@ class ResearchDetailModel extends ResearchModel{
   final String researchEntryCnt;
   final String researchCnt;
   final String isJoin;
+  final String isScrap;
+  final String scrapCnt;
+  final List<Comment> comments;  // comments 필드 추가
 
 
   ResearchDetailModel({
@@ -32,7 +36,10 @@ class ResearchDetailModel extends ResearchModel{
     required this.researchEntryCnt,
     required this.researchCnt,
     required this.isJoin,
-    //comment 필요
+    required this.isScrap,
+    required this.scrapCnt,
+    required this.comments,
+    //comment 필요ㄷ
 });
 
   factory ResearchDetailModel.fromJson(Map<String, dynamic> json)

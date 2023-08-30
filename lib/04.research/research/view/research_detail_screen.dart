@@ -5,9 +5,12 @@ import 'package:intermission_project/01.user/user/model/user_model.dart';
 import 'package:intermission_project/01.user/user/provider/user_me_provider.dart';
 import 'package:intermission_project/04.research/research/model/research_detail_model.dart';
 import 'package:intermission_project/04.research/research/model/research_model.dart';
+import 'package:intermission_project/04.research/research/model/single_comment.dart';
+import 'package:intermission_project/04.research/research/provider/comment_provider.dart';
 import 'package:intermission_project/04.research/research/provider/research_provider.dart';
 import 'package:intermission_project/04.research/research/provider/scrap_provider.dart';
 import 'package:intermission_project/04.research/research/repository/research_repository.dart';
+import 'package:intermission_project/04.research/research/repository/scrap_repository.dart';
 import 'package:intermission_project/04.research/research/view/google_form_web_view.dart';
 import 'package:intermission_project/04.research/research/view/simple_button.dart';
 import 'package:intermission_project/common/component/custom_appbar.dart';
@@ -19,6 +22,8 @@ import 'package:intermission_project/common/utils/pagination_utils.dart';
 import 'package:intermission_project/common/view/default_layout.dart';
 import 'package:skeletons/skeletons.dart';
 import 'package:url_launcher/url_launcher.dart';
+
+import 'package:intl/intl.dart'; // 날짜와 시간 포매팅을 위한 패키지
 
 class ResearchDetailScreen extends ConsumerStatefulWidget {
   static String get routeName => 'researchDetail';
@@ -49,90 +54,47 @@ class _ResearchDetailScreenState extends ConsumerState<ResearchDetailScreen> {
     return difference.inDays + 1;
   }
 
-  Future<void> _handleScrap() async {
-    var response = await ref
-        .read(scrapProvider.notifier)
-        .scrapResearch(id: widget.id);
-    if (response is ParticipationResponse && response.isJoin == 'Y') {
+  Future<void> _handleScrap(ResearchDetailModel state) async {
+    var response =
+        await ref.watch(scrapProvider.notifier).scrapResearch(id: widget.id);
+
+    if (response is ScrapResponse && response.isJoin == 'Y') {
       setState(() {
-        isScrapped = true; // 스크랩되었으므로 아이콘 상태를 변경합니다.
-      });
-    } else {
-      setState(() {
-        isScrapped = false; // 스크랩 취소되었으므로 아이콘 상태를 변경합니다.
+        print('스크랩 완료');
+        isScrapped = true;
+        ref.read(researchProvider.notifier).getDetail(id: widget.id);
+        // ref.read(interviewProvider.notifier).getDetail(id: widget.id);
+        // ref.read(surveyProvider.notifier).getDetail(id: widget.id);
+        // ref.read(testerProvider.notifier).getDetail(id: widget.id);
       });
     }
   }
-
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
+
     ref.read(researchProvider.notifier).getDetail(id: widget.id);
     ref.read(interviewProvider.notifier).getDetail(id: widget.id);
     ref.read(surveyProvider.notifier).getDetail(id: widget.id);
     ref.read(testerProvider.notifier).getDetail(id: widget.id);
   }
 
-  // Future<void> _handleParticipation() async {
-  //   var response = await ref
-  //       .read(researchProvider.notifier)
-  //       .participateInResearch(id: widget.id);
-  //   if (response is ParticipationResponse && response.isJoin == 'Y') {
-  //     setState(() {
-  //       isButtonEnabled = false; // 참여했으므로 버튼을 비활성화합니다.
-  //     });
-  //   }
-  // }
-
   Future<void> _handleParticipation() async {
-    var response = await ref.read(researchProvider.notifier).participateInResearch(id: widget.id);
+    var response = await ref
+        .read(researchProvider.notifier)
+        .participateInResearch(id: widget.id);
     if (response is ParticipationResponse && response.isJoin == 'Y') {
       setState(() {
-        isButtonEnabled = false;  // 참여했으므로 버튼을 비활성화합니다.
+        isButtonEnabled = false; // 참여했으므로 버튼을 비활성화합니다.
       });
-
-      // GoogleFormWebView 위젯으로 넘어갑니다.
-      Navigator.push(
-        context,
-        MaterialPageRoute(
-          builder: (context) => GoogleFormWebView(
-            onComplete: () {
-              // 설문조사 완료 후 실행될 코드
-              showDialog(
-                context: context,
-                builder: (context) => AlertDialog(
-                  title: Text('참여 완료'),
-                  content: Text('참여가 완료되었습니다!'),
-                  actions: [
-                    TextButton(
-                      child: Text('확인'),
-                      onPressed: () => Navigator.of(context).pop(),
-                    ),
-                  ],
-                ),
-              );
-            },
-          ),
-        ),
-      );
     }
   }
-
-
-  // void listener() {
-  //   //댓글로 수정
-  //   PaginationUtils.paginate(
-  //     controller: controller,
-  //     provider: ref.read(restaurantRatingProvider(widget.id).notifier),
-  //   );
-  // }
 
   @override
   Widget build(BuildContext context) {
     final state = ref.watch(researchDetailProvider(widget.id));
-
 
     // 데이터가 없거나 로딩 중인 경우
     if (state == null || state is! ResearchDetailModel) {
@@ -141,6 +103,8 @@ class _ResearchDetailScreenState extends ConsumerState<ResearchDetailScreen> {
 
     // `state`가 ResearchDetailModel인 경우
     daysLeft = _getDaysLeft(state.dueDate);
+
+    isScrapped = state.isScrap == "Y" ? true : false;
 
     if (state.isJoin == "Y") {
       isButtonEnabled = false;
@@ -169,19 +133,338 @@ class _ResearchDetailScreenState extends ConsumerState<ResearchDetailScreen> {
             children: [
               _buildHeader(state),
               _buildMainContent(state),
-              Divider(color: Colors.grey[200], thickness: 12.0),
+              Divider(color: Colors.grey[200], thickness: 8.0),
               _buildDescription(state),
-              Divider(color: Colors.grey[200], thickness: 12.0),
+              Divider(color: Colors.grey[200], thickness: 8.0),
+              _buildComment(state),
               // _buildComment(state),
             ],
           ),
         ),
       ),
-      bottomNavigationBar: _buildBottomButtons(),
+      bottomNavigationBar: _buildBottomButtons(state),
     );
   }
 
-  Widget _buildBottomButtons() {
+  Widget _buildComment(ResearchDetailModel state) {
+    final notifier = ref.watch(commentNotifierProvider);
+
+    final TextEditingController reCommentController = TextEditingController();
+    final TextEditingController editCommentController = TextEditingController();
+
+    int? editingCommentId;
+    int? replyingCommentId;
+
+    int getTotalCommentCount(ResearchDetailModel model) {
+      int commentCount = model.comments.length;
+      int reCommentCount = model.comments
+          .map(
+            (comment) => comment.reComments?.length ?? 0,
+      )
+          .fold(0, (a, b) => a + b);  // reduce 대신 fold를 사용하여 초기값을 지정
+
+      return commentCount + reCommentCount;
+    }
+
+
+    return Column(
+      children: [
+        Padding(
+          padding: const EdgeInsets.symmetric(vertical: 8),
+          child: Row(
+            children: [
+              Text("댓글",
+                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+              SizedBox(width: 8),
+              Text("${getTotalCommentCount(state)}개",
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
+            ],
+          ),
+        ),
+        SizedBox(height: 16),
+        Padding(
+          padding: const EdgeInsets.fromLTRB(0, 4, 14, 6),
+          child: TextFormField(
+            controller: commentController,
+            cursorColor: Colors.black, // 예시 CURSOR_COLOR
+            obscureText: false,
+            onChanged: (text) {
+              // 필요한 경우에 사용할 수 있는 부분
+            },
+            onFieldSubmitted: (text) async {
+              if (commentController.text.isNotEmpty) {
+                await notifier.postComment(
+                    widget.id, SingleComment(content: commentController.text));
+                commentController.clear();
+                ref.read(researchProvider.notifier).getDetail(id: widget.id);
+                setState(() {});
+              }
+            },
+            decoration: InputDecoration(
+              contentPadding: EdgeInsets.fromLTRB(14, 12, 14, 12),
+              hintText: "댓글을 입력해 주세요",
+              hintStyle: TextStyle(
+                fontWeight: FontWeight.w300,
+                fontSize: 14.0,
+                color: Colors.grey[600],
+              ),
+              border: OutlineInputBorder(), // 예시 baseBorder
+              focusedBorder: OutlineInputBorder().copyWith(
+                borderSide: BorderSide(
+                  color: PRIMARY_COLOR, // 예시 PRIMARY_COLOR
+                ),
+              ),
+              enabledBorder: OutlineInputBorder(),
+            ),
+          ),
+        ),
+        SizedBox(height: 16),
+        Column(
+          children: state.comments.map((comment) {
+            return Column(
+              children: [
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Image.asset('assets/img/pinkCircle.png',
+                        width: 40, height: 40), // Image asset 추가 (댓글)
+                    SizedBox(width: 5), // 이미지와 텍스트 사이의 간격 조정
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Row(
+                            children: [
+                              Text("${comment.writer}"),
+                              SizedBox(width: 5),
+                              Text(
+                                "·",
+                                style:
+                                    TextStyle(color: Colors.grey, fontSize: 13),
+                              ),
+                              SizedBox(width: 5),
+                              Text(
+                                _timeAgo(DateTime.parse(comment.createdDate)),
+                                style:
+                                    TextStyle(color: Colors.grey, fontSize: 13),
+                              ),
+                            ],
+                          ),
+                          SizedBox(height: 5),
+                          Text("${comment.content}"),
+                        ],
+                      ),
+                    ),
+                    PopupMenuButton<String>(
+                      onSelected: (value) {
+                        if (value == 'edit') {
+                          setState(() {
+                            editingCommentId = comment.commentId;
+                            commentController.text = comment.content;
+                          });
+                        } else if (value == 'delete') {
+                          notifier.deleteComment(comment.commentId.toString());
+                          setState(() {});
+                          ref
+                              .read(researchProvider.notifier)
+                              .getDetail(id: widget.id);
+                        }
+                      },
+                      itemBuilder: (BuildContext context) =>
+                          <PopupMenuEntry<String>>[
+                        const PopupMenuItem<String>(
+                          value: 'edit',
+                          child: Text('수정하기'),
+                        ),
+                        const PopupMenuItem<String>(
+                          value: 'delete',
+                          child: Text('삭제하기'),
+                        ),
+                      ],
+                      icon: Icon(Icons.more_vert,
+                          color: Colors.grey[500], size: 20.0),
+                    ),
+                  ],
+                ),
+                if (editingCommentId == comment.commentId)
+                  TextField(
+                    controller: commentController,
+                    decoration: InputDecoration(
+                      hintText: "댓글 수정",
+                      suffixIcon: IconButton(
+                        icon: Icon(Icons.save),
+                        onPressed: () async {
+                          if (commentController.text.isNotEmpty) {
+                            notifier.updateComment(comment.commentId.toString(),
+                                SingleComment(content: commentController.text));
+                            commentController.clear();
+                            editingCommentId = null;
+                            setState(() {});
+                            ref
+                                .read(researchProvider.notifier)
+                                .getDetail(id: widget.id);
+                          }
+                        },
+                      ),
+                    ),
+                  ),
+                Align(
+                  alignment: Alignment.centerLeft,
+                  child: TextButton(
+                    child: Text("답글 달기", style: TextStyle(color: Colors.grey)),
+                    onPressed: () {
+                      showModalBottomSheet(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return SingleChildScrollView(
+                            padding: EdgeInsets.only(
+                              bottom: MediaQuery.of(context)
+                                  .viewInsets
+                                  .bottom, // 키보드 높이만큼의 패딩 추가
+                            ),
+                            child: Container(
+                              padding: EdgeInsets.all(10),
+                              child: Column(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  TextField(
+                                    decoration: InputDecoration(
+                                      hintText: "답글 내용을 입력하세요.",
+                                      border: OutlineInputBorder(),
+                                    ),
+                                    controller: reCommentController,
+                                  ),
+                                  SizedBox(height: 10),
+                                  Row(
+                                    children: [
+                                      Spacer(),
+                                      TextButton(
+                                        child: Text("완료"),
+                                        onPressed: () async {
+                                          if (reCommentController
+                                              .text.isNotEmpty) {
+                                            await notifier.postReComment(
+                                              widget.id,
+                                              comment.commentId.toString(),
+                                              SingleComment(
+                                                  content:
+                                                      reCommentController.text),
+                                            );
+                                            reCommentController.clear();
+                                            Navigator.of(context).pop();
+                                            setState(() {});
+                                            ref
+                                                .read(researchProvider.notifier)
+                                                .getDetail(id: widget.id);
+                                          }
+                                        },
+                                      ),
+                                      TextButton(
+                                        child: Text("취소"),
+                                        onPressed: () {
+                                          Navigator.of(context).pop();
+                                        },
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              ),
+                            ),
+                          );
+                        },
+                      );
+                    },
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(left: 30.0),
+                  child: Column(
+                    children: comment.reComments.map((reComment) {
+                      return Column(
+                        children: [
+                          Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Image.asset(
+                                'assets/img/blueCircle.png',
+                                width: 40,
+                                height: 40,
+                              ),
+                              SizedBox(
+                                width: 5,
+                              ),
+                              Expanded(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Row(
+                                      children: [
+                                        Text("${reComment.writer}"),
+                                        SizedBox(width: 5),
+                                        Text(
+                                          "·",
+                                          style: TextStyle(
+                                              color: Colors.grey, fontSize: 13),
+                                        ),
+                                        SizedBox(width: 5),
+                                        Text(
+                                          _timeAgo(DateTime.parse(
+                                              reComment.createdDate)),
+                                          style: TextStyle(
+                                              color: Colors.grey, fontSize: 13),
+                                        ),
+                                      ],
+                                    ),
+                                    SizedBox(height: 1),
+                                    Text("${reComment.content}"),
+                                  ],
+                                ),
+                              ),
+                              PopupMenuButton<String>(
+                                onSelected: (value) {
+                                  if (value == 'edit') {
+                                    setState(() {
+                                      editingCommentId =
+                                          reComment.reCommentId; // 대댓글 ID로 변경
+                                      commentController.text =
+                                          reComment.content;
+                                    });
+                                  } else if (value == 'delete') {
+                                    // 대댓글 삭제 로직
+                                    // 현재 기능이 구현되어 있지 않으므로 코드를 추가해야 합니다.
+                                  }
+                                },
+                                itemBuilder: (BuildContext context) =>
+                                    <PopupMenuEntry<String>>[
+                                  const PopupMenuItem<String>(
+                                    value: 'edit',
+                                    child: Text('수정하기'),
+                                  ),
+                                  const PopupMenuItem<String>(
+                                    value: 'delete',
+                                    child: Text('삭제하기'),
+                                  ),
+                                ],
+                                icon: Icon(Icons.more_vert,
+                                    color: Colors.grey[500],
+                                    size: 20.0), // 아이콘 색상 및 크기 수정
+                              ),
+                            ],
+                          ),
+                        ],
+                      );
+                    }).toList(),
+                  ),
+                ),
+              ],
+            );
+          }).toList(),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildBottomButtons(ResearchDetailModel state) {
     return Container(
       height: 120,
       decoration: BoxDecoration(
@@ -210,28 +493,30 @@ class _ResearchDetailScreenState extends ConsumerState<ResearchDetailScreen> {
                   iconSize: 30,
                   onPressed: () {
                     setState(() {
-                      _handleScrap();
+                      _handleScrap(state); // 비동기 처리가 필요한 경우 await 키워드 추가
+                      setState(() {}); // 상태 변경 후 위젯을 재빌드하기 위해 setState 호출
                     });
                   },
                 ),
                 Flexible(
                   child: SizedBox(
                     height: 20, // Text 위젯의 최대 높이를 제한
-                    child: Text('10', style: TextStyle(fontSize: 13)),
+                    child: Text(state.scrapCnt.toString(),
+                        style: TextStyle(fontSize: 13)),
                   ),
                 ),
               ],
             ),
             Expanded(
               child: SimpleButton(
+                isButtonEnabled: isButtonEnabled,
                 onPressed: isButtonEnabled
                     ? () async {
-                  await _handleParticipation();
-                  //   final url = Uri.parse(
-                  //       'https://docs.google.com/forms/d/1AkYT38aaIB9ACx1C60xcbzGJxF_BHTyRebaZt2_QPsQ/viewform?edit_requested=true&pli=1');
-                  //   launchUrl(url, mode: LaunchMode.externalApplication);
-                  // }
-                }
+                        await _handleParticipation();
+                        final url = Uri.parse(
+                            'https://docs.google.com/forms/d/1AkYT38aaIB9ACx1C60xcbzGJxF_BHTyRebaZt2_QPsQ/viewform?edit_requested=true&pli=1');
+                        launchUrl(url, mode: LaunchMode.externalApplication);
+                      }
                     : null, // 비활성화 상태일 때 null
                 buttonName: isButtonEnabled ? '참여하기' : '참여완료',
               ),
@@ -270,14 +555,16 @@ class _ResearchDetailScreenState extends ConsumerState<ResearchDetailScreen> {
   //   );
   // }
 
-  Widget _buildScrapButton() {
-    // 스크랩 버튼 디자인. 실제 디자인에 맞게 수정이 필요합니다.
-    return IconButton(
-      icon: Icon(Icons.bookmark_border),
-      onPressed: () {
-        // 스크랩 버튼 클릭 시의 로직
-      },
-    );
+  String _timeAgo(DateTime date) {
+    final now = DateTime.now();
+    final difference = now.difference(date);
+    if (difference.inDays >= 3) {
+      return DateFormat('MM/dd/yyyy').format(date); // 예: 08/27/2023
+    } else if (difference.inDays >= 1) {
+      return '${difference.inDays}일 전';
+    } else {
+      return '오늘';
+    }
   }
 
   Widget _buildHeader(ResearchDetailModel state) {
@@ -435,6 +722,7 @@ class _ResearchDetailScreenState extends ConsumerState<ResearchDetailScreen> {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 20),
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text('설명'),
           Text(state.detail),
@@ -481,43 +769,85 @@ class _ResearchDetailScreenState extends ConsumerState<ResearchDetailScreen> {
   }
 }
 
+class SimpleButton extends StatelessWidget {
+  final String buttonName;
+  final bool isButtonEnabled;
+  final VoidCallback? onPressed;
 
+  const SimpleButton({
+    required this.onPressed,
+    required this.buttonName,
+    required this.isButtonEnabled,
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      height: 60,
+      width: double.infinity,
+      child: ElevatedButton(
+        onPressed: isButtonEnabled ? onPressed : null,
+        style: ElevatedButton.styleFrom(
+          primary: isButtonEnabled ? PRIMARY_COLOR : Colors.grey[200],
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10),
+          ),
+        ),
+        child: Text(
+          buttonName,
+          style: TextStyle(
+            fontWeight: FontWeight.w800,
+            fontSize: 16,
+            color: Colors.white,
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+//구글폼 보류
+// Future<void> _handleParticipation() async {
+//   var response = await ref
+//       .read(researchProvider.notifier)
+//       .participateInResearch(id: widget.id);
+//   if (response is ParticipationResponse && response.isJoin == 'Y') {
+//     setState(() {
+//       isButtonEnabled = false; // 참여했으므로 버튼을 비활성화합니다.
+//     });
 //
-// class SimpleButton extends StatelessWidget {
-//   final String buttonName;
-//   final bool isButtonEnabled;
-//   final VoidCallback? onPressed;
-//
-//   const SimpleButton({
-//     required this.onPressed,
-//     required this.buttonName,
-//     required this.isButtonEnabled,
-//     super.key,
-//   });
-//
-//   @override
-//   Widget build(BuildContext context) {
-//     return SizedBox(
-//       height: 60,
-//       width: double.infinity,
-//       child: ElevatedButton(
-//         onPressed: isButtonEnabled ? onPressed : null,
-//         style: ElevatedButton.styleFrom(
-//           primary: isButtonEnabled ? PRIMARY_COLOR : Colors.grey[200],
-//           shape: RoundedRectangleBorder(
-//             borderRadius: BorderRadius.circular(10),
-//           ),
-//         ),
-//         child: Text(
-//           buttonName,
-//           style: TextStyle(
-//             fontWeight: FontWeight.w800,
-//             fontSize: 16,
-//             color: Colors.white,
-//           ),
+//     // GoogleFormWebView 위젯으로 넘어갑니다.
+//     Navigator.push(
+//       context,
+//       MaterialPageRoute(
+//         builder: (context) => GoogleFormWebView(
+//           onComplete: () {
+//             // 설문조사 완료 후 실행될 코드
+//             showDialog(
+//               context: context,
+//               builder: (context) => AlertDialog(
+//                 title: Text('참여 완료'),
+//                 content: Text('참여가 완료되었습니다!'),
+//                 actions: [
+//                   TextButton(
+//                     child: Text('확인'),
+//                     onPressed: () => Navigator.of(context).pop(),
+//                   ),
+//                 ],
+//               ),
+//             );
+//           },
 //         ),
 //       ),
 //     );
 //   }
 // }
-//
+
+// void listener() {
+//   //댓글로 수정
+//   PaginationUtils.paginate(
+//     controller: controller,
+//     provider: ref.read(restaurantRatingProvider(widget.id).notifier),
+//   );
+// }

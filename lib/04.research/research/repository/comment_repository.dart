@@ -1,7 +1,9 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intermission_project/01.user/point/model/point_model.dart';
+import 'package:intermission_project/04.research/research/model/comment_model.dart';
 import 'package:intermission_project/04.research/research/model/research_detail_model.dart';
 import 'package:intermission_project/04.research/research/model/research_model.dart';
+import 'package:intermission_project/04.research/research/model/single_comment.dart';
 import 'package:intermission_project/04.research/research/repository/research_repository.dart';
 import 'package:intermission_project/common/dio/dio.dart';
 import 'package:intermission_project/common/model/cursor_pagination_model.dart';
@@ -11,64 +13,62 @@ import 'package:intermission_project/common/repository/base_pagination_repositor
 import 'package:retrofit/retrofit.dart';
 import 'package:dio/dio.dart' hide Headers;
 
-part 'scrap_repository.g.dart';
+part 'comment_repository.g.dart';
 
 //restaurantDetailProvider는 restaurantProvider를 watch하고 있기에
 //restaurantProvider가 빌드되거나 상태가 변경되면
 //restaurantDetailProvider도 마찬가지로 변경된다
 
 //<RestaurantModel, String> 반환값은 왼쪽, 넣을건 id 오른쪽
-final scrapRepositoryProvider = Provider<ScrapRepository>(
-      (ref) {
+final commentRepositoryProvider = Provider<CommentRepository>(
+  (ref) {
     final dio = ref.watch(dioProvider);
-    return ScrapRepository(dio, baseUrl: 'http://34.64.77.5:8080/api/scrap');
+    return CommentRepository(dio,
+        baseUrl: 'http://34.64.77.5:8080/api/comment');
     // 'http://localhost:8080/api/interview'
   },
 );
 
-
-
 @RestApi()
-abstract class ScrapRepository implements
-    IBasePaginationRepository<ResearchModel> {
-  factory ScrapRepository(Dio dio, {String baseUrl}) =
-  _ScrapRepository;
+abstract class CommentRepository {
+  factory CommentRepository(Dio dio, {String baseUrl}) = _CommentRepository;
 
-  @GET('/me')
+  //댓글 등록 하기
+  @POST('/{researchId}')
   @Headers({
     'accessToken': 'true',
   })
-  Future<CursorPagination<ResearchModel>> paginate({
-    @Path() String path = '/', // 기본값을 root path로 설정
-    @Query('researchType') String? researchType,
-    @Queries() PaginationParams? paginationParams = const PaginationParams(),
-  });
+  Future<String> postComment(
+      @Path('researchId') String researchId,
+      @Body() SingleComment comment,
+      );
 
-
-  @GET('/{id}') //Detailrestaurant용
+//대댓글 작성하기
+  @POST('/{researchId}/{commentId}')
   @Headers({
     'accessToken': 'true',
   })
-  Future<ResearchDetailModel> getResearchDetail({
-    @Path() required String id,
-  });
+  Future<String> postReComment(
+      @Path('researchId') String researchId,
+      @Path('commentId') String commentId,
+      @Body() SingleComment reComment,
+      );
 
-
-  @POST('/{id}')
+//댓글 수정하기
+  @PATCH('/{commentId}')
   @Headers({
     'accessToken': 'true',
   })
-  Future<ScrapResponse> scrapResearch({@Path() required String id});
+  Future<String> updateComment(
+      @Path('commentId') String commentId,
+      @Body() SingleComment updatedComment,
+      );
+
+//댓글 삭제하기
+  @DELETE('/{commentId}')
+  @Headers({
+    'accessToken': 'true',
+  })
+  Future<String> deleteComment(@Path('commentId') String commentId);
 
 }
-
-class ScrapResponse {
-  final String isJoin;
-
-  ScrapResponse({required this.isJoin});
-
-  factory ScrapResponse.fromJson(Map<String, dynamic> json) {
-    return ScrapResponse(isJoin: json['isJoin']);
-  }
-}
-

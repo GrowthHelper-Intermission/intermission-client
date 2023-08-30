@@ -59,6 +59,7 @@ class UserMeStateNotifier extends StateNotifier<UserModelBase?> {
       // 저장된 액세스 토큰을 가져옵니다.
       final accessToken = await storage.read(key: ACCESS_TOKEN_KEY);
 
+
       if (accessToken == null) {
         print('잘못된 접근입니다.');
         return;
@@ -89,6 +90,10 @@ class UserMeStateNotifier extends StateNotifier<UserModelBase?> {
   Future<void> getMe() async {
     final refreshToken = await storage.read(key: REFRESH_TOKEN_KEY);
     final accessToken = await storage.read(key: ACCESS_TOKEN_KEY);
+
+    print('바로밑이 refresh');
+    print(refreshToken);
+    print(accessToken);
 
     //refreshToken이 만료된게 아니라면 -> 강제 로그아웃(이대로하면 너무 자주로그아웃됨)
     if (refreshToken == null) {
