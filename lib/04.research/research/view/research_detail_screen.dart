@@ -8,6 +8,8 @@ import 'package:intermission_project/04.research/research/model/research_model.d
 import 'package:intermission_project/04.research/research/provider/research_provider.dart';
 import 'package:intermission_project/04.research/research/provider/scrap_provider.dart';
 import 'package:intermission_project/04.research/research/repository/research_repository.dart';
+import 'package:intermission_project/04.research/research/view/google_form_web_view.dart';
+import 'package:intermission_project/04.research/research/view/simple_button.dart';
 import 'package:intermission_project/common/component/custom_appbar.dart';
 import 'package:intermission_project/common/component/custom_text_style.dart';
 import 'package:intermission_project/common/component/login_next_button.dart';
@@ -73,14 +75,48 @@ class _ResearchDetailScreenState extends ConsumerState<ResearchDetailScreen> {
     ref.read(testerProvider.notifier).getDetail(id: widget.id);
   }
 
+  // Future<void> _handleParticipation() async {
+  //   var response = await ref
+  //       .read(researchProvider.notifier)
+  //       .participateInResearch(id: widget.id);
+  //   if (response is ParticipationResponse && response.isJoin == 'Y') {
+  //     setState(() {
+  //       isButtonEnabled = false; // 참여했으므로 버튼을 비활성화합니다.
+  //     });
+  //   }
+  // }
+
   Future<void> _handleParticipation() async {
-    var response = await ref
-        .read(researchProvider.notifier)
-        .participateInResearch(id: widget.id);
+    var response = await ref.read(researchProvider.notifier).participateInResearch(id: widget.id);
     if (response is ParticipationResponse && response.isJoin == 'Y') {
       setState(() {
-        isButtonEnabled = false; // 참여했으므로 버튼을 비활성화합니다.
+        isButtonEnabled = false;  // 참여했으므로 버튼을 비활성화합니다.
       });
+
+      // GoogleFormWebView 위젯으로 넘어갑니다.
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => GoogleFormWebView(
+            onComplete: () {
+              // 설문조사 완료 후 실행될 코드
+              showDialog(
+                context: context,
+                builder: (context) => AlertDialog(
+                  title: Text('참여 완료'),
+                  content: Text('참여가 완료되었습니다!'),
+                  actions: [
+                    TextButton(
+                      child: Text('확인'),
+                      onPressed: () => Navigator.of(context).pop(),
+                    ),
+                  ],
+                ),
+              );
+            },
+          ),
+        ),
+      );
     }
   }
 
@@ -191,13 +227,13 @@ class _ResearchDetailScreenState extends ConsumerState<ResearchDetailScreen> {
                 onPressed: isButtonEnabled
                     ? () async {
                   await _handleParticipation();
-                  final url = Uri.parse(
-                      'https://docs.google.com/forms/d/1AkYT38aaIB9ACx1C60xcbzGJxF_BHTyRebaZt2_QPsQ/viewform?edit_requested=true&pli=1');
-                  launchUrl(url, mode: LaunchMode.externalApplication);
+                  //   final url = Uri.parse(
+                  //       'https://docs.google.com/forms/d/1AkYT38aaIB9ACx1C60xcbzGJxF_BHTyRebaZt2_QPsQ/viewform?edit_requested=true&pli=1');
+                  //   launchUrl(url, mode: LaunchMode.externalApplication);
+                  // }
                 }
                     : null, // 비활성화 상태일 때 null
                 buttonName: isButtonEnabled ? '참여하기' : '참여완료',
-                isButtonEnabled: isButtonEnabled,
               ),
             ),
           ],
@@ -445,41 +481,43 @@ class _ResearchDetailScreenState extends ConsumerState<ResearchDetailScreen> {
   }
 }
 
-class SimpleButton extends StatelessWidget {
-  final String buttonName;
-  final bool isButtonEnabled;
-  final VoidCallback? onPressed;
 
-  const SimpleButton({
-    required this.onPressed,
-    required this.buttonName,
-    required this.isButtonEnabled,
-    super.key,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return SizedBox(
-      height: 60,
-      width: double.infinity,
-      child: ElevatedButton(
-        onPressed: isButtonEnabled ? onPressed : null,
-        style: ElevatedButton.styleFrom(
-          primary: isButtonEnabled ? PRIMARY_COLOR : Colors.grey[200],
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(10),
-          ),
-        ),
-        child: Text(
-          buttonName,
-          style: TextStyle(
-            fontWeight: FontWeight.w800,
-            fontSize: 16,
-            color: Colors.white,
-          ),
-        ),
-      ),
-    );
-  }
-}
-
+//
+// class SimpleButton extends StatelessWidget {
+//   final String buttonName;
+//   final bool isButtonEnabled;
+//   final VoidCallback? onPressed;
+//
+//   const SimpleButton({
+//     required this.onPressed,
+//     required this.buttonName,
+//     required this.isButtonEnabled,
+//     super.key,
+//   });
+//
+//   @override
+//   Widget build(BuildContext context) {
+//     return SizedBox(
+//       height: 60,
+//       width: double.infinity,
+//       child: ElevatedButton(
+//         onPressed: isButtonEnabled ? onPressed : null,
+//         style: ElevatedButton.styleFrom(
+//           primary: isButtonEnabled ? PRIMARY_COLOR : Colors.grey[200],
+//           shape: RoundedRectangleBorder(
+//             borderRadius: BorderRadius.circular(10),
+//           ),
+//         ),
+//         child: Text(
+//           buttonName,
+//           style: TextStyle(
+//             fontWeight: FontWeight.w800,
+//             fontSize: 16,
+//             color: Colors.white,
+//           ),
+//         ),
+//       ),
+//     );
+//   }
+// }
+//

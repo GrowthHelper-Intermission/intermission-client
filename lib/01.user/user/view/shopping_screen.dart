@@ -65,33 +65,75 @@ class ShoppingScreen extends StatelessWidget {
       onTap: () {
         _launchURL('https://growthhelper.kr/shop/?idx=9');
       },
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          AspectRatio(
-            aspectRatio: 1,
-            child: Image.asset(product.imagePath),
-          ),
-          const SizedBox(height: 8),
-          Container(
-            height: 40,
-            child: Text(
-              product.title,
-              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
-              overflow: TextOverflow.ellipsis,
+      child: Container(
+        decoration: BoxDecoration(
+          border: Border.all(color: Colors.black, width: 2.0), // 보라색 테두리 추가
+          borderRadius: BorderRadius.circular(8.0), // 테두리를 둥글게
+        ),
+        padding: const EdgeInsets.all(8.0), // 테두리와 내용 사이의 여백
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            AspectRatio(
+              aspectRatio: 1,
+              child: Image.asset(product.imagePath),
             ),
-          ),
-          Align(
-            alignment: Alignment.bottomLeft,
-            child: Text(
-              product.price,
-              style: TextStyle(color: PRIMARY_COLOR, fontSize: 16, fontWeight: FontWeight.w500),
+            const SizedBox(height: 8),
+            Container(
+              height: 40,
+              child: Text(
+                product.title,
+                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
+                overflow: TextOverflow.ellipsis,
+              ),
             ),
-          ),
-        ],
+            Align(
+              alignment: Alignment.bottomLeft,
+              child: Text(
+                product.price,
+                style: TextStyle(
+                    color: PRIMARY_COLOR, fontSize: 16, fontWeight: FontWeight.w500),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
+
+
+  // Widget _buildProductItem(BuildContext context, Product product) {
+  //   return GestureDetector(
+  //     onTap: () {
+  //       _launchURL('https://growthhelper.kr/shop/?idx=9');
+  //     },
+  //     child: Column(
+  //       crossAxisAlignment: CrossAxisAlignment.start,
+  //       children: [
+  //         AspectRatio(
+  //           aspectRatio: 1,
+  //           child: Image.asset(product.imagePath),
+  //         ),
+  //         const SizedBox(height: 8),
+  //         Container(
+  //           height: 40,
+  //           child: Text(
+  //             product.title,
+  //             style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
+  //             overflow: TextOverflow.ellipsis,
+  //           ),
+  //         ),
+  //         Align(
+  //           alignment: Alignment.bottomLeft,
+  //           child: Text(
+  //             product.price,
+  //             style: TextStyle(color: PRIMARY_COLOR, fontSize: 16, fontWeight: FontWeight.w500),
+  //           ),
+  //         ),
+  //       ],
+  //     ),
+  //   );
+  // }
 
 
 

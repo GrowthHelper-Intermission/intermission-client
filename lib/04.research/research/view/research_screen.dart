@@ -68,7 +68,7 @@ class _ResearchScreenState extends ConsumerState<ResearchScreen> with SingleTick
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    "안녕하세요 ${user.userNm}님\n이 인터뷰는 어떠세요?",
+                    "안녕하세요 ${user.userNm}님:)\n리서치 참여하고 포인트 받아가세요!",
                     style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                   ),
                   SizedBox(

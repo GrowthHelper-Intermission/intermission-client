@@ -60,6 +60,7 @@ dependencies:
   permission_handler: ^10.4.3
   flutter_localization: ^0.1.13
   url_launcher: ^6.1.12
+  webview_flutter: ^4.2.3
 
 
 

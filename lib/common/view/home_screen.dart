@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intermission_project/01.user/user/etc/friend_invite_screen.dart';
+import 'package:intermission_project/01.user/user/model/point_model.dart';
 import 'package:intermission_project/01.user/user/model/user_model.dart';
+import 'package:intermission_project/01.user/user/provider/point_provider.dart';
 import 'package:intermission_project/01.user/user/provider/user_me_provider.dart';
 import 'package:intermission_project/04.research/research/component/home_ongoing_research_list.dart';
 import 'package:intermission_project/common/const/colors.dart';
+import 'package:intermission_project/common/model/cursor_pagination_model.dart';
 import 'package:intermission_project/common/view/setting/setting_screen.dart';
 
 class HomeScreen extends ConsumerStatefulWidget {
@@ -32,7 +35,12 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
       user = userState; // UserModel로 캐스팅
     }
 
+    final userPointState = ref.watch(pointProvider);
+
     int point = 0;
+    if(userPointState is CursorPagination<PointModel>){
+     point = userPointState.meta.totalPoint!;
+    }
 
     if (user == null) {
       return Center(
@@ -68,7 +76,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                           fontSize: 16, fontWeight: FontWeight.w400),
                     ),
                     Text(
-                      '${'1000'} P',
+                      '$point P',
                       style: TextStyle(
                         fontWeight: FontWeight.w600,
                         fontSize: 14.0,

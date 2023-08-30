@@ -24,6 +24,9 @@ import 'package:flutter_localizations/flutter_localizations.dart'; // 다언어 
 // }
 
 void main() {
+
+  WidgetsFlutterBinding.ensureInitialized();
+
   runApp(
     ProviderScope(
       child: MyApp(),
