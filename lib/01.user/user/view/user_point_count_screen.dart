@@ -90,32 +90,38 @@ Widget _buildPointDetail({
   required String pointChange,
   required String detailReason,
 }) {
-  return Padding(
-    padding: const EdgeInsets.all(10.0),
-    child: SizedBox(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            date,
-            style: TextStyle(color: Colors.grey[400]),
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+  return Column(
+    children: [
+      Padding(
+        padding: const EdgeInsets.all(5.0),
+        child: SizedBox(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(reason),
-              Text(pointChange),
+              Text(
+                date,
+                style: TextStyle(color: Colors.grey[400]),
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(reason),
+                  Text(pointChange),
+                ],
+              ),
+              Text(
+                detailReason,
+                style: TextStyle(color: Colors.grey[600]),
+              ),
             ],
           ),
-          Text(
-            detailReason,
-            style: TextStyle(color: Colors.grey[600]),
-          ),
-        ],
+        ),
       ),
-    ),
+      Divider(color: Colors.grey[300], thickness: 0.5), // 구분선 추가
+    ],
   );
 }
+
 
 // 로딩 위젯을 Sliver가 아닌 일반 Padding 위젯으로 변경
 Widget renderLoading() {
