@@ -12,6 +12,7 @@ import 'package:intermission_project/01.user/user/model/user_model.dart';
 import 'package:intermission_project/01.user/user/provider/signup_user_provider.dart';
 import 'package:intermission_project/01.user/user/provider/user_me_provider.dart';
 import 'package:intermission_project/01.user/user/repository/user_me_repository.dart';
+import 'package:intermission_project/01.user/user/view/login_screen.dart';
 import 'package:intermission_project/common/component/custom_appbar.dart';
 import 'package:intermission_project/common/component/custom_dropdown_button.dart';
 import 'package:intermission_project/common/component/custom_text_form_field.dart';
@@ -251,8 +252,9 @@ class _SignupScreenPage3State extends ConsumerState<SignupScreenPage3> {
                          print(e);
                          print('에러');
                        }
-                       ref.read(userMeProvider.notifier).getMe();
-                        context.goNamed(RootTab.routeName);
+                       // ref.read(userMeProvider.notifier).getMe();
+                       //  context.goNamed(RootTab.routeName);
+                        context.goNamed(LoginScreen.routeName);
                       },
                     ),
                   ),

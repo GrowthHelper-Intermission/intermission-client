@@ -11,6 +11,7 @@ import 'package:intermission_project/01.user/user/view/login_screen.dart';
 import 'package:intermission_project/01.user/user/view/select_screen.dart';
 import 'package:intermission_project/01.user/user/view/user_report_screen.dart';
 import 'package:intermission_project/04.research/research/view/notice_detail_screen.dart';
+import 'package:intermission_project/04.research/research/view/notice_req_screen.dart';
 import 'package:intermission_project/04.research/research/view/notice_screen.dart';
 import 'package:intermission_project/04.research/research/view/research_detail_screen.dart';
 import 'package:intermission_project/04.research/research/view/research_screen.dart';
@@ -129,6 +130,11 @@ class AuthProvider extends ChangeNotifier {
       name: ResearchReqScreen.routeName,
       builder: (_, __) => ResearchReqScreen(),
     ),
+    GoRoute(
+      path: '/notiRequest',
+      name: NotiReqScreen.routeName,
+      builder: (_, __) => NotiReqScreen(),
+    ),
   ];
 
   logout() {
@@ -151,6 +157,5 @@ class AuthProvider extends ChangeNotifier {
 
     return null;
   }
-
 
 }

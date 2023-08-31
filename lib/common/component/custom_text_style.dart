@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intermission_project/common/const/colors.dart';
 
 TextStyle customTextStyle = TextStyle(
   fontWeight: FontWeight.w500,
@@ -17,12 +18,23 @@ TextStyle InterviewTitleStyle = TextStyle(
   color: Colors.black,
 );
 
+TextStyle blackSmallTextStyle = TextStyle(
+  fontWeight: FontWeight.w700,
+  fontSize: 13.0,
+  color: Colors.grey,
+);
 
 
 TextStyle whiteSmallTextStyle = TextStyle(
   fontWeight: FontWeight.w700,
   fontSize: 13.0,
   color: Colors.grey[400],
+);
+
+TextStyle blueSmallTextStyle = TextStyle(
+  fontWeight: FontWeight.w700,
+  fontSize: 13.0,
+  color: SUB_BLUE_COLOR,
 );
 
 TextStyle whiteMiddleTextStyle = TextStyle(

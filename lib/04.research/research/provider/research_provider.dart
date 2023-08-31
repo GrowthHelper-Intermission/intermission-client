@@ -31,6 +31,15 @@ final testerProvider = StateNotifierProvider<ResearchStateNotifier, CursorPagina
   },
 );
 
+final researchProvider =
+StateNotifierProvider<ResearchStateNotifier, CursorPaginationBase>(
+      (ref) {
+    final repository = ref.watch(researchRepositoryProvider);
+    final notifier = ResearchStateNotifier(repository: repository,researchType: null);
+    return notifier;
+  },
+);
+
 final researchDetailProvider =
     Provider.family<ResearchModel?, String>((ref, id) {
   final state = ref.watch(researchProvider);
@@ -41,14 +50,7 @@ final researchDetailProvider =
   return state.data.firstWhereOrNull((element) => element.id == id);
 });
 
-final researchProvider =
-    StateNotifierProvider<ResearchStateNotifier, CursorPaginationBase>(
-  (ref) {
-    final repository = ref.watch(researchRepositoryProvider);
-    final notifier = ResearchStateNotifier(repository: repository);
-    return notifier;
-  },
-);
+
 
 class ResearchStateNotifier
     extends PaginationProvider<ResearchModel, ResearchRepository> {

@@ -35,7 +35,11 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
       user = userState; // UserModel로 캐스팅
     }
 
+    ref.read(pointProvider.notifier).paginate();
+
     final userPointState = ref.watch(pointProvider);
+
+
 
     int point = 0;
     if(userPointState is CursorPagination<PointModel>){

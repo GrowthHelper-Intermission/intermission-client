@@ -22,14 +22,14 @@ class ResearchReqScreen extends ConsumerWidget {
           ElevatedButton(
             onPressed: ()  async{
               ResearchReqModel newResearch = ResearchReqModel(
-                  mainTitle: '고기고기 그로스헬퍼 사전 조사 참여 테스트 열두시',
-                  subTitle: '오프라인, 서울 관악구 기준 30분 거리면 오프 라인 방문 가능',
-                  dueDate: '2023-09-01',
+                  mainTitle: '땅콩 개발을 위한 설문 조사',
+                  subTitle: '온라인, 서울 중구 기준 30분 거리면 오프 라인 방문 가능',
+                  dueDate: '2023-08-09',
                   exceptTime: '2',
                   minAge: '20대 / 10대 / 30대 / 40대',
                   detail:
                       '안녕하세요. 한국대학병원 서비스 조사팀 김철수입니다. 현재 한국대학에서는 뇌졸중 환자 및 보호자 설문 모집하고 있습니다. 본 설문조사는 뇌졸중 연구 논문에 참고 자료로 사용될 예정입니다. 작성해주신 모든 응답과 신상 정보는 철저히 보호될 것을 약속드립니다. 감사합니다.',
-                  researchType: "interview",
+                  researchType: "survey",
                   researchMethTpCd: '온라인',
                   researchRewdAmt: "30000원",
                   userId: "12",
@@ -65,6 +65,10 @@ class ResearchReqScreen extends ConsumerWidget {
                             Navigator.of(context).pop(); // Close the dialog
                             context.goNamed(RootTab
                                 .routeName); // Navigate to the next screen
+                            ref.read(researchProvider.notifier).paginate(forceRefetch: true);
+                            ref.read(interviewProvider.notifier).paginate();
+                            ref.read(surveyProvider.notifier).paginate();
+                            ref.read(testerProvider.notifier).paginate();
                           },
                         ),
                       ],

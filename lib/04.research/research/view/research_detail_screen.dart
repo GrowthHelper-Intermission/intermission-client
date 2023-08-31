@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intermission_project/01.user/user/model/user_model.dart';
+import 'package:intermission_project/01.user/user/provider/point_provider.dart';
 import 'package:intermission_project/01.user/user/provider/user_me_provider.dart';
 import 'package:intermission_project/04.research/research/model/research_detail_model.dart';
 import 'package:intermission_project/04.research/research/model/research_model.dart';
@@ -516,6 +517,7 @@ class _ResearchDetailScreenState extends ConsumerState<ResearchDetailScreen> {
                         final url = Uri.parse(
                             'https://docs.google.com/forms/d/1AkYT38aaIB9ACx1C60xcbzGJxF_BHTyRebaZt2_QPsQ/viewform?edit_requested=true&pli=1');
                         launchUrl(url, mode: LaunchMode.externalApplication);
+                        ref.read(pointProvider.notifier).paginate(forceRefetch: true);
                       }
                     : null, // 비활성화 상태일 때 null
                 buttonName: isButtonEnabled ? '참여하기' : '참여완료',
