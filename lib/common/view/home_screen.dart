@@ -24,34 +24,28 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    // final user = ref
-    //     .watch(userMeProvider.notifier)
-    //     .state! as UserModel; // 여기선 read, watch는 값 변경될때마다 빌드 ex(point)
 
     final userState = ref.watch(userMeProvider); // 상태를 읽어옴
     UserModel? user; // UserModel을 nullable로 선언
 
     if (userState is UserModel) {
       user = userState; // UserModel로 캐스팅
+      ref.read(pointProvider.notifier).paginate();
     }
 
-    ref.read(pointProvider.notifier).paginate();
-
-    final userPointState = ref.watch(pointProvider);
-
-
-
+    final userPointState = ref.read(pointProvider);
     int point = 0;
+
     if(userPointState is CursorPagination<PointModel>){
-     point = userPointState.meta.totalPoint!;
+      point = userPointState.meta.totalPoint!;
     }
 
-    if (user == null) {
+    // user 또는 userPointState가 로딩 중일 때 로딩 인디케이터를 표시
+    if (user == null || userPointState is CursorPaginationLoading) {
       return Center(
         child: CircularProgressIndicator(),
       );
     }
-
     else {
       return Scaffold(
         appBar: AppBar(

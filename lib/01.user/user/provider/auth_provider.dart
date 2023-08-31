@@ -151,9 +151,12 @@ class AuthProvider extends ChangeNotifier {
 
     if (!state.matchedLocation.startsWith('/login') && user == null) return '/select';
 
-    if (user is UserModel && (state.matchedLocation == '/select' || state.matchedLocation == '/login' || state.matchedLocation == '/splash')) return '/';
+    if (user is UserModel &&
+        (state.matchedLocation == '/select'
+            || state.matchedLocation == '/login' ||
+            state.matchedLocation == '/splash')) return '/';
 
-    if (user is UserModelError) return '/select';
+    // if (user is UserModelError) return '/select';
 
     return null;
   }

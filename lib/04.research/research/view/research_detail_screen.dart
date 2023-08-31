@@ -23,6 +23,10 @@ import 'package:intermission_project/common/utils/pagination_utils.dart';
 import 'package:intermission_project/common/view/default_layout.dart';
 import 'package:skeletons/skeletons.dart';
 import 'package:url_launcher/url_launcher.dart';
+// Import for Android features.
+import 'package:webview_flutter_android/webview_flutter_android.dart';
+// Import for iOS features.
+import 'package:webview_flutter_wkwebview/webview_flutter_wkwebview.dart';
 
 import 'package:intl/intl.dart'; // 날짜와 시간 포매팅을 위한 패키지
 
@@ -64,9 +68,6 @@ class _ResearchDetailScreenState extends ConsumerState<ResearchDetailScreen> {
         print('스크랩 완료');
         isScrapped = true;
         ref.read(researchProvider.notifier).getDetail(id: widget.id);
-        // ref.read(interviewProvider.notifier).getDetail(id: widget.id);
-        // ref.read(surveyProvider.notifier).getDetail(id: widget.id);
-        // ref.read(testerProvider.notifier).getDetail(id: widget.id);
       });
     }
   }
@@ -77,22 +78,23 @@ class _ResearchDetailScreenState extends ConsumerState<ResearchDetailScreen> {
     super.initState();
 
     ref.read(researchProvider.notifier).getDetail(id: widget.id);
-    ref.read(interviewProvider.notifier).getDetail(id: widget.id);
-    ref.read(surveyProvider.notifier).getDetail(id: widget.id);
-    ref.read(testerProvider.notifier).getDetail(id: widget.id);
+    // ref.read(interviewProvider.notifier).getDetail(id: widget.id);
+    // ref.read(surveyProvider.notifier).getDetail(id: widget.id);
+    // ref.read(testerProvider.notifier).getDetail(id: widget.id);
   }
 
   Future<void> _handleParticipation() async {
     var response = await ref
         .read(researchProvider.notifier)
         .participateInResearch(id: widget.id);
+
     if (response is ParticipationResponse && response.isJoin == 'Y') {
       setState(() {
-        isButtonEnabled = false; // 참여했으므로 버튼을 비활성화합니다.
+        isButtonEnabled = false;
+        print('비활');
       });
     }
   }
-
   @override
   Widget build(BuildContext context) {
     final state = ref.watch(researchDetailProvider(widget.id));
@@ -513,12 +515,18 @@ class _ResearchDetailScreenState extends ConsumerState<ResearchDetailScreen> {
                 isButtonEnabled: isButtonEnabled,
                 onPressed: isButtonEnabled
                     ? () async {
-                        await _handleParticipation();
-                        final url = Uri.parse(
-                            'https://docs.google.com/forms/d/1AkYT38aaIB9ACx1C60xcbzGJxF_BHTyRebaZt2_QPsQ/viewform?edit_requested=true&pli=1');
-                        launchUrl(url, mode: LaunchMode.externalApplication);
-                        ref.read(pointProvider.notifier).paginate(forceRefetch: true);
-                      }
+                  // await _handleParticipation();
+                  await Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => GoogleFormWebView(
+                        onComplete: () async {
+                          await _handleParticipation();  // 콜백 내에서 참여 처리 함수 호출
+                        },
+                      ),
+                    ),
+                  );
+                }
                     : null, // 비활성화 상태일 때 null
                 buttonName: isButtonEnabled ? '참여하기' : '참여완료',
               ),
@@ -528,34 +536,6 @@ class _ResearchDetailScreenState extends ConsumerState<ResearchDetailScreen> {
       ),
     );
   }
-
-  // Widget _buildBottomButtons() {
-  //   return Padding(
-  //     padding: const EdgeInsets.all(10.0),
-  //     child: Row(
-  //       children: [
-  //         // _buildScrapButton(),
-  //         // Spacer(),
-  //         Container(
-  //           height: 100.0,
-  //           width: 350.0,
-  //           child: LoginNextButton(
-  //             onPressed: isButtonEnabled
-  //                 ? () async {
-  //               await _handleParticipation();
-  //               final url = Uri.parse(
-  //                   'https://docs.google.com/forms/d/1AkYT38aaIB9ACx1C60xcbzGJxF_BHTyRebaZt2_QPsQ/viewform?edit_requested=true&pli=1');
-  //               launchUrl(url, mode: LaunchMode.externalApplication);
-  //             }
-  //                 : null, // 비활성화 상태일 때 null
-  //             buttonName: '참여하기',
-  //             isButtonEnabled: isButtonEnabled,
-  //           ),
-  //         ),
-  //       ],
-  //     ),
-  //   );
-  // }
 
   String _timeAgo(DateTime date) {
     final now = DateTime.now();
