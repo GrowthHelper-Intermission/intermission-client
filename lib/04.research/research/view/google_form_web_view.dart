@@ -1,6 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/src/scheduler/binding.dart';
+import 'package:intermission_project/common/component/normal_appbar.dart';
 import 'package:intermission_project/common/const/colors.dart';
 import 'package:webview_flutter/webview_flutter.dart';
+// Import for Android features.
+import 'package:webview_flutter_android/webview_flutter_android.dart';
+// Import for iOS features.
+import 'package:webview_flutter_wkwebview/webview_flutter_wkwebview.dart';
 
 class GoogleFormWebView extends StatefulWidget {
   final VoidCallback onComplete;
@@ -10,37 +16,17 @@ class GoogleFormWebView extends StatefulWidget {
   _GoogleFormWebViewState createState() => _GoogleFormWebViewState();
 }
 
-final homeUrl = Uri.parse(
-    'https://docs.google.com/forms/d/1AkYT38aaIB9ACx1C60xcbzGJxF_BHTyRebaZt2_QPsQ/viewform?edit_requested=true&pli=1');
+const homeUrl =
+    'https://docs.google.com/forms/d/1AkYT38aaIB9ACx1C60xcbzGJxF_BHTyRebaZt2_QPsQ/viewform?edit_requested=true&pli=1';
 
-final _completionURL =
-    'https://docs.google.com/forms/u/2/d/e/1FAIpQLSdMOssE_VzRdeKVid0UlNDAtuxYLuN6uMVy-_zJIreNr7ZBmA/formResponse?pli=1';
+const _completionURL =
+    'https://docs.google.com/forms/d/e/1FAIpQLSdMOssE_VzRdeKVid0UlNDAtuxYLuN6uMVy-_zJIreNr7ZBmA/formResponse?pli=1';
 
 final commitTest = 2;
 
-class _GoogleFormWebViewState extends State<GoogleFormWebView> {
-  late WebViewController controller;  // 수정된 부분
 
-  @override
-  void initState() {
-    super.initState();
-    controller = WebViewController()
-      ..setJavaScriptMode(JavaScriptMode.unrestricted)
-      ..loadRequest(homeUrl)
-      ..setNavigationDelegate(
-        NavigationDelegate(
-            onNavigationRequest: (request){
-              if (request.url.startsWith(_completionURL)) {
-                WidgetsBinding.instance?.addPostFrameCallback((_) {
-                  _showCompletionDialog();
-                });
-                return NavigationDecision.prevent;
-              }
-              return NavigationDecision.navigate;
-            }
-        ),
-      );
-  }
+class _GoogleFormWebViewState extends State<GoogleFormWebView> {
+  late WebViewController controller;
 
   void _showCompletionDialog() {  // AlertDialog를 띄우는 함수
     showDialog(
@@ -52,7 +38,8 @@ class _GoogleFormWebViewState extends State<GoogleFormWebView> {
           TextButton(
             child: Text('확인'),
             onPressed: () {
-              Navigator.of(context).pop();
+              Navigator.of(context).pop();  // AlertDialog를 닫습니다.
+              Navigator.of(context).pop();  // 웹뷰 페이지를 닫습니다.
             },
           ),
         ],
@@ -60,9 +47,44 @@ class _GoogleFormWebViewState extends State<GoogleFormWebView> {
     );
   }
 
+
+  @override
+  void initState() {
+    super.initState();
+    controller = WebViewController()
+      ..setJavaScriptMode(JavaScriptMode.unrestricted)
+      ..setNavigationDelegate(
+        NavigationDelegate(
+          onProgress: (int progress) {
+            print(progress);
+          },
+          onPageStarted: (String url){
+            print(url);
+          },
+          onPageFinished: (String url){
+            print(url);
+          },
+          onWebResourceError: (WebResourceError error) {
+            print('Web resource error: ${error.toString()}');
+          },
+          onNavigationRequest: (NavigationRequest request) {
+            if (request.url.startsWith(_completionURL)) {
+              print('hello');
+              widget.onComplete();  // 여기서 콜백 호출
+              _showCompletionDialog();
+              return NavigationDecision.prevent;
+            }
+            return NavigationDecision.navigate;
+          },
+        ),
+      )..loadRequest(Uri.parse(homeUrl.toString()));
+  }
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: NormalAppbar(title: '구글폼'),
       body: WebViewWidget(
         controller: controller,
       ),

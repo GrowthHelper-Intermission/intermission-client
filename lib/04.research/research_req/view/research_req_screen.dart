@@ -22,9 +22,9 @@ class ResearchReqScreen extends ConsumerWidget {
           ElevatedButton(
             onPressed: ()  async{
               ResearchReqModel newResearch = ResearchReqModel(
-                  mainTitle: '땅콩 개발을 위한 설문 조사',
+                  mainTitle: '성공 개발을 위한 설문 조사',
                   subTitle: '온라인, 서울 중구 기준 30분 거리면 오프 라인 방문 가능',
-                  dueDate: '2023-08-09',
+                  dueDate: '2023-09-05',
                   exceptTime: '2',
                   minAge: '20대 / 10대 / 30대 / 40대',
                   detail:
