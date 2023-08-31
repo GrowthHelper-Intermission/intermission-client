@@ -41,7 +41,7 @@ class NoticeCard extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text(title),
+                    Expanded(child: Text(title,maxLines: 2,overflow: TextOverflow.ellipsis,)),
                   ],
                 ),
               ],

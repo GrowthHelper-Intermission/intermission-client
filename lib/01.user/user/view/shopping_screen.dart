@@ -25,7 +25,7 @@ class ShoppingScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: SUB_COLOR,
       appBar: NormalAppbar(
         title: '쇼핑몰',
       ),
@@ -39,6 +39,7 @@ class ShoppingScreen extends StatelessWidget {
               style: TextStyle(
                 fontSize: 18,
                 fontWeight: FontWeight.w700,
+                color: SUB_COLOR,
               ),
             ),
           ),
@@ -67,8 +68,9 @@ class ShoppingScreen extends StatelessWidget {
       },
       child: Container(
         decoration: BoxDecoration(
-          border: Border.all(color: Colors.black, width: 2.0), // 보라색 테두리 추가
+          border: Border.all(color: Colors.white, width: 2.0), // 보라색 테두리 추가
           borderRadius: BorderRadius.circular(8.0), // 테두리를 둥글게
+          color: Colors.white,
         ),
         padding: const EdgeInsets.all(8.0), // 테두리와 내용 사이의 여백
         child: Column(
@@ -92,7 +94,7 @@ class ShoppingScreen extends StatelessWidget {
               child: Text(
                 product.price,
                 style: TextStyle(
-                    color: PRIMARY_COLOR, fontSize: 16, fontWeight: FontWeight.w500),
+                    color: PRIMARY_COLOR, fontSize: 16, fontWeight: FontWeight.w700),
               ),
             ),
           ],

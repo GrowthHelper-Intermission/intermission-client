@@ -67,6 +67,7 @@ class _ResearchCardState extends State<ResearchCard> {
     super.initState();
   }
 
+
   int _getDaysLeft() {
     DateTime now = DateTime.now();
     DateTime interviewDate = DateTime.parse(widget.dueDate);
@@ -77,6 +78,45 @@ class _ResearchCardState extends State<ResearchCard> {
   @override
   Widget build(BuildContext context) {
     daysLeft = _getDaysLeft(); // Every time the widget is built, update the days left.
+
+    String displayText;
+    Color borderColor;
+    Color textColor;
+    Color backgroundColor;
+
+    TextStyle titleStyle = TextStyle(
+      color: widget.isOnGoing == "Y" ? Colors.black : Colors.grey,
+      fontWeight: FontWeight.w700,
+      // 여기에 다른 스타일 속성들을 추가할 수 있습니다.
+    );
+
+    TextStyle subTitleStyle = TextStyle(
+      color: widget.isOnGoing == "Y" ? Colors.black : Colors.grey,
+      fontSize: 13,
+      // 여기에 다른 스타일 속성들을 추가할 수 있습니다.
+    );
+
+    if (daysLeft > 3) {
+      displayText = 'D-$daysLeft';
+      borderColor = SUB_BLUE_COLOR;
+      textColor = Colors.white;
+      backgroundColor = SUB_BLUE_COLOR;
+    } else if (daysLeft > 0) {
+      displayText = 'D-$daysLeft';
+      borderColor = SUB_BLUE_COLOR;
+      textColor = SUB_BLUE_COLOR;
+      backgroundColor = Colors.white;
+    } else if (daysLeft == 0) {
+      displayText = 'D-day';
+      borderColor = SUB_BLUE_COLOR;
+      textColor = SUB_BLUE_COLOR;
+      backgroundColor = Colors.white;
+    } else {
+      displayText = '마감';
+      borderColor = PRIMARY_COLOR;
+      textColor = Colors.white;
+      backgroundColor = PRIMARY_COLOR;
+    }
 
     return Padding(
       padding: const EdgeInsets.fromLTRB(11, 0, 21, 0),
@@ -108,18 +148,18 @@ class _ResearchCardState extends State<ResearchCard> {
                         width: 38,
                         height: 21,
                         decoration: BoxDecoration(
-                          color: daysLeft <= 3 ? Colors.white : SUB_BLUE_COLOR,
+                          color: backgroundColor,
                           borderRadius: BorderRadius.circular(5),
                           border: Border.all(
-                            color: SUB_BLUE_COLOR,
+                            color: borderColor,
                             width: 1,
                           ),
                         ),
                         child: Center(
                           child: Text(
-                            'D-$daysLeft',
+                            displayText,
                             style: TextStyle(
-                              color: daysLeft <= 3 ? SUB_BLUE_COLOR : Colors.white,
+                              color: textColor,
                               fontSize: 12.0,
                               fontWeight: FontWeight.w700,
                             ),
@@ -128,12 +168,7 @@ class _ResearchCardState extends State<ResearchCard> {
                       ),
                       SizedBox(width: 10),
                       Expanded(
-                        child: Text(
-                          widget.mainTitle,
-                          style: InterviewTitleStyle,
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                        ),
+                        child: Text(widget.mainTitle, style: titleStyle),
                       ),
                       SizedBox(width: 20),
                     ],
@@ -144,8 +179,9 @@ class _ResearchCardState extends State<ResearchCard> {
                   Expanded(
                     child: Text(
                       widget.subTitle,
-                      style: whiteSmallTextStyle,
+                      style: subTitleStyle,
                       maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
                     ),
                   ),
                   Flexible(
@@ -155,7 +191,7 @@ class _ResearchCardState extends State<ResearchCard> {
                     children: [
                       Text(
                         widget.researchMethTpCd,
-                        style: whiteSmallTextStyle,
+                        style: blackSmallTextStyle,
                       ),
                       Text(
                         ' | ',
@@ -163,11 +199,11 @@ class _ResearchCardState extends State<ResearchCard> {
                       ),
                       Text(
                         '${widget.exceptTime}시간 ',
-                        style: whiteSmallTextStyle,
+                        style: blueSmallTextStyle,
                       ),
                       Text(
                         widget.researchRewdAmt,
-                        style: whiteSmallTextStyle,
+                        style: blueSmallTextStyle,
                       ),
                     ],
                   ),

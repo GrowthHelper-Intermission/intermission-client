@@ -33,7 +33,7 @@ class _ParticipatedResearchScreenState extends ConsumerState<ParticipatedResearc
   @override
   Widget build(BuildContext context) {
     return DefaultLayout(
-      title: '참여한 인터뷰',
+      title: '참여한 리서치',
       child: Column(
         children: [
           TabBar(

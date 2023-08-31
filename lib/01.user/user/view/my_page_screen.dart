@@ -8,6 +8,7 @@ import 'package:intermission_project/01.user/user/view/user_point_count_screen.d
 import 'package:intermission_project/01.user/user/view/user_recommend_friend_screen.dart';
 import 'package:intermission_project/01.user/user/view/user_report_screen.dart';
 import 'package:intermission_project/01.user/user/view/user_scrap_interview_screen.dart';
+import 'package:intermission_project/04.research/research/view/notice_req_screen.dart';
 import 'package:intermission_project/04.research/research/view/notice_screen.dart';
 import 'package:intermission_project/04.research/research_req/view/research_req_screen.dart';
 import 'package:intermission_project/common/component/normal_appbar.dart';
@@ -97,7 +98,7 @@ class MyPageScreen extends ConsumerWidget {
                                 SizedBox(
                                   height: 10,
                                 ),
-                                Text('참여한 인터뷰'),
+                                Text('참여한 리서치'),
                               ],
                             ),
                           ),
@@ -199,9 +200,9 @@ class MyPageScreen extends ConsumerWidget {
                     icon: 'assets/tabimg/mypage/recommendFriend.png',
                   ),
                   SettingComponent(
-                    title: '리서치 게시하기',
-                    otherScreen: ResearchReqScreen(),
-                    icon: 'assets/tabimg/mypage/recommendFriend.png',
+                    title: '관리자 페이지',
+                    otherScreen: AdminPage(),
+                    icon: 'assets/img/link.png',
                   ),
                 ],
               ),
@@ -254,6 +255,30 @@ class SettingComponent extends StatelessWidget {
           height: 30,
           color: Colors.grey[600],
         ), // 오른쪽 화살표 아이콘 추가
+      ),
+    );
+  }
+}
+
+
+class AdminPage extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: Text('관리자 페이지')),
+      body: Column(
+        children: [
+          SettingComponent(
+            title: '리서치 게시하기',
+            otherScreen: ResearchReqScreen(),
+            icon: 'assets/tabimg/mypage/recommendFriend.png',
+          ),
+          SettingComponent(
+            title: '공지사항 게시하기',
+            otherScreen: NotiReqScreen(),
+            icon: 'assets/tabimg/mypage/recommendFriend.png',
+          ),
+        ],
       ),
     );
   }
