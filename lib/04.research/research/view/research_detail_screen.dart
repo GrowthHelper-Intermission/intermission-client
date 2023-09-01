@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:intermission_project/01.user/user/model/user_model.dart';
-import 'package:intermission_project/01.user/user/provider/point_provider.dart';
-import 'package:intermission_project/01.user/user/provider/user_me_provider.dart';
 import 'package:intermission_project/04.research/research/model/research_detail_model.dart';
 import 'package:intermission_project/04.research/research/model/research_model.dart';
 import 'package:intermission_project/04.research/research/model/single_comment.dart';
@@ -19,10 +16,9 @@ import 'package:intermission_project/common/component/custom_text_style.dart';
 import 'package:intermission_project/common/component/login_next_button.dart';
 import 'package:intermission_project/common/component/pagination_list_view.dart';
 import 'package:intermission_project/common/const/colors.dart';
-import 'package:intermission_project/common/utils/pagination_utils.dart';
-import 'package:intermission_project/common/view/default_layout.dart';
 import 'package:skeletons/skeletons.dart';
 import 'package:url_launcher/url_launcher.dart';
+
 // Import for Android features.
 import 'package:webview_flutter_android/webview_flutter_android.dart';
 // Import for iOS features.
@@ -78,9 +74,6 @@ class _ResearchDetailScreenState extends ConsumerState<ResearchDetailScreen> {
     super.initState();
 
     ref.read(researchProvider.notifier).getDetail(id: widget.id);
-    // ref.read(interviewProvider.notifier).getDetail(id: widget.id);
-    // ref.read(surveyProvider.notifier).getDetail(id: widget.id);
-    // ref.read(testerProvider.notifier).getDetail(id: widget.id);
   }
 
   Future<void> _handleParticipation() async {
@@ -788,48 +781,3 @@ class SimpleButton extends StatelessWidget {
     );
   }
 }
-
-//구글폼 보류
-// Future<void> _handleParticipation() async {
-//   var response = await ref
-//       .read(researchProvider.notifier)
-//       .participateInResearch(id: widget.id);
-//   if (response is ParticipationResponse && response.isJoin == 'Y') {
-//     setState(() {
-//       isButtonEnabled = false; // 참여했으므로 버튼을 비활성화합니다.
-//     });
-//
-//     // GoogleFormWebView 위젯으로 넘어갑니다.
-//     Navigator.push(
-//       context,
-//       MaterialPageRoute(
-//         builder: (context) => GoogleFormWebView(
-//           onComplete: () {
-//             // 설문조사 완료 후 실행될 코드
-//             showDialog(
-//               context: context,
-//               builder: (context) => AlertDialog(
-//                 title: Text('참여 완료'),
-//                 content: Text('참여가 완료되었습니다!'),
-//                 actions: [
-//                   TextButton(
-//                     child: Text('확인'),
-//                     onPressed: () => Navigator.of(context).pop(),
-//                   ),
-//                 ],
-//               ),
-//             );
-//           },
-//         ),
-//       ),
-//     );
-//   }
-// }
-
-// void listener() {
-//   //댓글로 수정
-//   PaginationUtils.paginate(
-//     controller: controller,
-//     provider: ref.read(restaurantRatingProvider(widget.id).notifier),
-//   );
-// }

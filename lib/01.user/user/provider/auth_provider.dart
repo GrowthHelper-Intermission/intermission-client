@@ -145,6 +145,9 @@ class AuthProvider extends ChangeNotifier {
   FutureOr<String?> redirectLogic(BuildContext context, GoRouterState state) {
     final UserModelBase? user = ref.read(userMeProvider);
 
+    // 회원가입 페이지에서 회원가입 완료 후 로그인 페이지로 리다이렉트
+    if (state.matchedLocation == '/signup' && user is UserModel) return '/';
+
     if (state.matchedLocation.startsWith('/signup')) return null;
 
     if (state.matchedLocation == '/login' && user is UserModel) return '/';
@@ -160,5 +163,25 @@ class AuthProvider extends ChangeNotifier {
 
     return null;
   }
+
+  // FutureOr<String?> redirectLogic(BuildContext context, GoRouterState state) {
+  //   final UserModelBase? user = ref.read(userMeProvider);
+  //
+  //   if ((state.matchedLocation == '/signup' || state.matchedLocation == '/login') && user is UserModel)
+  //     return '/';
+  //
+  //   if (state.matchedLocation.startsWith('/signup')) return null;
+  //
+  //   if (state.matchedLocation == '/login' && user is UserModel) return '/';
+  //
+  //   if (!state.matchedLocation.startsWith('/login') && user == null) return '/select';
+  //
+  //   if (user is UserModel &&
+  //       (state.matchedLocation == '/select'
+  //           || state.matchedLocation == '/splash')) return '/';
+  //
+  //   return null;
+  // }
+
 
 }

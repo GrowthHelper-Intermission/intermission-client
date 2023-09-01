@@ -6,6 +6,7 @@ import 'package:intermission_project/01.user/user/model/user_model.dart';
 import 'package:intermission_project/01.user/user/provider/point_provider.dart';
 import 'package:intermission_project/01.user/user/provider/user_me_provider.dart';
 import 'package:intermission_project/04.research/research/component/home_ongoing_research_list.dart';
+import 'package:intermission_project/04.research/research/provider/research_provider.dart';
 import 'package:intermission_project/common/const/colors.dart';
 import 'package:intermission_project/common/model/cursor_pagination_model.dart';
 import 'package:intermission_project/common/view/setting/setting_screen.dart';
@@ -30,8 +31,11 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
 
     if (userState is UserModel) {
       user = userState; // UserModel로 캐스팅
+      ref.read(researchProvider.notifier).paginate();
       ref.read(pointProvider.notifier).paginate();
     }
+
+    ref.read(researchProvider.notifier).getTopThreeResearches();
 
     final userPointState = ref.read(pointProvider);
     int point = 0;
