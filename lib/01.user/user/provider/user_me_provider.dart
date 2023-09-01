@@ -153,21 +153,21 @@ class UserMeStateNotifier extends StateNotifier<UserModelBase?> {
       // 딜레이 추가: 2초 동안 대기
       await Future.delayed(Duration(seconds: 2));
 
-      // 2. 회원가입 완료라 가정, 로그인
-      final loginResp = await login(
-        username: signupUserModel.email!,
-        password: signupUserModel.pwd!,
-      );
-
-      // 딜레이 추가: 2초 동안 대기
-      await Future.delayed(Duration(seconds: 2));
+      // // 2. 회원가입 완료라 가정, 로그인
+      // final loginResp = await login(
+      //   username: signupUserModel.email!,
+      //   password: signupUserModel.pwd!,
+      // );
+      //
+      // // 딜레이 추가: 2초 동안 대기
+      // await Future.delayed(Duration(seconds: 2));
 
       // 3. 딜레이 후 getMe() 호출하거나 다른 로직 수행
       // 이렇게 하면 딜레이 후에 getMe()가 호출되어 사용자 정보를 가져옵니다.
       getMe();
 
       // 4. 최종 결과 반환
-      return loginResp as UserModel;
+      return userResp;
 
     } catch (e) {
       print('Hallo');
@@ -175,6 +175,27 @@ class UserMeStateNotifier extends StateNotifier<UserModelBase?> {
       return Future.error(UserModelError(message: '회원가입에 실패했습니다'));
     }
   }
+
+  // Future<UserModel> postUser(SignupUserModel signupUserModel) async {
+  //   try {
+  //     state = UserModelLoading();
+  //
+  //     // 1. 회원가입 POST
+  //     final userResp = await repository.postUser(signupUserModel);
+  //     print(userResp.birthDay);
+  //
+  //     // 딜레이 추가: 1초 동안 대기
+  //     await Future.delayed(Duration(seconds: 2));
+  //
+  //     return userResp;
+  //
+  //   } catch (e) {
+  //     print('Error during signup: $e');
+  //     state = UserModelError(message: '회원가입에 실패했습니다');
+  //     return Future.error(UserModelError(message: '회원가입에 실패했습니다'));
+  //   }
+  // }
+
 
 
   Future<void> logout() async {
