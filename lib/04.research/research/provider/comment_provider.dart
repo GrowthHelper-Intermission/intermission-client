@@ -59,6 +59,7 @@ class CommentNotifier extends ChangeNotifier {
       throw error;
     }
   }
+
 }
 
 

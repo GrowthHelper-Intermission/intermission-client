@@ -5,6 +5,7 @@ import 'package:intermission_project/04.research/research/model/research_detail_
 import 'package:intermission_project/04.research/research/model/research_model.dart';
 import 'package:intermission_project/04.research/research/model/single_comment.dart';
 import 'package:intermission_project/04.research/research/repository/research_repository.dart';
+import 'package:intermission_project/common/const/data.dart';
 import 'package:intermission_project/common/dio/dio.dart';
 import 'package:intermission_project/common/model/cursor_pagination_model.dart';
 import 'package:intermission_project/common/model/pagination_params.dart';
@@ -24,7 +25,7 @@ final commentRepositoryProvider = Provider<CommentRepository>(
   (ref) {
     final dio = ref.watch(dioProvider);
     return CommentRepository(dio,
-        baseUrl: 'http://34.64.77.5:8080/api/comment');
+        baseUrl: 'http://$ip/api/comment');
     // 'http://localhost:8080/api/interview'
   },
 );
@@ -64,7 +65,7 @@ abstract class CommentRepository {
       @Body() SingleComment updatedComment,
       );
 
-//댓글 삭제하기
+  //댓글 삭제하기
   @DELETE('/{commentId}')
   @Headers({
     'accessToken': 'true',

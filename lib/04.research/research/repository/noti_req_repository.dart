@@ -1,6 +1,7 @@
 import 'package:intermission_project/01.user/user/model/report_req_model.dart';
 import 'package:intermission_project/04.research/research/model/noti_req_model.dart';
 import 'package:intermission_project/04.research/research_req/model/research_req_model.dart';
+import 'package:intermission_project/common/const/data.dart';
 import 'package:intermission_project/common/dio/dio.dart';
 import 'package:dio/dio.dart' hide Headers; //주의
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -16,7 +17,7 @@ final notiReqRepositoryProvider = Provider<NotiReqRepository>(
     // return UserMeRepository(dio,baseUrl: 'http://$ip/user/me');
     // 'http://localhost:8080/api/user/save'
     return NotiReqRepository(dio,
-        baseUrl: 'http://34.64.77.5:8080/api/noti');
+        baseUrl: 'http://$ip/api/noti');
   },
 );
 

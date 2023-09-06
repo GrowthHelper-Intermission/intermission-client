@@ -749,19 +749,18 @@ class _SignupScreenPage2State extends ConsumerState<SignupScreenPage2> {
                       onPressed: () {
 
                         final state = ref.read(signupUserProvider.notifier);
-                        state.setWedTpCd(marriedSelected == true ? "M" : "F");
+                        state.setWedTpCd(marriedSelected == true ? "기혼" : "미혼");
                         state.setHousTpCd(selectedResidenceType);
                         state.setPetYn(raisePet == true ? "Y" : "N");
-                        state.setPetTpCd(selectedPetType);
+                        state.setPetTpCd(selectedPetType == '선택' ? "없음" : selectedPetType);
                         state.setPetNm(raisePetController.text.trim());
-                        state.setAsignJobCd(selectedAsignCdType);
+                        state.setAsignJobCd(selectedAsignCdType == '선택' ? "없음" : selectedAsignCdType);
                         state.setJobCd(selectedJobCdType);
                         state.setJobGrdNm(jobController.text.trim());
                         state.setOccpSidoCd(selectedCity);
                         state.setOccpSigunguCd(selectedCountry);
-                        state.setIntvSidoCd(intvSelectedCity);
-                        state.setIntvSigunguCd(intvSelectedCountry);
-                        print(state.userNm);
+                        state.setResearchSidoCd(intvSelectedCity);
+                        state.setResearchSigunguCd(intvSelectedCountry);
 
                         context.pushNamed(SignupScreenPage3.routeName);
                       },

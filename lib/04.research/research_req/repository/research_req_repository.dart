@@ -14,7 +14,7 @@ final researchReqRepositoryProvider = Provider<ResearchReqRepository>(
     // return UserMeRepository(dio,baseUrl: 'http://$ip/user/me');
     // 'http://localhost:8080/api/user/save'
     return ResearchReqRepository(dio,
-        baseUrl: 'http://34.64.77.5:8080/api/research');
+        baseUrl: 'http://35.216.100.47:8080/api/research');
   },
 );
 

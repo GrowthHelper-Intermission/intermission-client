@@ -8,7 +8,6 @@ part 'signup_user_model.g.dart';
 class SignupUserModel extends UserModelBase {
   final String? userTpCd;
   final String? userNm;
-  final String? userId;
   final String? pwd;
   final String? bankAccount;
   final String? accountNumber;
@@ -16,7 +15,6 @@ class SignupUserModel extends UserModelBase {
   final String? genderCd;
   final String? hpNum;
   final String? email;
-  final String? emailVerfYn;
   final String? jobCd;
   final String? asignJobCd;
   final String? jobGrdNm;
@@ -27,23 +25,19 @@ class SignupUserModel extends UserModelBase {
   final String? petNm;
   final String? occpSidoCd;
   final String? occpSigunguCd;
-  final String? intvSidoCd;
-  final String? intvSigunguCd;
-  final String? oflIntvRwdTpCd;
-  final String? onlIntvRwdTpCd;
+  final String? researchSidoCd;
+  final String? researchSigunguCd;
+  final String? oflResRwdTpCd;
+  final String? onlResRwdTpCd;
   final String? mainUseOnlSvcCn;
   final String? hobySubs;
-  final String? rcmdUserCd;
   final String? isAgreeYn;
-  final String? isAgreeDt;
-  final String? empYn;
-  final String? empNo;
   final String? delYn;
 
   SignupUserModel({
     this.userTpCd,
     this.userNm,
-    this.userId,
+    // this.userId,
     this.pwd,
     this.bankAccount,
     this.accountNumber,
@@ -51,7 +45,7 @@ class SignupUserModel extends UserModelBase {
     this.genderCd,
     this.hpNum,
     this.email,
-    this.emailVerfYn,
+    // this.emailVerfYn,
     this.jobCd,
     this.asignJobCd,
     this.jobGrdNm,
@@ -62,17 +56,16 @@ class SignupUserModel extends UserModelBase {
     this.petNm,
     this.occpSidoCd,
     this.occpSigunguCd,
-    this.intvSidoCd,
-    this.intvSigunguCd,
-    this.oflIntvRwdTpCd,
-    this.onlIntvRwdTpCd,
+    this.researchSidoCd,
+    this.researchSigunguCd,
+    this.oflResRwdTpCd,
+    this.onlResRwdTpCd,
     this.mainUseOnlSvcCn,
     this.hobySubs,
-    this.rcmdUserCd,
     this.isAgreeYn,
-    this.isAgreeDt,
-    this.empYn,
-    this.empNo,
+    // this.isAgreeDt,
+    // this.empYn,
+    // this.empNo,
     this.delYn,
   });
 

@@ -2,6 +2,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intermission_project/01.user/point/model/point_model.dart';
 import 'package:intermission_project/04.research/research/model/research_detail_model.dart';
 import 'package:intermission_project/04.research/research/model/research_model.dart';
+import 'package:intermission_project/common/const/data.dart';
 import 'package:intermission_project/common/dio/dio.dart';
 import 'package:intermission_project/common/model/cursor_pagination_model.dart';
 import 'package:intermission_project/common/model/pagination_params.dart';
@@ -20,7 +21,7 @@ part 'research_repository.g.dart';
 final researchRepositoryProvider = Provider<ResearchRepository>(
       (ref) {
     final dio = ref.watch(dioProvider);
-    return ResearchRepository(dio, baseUrl: 'http://34.64.77.5:8080/api/research');
+    return ResearchRepository(dio, baseUrl: 'http://$ip/api/research');
     // 'http://localhost:8080/api/interview'
   },
 );

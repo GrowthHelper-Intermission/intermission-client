@@ -6,6 +6,7 @@ import 'package:intermission_project/01.user/user/model/point_model.dart';
 import 'package:intermission_project/01.user/user/model/report_detail_model.dart';
 import 'package:intermission_project/01.user/user/model/report_model.dart';
 import 'package:intermission_project/01.user/user/model/report_req_model.dart';
+import 'package:intermission_project/common/const/data.dart';
 import 'package:intermission_project/common/dio/dio.dart';
 import 'package:intermission_project/common/model/cursor_pagination_model.dart';
 import 'package:intermission_project/common/model/pagination_params.dart';
@@ -17,7 +18,7 @@ part 'report_repository.g.dart';
 final reportRepositoryProvider = Provider<ReportRepository>(
       (ref) {
     final dio = ref.watch(dioProvider);
-    return ReportRepository(dio, baseUrl: 'http://34.64.77.5:8080/api/ask');
+    return ReportRepository(dio, baseUrl: 'http://$ip/api/ask');
   },
 );
 

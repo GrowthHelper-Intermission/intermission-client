@@ -9,18 +9,18 @@ part 'comment_model.g.dart';
 @JsonSerializable()
 class Comment{
   final int commentId;
-  final String writer;
-  final String content;
+  final String? writer;
+  final String? content;
   final String createdDate;
-  final String isUpdate;
+  final String? isUpdate;
   final List<ReComment> reComments;
 
   Comment({
     required this.commentId,
-    required this.writer,
-    required this.content,
+    this.writer,
+    this.content,
     required this.createdDate,
-    required this.isUpdate,
+    this.isUpdate,
     required this.reComments,
   });
 

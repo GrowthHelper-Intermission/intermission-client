@@ -19,8 +19,14 @@ class ResearchReqModel {
   /// 예상 소요 시간
   final String exceptTime;
 
-  /// 최소 연령대(이후에 8개의 bool 타입으로 바꿀 예정 일단 String)
-  final String minAge;
+  // /// 최소 연령대(이후에 8개의 bool 타입으로 바꿀 예정 일단 String)
+  final String? isTeenagers;
+  final String? isTwenties;
+  final String? isThirties;
+  final String? isForties;
+  final String? isFifties;
+  final String? isSixties;
+  final String? isSeventies;
 
   /// 인터뷰 설명
   final String detail;
@@ -116,7 +122,13 @@ class ResearchReqModel {
     this.researchRewdAmt,
     required this.dueDate,
     required this.exceptTime,
-    required this.minAge,
+    this.isTeenagers,
+    this.isTwenties,
+    this.isThirties,
+    this.isForties,
+    this.isFifties,
+    this.isSixties,
+    this.isSeventies,
     required this.detail,
     required this.researchType,
     this.researchTgtZendTpCd,

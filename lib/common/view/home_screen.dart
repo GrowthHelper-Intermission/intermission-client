@@ -31,7 +31,6 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
 
     if (userState is UserModel) {
       user = userState; // UserModel로 캐스팅
-      ref.read(researchProvider.notifier).paginate();
       ref.read(pointProvider.notifier).paginate();
     }
 
@@ -46,6 +45,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
 
     // user 또는 userPointState가 로딩 중일 때 로딩 인디케이터를 표시
     if (user == null || userPointState is CursorPaginationLoading) {
+      print('halla');
       return Center(
         child: CircularProgressIndicator(),
       );
