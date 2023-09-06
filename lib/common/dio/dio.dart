@@ -62,6 +62,8 @@ class CustomInterceptor extends Interceptor {
     // TODO: implement onResponse
     print(
         '[RES] [${response.requestOptions.method}] ${response.requestOptions.uri}');
+
+    print('Data: ${response.data}');
     return super.onResponse(response, handler);
   }
 
@@ -97,7 +99,7 @@ class CustomInterceptor extends Interceptor {
       final dio = Dio();
       try {
         final resp = await dio.post(
-          'http://34.64.77.5:8080/api/auth/token', //수정
+          'http://$ip/api/auth/token', //수정
           options: Options(
             headers: {
               'authorization': 'Bearer $refreshToken',

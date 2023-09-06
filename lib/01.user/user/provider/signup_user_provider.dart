@@ -1,36 +1,21 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:intermission_project/01.user/user/model/signup_user_model.dart';
 
-import 'package:flutter/foundation.dart';
-
-final signupUserProvider =
-ChangeNotifierProvider((ref) => SignupUserNotifier());
+final signupUserProvider = ChangeNotifierProvider((ref) => SignupUserNotifier());
 
 class SignupUserNotifier extends ChangeNotifier {
-  SignupUserModel _userData = SignupUserModel();
-
-  SignupUserModel get getUserData => _userData;
-
-  String? ofcNm;
-  String? jobGrdNm;
-  String? ceoYn;
-  String? id;
   String? userTpCd;
   String? userNm;
-  String? userId;
   String? pwd;
-  String? joinDay;
   String? bankAccount;
   String? accountNumber;
   String? birthDay;
   String? genderCd;
   String? hpNum;
   String? email;
-  String? emailVerfYn;
   String? jobCd;
   String? asignJobCd;
-  String? jobNm;
+  String? jobGrdNm;
   String? wedTpCd;
   String? housTpCd;
   String? petYn;
@@ -38,204 +23,167 @@ class SignupUserNotifier extends ChangeNotifier {
   String? petNm;
   String? occpSidoCd;
   String? occpSigunguCd;
-  String? intvSidoCd;
-  String? intvSigunguCd;
-  String? oflIntvRwdTpCd;
-  String? onlIntvRwdTpCd;
+  String? researchSidoCd;
+  String? researchSigunguCd;
+  String? oflResRwdTpCd;
+  String? onlResRwdTpCd;
   String? mainUseOnlSvcCn;
   String? hobySubs;
   String? rcmdUserCd;
   String? isAgreeYn;
-  String? isAgreeDt;
-  String? empYn;
-  String? empNo;
   String? delYn;
-  String? frstRegtDt;
-  String? finlUpdtDt;
 
-  void setId(String? id) {
-    this.id = id;
+  void setUserTpCd(String? value) {
+    userTpCd = value;
     notifyListeners();
   }
 
-  void setUserTpCd(String? userTpCd) {
-    this.userTpCd = userTpCd;
+  void setUserNm(String? value) {
+    userNm = value;
     notifyListeners();
   }
 
-  void setUserNm(String? userNm) {
-    this.userNm = userNm;
+  void setPwd(String? value) {
+    pwd = value;
     notifyListeners();
   }
 
-  void setUserId(String? userId) {
-    this.userId = userId;
+  void setBankAccount(String? value) {
+    bankAccount = value;
     notifyListeners();
   }
 
-  void setPwd(String? pwd) {
-    this.pwd = pwd;
+  void setAccountNumber(String? value) {
+    accountNumber = value;
     notifyListeners();
   }
 
-  void setJoinDay(String? joinDay) {
-    this.joinDay = joinDay;
+  void setBirthDay(String? value) {
+    birthDay = value;
     notifyListeners();
   }
 
-  void setBankAccount(String? bankAccount) {
-    this.bankAccount = bankAccount;
+  void setGenderCd(String? value) {
+    genderCd = value;
     notifyListeners();
   }
 
-  void setAccountNumber(String? accountNumber) {
-    this.accountNumber = accountNumber;
+  void setHpNum(String? value) {
+    hpNum = value;
     notifyListeners();
   }
 
-  void setBirthDay(String? birthDay) {
-    this.birthDay = birthDay;
+  void setEmail(String? value) {
+    email = value;
     notifyListeners();
   }
 
-  void setGenderCd(String? genderCd) {
-    this.genderCd = genderCd;
+  void setJobCd(String? value) {
+    jobCd = value;
     notifyListeners();
   }
 
-  void setHpNum(String? hpNum) {
-    this.hpNum = hpNum;
+  void setAsignJobCd(String? value) {
+    asignJobCd = value;
     notifyListeners();
   }
 
-  void setEmail(String? email) {
-    this.email = email;
+  // void setJobGrdNm(String? value) {
+  //   jobGrdNm = value;
+  //   notifyListeners();
+  // }
+
+  void setJobGrdNm(String? value) {
+    if (value == null || value.trim().isEmpty) {
+      jobGrdNm = "";
+    } else {
+      jobGrdNm = value.trim();
+    }
     notifyListeners();
   }
 
-  void setEmailVerfYn(String? emailVerfYn) {
-    this.emailVerfYn = emailVerfYn;
+
+  void setWedTpCd(String? value) {
+    wedTpCd = value;
     notifyListeners();
   }
 
-  void setJobCd(String? jobCd) {
-    this.jobCd = jobCd;
+  void setHousTpCd(String? value) {
+    housTpCd = value;
     notifyListeners();
   }
 
-  void setAsignJobCd(String? asignJobCd) {
-    this.asignJobCd = asignJobCd;
+  void setPetYn(String? value) {
+    petYn = value;
     notifyListeners();
   }
 
-  void setJobGrdNm(String? jobGrdNm) {
-    this.jobGrdNm = jobGrdNm;
+  void setPetTpCd(String? value) {
+    petTpCd = value;
     notifyListeners();
   }
 
-  void setWedTpCd(String? wedTpCd) {
-    this.wedTpCd = wedTpCd;
+  void setPetNm(String? value) {
+      if (value == null || value.trim().isEmpty) {
+        petNm = "";
+      } else {
+        petNm = value.trim();
+      }
     notifyListeners();
   }
 
-  void setHousTpCd(String? housTpCd) {
-    this.housTpCd = housTpCd;
+  void setOccpSidoCd(String? value) {
+    occpSidoCd = value;
     notifyListeners();
   }
 
-  void setPetYn(String? petYn) {
-    this.petYn = petYn;
+  void setOccpSigunguCd(String? value) {
+    occpSigunguCd = value;
     notifyListeners();
   }
 
-  void setPetTpCd(String? petTpCd) {
-    this.petTpCd = petTpCd;
+  void setResearchSidoCd(String? value) {
+    researchSidoCd = value;
     notifyListeners();
   }
 
-  void setPetNm(String? petNm) {
-    this.petNm = petNm;
+  void setResearchSigunguCd(String? value) {
+    researchSigunguCd = value;
     notifyListeners();
   }
 
-  void setOccpSidoCd(String? occpSidoCd) {
-    this.occpSidoCd = occpSidoCd;
+  void setOflResRwdTpCd(String? value) {
+    oflResRwdTpCd = value;
     notifyListeners();
   }
 
-  void setOccpSigunguCd(String? occpSigunguCd) {
-    this.occpSigunguCd = occpSigunguCd;
+  void setOnlResRwdTpCd(String? value) {
+    onlResRwdTpCd = value;
     notifyListeners();
   }
 
-  void setIntvSidoCd(String? intvSidoCd) {
-    this.intvSidoCd = intvSidoCd;
+  void setMainUseOnlSvcCn(String? value) {
+    mainUseOnlSvcCn = value;
     notifyListeners();
   }
 
-  void setIntvSigunguCd(String? intvSigunguCd) {
-    this.intvSigunguCd = intvSigunguCd;
+  void setHobySubs(String? value) {
+    hobySubs = value;
     notifyListeners();
   }
 
-  void setOflIntvRwdTpCd(String? oflIntvRwdTpCd) {
-    this.oflIntvRwdTpCd = oflIntvRwdTpCd;
+  void setRcmdUserCd(String? value) {
+    rcmdUserCd = value;
     notifyListeners();
   }
 
-  void setOnlIntvRwdTpCd(String? onlIntvRwdTpCd) {
-    this.onlIntvRwdTpCd = onlIntvRwdTpCd;
+  void setIsAgreeYn(String? value) {
+    isAgreeYn = value;
     notifyListeners();
   }
 
-  void setMainUseOnlSvcCn(String? mainUseOnlSvcCn) {
-    this.mainUseOnlSvcCn = mainUseOnlSvcCn;
+  void setDelYn(String? value) {
+    delYn = value;
     notifyListeners();
   }
-
-  void setHobySubs(String? hobySubs) {
-    this.hobySubs = hobySubs;
-    notifyListeners();
-  }
-
-  void setRcmdUserCd(String? rcmdUserCd) {
-    this.rcmdUserCd = rcmdUserCd;
-    notifyListeners();
-  }
-
-  void setIsAgreeYn(String? isAgreeYn) {
-    this.isAgreeYn = isAgreeYn;
-    notifyListeners();
-  }
-
-  void setIsAgreeDt(String? isAgreeDt) {
-    this.isAgreeDt = isAgreeDt;
-    notifyListeners();
-  }
-
-  void setEmpYn(String? empYn) {
-    this.empYn = empYn;
-    notifyListeners();
-  }
-
-  void setEmpNo(String? empNo) {
-    this.empNo = empNo;
-    notifyListeners();
-  }
-
-  void setDelYn(String? delYn) {
-    this.delYn = delYn;
-    notifyListeners();
-  }
-
-  void setFrstRegtDt(String? frstRegtDt) {
-    this.frstRegtDt = frstRegtDt;
-    notifyListeners();
-  }
-
-  void setFinlUpdtDt(String? finlUpdtDt) {
-    this.finlUpdtDt = finlUpdtDt;
-    notifyListeners();
-  }
-
 }

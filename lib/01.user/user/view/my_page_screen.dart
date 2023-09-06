@@ -59,7 +59,7 @@ class MyPageScreen extends ConsumerWidget {
                     child: SizedBox(
                       child: Center(
                         child: Text(
-                          user!.userNm,
+                          user!.userNm!,
                           style: TextStyle(
                             fontSize: 16,
                             color: Colors.black,

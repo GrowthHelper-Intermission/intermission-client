@@ -15,7 +15,7 @@ final userMeRepositoryProvider = Provider<UserMeRepository>(
   (ref) {
     final dio = ref.watch(dioProvider);
 
-    return UserMeRepository(dio, baseUrl: 'http://34.64.77.5:8080/api/user');
+    return UserMeRepository(dio, baseUrl: 'http://$ip/api/user');
   },
 );
 
@@ -30,12 +30,6 @@ abstract class UserMeRepository {
   })
   Future<UserModel> getMe();
 
-  // @GET('/point')
-  // @Headers({
-  //   'accessToken': 'true',
-  // })
-  // Future<PointModel> getPoint();
-
   @POST('/save')
   @Headers({
     'accessToken': 'true',
@@ -49,18 +43,4 @@ abstract class UserMeRepository {
   Future<PasswordChangeModel> changePassword({
     @Body() required PasswordChangeModel passwordChangeModel,
   });
-
-  // @GET('/basket')
-  // @Headers({
-  //   'accessToken' : 'true',
-  // })
-  // Future<List<BasketItemModel>> getBasket();
-
-  // @PATCH('/basket')
-  // @Headers({
-  //   'accessToken' : 'true',
-  // })
-  // Future<List<BasketItemModel>> patchBasket({
-  //   @Body() required PatchBasketBody body, //pbb가 toJson 실행되면서 body값으로 변경된다음에 api요청들어감
-  // });
 }

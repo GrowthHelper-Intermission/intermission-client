@@ -74,6 +74,9 @@ class _ResearchDetailScreenState extends ConsumerState<ResearchDetailScreen> {
     super.initState();
 
     ref.read(researchProvider.notifier).getDetail(id: widget.id);
+    // ref.read(interviewProvider.notifier).getDetail(id: widget.id);
+    // ref.read(surveyProvider.notifier).getDetail(id: widget.id);
+    // ref.read(testerProvider.notifier).getDetail(id: widget.id);
   }
 
   Future<void> _handleParticipation() async {
@@ -133,7 +136,6 @@ class _ResearchDetailScreenState extends ConsumerState<ResearchDetailScreen> {
               _buildDescription(state),
               Divider(color: Colors.grey[200], thickness: 8.0),
               _buildComment(state),
-              // _buildComment(state),
             ],
           ),
         ),
@@ -152,6 +154,7 @@ class _ResearchDetailScreenState extends ConsumerState<ResearchDetailScreen> {
     int? replyingCommentId;
 
     int getTotalCommentCount(ResearchDetailModel model) {
+
       int commentCount = model.comments.length;
       int reCommentCount = model.comments
           .map(
@@ -256,7 +259,7 @@ class _ResearchDetailScreenState extends ConsumerState<ResearchDetailScreen> {
                         if (value == 'edit') {
                           setState(() {
                             editingCommentId = comment.commentId;
-                            commentController.text = comment.content;
+                            commentController.text = comment.content!;
                           });
                         } else if (value == 'delete') {
                           notifier.deleteComment(comment.commentId.toString());
@@ -403,6 +406,7 @@ class _ResearchDetailScreenState extends ConsumerState<ResearchDetailScreen> {
                                               color: Colors.grey, fontSize: 13),
                                         ),
                                         SizedBox(width: 5),
+
                                         Text(
                                           _timeAgo(DateTime.parse(
                                               reComment.createdDate)),
@@ -417,21 +421,30 @@ class _ResearchDetailScreenState extends ConsumerState<ResearchDetailScreen> {
                                 ),
                               ),
                               PopupMenuButton<String>(
-                                onSelected: (value) {
-                                  if (value == 'edit') {
-                                    setState(() {
-                                      editingCommentId =
-                                          reComment.reCommentId; // 대댓글 ID로 변경
-                                      commentController.text =
-                                          reComment.content;
-                                    });
-                                  } else if (value == 'delete') {
-                                    // 대댓글 삭제 로직
-                                    // 현재 기능이 구현되어 있지 않으므로 코드를 추가해야 합니다.
+                                onSelected: (value) async {
+                                  switch(value) {
+                                    case 'edit':
+                                      setState(() {
+                                        editingCommentId = reComment.reCommentId;
+                                        commentController.text = reComment.content!;
+                                      });
+                                      break;
+                                    case 'delete':
+                                      try {
+                                        await ref.read(commentNotifierProvider).deleteComment(reComment.reCommentId as String);
+                                        // Optionally, refresh the list of comments or show a snackbar
+                                        ScaffoldMessenger.of(context).showSnackBar(
+                                            SnackBar(content: Text('Comment deleted successfully'))
+                                        );
+                                      } catch (error) {
+                                        ScaffoldMessenger.of(context).showSnackBar(
+                                            SnackBar(content: Text('Error deleting comment'))
+                                        );
+                                      }
+                                      break;
                                   }
                                 },
-                                itemBuilder: (BuildContext context) =>
-                                    <PopupMenuEntry<String>>[
+                                itemBuilder: (BuildContext context) => <PopupMenuEntry<String>>[
                                   const PopupMenuItem<String>(
                                     value: 'edit',
                                     child: Text('수정하기'),
@@ -441,10 +454,38 @@ class _ResearchDetailScreenState extends ConsumerState<ResearchDetailScreen> {
                                     child: Text('삭제하기'),
                                   ),
                                 ],
-                                icon: Icon(Icons.more_vert,
-                                    color: Colors.grey[500],
-                                    size: 20.0), // 아이콘 색상 및 크기 수정
-                              ),
+                                icon: Icon(Icons.more_vert, color: Colors.grey[500], size: 20.0),
+                              )
+
+                              // PopupMenuButton<String>(
+                              //   onSelected: (value) {
+                              //     if (value == 'edit') {
+                              //       setState(() {
+                              //         editingCommentId =
+                              //             reComment.reCommentId; // 대댓글 ID로 변경
+                              //         commentController.text =
+                              //             reComment.content!;
+                              //       });
+                              //     } else if (value == 'delete') {
+                              //       // 대댓글 삭제 로직
+                              //       // 현재 기능이 구현되어 있지 않으므로 코드를 추가해야 합니다.
+                              //     }
+                              //   },
+                              //   itemBuilder: (BuildContext context) =>
+                              //       <PopupMenuEntry<String>>[
+                              //     const PopupMenuItem<String>(
+                              //       value: 'edit',
+                              //       child: Text('수정하기'),
+                              //     ),
+                              //     const PopupMenuItem<String>(
+                              //       value: 'delete',
+                              //       child: Text('삭제하기'),
+                              //     ),
+                              //   ],
+                              //   icon: Icon(Icons.more_vert,
+                              //       color: Colors.grey[500],
+                              //       size: 20.0), // 아이콘 색상 및 크기 수정
+                              // ),
                             ],
                           ),
                         ],

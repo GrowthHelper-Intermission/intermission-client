@@ -12,7 +12,7 @@ final authRepositoryProvider = Provider<AuthRepository>((ref) {
 
   // return AuthRepository(baseUrl: 'http://localhost:8080/api/auth', dio: dio);
   // 34.64.77.5/api/auth/login
-  return AuthRepository(baseUrl: 'http://34.64.77.5:8080/api/auth', dio: dio);
+  return AuthRepository(baseUrl: 'http://$ip/api/auth', dio: dio);
 });
 
 class AuthRepository {

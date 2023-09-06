@@ -8,8 +8,8 @@ part of 'recomment_model.dart';
 
 ReComment _$ReCommentFromJson(Map<String, dynamic> json) => ReComment(
       reCommentId: json['reCommentId'] as int,
-      writer: json['writer'] as String,
-      content: json['content'] as String,
+      writer: json['writer'] as String?,
+      content: json['content'] as String?,
       createdDate: json['createdDate'] as String,
       isUpdate: json['isUpdate'] as String?,
     );

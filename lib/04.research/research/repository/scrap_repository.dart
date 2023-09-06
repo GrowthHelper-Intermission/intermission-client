@@ -3,6 +3,7 @@ import 'package:intermission_project/01.user/point/model/point_model.dart';
 import 'package:intermission_project/04.research/research/model/research_detail_model.dart';
 import 'package:intermission_project/04.research/research/model/research_model.dart';
 import 'package:intermission_project/04.research/research/repository/research_repository.dart';
+import 'package:intermission_project/common/const/data.dart';
 import 'package:intermission_project/common/dio/dio.dart';
 import 'package:intermission_project/common/model/cursor_pagination_model.dart';
 import 'package:intermission_project/common/model/pagination_params.dart';
@@ -21,7 +22,7 @@ part 'scrap_repository.g.dart';
 final scrapRepositoryProvider = Provider<ScrapRepository>(
       (ref) {
     final dio = ref.watch(dioProvider);
-    return ScrapRepository(dio, baseUrl: 'http://34.64.77.5:8080/api/scrap');
+    return ScrapRepository(dio, baseUrl: 'http://$ip/api/scrap');
     // 'http://localhost:8080/api/interview'
   },
 );

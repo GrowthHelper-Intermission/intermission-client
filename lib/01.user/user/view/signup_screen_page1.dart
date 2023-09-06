@@ -101,7 +101,7 @@ class _SignupScreenPage1State extends ConsumerState<SignupScreenPage1> {
       };
 
       var response = await dio.post(
-        'http://34.64.77.5:8080/api/auth/email',
+        'http://35.216.100.47:8080/api/auth/email',
         data: data,
       );
 
@@ -464,16 +464,12 @@ class _SignupScreenPage1State extends ConsumerState<SignupScreenPage1> {
                       //10개
                       state.setUserNm(nameController.text.trim());
                       state.setEmail(emailController.text.trim());
-                      state.setUserId(emailController.text.trim());
                       state.setPwd(passwordController.text.trim());
-                      state.setGenderCd(isMaleSelected == true ? "M" : "F");
+                      state.setGenderCd(isMaleSelected == true ? "남성" : "여성");
                       state.setBirthDay(birthdayController.text.trim());
                       state.setHpNum(phoneNumController.text.trim());
-                      state.setEmailVerfYn(isEmailVerified == true ? "Y" : "N");
                       state.setBankAccount(selectedBankType);
                       state.setAccountNumber(accountNumberController.text.trim());
-
-                      // final state = ref.watch(userMeProvider.notifier) as UserModel;
 
                       print(state.wedTpCd);
                       context.pushNamed(SignupScreenPage2.routeName);

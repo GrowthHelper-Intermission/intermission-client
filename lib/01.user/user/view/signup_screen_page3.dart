@@ -196,54 +196,77 @@ class _SignupScreenPage3State extends ConsumerState<SignupScreenPage3> {
                       onPressed: () async {
 
                        final state = ref.read(signupUserProvider.notifier);
-                       state.setOflIntvRwdTpCd(selectedOfflineInterviewRewardType);
-                       state.setOnlIntvRwdTpCd(selectedOnlineInterviewRewardType);
+                       state.setOflResRwdTpCd(selectedOfflineInterviewRewardType);
+                       state.setOnlResRwdTpCd(selectedOnlineInterviewRewardType);
                        state.setHobySubs(yourHobbyController.text.trim());
                        state.setRcmdUserCd(recommandNameController.text.trim());
-                       state.setIsAgreeYn( isAgree == true ? "동의함" : "동의하지 않음");
-                       state.setFinlUpdtDt(DateTime.now().toString());
-                       state.setFrstRegtDt(DateTime.now().toString());
-                       state.setJoinDay(DateTime.now().toString());
-                       state.setEmpNo("");
-                       state.setEmpYn("Y");
+                       state.setIsAgreeYn( isAgree == true ? "Y" : "N");
+
+                       // state.set(DateTime.now().toString());
+                       // state.setFrstRegtDt(DateTime.now().toString());
+                       // state.setJoinDay(DateTime.now().toString());
+                       // state.setEmpNo("");
+                       // state.setEmpYn("Y");
                        state.setDelYn("N");
 
                        final SignupUserModel newUser = SignupUserModel(
-                         userTpCd: state.userTpCd ?? "blank",
-                         empYn: state.empYn,
-                         empNo: state.empNo,
-                         intvSigunguCd: state.intvSigunguCd ?? "blank",
-                         intvSidoCd: state.intvSidoCd ?? "blank",
-                         jobGrdNm: state.jobNm,
+                         userTpCd: "개인",
+                         researchSidoCd: state.researchSidoCd ?? "blank",
+                         researchSigunguCd: state.researchSigunguCd ?? "blank",
+                         jobGrdNm: "blank",
                          jobCd: state.jobCd,
                          asignJobCd: state.asignJobCd,
                          accountNumber: state.accountNumber,
                          bankAccount: state.bankAccount,
-                         emailVerfYn: state.emailVerfYn,
                          isAgreeYn: state.isAgreeYn,
-                         rcmdUserCd: state.rcmdUserCd,
                          hobySubs: state.hobySubs,
-                         onlIntvRwdTpCd: state.onlIntvRwdTpCd,
-                         oflIntvRwdTpCd: state.oflIntvRwdTpCd,
+                         onlResRwdTpCd: state.onlResRwdTpCd,
+                         oflResRwdTpCd: state.oflResRwdTpCd,
                          petTpCd: state.petTpCd,
                          housTpCd: state.housTpCd,
                          wedTpCd: state.wedTpCd,
                          birthDay: state.birthDay,
-                         delYn: state.delYn,
+                         delYn: "N",
                          email: state.email,
                          genderCd: state.genderCd,
                          hpNum: state.hpNum,
                          mainUseOnlSvcCn: state.mainUseOnlSvcCn ?? "blank",
                          occpSidoCd: state.occpSidoCd,
                          occpSigunguCd: state.occpSigunguCd,
-                         petNm: state.petNm,
+                         petNm: "blank",
                          petYn: state.petYn,
                          pwd: state.pwd ?? "blank",
-                         userId: state.userId,
                          userNm: state.userNm,
                        );
 
-                       print(newUser.userId);
+                       print('userTpCd: ${newUser.userTpCd}');
+                       print('researchSidoCd: ${newUser.researchSidoCd}');
+                       print('researchSigunguCd: ${newUser.researchSigunguCd}');
+                       print('jobGrdNm: ${newUser.jobGrdNm}');
+                       print('jobCd: ${newUser.jobCd}');
+                       print('asignJobCd: ${newUser.asignJobCd}');
+                       print('accountNumber: ${newUser.accountNumber}');
+                       print('bankAccount: ${newUser.bankAccount}');
+                       print('isAgreeYn: ${newUser.isAgreeYn}');
+                       print('hobySubs: ${newUser.hobySubs}');
+                       print('onlResRwdTpCd: ${newUser.onlResRwdTpCd}');
+                       print('oflResRwdTpCd: ${newUser.oflResRwdTpCd}');
+                       print('petTpCd: ${newUser.petTpCd}');
+                       print('housTpCd: ${newUser.housTpCd}');
+                       print('wedTpCd: ${newUser.wedTpCd}');
+                       print('birthDay: ${newUser.birthDay}');
+                       print('delYn: ${newUser.delYn}');
+                       print('email: ${newUser.email}');
+                       print('genderCd: ${newUser.genderCd}');
+                       print('hpNum: ${newUser.hpNum}');
+                       print('mainUseOnlSvcCn: ${newUser.mainUseOnlSvcCn}');
+                       print('occpSidoCd: ${newUser.occpSidoCd}');
+                       print('occpSigunguCd: ${newUser.occpSigunguCd}');
+                       print('petNm: ${newUser.petNm}');
+                       print('petYn: ${newUser.petYn}');
+                       print('pwd: ${newUser.pwd}');
+                       print('userNm: ${newUser.userNm}');
+
 
                        try{
                          ref.read(userMeProvider.notifier).postUser(newUser);
@@ -252,8 +275,6 @@ class _SignupScreenPage3State extends ConsumerState<SignupScreenPage3> {
                          print(e);
                          print('에러');
                        }
-                       // ref.read(userMeProvider.notifier).getMe();
-                       //  context.goNamed(RootTab.routeName);
                         context.goNamed(LoginScreen.routeName);
                       },
                     ),
@@ -267,7 +288,6 @@ class _SignupScreenPage3State extends ConsumerState<SignupScreenPage3> {
     );
   }
 }
-
 class PrivacyAgreement extends StatelessWidget {
   final bool isAgree;
   final ValueChanged<bool?>

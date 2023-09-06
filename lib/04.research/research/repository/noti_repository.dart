@@ -6,6 +6,7 @@ import 'package:intermission_project/01.user/user/model/point_model.dart';
 import 'package:intermission_project/03.management/noti/model/noti_model.dart';
 import 'package:intermission_project/04.research/research/model/noti_detail_model.dart';
 import 'package:intermission_project/04.research/research/model/noti_model.dart';
+import 'package:intermission_project/common/const/data.dart';
 import 'package:intermission_project/common/dio/dio.dart';
 import 'package:intermission_project/common/model/cursor_pagination_model.dart';
 import 'package:intermission_project/common/model/pagination_params.dart';
@@ -17,7 +18,7 @@ part 'noti_repository.g.dart';
 final notiRepositoryProvider = Provider<NotiRepository>(
       (ref) {
     final dio = ref.watch(dioProvider);
-    return NotiRepository(dio, baseUrl: 'http://34.64.77.5:8080/api/noti');
+    return NotiRepository(dio, baseUrl: 'http://$ip/api/noti');
   },
 );
 

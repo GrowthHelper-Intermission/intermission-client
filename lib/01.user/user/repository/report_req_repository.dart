@@ -15,7 +15,7 @@ final reportReqRepositoryProvider = Provider<ReportReqRepository>(
     // return UserMeRepository(dio,baseUrl: 'http://$ip/user/me');
     // 'http://localhost:8080/api/user/save'
     return ReportReqRepository(dio,
-        baseUrl: 'http://34.64.77.5:8080/api/ask');
+        baseUrl: 'http://35.216.100.47:8080/api/ask');
   },
 );
 
