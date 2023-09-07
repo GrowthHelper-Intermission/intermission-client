@@ -31,6 +31,12 @@ TextStyle whiteSmallTextStyle = TextStyle(
   color: Colors.grey[400],
 );
 
+TextStyle whiteBlueTextStyle = TextStyle(
+  fontWeight: FontWeight.w700,
+  fontSize: 12.0,
+  color: SUB_BLUE_COLOR,
+);
+
 TextStyle blueSmallTextStyle = TextStyle(
   fontWeight: FontWeight.w700,
   fontSize: 13.0,
@@ -40,5 +46,5 @@ TextStyle blueSmallTextStyle = TextStyle(
 TextStyle whiteMiddleTextStyle = TextStyle(
   fontWeight: FontWeight.w700,
   fontSize: 15.0,
-  color: Colors.grey[400],
+  color: Colors.grey[800],
 );

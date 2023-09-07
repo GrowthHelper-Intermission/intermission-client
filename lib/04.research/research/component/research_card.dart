@@ -19,8 +19,6 @@ class ResearchCard extends StatefulWidget {
   final String exceptTime;
   final String researchMethTpCd;
   final String researchRewdAmt;
-  // final String isOnline; // 대면 여부
-  // final String hourlyRate; // 1시간 3만원
 
   final String isOnGoing; // 진행 여부
 
@@ -87,20 +85,19 @@ class _ResearchCardState extends State<ResearchCard> {
     TextStyle titleStyle = TextStyle(
       color: widget.isOnGoing == "Y" ? Colors.black : Colors.grey,
       fontWeight: FontWeight.w700,
-      // 여기에 다른 스타일 속성들을 추가할 수 있습니다.
+      fontSize: 14,
     );
 
     TextStyle subTitleStyle = TextStyle(
       color: widget.isOnGoing == "Y" ? Colors.black : Colors.grey,
       fontSize: 13,
-      // 여기에 다른 스타일 속성들을 추가할 수 있습니다.
     );
 
     if (daysLeft > 3) {
       displayText = 'D-$daysLeft';
       borderColor = SUB_BLUE_COLOR;
-      textColor = Colors.white;
-      backgroundColor = SUB_BLUE_COLOR;
+      textColor = SUB_BLUE_COLOR;
+      backgroundColor = Colors.white;
     } else if (daysLeft > 0) {
       displayText = 'D-$daysLeft';
       borderColor = SUB_BLUE_COLOR;
@@ -109,8 +106,8 @@ class _ResearchCardState extends State<ResearchCard> {
     } else if (daysLeft == 0) {
       displayText = 'D-day';
       borderColor = SUB_BLUE_COLOR;
-      textColor = SUB_BLUE_COLOR;
-      backgroundColor = Colors.white;
+      textColor = Colors.white;
+      backgroundColor = SUB_BLUE_COLOR;
     } else {
       displayText = '마감';
       borderColor = PRIMARY_COLOR;
@@ -145,7 +142,7 @@ class _ResearchCardState extends State<ResearchCard> {
                   Row(
                     children: [
                       Container(
-                        width: 38,
+                        width: 45,
                         height: 21,
                         decoration: BoxDecoration(
                           color: backgroundColor,
@@ -160,7 +157,7 @@ class _ResearchCardState extends State<ResearchCard> {
                             displayText,
                             style: TextStyle(
                               color: textColor,
-                              fontSize: 12.0,
+                              fontSize: 13.0,
                               fontWeight: FontWeight.w700,
                             ),
                           ),

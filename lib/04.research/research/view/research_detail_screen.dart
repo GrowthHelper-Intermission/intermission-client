@@ -43,6 +43,7 @@ class _ResearchDetailScreenState extends ConsumerState<ResearchDetailScreen> {
   // final ScrollController controller = ScrollController();
   TextEditingController commentController = TextEditingController();
 
+
   int daysLeft = 0;
 
   bool isButtonEnabled = true;
@@ -64,6 +65,7 @@ class _ResearchDetailScreenState extends ConsumerState<ResearchDetailScreen> {
         print('스크랩 완료');
         isScrapped = true;
         ref.read(researchProvider.notifier).getDetail(id: widget.id);
+        ref.read(scrapProvider.notifier).paginate(forceRefetch: true);
       });
     }
   }
@@ -100,13 +102,53 @@ class _ResearchDetailScreenState extends ConsumerState<ResearchDetailScreen> {
       return Scaffold(body: renderLoading());
     }
 
-    // `state`가 ResearchDetailModel인 경우
-    daysLeft = _getDaysLeft(state.dueDate);
+    // // `state`가 ResearchDetailModel인 경우
+    // daysLeft = _getDaysLeft(state.dueDate);
 
     isScrapped = state.isScrap == "Y" ? true : false;
 
     if (state.isJoin == "Y") {
       isButtonEnabled = false;
+    }
+
+    int _getDaysLeft() {
+      DateTime now = DateTime.now();
+      DateTime interviewDate = DateTime.parse(state.dueDate);
+      Duration difference = interviewDate.difference(now);
+      return difference.inDays + 1;
+    }
+
+    daysLeft = _getDaysLeft(); // Every time the widget is built, update the days left.
+
+    String displayText;
+    Color borderColor;
+    Color textColor;
+    Color backgroundColor;
+
+    FocusNode editCommentFocusNode = FocusNode();
+
+
+
+    if (daysLeft > 3) {
+      displayText = 'D-$daysLeft';
+      borderColor = SUB_BLUE_COLOR;
+      textColor = SUB_BLUE_COLOR;
+      backgroundColor = Colors.white;
+    } else if (daysLeft > 0) {
+      displayText = 'D-$daysLeft';
+      borderColor = SUB_BLUE_COLOR;
+      textColor = SUB_BLUE_COLOR;
+      backgroundColor = Colors.white;
+    } else if (daysLeft == 0) {
+      displayText = 'D-day';
+      borderColor = SUB_BLUE_COLOR;
+      textColor = Colors.white;
+      backgroundColor = SUB_BLUE_COLOR;
+    } else {
+      displayText = '마감';
+      borderColor = PRIMARY_COLOR;
+      textColor = Colors.white;
+      backgroundColor = PRIMARY_COLOR;
     }
 
     return Scaffold(
@@ -120,24 +162,35 @@ class _ResearchDetailScreenState extends ConsumerState<ResearchDetailScreen> {
             color: Colors.black,
             size: 20,
           ),
-          onPressed: () => context.go('/'), // 현재의 라우트를 1 단계 되돌립니다.
+          onPressed: () => context.go('/'),
         ),
       ),
       body: SingleChildScrollView(
         physics: AlwaysScrollableScrollPhysics(),
-        child: Padding(
-          padding: const EdgeInsets.fromLTRB(20, 5, 20, 20),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              _buildHeader(state),
-              _buildMainContent(state),
-              Divider(color: Colors.grey[200], thickness: 8.0),
-              _buildDescription(state),
-              Divider(color: Colors.grey[200], thickness: 8.0),
-              _buildComment(state),
-            ],
-          ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Padding(
+              padding: const EdgeInsets.fromLTRB(20, 5, 20, 10),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  _buildHeader(state,displayText,textColor,borderColor,backgroundColor),
+                  _buildMainContent(state),
+                ],
+              ),
+            ),
+            Divider(color: Colors.grey[200], thickness: 8.0),
+            Padding(
+              padding: const EdgeInsets.fromLTRB(20, 0, 20, 10),
+              child: _buildDescription(state),
+            ),
+            Divider(color: Colors.grey[200], thickness: 8.0),
+            Padding(
+              padding: const EdgeInsets.fromLTRB(20, 0, 20, 20),
+              child: _buildComment(state),
+            ),
+          ],
         ),
       ),
       bottomNavigationBar: _buildBottomButtons(state),
@@ -153,6 +206,8 @@ class _ResearchDetailScreenState extends ConsumerState<ResearchDetailScreen> {
     int? editingCommentId;
     int? replyingCommentId;
 
+    String hintText = "댓글달기";
+
     int getTotalCommentCount(ResearchDetailModel model) {
 
       int commentCount = model.comments.length;
@@ -164,8 +219,6 @@ class _ResearchDetailScreenState extends ConsumerState<ResearchDetailScreen> {
 
       return commentCount + reCommentCount;
     }
-
-
     return Column(
       children: [
         Padding(
@@ -192,8 +245,15 @@ class _ResearchDetailScreenState extends ConsumerState<ResearchDetailScreen> {
             },
             onFieldSubmitted: (text) async {
               if (commentController.text.isNotEmpty) {
-                await notifier.postComment(
-                    widget.id, SingleComment(content: commentController.text));
+                if (editingCommentId == null) {
+                  // This is a new comment
+                  await notifier.postComment(widget.id, SingleComment(content: commentController.text));
+                } else {
+                  // This is an edit
+                  await notifier.updateComment(editingCommentId.toString()!, SingleComment(content: commentController.text));
+                  editingCommentId = null;  // Reset
+                  hintText = "댓글달기";  // Reset
+                }
                 commentController.clear();
                 ref.read(researchProvider.notifier).getDetail(id: widget.id);
                 setState(() {});
@@ -201,7 +261,7 @@ class _ResearchDetailScreenState extends ConsumerState<ResearchDetailScreen> {
             },
             decoration: InputDecoration(
               contentPadding: EdgeInsets.fromLTRB(14, 12, 14, 12),
-              hintText: "댓글을 입력해 주세요",
+              hintText: "댓글을 입력하세요",
               hintStyle: TextStyle(
                 fontWeight: FontWeight.w300,
                 fontSize: 14.0,
@@ -258,15 +318,17 @@ class _ResearchDetailScreenState extends ConsumerState<ResearchDetailScreen> {
                       onSelected: (value) {
                         if (value == 'edit') {
                           setState(() {
+                            print('dkdk');
                             editingCommentId = comment.commentId;
                             commentController.text = comment.content!;
                           });
                         } else if (value == 'delete') {
                           notifier.deleteComment(comment.commentId.toString());
-                          setState(() {});
-                          ref
-                              .read(researchProvider.notifier)
-                              .getDetail(id: widget.id);
+                          setState(() {
+                            ref
+                                .read(researchProvider.notifier)
+                                .getDetail(id: widget.id);
+                          });
                         }
                       },
                       itemBuilder: (BuildContext context) =>
@@ -285,28 +347,29 @@ class _ResearchDetailScreenState extends ConsumerState<ResearchDetailScreen> {
                     ),
                   ],
                 ),
-                if (editingCommentId == comment.commentId)
-                  TextField(
-                    controller: commentController,
-                    decoration: InputDecoration(
-                      hintText: "댓글 수정",
-                      suffixIcon: IconButton(
-                        icon: Icon(Icons.save),
-                        onPressed: () async {
-                          if (commentController.text.isNotEmpty) {
-                            notifier.updateComment(comment.commentId.toString(),
-                                SingleComment(content: commentController.text));
-                            commentController.clear();
-                            editingCommentId = null;
-                            setState(() {});
-                            ref
-                                .read(researchProvider.notifier)
-                                .getDetail(id: widget.id);
-                          }
-                        },
-                      ),
-                    ),
-                  ),
+                // if (editingCommentId == comment.commentId)
+                //   TextFormField(
+                //     controller: editCommentController,
+                //     decoration: InputDecoration(
+                //       hintText: "수정할 댓글을 입력하세요",
+                //       suffixIcon: IconButton(
+                //         icon: Icon(Icons.save),
+                //         onPressed: () async {
+                //           print('h');
+                //           if (commentController.text.isNotEmpty) {
+                //             await notifier.updateComment(
+                //               comment.commentId.toString(),
+                //               SingleComment(content: commentController.text),
+                //             );
+                //             commentController.clear();
+                //             editingCommentId = null; // 수정 완료 시 초기화
+                //             setState(() {});
+                //             ref.read(researchProvider.notifier).getDetail(id: widget.id);
+                //           }
+                //         },
+                //       ),
+                //     ),
+                //   ),
                 Align(
                   alignment: Alignment.centerLeft,
                   child: TextButton(
@@ -317,21 +380,22 @@ class _ResearchDetailScreenState extends ConsumerState<ResearchDetailScreen> {
                         builder: (BuildContext context) {
                           return SingleChildScrollView(
                             padding: EdgeInsets.only(
-                              bottom: MediaQuery.of(context)
-                                  .viewInsets
-                                  .bottom, // 키보드 높이만큼의 패딩 추가
+                              bottom: MediaQuery.of(context).viewInsets.bottom,
                             ),
                             child: Container(
                               padding: EdgeInsets.all(10),
                               child: Column(
                                 mainAxisSize: MainAxisSize.min,
                                 children: [
-                                  TextField(
+                                  TextFormField(
                                     decoration: InputDecoration(
                                       hintText: "답글 내용을 입력하세요.",
                                       border: OutlineInputBorder(),
                                     ),
                                     controller: reCommentController,
+                                    onChanged: (text) {
+                                      // 필요한 경우에 사용할 수 있는 부분
+                                    },
                                   ),
                                   SizedBox(height: 10),
                                   Row(
@@ -340,21 +404,18 @@ class _ResearchDetailScreenState extends ConsumerState<ResearchDetailScreen> {
                                       TextButton(
                                         child: Text("완료"),
                                         onPressed: () async {
-                                          if (reCommentController
-                                              .text.isNotEmpty) {
+                                          if (reCommentController.text.isNotEmpty) {
                                             await notifier.postReComment(
                                               widget.id,
                                               comment.commentId.toString(),
                                               SingleComment(
-                                                  content:
-                                                      reCommentController.text),
+                                                content: reCommentController.text,
+                                              ),
                                             );
                                             reCommentController.clear();
                                             Navigator.of(context).pop();
                                             setState(() {});
-                                            ref
-                                                .read(researchProvider.notifier)
-                                                .getDetail(id: widget.id);
+                                            ref.read(researchProvider.notifier).getDetail(id: widget.id);
                                           }
                                         },
                                       ),
@@ -544,6 +605,7 @@ class _ResearchDetailScreenState extends ConsumerState<ResearchDetailScreen> {
                 ),
               ],
             ),
+
             Expanded(
               child: SimpleButton(
                 isButtonEnabled: isButtonEnabled,
@@ -557,6 +619,8 @@ class _ResearchDetailScreenState extends ConsumerState<ResearchDetailScreen> {
                         onComplete: () async {
                           await _handleParticipation();  // 콜백 내에서 참여 처리 함수 호출
                         },
+                        completionURL: 'https://docs.google.com/forms/d/e/1FAIpQLSdMOssE_VzRdeKVid0UlNDAtuxYLuN6uMVy-_zJIreNr7ZBmA/formResponse?pli=1',
+                        homeUrl: 'https://docs.google.com/forms/d/1AkYT38aaIB9ACx1C60xcbzGJxF_BHTyRebaZt2_QPsQ/viewform?edit_requested=true&pli=1',
                       ),
                     ),
                   );
@@ -583,7 +647,7 @@ class _ResearchDetailScreenState extends ConsumerState<ResearchDetailScreen> {
     }
   }
 
-  Widget _buildHeader(ResearchDetailModel state) {
+  Widget _buildHeader(ResearchDetailModel state, String displayText, Color textColor,Color borderColor, Color backgroundColor) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
@@ -595,22 +659,22 @@ class _ResearchDetailScreenState extends ConsumerState<ResearchDetailScreen> {
           ),
         ),
         Container(
-          width: 38,
+          width: 50,
           height: 21,
           decoration: BoxDecoration(
-            color: daysLeft <= 3 ? Colors.white : SUB_BLUE_COLOR,
+            color: backgroundColor,
             borderRadius: BorderRadius.circular(5),
             border: Border.all(
-              color: SUB_BLUE_COLOR,
+              color: borderColor,
               width: 1,
             ),
           ),
           child: Center(
             child: Text(
-              'D-$daysLeft',
+              displayText,
               style: TextStyle(
-                color: daysLeft <= 3 ? SUB_BLUE_COLOR : Colors.white,
-                fontSize: 12.0,
+                color: textColor,
+                fontSize: 13.0,
                 fontWeight: FontWeight.w700,
               ),
             ),
@@ -637,6 +701,7 @@ class _ResearchDetailScreenState extends ConsumerState<ResearchDetailScreen> {
             Text(state.researchRewdAmt, style: whiteSmallTextStyle),
           ],
         ),
+        SizedBox(height: 5),
         _buildInfoContainer(state),
         _buildParticipationInfo(state),
       ],
@@ -647,7 +712,7 @@ class _ResearchDetailScreenState extends ConsumerState<ResearchDetailScreen> {
     return Center(
       child: Container(
         width: 355,
-        height: 110,
+        height: 130,
         decoration: BoxDecoration(
           border: Border.all(
             width: 1.0,
@@ -659,9 +724,10 @@ class _ResearchDetailScreenState extends ConsumerState<ResearchDetailScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            _buildRowInfo('예상 소요시간', '${state.exceptTime}시간'),
+            _buildRowInfo('소요시간', '${state.exceptTime}시간'),
             _buildRowInfo('마감일', state.dueDate),
-            _buildRowInfo('최소 참여 요건', '${state.minAge}'),
+            _buildRowInfo('대상', state.minAge),
+            _buildRowInfo('모집 인원', state.researchEntryCnt),
           ],
         ),
       ),
@@ -669,8 +735,8 @@ class _ResearchDetailScreenState extends ConsumerState<ResearchDetailScreen> {
   }
 
   Widget _buildRowInfo(String title, String value) {
-    const double titleWidth = 80.0; // 원하는 title의 넓이를 지정합니다.
-    const double valueWidth = 200.0; // 원하는 value의 넓이를 지정합니다.
+    const double titleWidth = 80.0;
+    const double valueWidth = 220.0;
 
     return Padding(
       padding: const EdgeInsets.fromLTRB(8, 8, 20, 5),
@@ -678,14 +744,14 @@ class _ResearchDetailScreenState extends ConsumerState<ResearchDetailScreen> {
         children: [
           Container(
             width: titleWidth,
-            child: Text(title, style: whiteSmallTextStyle),
+            child: Text(title, style: whiteBlueTextStyle),
           ),
           Expanded(
               child: SizedBox.shrink()), // to push the next text to the end
           Container(
             width: valueWidth,
             child: Text(value,
-                style: TextStyle(fontWeight: FontWeight.w400, fontSize: 12)),
+                style: TextStyle(fontSize: 12)),
           ),
         ],
       ),
@@ -694,7 +760,7 @@ class _ResearchDetailScreenState extends ConsumerState<ResearchDetailScreen> {
 
   Widget _buildParticipationInfo(ResearchDetailModel state) {
     return Padding(
-      padding: const EdgeInsets.all(15.0),
+      padding: const EdgeInsets.symmetric(vertical: 12),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
@@ -736,12 +802,16 @@ class _ResearchDetailScreenState extends ConsumerState<ResearchDetailScreen> {
 
   Widget _buildDescription(ResearchDetailModel state) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 20),
+      padding: const EdgeInsets.symmetric(horizontal: 10),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text('설명'),
-          Text(state.detail),
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 10),
+            child: Text('설명',style: TextStyle(fontWeight: FontWeight.w700),),
+          ),
+          SizedBox(height: 10,),
+          Text(state.detail,style: TextStyle(fontSize: 12.5, fontWeight: FontWeight.w500),),
         ],
       ),
     );
@@ -769,12 +839,12 @@ class _ResearchDetailScreenState extends ConsumerState<ResearchDetailScreen> {
       ),
       child: Column(
         children: List.generate(
-          3,
+          5,
           (index) => Padding(
             padding: const EdgeInsets.only(bottom: 32.0),
             child: SkeletonParagraph(
               style: SkeletonParagraphStyle(
-                lines: 3,
+                lines: 4,
                 padding: EdgeInsets.zero,
               ),
             ),
