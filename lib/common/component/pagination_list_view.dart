@@ -46,20 +46,20 @@ class _PaginationListViewState<T extends IModelWithId>
       controller: controller,
       provider: ref.read(widget.provider.notifier),
     );
-    if(controller.position.atEdge && controller.position.pixels != 0) {
-      _showLastDataSnackBar();
-    }
+    // if(controller.position.atEdge && controller.position.pixels != 0) {
+    //   _showLastDataSnackBar();
+    // }
   }
 
 
-  void _showLastDataSnackBar() {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text("마지막 데이터입니다!"),
-        duration: Duration(seconds: 1),
-      ),
-    );
-  }
+  // void _showLastDataSnackBar() {
+  //   ScaffoldMessenger.of(context).showSnackBar(
+  //     SnackBar(
+  //       content: Text("마지막 데이터입니다!"),
+  //       duration: Duration(seconds: 1),
+  //     ),
+  //   );
+  // }
 
   @override
   void dispose() {
@@ -147,47 +147,5 @@ class _PaginationListViewState<T extends IModelWithId>
       ),
     );
 
-    // return RefreshIndicator(
-    //   onRefresh: () async {
-    //     ref.read(widget.provider.notifier).paginate(forceRefetch: true);
-    //   },
-    //   child: ListView.separated(
-    //     physics: AlwaysScrollableScrollPhysics(),
-    //     controller: controller,
-    //     padding: const EdgeInsets.only(top: 10.0), // 여기서 패딩을 추가
-    //     itemCount: cp.data.length + 1,
-    //     itemBuilder: (_, index) {
-    //       if (index == cp.data.length) {
-    //         return Padding(
-    //             padding:
-    //                 const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-    //             child: Center(
-    //               //상태가 CursorPaginationFetchingMore 아니라면
-    //               // cp가 CursorPagination이고 추가로 데이터가 더 있을 경우까지 판단
-    //               //cp가 CursorPaginationFetchingMore인 경우에는
-    //               // 먼저 CircularProgressIndicator 표시후
-    //               //hasMore체크했는데 False라면? 마지막데이터로
-    //               child: cp is! CursorPaginationFetchingMore
-    //                   ? (cp is CursorPagination && cp.meta.hasMore
-    //                       ? CircularProgressIndicator()
-    //                       : Dialog(child: Text('마지막 데이터입니다 ')))
-    //                   : CircularProgressIndicator(),
-    //             ));
-    //       }
-    //       print(index);
-    //       final pItem = cp.data[index];
-    //       return widget.itemBuilder(
-    //         context,
-    //         index,
-    //         pItem,
-    //       );
-    //     },
-    //     separatorBuilder: (_, index) {
-    //       return SizedBox(
-    //         height: 12,
-    //       );
-    //     },
-    //   ),
-    // );
   }
 }

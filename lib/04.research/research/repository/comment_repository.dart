@@ -43,19 +43,7 @@ abstract class CommentRepository {
       @Path('researchId') String researchId,
       @Body() SingleComment comment,
       );
-
-//대댓글 작성하기
-  @POST('/{researchId}/{commentId}')
-  @Headers({
-    'accessToken': 'true',
-  })
-  Future<String> postReComment(
-      @Path('researchId') String researchId,
-      @Path('commentId') String commentId,
-      @Body() SingleComment reComment,
-      );
-
-//댓글 수정하기
+  //댓글 수정하기
   @PATCH('/{commentId}')
   @Headers({
     'accessToken': 'true',
@@ -71,5 +59,30 @@ abstract class CommentRepository {
     'accessToken': 'true',
   })
   Future<String> deleteComment(@Path('commentId') String commentId);
+
+
+//대댓글 작성하기
+  @POST('/{researchId}/{commentId}')
+  @Headers({
+    'accessToken': 'true',
+  })
+  Future<String> postReComment(
+      @Path('researchId') String researchId,
+      @Path('commentId') String commentId,
+      @Body() SingleComment reComment,
+      );
+
+  @PATCH('/{researchId}/{commentId}')
+  Future<String> updateReComment(
+      @Path('recommentId') String recommentId,
+      @Body() SingleComment updatedComment,
+      );
+
+  //대댓글 삭제하기
+  @DELETE('/{researchId}/{commentId}')
+  @Headers({
+    'accessToken': 'true',
+  })
+  Future<String> deleteReComment(@Path('recommentId') String recommentId);
 
 }
