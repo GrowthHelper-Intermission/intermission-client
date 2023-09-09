@@ -21,7 +21,6 @@ class ResearchDetailModel extends ResearchModel{
 
 
   ResearchDetailModel({
-    // required this.isJoin,
     required super.id,
     required super.mainTitle,
     required super.subTitle,
@@ -30,6 +29,7 @@ class ResearchDetailModel extends ResearchModel{
     required super.researchMethTpCd,
     required super.researchRewdAmt,
     required super.isOnGoing,
+    required super.isBlock,
     required this.detail,
     required this.researchType,
     required this.minAge,

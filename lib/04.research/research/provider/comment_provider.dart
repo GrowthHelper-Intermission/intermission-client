@@ -79,4 +79,14 @@ class CommentNotifier extends ChangeNotifier {
       throw error;
     }
   }
+
+  Future<String> reportComment(String commentId) async{
+    try{
+      return await _repository.reportComment(commentId);
+    }catch(error){
+      print('Error deleting re-comment: $error');
+      throw error;
+    }
+  }
+
 }

@@ -12,6 +12,7 @@ ReComment _$ReCommentFromJson(Map<String, dynamic> json) => ReComment(
       content: json['content'] as String?,
       createdDate: json['createdDate'] as String,
       isUpdate: json['isUpdate'] as String?,
+      isMyComment: json['isMyComment'] as String?,
     );
 
 Map<String, dynamic> _$ReCommentToJson(ReComment instance) => <String, dynamic>{
@@ -20,4 +21,5 @@ Map<String, dynamic> _$ReCommentToJson(ReComment instance) => <String, dynamic>{
       'content': instance.content,
       'createdDate': instance.createdDate,
       'isUpdate': instance.isUpdate,
+      'isMyComment': instance.isMyComment,
     };

@@ -15,6 +15,7 @@ Comment _$CommentFromJson(Map<String, dynamic> json) => Comment(
       reComments: (json['reComments'] as List<dynamic>)
           .map((e) => ReComment.fromJson(e as Map<String, dynamic>))
           .toList(),
+      isMyComment: json['isMyComment'] as String?,
     );
 
 Map<String, dynamic> _$CommentToJson(Comment instance) => <String, dynamic>{
@@ -23,5 +24,6 @@ Map<String, dynamic> _$CommentToJson(Comment instance) => <String, dynamic>{
       'content': instance.content,
       'createdDate': instance.createdDate,
       'isUpdate': instance.isUpdate,
+      'isMyComment': instance.isMyComment,
       'reComments': instance.reComments,
     };

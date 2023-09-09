@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intermission_project/04.research/research/model/research_detail_model.dart';
 import 'package:intermission_project/04.research/research/model/research_model.dart';
+import 'package:intermission_project/04.research/research/model/research_report_model.dart';
 import 'package:intermission_project/04.research/research/model/single_comment.dart';
 import 'package:intermission_project/04.research/research/provider/comment_provider.dart';
 import 'package:intermission_project/04.research/research/provider/research_provider.dart';
@@ -43,7 +44,6 @@ class _ResearchDetailScreenState extends ConsumerState<ResearchDetailScreen> {
   // final ScrollController controller = ScrollController();
   TextEditingController commentController = TextEditingController();
 
-
   int daysLeft = 0;
 
   bool isButtonEnabled = true;
@@ -76,9 +76,6 @@ class _ResearchDetailScreenState extends ConsumerState<ResearchDetailScreen> {
     super.initState();
 
     ref.read(researchProvider.notifier).getDetail(id: widget.id);
-    // ref.read(interviewProvider.notifier).getDetail(id: widget.id);
-    // ref.read(surveyProvider.notifier).getDetail(id: widget.id);
-    // ref.read(testerProvider.notifier).getDetail(id: widget.id);
   }
 
   Future<void> _handleParticipation() async {
@@ -93,6 +90,7 @@ class _ResearchDetailScreenState extends ConsumerState<ResearchDetailScreen> {
       });
     }
   }
+
   @override
   Widget build(BuildContext context) {
     final state = ref.watch(researchDetailProvider(widget.id));
@@ -101,9 +99,6 @@ class _ResearchDetailScreenState extends ConsumerState<ResearchDetailScreen> {
     if (state == null || state is! ResearchDetailModel) {
       return Scaffold(body: renderLoading());
     }
-
-    // // `state`가 ResearchDetailModel인 경우
-    // daysLeft = _getDaysLeft(state.dueDate);
 
     isScrapped = state.isScrap == "Y" ? true : false;
 
@@ -118,7 +113,8 @@ class _ResearchDetailScreenState extends ConsumerState<ResearchDetailScreen> {
       return difference.inDays + 1;
     }
 
-    daysLeft = _getDaysLeft(); // Every time the widget is built, update the days left.
+    daysLeft =
+        _getDaysLeft(); // Every time the widget is built, update the days left.
 
     String displayText;
     Color borderColor;
@@ -126,8 +122,6 @@ class _ResearchDetailScreenState extends ConsumerState<ResearchDetailScreen> {
     Color backgroundColor;
 
     FocusNode editCommentFocusNode = FocusNode();
-
-
 
     if (daysLeft > 3) {
       displayText = 'D-$daysLeft';
@@ -164,6 +158,43 @@ class _ResearchDetailScreenState extends ConsumerState<ResearchDetailScreen> {
           ),
           onPressed: () => context.go('/'),
         ),
+        actions: [
+          IconButton(
+            icon: Icon(
+              Icons.share,
+              color: Colors.black,
+            ),
+            onPressed: () {
+              // 공유 기능 구현 부분
+            },
+          ),
+          PopupMenuButton<String>(
+            onSelected: (value) {
+              // 선택된 메뉴 아이템에 따른 로직 구현
+              if (value == 'report') {
+                try {
+                  ref.read(researchProvider.notifier).reportResearchNow(id: widget.id.toString(), content: 'lets get it!');
+                  print(widget.id);
+                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('리서치 게시물이 신고되었습니다.')));
+                } catch (error) {
+                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('댓글 신고 중 오류가 발생했습니다.')));
+                }
+              }
+              // 기타 메뉴 아이템에 대한 로직 추가 가능
+            },
+            itemBuilder: (BuildContext context) => <PopupMenuEntry<String>>[
+              const PopupMenuItem<String>(
+                value: 'report',
+                child: Text('신고하기'),
+              ),
+              // 필요하다면 여기에 다른 메뉴 아이템 추가 가능
+            ],
+            icon: Icon(
+              Icons.more_vert,
+              color: Colors.black,
+            ),
+          ),
+        ],
       ),
       body: SingleChildScrollView(
         physics: AlwaysScrollableScrollPhysics(),
@@ -175,7 +206,8 @@ class _ResearchDetailScreenState extends ConsumerState<ResearchDetailScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  _buildHeader(state,displayText,textColor,borderColor,backgroundColor),
+                  _buildHeader(state, displayText, textColor, borderColor,
+                      backgroundColor),
                   _buildMainContent(state),
                 ],
               ),
@@ -204,21 +236,19 @@ class _ResearchDetailScreenState extends ConsumerState<ResearchDetailScreen> {
     final TextEditingController editCommentController = TextEditingController();
 
     int? editingCommentId;
-    int? replyingCommentId;
 
     String hintText = "댓글달기";
 
     int getTotalCommentCount(ResearchDetailModel model) {
-
       int commentCount = model.comments.length;
       int reCommentCount = model.comments
           .map(
             (comment) => comment.reComments?.length ?? 0,
-      )
-          .fold(0, (a, b) => a + b);  // reduce 대신 fold를 사용하여 초기값을 지정
-
+          )
+          .fold(0, (a, b) => a + b); // reduce 대신 fold를 사용하여 초기값을 지정
       return commentCount + reCommentCount;
     }
+
     return Column(
       children: [
         Padding(
@@ -228,8 +258,13 @@ class _ResearchDetailScreenState extends ConsumerState<ResearchDetailScreen> {
               Text("댓글",
                   style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
               SizedBox(width: 8),
-              Text("${getTotalCommentCount(state)}개",
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16)),
+              Text(
+                "${getTotalCommentCount(state)}개",
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 16,
+                ),
+              ),
             ],
           ),
         ),
@@ -247,12 +282,14 @@ class _ResearchDetailScreenState extends ConsumerState<ResearchDetailScreen> {
               if (commentController.text.isNotEmpty) {
                 if (editingCommentId == null) {
                   // This is a new comment
-                  await notifier.postComment(widget.id, SingleComment(content: commentController.text));
+                  await notifier.postComment(widget.id,
+                      SingleComment(content: commentController.text));
                 } else {
                   // This is an edit
-                  await notifier.updateComment(editingCommentId.toString()!, SingleComment(content: commentController.text));
-                  editingCommentId = null;  // Reset
-                  hintText = "댓글달기";  // Reset
+                  await notifier.updateComment(editingCommentId.toString()!,
+                      SingleComment(content: commentController.text));
+                  editingCommentId = null; // Reset
+                  hintText = "댓글달기"; // Reset
                 }
                 commentController.clear();
                 ref.read(researchProvider.notifier).getDetail(id: widget.id);
@@ -316,60 +353,50 @@ class _ResearchDetailScreenState extends ConsumerState<ResearchDetailScreen> {
                     ),
                     PopupMenuButton<String>(
                       onSelected: (value) {
-                        if (value == 'edit') {
-                          setState(() {
-                            print('dkdk');
-                            editingCommentId = comment.commentId;
-                            commentController.text = comment.content!;
-                          });
-                        } else if (value == 'delete') {
+                        if (value == 'delete') {
                           notifier.deleteComment(comment.commentId.toString());
                           setState(() {
                             ref
                                 .read(researchProvider.notifier)
                                 .getDetail(id: widget.id);
                           });
+                        } else if (value == 'report') {
+                          try {
+                            notifier
+                                .reportComment(comment.commentId.toString());
+                            ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(content: Text('댓글이 신고되었습니다.')));
+                          } catch (error) {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(content: Text('댓글 신고 중 오류가 발생했습니다.')));
+                          }
                         }
                       },
-                      itemBuilder: (BuildContext context) =>
-                          <PopupMenuEntry<String>>[
-                        const PopupMenuItem<String>(
-                          value: 'edit',
-                          child: Text('수정하기'),
-                        ),
-                        const PopupMenuItem<String>(
-                          value: 'delete',
-                          child: Text('삭제하기'),
-                        ),
-                      ],
-                      icon: Icon(Icons.more_vert,
-                          color: Colors.grey[500], size: 20.0),
+                      itemBuilder: (BuildContext context) {
+                        if (comment.isMyComment == 'Y') {
+                          return <PopupMenuEntry<String>>[
+                            const PopupMenuItem<String>(
+                              value: 'delete',
+                              child: Text('삭제하기'),
+                            ),
+                          ];
+                        } else {
+                          return <PopupMenuEntry<String>>[
+                            const PopupMenuItem<String>(
+                              value: 'report',
+                              child: Text('신고하기'),
+                            ),
+                          ];
+                        }
+                      },
+                      icon: Icon(
+                        Icons.more_vert,
+                        color: Colors.grey[500],
+                        size: 20.0,
+                      ),
                     ),
                   ],
                 ),
-                // if (editingCommentId == comment.commentId)
-                //   TextFormField(
-                //     controller: editCommentController,
-                //     decoration: InputDecoration(
-                //       hintText: "수정할 댓글을 입력하세요",
-                //       suffixIcon: IconButton(
-                //         icon: Icon(Icons.save),
-                //         onPressed: () async {
-                //           print('h');
-                //           if (commentController.text.isNotEmpty) {
-                //             await notifier.updateComment(
-                //               comment.commentId.toString(),
-                //               SingleComment(content: commentController.text),
-                //             );
-                //             commentController.clear();
-                //             editingCommentId = null; // 수정 완료 시 초기화
-                //             setState(() {});
-                //             ref.read(researchProvider.notifier).getDetail(id: widget.id);
-                //           }
-                //         },
-                //       ),
-                //     ),
-                //   ),
                 Align(
                   alignment: Alignment.centerLeft,
                   child: TextButton(
@@ -404,18 +431,22 @@ class _ResearchDetailScreenState extends ConsumerState<ResearchDetailScreen> {
                                       TextButton(
                                         child: Text("완료"),
                                         onPressed: () async {
-                                          if (reCommentController.text.isNotEmpty) {
+                                          if (reCommentController
+                                              .text.isNotEmpty) {
                                             await notifier.postReComment(
                                               widget.id,
                                               comment.commentId.toString(),
                                               SingleComment(
-                                                content: reCommentController.text,
+                                                content:
+                                                    reCommentController.text,
                                               ),
                                             );
                                             reCommentController.clear();
                                             Navigator.of(context).pop();
                                             setState(() {});
-                                            ref.read(researchProvider.notifier).getDetail(id: widget.id);
+                                            ref
+                                                .read(researchProvider.notifier)
+                                                .getDetail(id: widget.id);
                                           }
                                         },
                                       ),
@@ -467,10 +498,11 @@ class _ResearchDetailScreenState extends ConsumerState<ResearchDetailScreen> {
                                               color: Colors.grey, fontSize: 13),
                                         ),
                                         SizedBox(width: 5),
-
                                         Text(
-                                          _timeAgo(DateTime.parse(
-                                              reComment.createdDate)),
+                                          _timeAgo(
+                                            DateTime.parse(
+                                                reComment.createdDate),
+                                          ),
                                           style: TextStyle(
                                               color: Colors.grey, fontSize: 13),
                                         ),
@@ -483,70 +515,62 @@ class _ResearchDetailScreenState extends ConsumerState<ResearchDetailScreen> {
                               ),
                               PopupMenuButton<String>(
                                 onSelected: (value) async {
-                                  switch(value) {
-                                    case 'edit':
-                                      setState(() {
-                                        editingCommentId = reComment.reCommentId;
-                                        commentController.text = reComment.content!;
-                                      });
-                                      break;
-                                    case 'delete':
-                                      try {
-                                        await ref.read(commentNotifierProvider).deleteComment(reComment.reCommentId as String);
-                                        // Optionally, refresh the list of comments or show a snackbar
-                                        ScaffoldMessenger.of(context).showSnackBar(
-                                            SnackBar(content: Text('Comment deleted successfully'))
-                                        );
-                                      } catch (error) {
-                                        ScaffoldMessenger.of(context).showSnackBar(
-                                            SnackBar(content: Text('Error deleting comment'))
-                                        );
-                                      }
-                                      break;
+                                  if (value == 'delete') {
+                                    try {
+                                      await ref
+                                          .read(commentNotifierProvider)
+                                          .deleteComment(
+                                              reComment.reCommentId as String);
+                                      ScaffoldMessenger.of(context)
+                                          .showSnackBar(SnackBar(
+                                              content: Text(
+                                                  'Comment deleted successfully')));
+                                    } catch (error) {
+                                      ScaffoldMessenger.of(context)
+                                          .showSnackBar(SnackBar(
+                                              content: Text(
+                                                  'Error deleting comment')));
+                                    }
+                                  } else if (value == 'report') {
+                                    try {
+                                      await ref
+                                          .read(commentNotifierProvider)
+                                          .reportComment(
+                                              reComment.reCommentId.toString());
+                                      ScaffoldMessenger.of(context)
+                                          .showSnackBar(SnackBar(
+                                              content: Text('대댓글이 신고되었습니다.')));
+                                    } catch (error) {
+                                      ScaffoldMessenger.of(context)
+                                          .showSnackBar(SnackBar(
+                                              content: Text(
+                                                  '대댓글 신고 중 오류가 발생했습니다.')));
+                                    }
                                   }
                                 },
-                                itemBuilder: (BuildContext context) => <PopupMenuEntry<String>>[
-                                  const PopupMenuItem<String>(
-                                    value: 'edit',
-                                    child: Text('수정하기'),
-                                  ),
-                                  const PopupMenuItem<String>(
-                                    value: 'delete',
-                                    child: Text('삭제하기'),
-                                  ),
-                                ],
-                                icon: Icon(Icons.more_vert, color: Colors.grey[500], size: 20.0),
-                              )
-
-                              // PopupMenuButton<String>(
-                              //   onSelected: (value) {
-                              //     if (value == 'edit') {
-                              //       setState(() {
-                              //         editingCommentId =
-                              //             reComment.reCommentId; // 대댓글 ID로 변경
-                              //         commentController.text =
-                              //             reComment.content!;
-                              //       });
-                              //     } else if (value == 'delete') {
-                              //       // 대댓글 삭제 로직
-                              //       // 현재 기능이 구현되어 있지 않으므로 코드를 추가해야 합니다.
-                              //     }
-                              //   },
-                              //   itemBuilder: (BuildContext context) =>
-                              //       <PopupMenuEntry<String>>[
-                              //     const PopupMenuItem<String>(
-                              //       value: 'edit',
-                              //       child: Text('수정하기'),
-                              //     ),
-                              //     const PopupMenuItem<String>(
-                              //       value: 'delete',
-                              //       child: Text('삭제하기'),
-                              //     ),
-                              //   ],
-                              //   icon: Icon(Icons.more_vert,
-                              //       color: Colors.grey[500],
-                              //       size: 20.0), // 아이콘 색상 및 크기 수정
-                              // ),
+                                itemBuilder: (BuildContext context) {
+                                  if (reComment.isMyComment == 'Y') {
+                                    return <PopupMenuEntry<String>>[
+                                      const PopupMenuItem<String>(
+                                        value: 'delete',
+                                        child: Text('삭제하기'),
+                                      ),
+                                    ];
+                                  } else {
+                                    return <PopupMenuEntry<String>>[
+                                      const PopupMenuItem<String>(
+                                        value: 'report',
+                                        child: Text('신고하기'),
+                                      ),
+                                    ];
+                                  }
+                                },
+                                icon: Icon(
+                                  Icons.more_vert,
+                                  color: Colors.grey[500],
+                                  size: 20.0,
+                                ),
+                              ),
                             ],
                           ),
                         ],
@@ -605,26 +629,27 @@ class _ResearchDetailScreenState extends ConsumerState<ResearchDetailScreen> {
                 ),
               ],
             ),
-
             Expanded(
               child: SimpleButton(
                 isButtonEnabled: isButtonEnabled,
                 onPressed: isButtonEnabled
                     ? () async {
-                  // await _handleParticipation();
-                  await Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => GoogleFormWebView(
-                        onComplete: () async {
-                          await _handleParticipation();  // 콜백 내에서 참여 처리 함수 호출
-                        },
-                        completionURL: 'https://docs.google.com/forms/d/e/1FAIpQLSdMOssE_VzRdeKVid0UlNDAtuxYLuN6uMVy-_zJIreNr7ZBmA/formResponse?pli=1',
-                        homeUrl: 'https://docs.google.com/forms/d/1AkYT38aaIB9ACx1C60xcbzGJxF_BHTyRebaZt2_QPsQ/viewform?edit_requested=true&pli=1',
-                      ),
-                    ),
-                  );
-                }
+                        // await _handleParticipation();
+                        await Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => GoogleFormWebView(
+                              onComplete: () async {
+                                await _handleParticipation(); // 콜백 내에서 참여 처리 함수 호출
+                              },
+                              completionURL:
+                                  'https://docs.google.com/forms/d/e/1FAIpQLSdMOssE_VzRdeKVid0UlNDAtuxYLuN6uMVy-_zJIreNr7ZBmA/formResponse?pli=1',
+                              homeUrl:
+                                  'https://docs.google.com/forms/d/1AkYT38aaIB9ACx1C60xcbzGJxF_BHTyRebaZt2_QPsQ/viewform?edit_requested=true&pli=1',
+                            ),
+                          ),
+                        );
+                      }
                     : null, // 비활성화 상태일 때 null
                 buttonName: isButtonEnabled ? '참여하기' : '참여완료',
               ),
@@ -647,7 +672,8 @@ class _ResearchDetailScreenState extends ConsumerState<ResearchDetailScreen> {
     }
   }
 
-  Widget _buildHeader(ResearchDetailModel state, String displayText, Color textColor,Color borderColor, Color backgroundColor) {
+  Widget _buildHeader(ResearchDetailModel state, String displayText,
+      Color textColor, Color borderColor, Color backgroundColor) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
@@ -750,8 +776,7 @@ class _ResearchDetailScreenState extends ConsumerState<ResearchDetailScreen> {
               child: SizedBox.shrink()), // to push the next text to the end
           Container(
             width: valueWidth,
-            child: Text(value,
-                style: TextStyle(fontSize: 12)),
+            child: Text(value, style: TextStyle(fontSize: 12)),
           ),
         ],
       ),
@@ -808,10 +833,18 @@ class _ResearchDetailScreenState extends ConsumerState<ResearchDetailScreen> {
         children: [
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 10),
-            child: Text('설명',style: TextStyle(fontWeight: FontWeight.w700),),
+            child: Text(
+              '설명',
+              style: TextStyle(fontWeight: FontWeight.w700),
+            ),
           ),
-          SizedBox(height: 10,),
-          Text(state.detail,style: TextStyle(fontSize: 12.5, fontWeight: FontWeight.w500),),
+          SizedBox(
+            height: 10,
+          ),
+          Text(
+            state.detail,
+            style: TextStyle(fontSize: 12.5, fontWeight: FontWeight.w500),
+          ),
         ],
       ),
     );

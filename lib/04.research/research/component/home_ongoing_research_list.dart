@@ -23,14 +23,8 @@ class OngoingResearchList extends ConsumerWidget {
       );
     }
 
-
-    // 최신 데이터 순으로 인터뷰 목록을 정렬
-    ongoingInterviews.sort((a, b) => b.dueDate.compareTo(a.dueDate));
-
-    print(ongoingInterviews);
-
     final int itemCount =
-        (ongoingInterviews.length > 3) ? 3 : ongoingInterviews.length;
+    (ongoingInterviews.length > 3) ? 3 : ongoingInterviews.length;
 
     return Expanded(
       child: ListView.builder(

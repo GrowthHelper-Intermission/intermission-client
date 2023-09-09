@@ -174,7 +174,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        '진행 중인 인터뷰',
+                        '진행 중인 리서치',
                         style:
                         TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
                       ),
