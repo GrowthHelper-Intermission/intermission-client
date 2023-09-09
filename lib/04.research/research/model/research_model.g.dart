@@ -16,6 +16,7 @@ ResearchModel _$ResearchModelFromJson(Map<String, dynamic> json) =>
       researchMethTpCd: json['researchMethTpCd'] as String,
       researchRewdAmt: json['researchRewdAmt'] as String,
       isOnGoing: json['isOnGoing'] as String,
+      isBlock: json['isBlock'] as String,
     );
 
 Map<String, dynamic> _$ResearchModelToJson(ResearchModel instance) =>
@@ -28,4 +29,5 @@ Map<String, dynamic> _$ResearchModelToJson(ResearchModel instance) =>
       'researchMethTpCd': instance.researchMethTpCd,
       'researchRewdAmt': instance.researchRewdAmt,
       'isOnGoing': instance.isOnGoing,
+      'isBlock': instance.isBlock,
     };

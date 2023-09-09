@@ -41,173 +41,174 @@ class MyPageScreen extends ConsumerWidget {
           title: 'My PAGE',
         ),
         backgroundColor: Colors.white,
-        body: Column(
-          children: [
-            Container(
-              child: Column(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 10),
-                    child: SizedBox(
-                      width: 80,
-                      height: 80,
-                      child: Image.asset('assets/img/userColor.png'),
+        body: SingleChildScrollView(
+          child: Column(
+            children: [
+              Container(
+                child: Column(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 10),
+                      child: SizedBox(
+                        width: 80,
+                        height: 80,
+                        child: Image.asset('assets/img/userColor.png'),
+                      ),
                     ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 10),
-                    child: SizedBox(
-                      child: Center(
-                        child: Text(
-                          user!.userNm!,
-                          style: TextStyle(
-                            fontSize: 16,
-                            color: Colors.black,
-                            fontWeight: FontWeight.w700,
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 10),
+                      child: SizedBox(
+                        child: Center(
+                          child: Text(
+                            user!.userNm!,
+                            style: TextStyle(
+                              fontSize: 16,
+                              color: Colors.black,
+                              fontWeight: FontWeight.w700,
+                            ),
                           ),
                         ),
                       ),
                     ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 10),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: [
-                        InkWell(
-                          onTap: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) =>
-                                    ParticipatedResearchScreen(),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 10),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: [
+                          InkWell(
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) =>
+                                      ParticipatedResearchScreen(),
+                                ),
+                              );
+                            },
+                            child: SizedBox(
+                              width: 85,
+                              height: 80,
+                              child: Column(
+                                children: [
+                                  Image.asset(
+                                    'assets/tabimg/mypage/interview.png',
+                                    width: 40,
+                                    height: 40,
+                                    color: Colors.grey[800],
+                                  ),
+                                  SizedBox(
+                                    height: 10,
+                                  ),
+                                  Text('참여한 리서치'),
+                                ],
                               ),
-                            );
-                          },
-                          child: SizedBox(
-                            width: 80,
-                            height: 80,
-                            child: Column(
-                              children: [
-                                Image.asset(
-                                  'assets/tabimg/mypage/interview.png',
-                                  width: 40,
-                                  height: 40,
-                                  color: Colors.grey[800],
-                                ),
-                                SizedBox(
-                                  height: 10,
-                                ),
-                                Text('참여한 리서치'),
-                              ],
                             ),
                           ),
-                        ),
-                        InkWell(
-                          onTap: () {
-                            // 스크랩 클릭 이벤트를 처리하세요.랩
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => ScrapedResearchScreen(),
+                          InkWell(
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => ScrapedResearchScreen(),
+                                ),
+                              );
+                            },
+                            child: SizedBox(
+                              width: 80,
+                              height: 80,
+                              child: Column(
+                                children: [
+                                  Image.asset(
+                                    'assets/tabimg/mypage/scrap.png',
+                                    width: 40,
+                                    height: 40,
+                                    color: Colors.grey[800],
+                                  ),
+                                  SizedBox(
+                                    height: 10,
+                                  ),
+                                  Text('스크랩'),
+                                ],
                               ),
-                            );
-                          },
-                          child: SizedBox(
-                            width: 80,
-                            height: 80,
-                            child: Column(
-                              children: [
-                                Image.asset(
-                                  'assets/tabimg/mypage/scrap.png',
-                                  width: 40,
-                                  height: 40,
-                                  color: Colors.grey[800],
-                                ),
-                                SizedBox(
-                                  height: 10,
-                                ),
-                                Text('스크랩'),
-                              ],
                             ),
                           ),
-                        ),
-                        InkWell(
-                          onTap: () {
-                            tabController
-                                .animateTo(1); // MatchingScreen이 있는 인덱스로 탭 이동
-                          },
-                          child: SizedBox(
-                            width: 80,
-                            height: 80,
-                            child: Column(
-                              children: [
-                                Image.asset(
-                                  'assets/tabimg/mypage/HandHeartBlack.png',
-                                  width: 40,
-                                  height: 40,
-                                  color: Colors.grey[800],
-                                ),
-                                SizedBox(
-                                  height: 10,
-                                ),
-                                Text('매칭 요청'),
-                              ],
+                          InkWell(
+                            onTap: () {
+                              tabController
+                                  .animateTo(1); // MatchingScreen이 있는 인덱스로 탭 이동
+                            },
+                            child: SizedBox(
+                              width: 80,
+                              height: 80,
+                              child: Column(
+                                children: [
+                                  Image.asset(
+                                    'assets/tabimg/mypage/HandHeartBlack.png',
+                                    width: 40,
+                                    height: 40,
+                                    color: Colors.grey[800],
+                                  ),
+                                  SizedBox(
+                                    height: 10,
+                                  ),
+                                  Text('매칭 요청'),
+                                ],
+                              ),
                             ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
-            ),
-            Divider(color: Colors.grey[200], thickness: 12.0),
-            Container(
-              child: Column(
-                children: [
-                  SettingComponent(
-                    title: '포인트 적립 내역',
-                    otherScreen: PointCount(),
-                    icon: 'assets/tabimg/mypage/pointCount.png',
-                  ),
-                  //Divider(color: Colors.grey[400], thickness: 0.5),
-                  Container(
-                    color: Colors.grey[900],
-                    height: 0.1,
-                  ),
-                  SettingComponent(
-                    title: '공지사항',
-                    otherScreen: NoticeScreen(),
-                    icon: 'assets/tabimg/mypage/notification.png',
-                  ),
-                  Container(
-                    color: Colors.grey[900],
-                    height: 0.1,
-                  ),
-                  SettingComponent(
-                    title: '문의하기',
-                    otherScreen: UserReportScreen(),
-                    icon: 'assets/tabimg/mypage/askInfo.png',
-                  ),
-                  Container(
-                    color: Colors.grey[900],
-                    height: 0.1,
-                  ),
-                  SettingComponent(
-                    title: '친구 추천',
-                    otherScreen: FriendInviteScreen(),
-                    icon: 'assets/tabimg/mypage/recommendFriend.png',
-                  ),
-                  SettingComponent(
-                    title: '관리자 페이지',
-                    otherScreen: AdminPage(),
-                    icon: 'assets/img/link.png',
-                  ),
-                ],
+              Divider(color: Colors.grey[200], thickness: 12.0),
+              Container(
+                child: Column(
+                  children: [
+                    SettingComponent(
+                      title: '포인트 적립 내역',
+                      otherScreen: PointCount(),
+                      icon: 'assets/tabimg/mypage/pointCount.png',
+                    ),
+                    //Divider(color: Colors.grey[400], thickness: 0.5),
+                    Container(
+                      color: Colors.grey[900],
+                      height: 0.1,
+                    ),
+                    SettingComponent(
+                      title: '공지사항',
+                      otherScreen: NoticeScreen(),
+                      icon: 'assets/tabimg/mypage/notification.png',
+                    ),
+                    Container(
+                      color: Colors.grey[900],
+                      height: 0.1,
+                    ),
+                    SettingComponent(
+                      title: '문의하기',
+                      otherScreen: UserReportScreen(),
+                      icon: 'assets/tabimg/mypage/askInfo.png',
+                    ),
+                    Container(
+                      color: Colors.grey[900],
+                      height: 0.1,
+                    ),
+                    SettingComponent(
+                      title: '친구 추천',
+                      otherScreen: FriendInviteScreen(),
+                      icon: 'assets/tabimg/mypage/recommendFriend.png',
+                    ),
+                    SettingComponent(
+                      title: '관리자 페이지',
+                      otherScreen: AdminPage(),
+                      icon: 'assets/img/link.png',
+                    ),
+                  ],
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       );
     }

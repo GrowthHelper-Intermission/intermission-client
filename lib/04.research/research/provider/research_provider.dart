@@ -1,7 +1,10 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intermission_project/04.research/research/model/research_model.dart';
+import 'package:intermission_project/04.research/research/model/research_report_model.dart';
 import 'package:intermission_project/04.research/research/repository/research_repository.dart';
+import 'package:intermission_project/common/model/content_model.dart';
 import 'package:intermission_project/common/model/cursor_pagination_model.dart';
+import 'package:intermission_project/common/model/post_response.dart';
 import 'package:intermission_project/common/provider/pagination_provider.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:collection/collection.dart';
@@ -71,6 +74,11 @@ class ResearchStateNotifier
     return await repository.participateResearch(id: id);
   }
 
+  Future<PostResponse>reportResearchNow({required String id, required String content}) async{
+    return await repository.reportResearch(id: id, content: ContentModel(content: content).toJson());
+  }
+
+
 
   // 상위 3개의 인터뷰를 가져오는 함수
   List<ResearchModel> getTopThreeResearches() {
@@ -80,13 +88,15 @@ class ResearchStateNotifier
     final pState = state as CursorPagination;
 
     // 인터뷰 개수가 3개 이상인 경우 상위 3개를 가져오고, 그렇지 않으면 모든 인터뷰를 가져오기
-    int count = pState.data.length;
+    int count = (pState.data.length > 3) ? 3 : pState.data.length;
+
     // 데이터 타입 변환
     List<ResearchModel> topThreeList = List<ResearchModel>.from(
       pState.data.sublist(0, count),
     );
     return topThreeList;
   }
+
 
   getDetail({
     required String id,
@@ -139,3 +149,6 @@ class ResearchStateNotifier
     // [RestaurantModel(1), RestaurantDetailModel(2), RestaurantModel(3)]
   }
 }
+
+
+

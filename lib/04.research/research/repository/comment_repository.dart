@@ -85,4 +85,11 @@ abstract class CommentRepository {
   })
   Future<String> deleteReComment(@Path('recommentId') String recommentId);
 
+  //댓글 신고하기
+  @POST('/report/{commentId}')
+  @Headers({
+    'accessToken': 'true',
+  })
+  Future<String> reportComment(@Path('commentId') String commentId);
+
 }

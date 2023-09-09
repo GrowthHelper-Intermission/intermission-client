@@ -8,6 +8,7 @@ class ReComment {
   final String? content;
   final String createdDate;
   final String? isUpdate;
+  final String? isMyComment;
 
   ReComment({
     required this.reCommentId,
@@ -15,6 +16,7 @@ class ReComment {
     this.content,
     required this.createdDate,
     this.isUpdate,
+    this.isMyComment,
   });
 
   factory ReComment.fromJson(Map<String, dynamic> json) => _$ReCommentFromJson(json);

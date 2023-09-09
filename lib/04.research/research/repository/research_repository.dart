@@ -2,10 +2,12 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intermission_project/01.user/point/model/point_model.dart';
 import 'package:intermission_project/04.research/research/model/research_detail_model.dart';
 import 'package:intermission_project/04.research/research/model/research_model.dart';
+import 'package:intermission_project/04.research/research/model/research_report_model.dart';
 import 'package:intermission_project/common/const/data.dart';
 import 'package:intermission_project/common/dio/dio.dart';
 import 'package:intermission_project/common/model/cursor_pagination_model.dart';
 import 'package:intermission_project/common/model/pagination_params.dart';
+import 'package:intermission_project/common/model/post_response.dart';
 import 'package:intermission_project/common/provider/pagination_provider.dart';
 import 'package:intermission_project/common/repository/base_pagination_repository.dart';
 import 'package:retrofit/retrofit.dart';
@@ -62,9 +64,14 @@ abstract class ResearchRepository implements
   })
   Future<ParticipationResponse> participateResearch({@Path() required String id});
 
-// Future<Map<String, dynamic>> participateInResearch({required String id}) async {
-  //   return await repository.participateResearch(id: id);
-  // }
+
+  //리서치 신고하기
+  @POST('/report/{id}')
+  @Headers({
+    'accessToken': 'true'
+  })
+
+  Future<PostResponse> reportResearch({@Path() required String id, @Body() required Map<String, dynamic> content});
 
 }
 
@@ -81,3 +88,4 @@ class ParticipationResponse {
 
 
 
+//research report researchId
