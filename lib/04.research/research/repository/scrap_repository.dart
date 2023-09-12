@@ -2,6 +2,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intermission_project/01.user/point/model/point_model.dart';
 import 'package:intermission_project/04.research/research/model/research_detail_model.dart';
 import 'package:intermission_project/04.research/research/model/research_model.dart';
+import 'package:intermission_project/04.research/research/model/scrap_research_model.dart';
 import 'package:intermission_project/04.research/research/repository/research_repository.dart';
 import 'package:intermission_project/common/const/data.dart';
 import 'package:intermission_project/common/dio/dio.dart';
@@ -31,7 +32,7 @@ final scrapRepositoryProvider = Provider<ScrapRepository>(
 
 @RestApi()
 abstract class ScrapRepository implements
-    IBasePaginationRepository<ResearchModel> {
+    IBasePaginationRepository<ScrapResearchModel> {
   factory ScrapRepository(Dio dio, {String baseUrl}) =
   _ScrapRepository;
 
@@ -39,7 +40,7 @@ abstract class ScrapRepository implements
   @Headers({
     'accessToken': 'true',
   })
-  Future<CursorPagination<ResearchModel>> paginate({
+  Future<CursorPagination<ScrapResearchModel>> paginate({
     @Path() String path = '/', // 기본값을 root path로 설정
     @Query('researchType') String? researchType,
     @Queries() PaginationParams? paginationParams = const PaginationParams(),

@@ -70,7 +70,6 @@ abstract class ResearchRepository implements
   @Headers({
     'accessToken': 'true'
   })
-
   Future<PostResponse> reportResearch({@Path() required String id, @Body() required Map<String, dynamic> content});
 
 }
@@ -85,7 +84,3 @@ class ParticipationResponse {
     return ParticipationResponse(isJoin: json['isJoin']);
   }
 }
-
-
-
-//research report researchId

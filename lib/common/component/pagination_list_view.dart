@@ -46,20 +46,7 @@ class _PaginationListViewState<T extends IModelWithId>
       controller: controller,
       provider: ref.read(widget.provider.notifier),
     );
-    // if(controller.position.atEdge && controller.position.pixels != 0) {
-    //   _showLastDataSnackBar();
-    // }
   }
-
-
-  // void _showLastDataSnackBar() {
-  //   ScaffoldMessenger.of(context).showSnackBar(
-  //     SnackBar(
-  //       content: Text("마지막 데이터입니다!"),
-  //       duration: Duration(seconds: 1),
-  //     ),
-  //   );
-  // }
 
   @override
   void dispose() {
@@ -71,7 +58,7 @@ class _PaginationListViewState<T extends IModelWithId>
 
   @override
   Widget build(BuildContext context) {
-    super.build(context);
+    // super.build(context);
     final state = ref.watch(widget.provider);
     //완전 처음 로딩일때
     if (state is CursorPaginationLoading) {
@@ -146,6 +133,5 @@ class _PaginationListViewState<T extends IModelWithId>
         },
       ),
     );
-
   }
 }

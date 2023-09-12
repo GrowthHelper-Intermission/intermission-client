@@ -27,8 +27,6 @@ class LoginScreen extends ConsumerStatefulWidget {
 }
 
 class _LoginScreenState extends ConsumerState<LoginScreen> {
-  // final globalKey = GlobalKey<FormState>();
-  // final autoLoginStyle = TextStyle(color: PRIMARY_COLOR);
 
   bool _isLoading = false; // 로딩 중 상태를 나타내는 변수
 
@@ -150,17 +148,6 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                             SizedBox(
                               height: 10,
                             ),
-                            // LoginNextButton(
-                            //   buttonName: '로그인',
-                            //   isButtonEnabled: _isButtonEnabled,
-                            //   onPressed: () {
-                            //     ref.read(userMeProvider.notifier).login(
-                            //           username: _emailController.text.trim(),
-                            //           password: _passwordController.text.trim(),
-                            //         );
-                            //     // context.goNamed(RootTab.routeName);
-                            //   },
-                            // ),
                             LoginNextButton(
                               buttonName: _isLoading ? '로그인 중...' : '로그인', // 버튼 텍스트 조건부 설정
                               isButtonEnabled: _isButtonEnabled && !_isLoading, // 로딩 중일 때 버튼 비활성화
@@ -196,86 +183,3 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
     );
   }
 }
-
-// Future CustomCircular(context, String contentText) async {
-//   return await showDialog(
-//     context: context,
-//     barrierDismissible: false,
-//     builder: (BuildContext context) {
-//       return CircularProgressIndicator(
-//         backgroundColor: PRIMARY_COLOR,
-//       );
-//     },
-//   );
-// }
-
-// Future CustomCircular(context, String contentText) async {
-//   final ts = TextStyle(color: PRIMARY_COLOR);
-//   return await showDialog(
-//     context: context,
-//     barrierDismissible: false,
-//     builder: (BuildContext context) {
-//       return AlertDialog(
-//         backgroundColor: PRIMARY_COLOR,
-//         title: Text(contentText, style: ts),
-//         content: Row(
-//           mainAxisAlignment: MainAxisAlignment.center,
-//           children: [
-//             CircularProgressIndicator(color: PRIMARY_COLOR),
-//           ],
-//         ),
-//       );
-//     },
-//   );
-// }
-
-
-
-
-//
-// class AutoLoginCheckbox extends StatelessWidget {
-//   final bool isChecked;
-//   final ValueChanged<bool?> onChanged;
-//   final ValueChanged<bool> onAutoLoginChanged;
-//   const AutoLoginCheckbox({
-//     required this.isChecked,
-//     required this.onChanged,
-//     required this.onAutoLoginChanged,
-//   });
-//   @override
-//   Widget build(BuildContext context) {
-//     return Padding(
-//       padding: const EdgeInsets.only(right: 15),
-//       child: Container(
-//         height: 60,
-//         child: Row(
-//           children: [
-//             SizedBox(
-//               width: 30,
-//               height: 30,
-//               child: Checkbox(
-//                 shape: RoundedRectangleBorder(
-//                   borderRadius: BorderRadius.circular(15),
-//                 ),
-//                 value: isChecked,
-//                 activeColor: Colors.black,
-//                 checkColor: Colors.white,
-//                 onChanged: (bool? newValue) {
-//                   onChanged(newValue);
-//                   onAutoLoginChanged(newValue!);
-//                 },
-//               ),
-//             ),
-//             const Text(
-//               '자동 로그인',
-//               style: TextStyle(
-//                 fontSize: 16,
-//                 fontWeight: FontWeight.bold,
-//               ),
-//             ),
-//           ],
-//         ),
-//       ),
-//     );
-//   }
-// }

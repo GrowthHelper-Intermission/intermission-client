@@ -44,10 +44,10 @@ StateNotifierProvider<ResearchStateNotifier, CursorPaginationBase>(
 );
 
 final researchDetailProvider =
-    Provider.family<ResearchModel?, String>((ref, id) {
+Provider.family<ResearchModel?, String>((ref, id) {
   final state = ref.watch(researchProvider);
 
-  if (state is! CursorPagination) {
+  if (state is! CursorPagination<ResearchModel>) {
     return null;
   }
   return state.data.firstWhereOrNull((element) => element.id == id);
@@ -98,14 +98,14 @@ class ResearchStateNotifier
   }
 
 
-  getDetail({
+  void getDetail({
     required String id,
   }) async {
     // 만약에 아직 데이터가 하나도 없는 상태라면? (CursorPagination 아니라면)
     // 데이터를 가져오는 시도를 한다
     if (state is! CursorPagination) {
       if (researchType == null) {
-        await paginate();
+        await this.paginate();
       } else {
         await paginate(researchType: researchType!);
       }
@@ -139,7 +139,7 @@ class ResearchStateNotifier
         data: pState.data
             .map<ResearchModel>(
               (e) => e.id == id ? resp : e,
-            )
+        )
             .toList(),
       );
     }
@@ -149,6 +149,3 @@ class ResearchStateNotifier
     // [RestaurantModel(1), RestaurantDetailModel(2), RestaurantModel(3)]
   }
 }
-
-
-

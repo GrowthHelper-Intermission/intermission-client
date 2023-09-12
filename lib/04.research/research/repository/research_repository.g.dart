@@ -108,7 +108,8 @@ class _ResearchRepository implements ResearchRepository {
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{r'accessToken': 'true'};
     _headers.removeWhere((k, v) => v == null);
-    final _data = content;
+    final _data = <String, dynamic>{};
+    _data.addAll(content);
     final _result = await _dio
         .fetch<Map<String, dynamic>>(_setStreamType<PostResponse>(Options(
       method: 'POST',

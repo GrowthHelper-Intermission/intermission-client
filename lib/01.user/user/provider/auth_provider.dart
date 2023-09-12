@@ -164,24 +164,24 @@ class AuthProvider extends ChangeNotifier {
     return null;
   }
 
-  // FutureOr<String?> redirectLogic(BuildContext context, GoRouterState state) {
-  //   final UserModelBase? user = ref.read(userMeProvider);
-  //
-  //   if ((state.matchedLocation == '/signup' || state.matchedLocation == '/login') && user is UserModel)
-  //     return '/';
-  //
-  //   if (state.matchedLocation.startsWith('/signup')) return null;
-  //
-  //   if (state.matchedLocation == '/login' && user is UserModel) return '/';
-  //
-  //   if (!state.matchedLocation.startsWith('/login') && user == null) return '/select';
-  //
-  //   if (user is UserModel &&
-  //       (state.matchedLocation == '/select'
-  //           || state.matchedLocation == '/splash')) return '/';
-  //
-  //   return null;
-  // }
+// FutureOr<String?> redirectLogic(BuildContext context, GoRouterState state) {
+//   final UserModelBase? user = ref.read(userMeProvider);
+//
+//   if ((state.matchedLocation == '/signup' || state.matchedLocation == '/login') && user is UserModel)
+//     return '/';
+//
+//   if (state.matchedLocation.startsWith('/signup')) return null;
+//
+//   if (state.matchedLocation == '/login' && user is UserModel) return '/';
+//
+//   if (!state.matchedLocation.startsWith('/login') && user == null) return '/select';
+//
+//   if (user is UserModel &&
+//       (state.matchedLocation == '/select'
+//           || state.matchedLocation == '/splash')) return '/';
+//
+//   return null;
+// }
 
 
 }

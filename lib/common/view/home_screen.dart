@@ -26,12 +26,12 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
   @override
   Widget build(BuildContext context) {
 
+    ref.read(researchProvider.notifier).paginate();
     final userState = ref.watch(userMeProvider); // 상태를 읽어옴
     UserModel? user; // UserModel을 nullable로 선언
 
     if (userState is UserModel) {
       user = userState; // UserModel로 캐스팅
-      ref.read(pointProvider.notifier).paginate();
     }
 
     ref.read(researchProvider.notifier).getTopThreeResearches();
