@@ -28,6 +28,7 @@ class _ResearchScreenState extends ConsumerState<ResearchScreen> with SingleTick
 
   @override
   void initState() {
+    // ref.read(researchProvider.notifier).paginate(forceRefetch: true,researchType: null);
     super.initState();
     _tabController = TabController(length: 4, vsync: this);  // 4개의 탭
   }
@@ -91,10 +92,10 @@ class _ResearchScreenState extends ConsumerState<ResearchScreen> with SingleTick
               child: TabBarView(
                 controller: _tabController,
                   children: [
-                    _buildInterviewPage(researchProvider), // "전체" 탭
-                    _buildInterviewPage(interviewProvider), // "인터뷰" 탭
-                    _buildInterviewPage(surveyProvider), // "설문조사" 탭
-                    _buildInterviewPage(testerProvider), // "테스트 참여" 탭
+                    _buildResearchPage(researchProvider), // "전체" 탭
+                    _buildResearchPage(interviewProvider), // "인터뷰" 탭
+                    _buildResearchPage(surveyProvider), // "설문조사" 탭
+                    _buildResearchPage(testerProvider), // "테스트 참여" 탭
                   ]
               ),
             ),
@@ -113,7 +114,7 @@ class _ResearchScreenState extends ConsumerState<ResearchScreen> with SingleTick
   }
 
 
-  Widget _buildInterviewPage(StateNotifierProvider<ResearchStateNotifier, CursorPaginationBase> provider) {
+  Widget _buildResearchPage(StateNotifierProvider<ResearchStateNotifier, CursorPaginationBase> provider) {
     return PaginationListView(
       provider: provider,
       itemBuilder: <ResearchModel>(BuildContext context, int index, model) {

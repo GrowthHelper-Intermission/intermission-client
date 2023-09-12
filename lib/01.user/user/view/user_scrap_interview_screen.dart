@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intermission_project/04.research/research/component/research_card.dart';
+import 'package:intermission_project/04.research/research/model/scrap_card.dart';
 import 'package:intermission_project/04.research/research/provider/scrap_provider.dart';
 import 'package:intermission_project/common/component/pagination_list_view.dart';
 import 'package:intermission_project/common/model/cursor_pagination_model.dart';
@@ -21,6 +22,7 @@ class _ScrapedResearchScreenState extends ConsumerState<ScrapedResearchScreen> w
   void initState() {
     // TODO: implement initState
     super.initState();
+    ref.read(scrapProvider.notifier).paginate();
     _tabController = TabController(length: 3, vsync: this);
   }
 
@@ -62,7 +64,7 @@ class _ScrapedResearchScreenState extends ConsumerState<ScrapedResearchScreen> w
 
   Widget _buildTabContent(String title) {
     if (title == "전체") {
-      ref.read(scrapProvider.notifier).paginate(researchType: 'me');
+      ref.read(scrapProvider.notifier).paginate();
       return _buildInterviewPage(scrapProvider);
     } else if (title == "진행중" || title == "마감") {
       ref.read(scrapProvider.notifier).paginate();
@@ -76,8 +78,8 @@ class _ScrapedResearchScreenState extends ConsumerState<ScrapedResearchScreen> w
   Widget _buildInterviewPage(StateNotifierProvider<ScrapStateNotifier, CursorPaginationBase> provider) {
     return PaginationListView(
       provider: provider,
-      itemBuilder: <ResearchModel>(BuildContext context, int index, model) {
-        return ResearchCard.fromModel(model: model);
+      itemBuilder: <ScrapResearchModel>(BuildContext context, int index, model) {
+        return ScrapResearchCard.fromModel(model: model);
       },
     );
   }

@@ -18,7 +18,7 @@ import 'package:provider/provider.dart';
 // final userModelProvider = StateProvider<UserModel?>((ref) => null);
 
 final userMeProvider =
-    StateNotifierProvider<UserMeStateNotifier, UserModelBase?>((ref) {
+StateNotifierProvider<UserMeStateNotifier, UserModelBase?>((ref) {
   final authRepository = ref.watch(authRepositoryProvider);
   final userMeRepository = ref.watch(userMeRepositoryProvider);
   final storage = ref.watch(secureStorageProvider);

@@ -49,13 +49,6 @@ class _ResearchDetailScreenState extends ConsumerState<ResearchDetailScreen> {
   bool isButtonEnabled = true;
   bool isScrapped = false;
 
-  int _getDaysLeft(String dueDate) {
-    DateTime now = DateTime.now();
-    DateTime interviewDate = DateTime.parse(dueDate);
-    Duration difference = interviewDate.difference(now);
-    return difference.inDays + 1;
-  }
-
   Future<void> _handleScrap(ResearchDetailModel state) async {
     var response =
         await ref.watch(scrapProvider.notifier).scrapResearch(id: widget.id);
@@ -73,9 +66,8 @@ class _ResearchDetailScreenState extends ConsumerState<ResearchDetailScreen> {
   @override
   void initState() {
     // TODO: implement initState
-    super.initState();
-
     ref.read(researchProvider.notifier).getDetail(id: widget.id);
+    super.initState();
   }
 
   Future<void> _handleParticipation() async {
@@ -96,138 +88,148 @@ class _ResearchDetailScreenState extends ConsumerState<ResearchDetailScreen> {
     final state = ref.watch(researchDetailProvider(widget.id));
 
     // 데이터가 없거나 로딩 중인 경우
-    if (state == null || state is! ResearchDetailModel) {
+    if (state is! ResearchDetailModel) {
+      print('걸린다');
+      print(state.toString());
       return Scaffold(body: renderLoading());
     }
 
-    isScrapped = state.isScrap == "Y" ? true : false;
+    else {
+      print('nco');
+      isScrapped = state.isScrap == "Y" ? true : false;
 
-    if (state.isJoin == "Y") {
-      isButtonEnabled = false;
-    }
+      if (state.isJoin == "Y") {
+        isButtonEnabled = false;
+      }
 
-    int _getDaysLeft() {
-      DateTime now = DateTime.now();
-      DateTime interviewDate = DateTime.parse(state.dueDate);
-      Duration difference = interviewDate.difference(now);
-      return difference.inDays + 1;
-    }
+      int _getDaysLeft() {
+        DateTime now = DateTime.now();
+        DateTime interviewDate = DateTime.parse(state.dueDate);
+        Duration difference = interviewDate.difference(now);
+        return difference.inDays + 1;
+      }
 
-    daysLeft =
-        _getDaysLeft(); // Every time the widget is built, update the days left.
+      daysLeft = _getDaysLeft();
 
-    String displayText;
-    Color borderColor;
-    Color textColor;
-    Color backgroundColor;
+      String displayText;
+      Color borderColor;
+      Color textColor;
+      Color backgroundColor;
 
-    FocusNode editCommentFocusNode = FocusNode();
+      FocusNode editCommentFocusNode = FocusNode();
 
-    if (daysLeft > 3) {
-      displayText = 'D-$daysLeft';
-      borderColor = SUB_BLUE_COLOR;
-      textColor = SUB_BLUE_COLOR;
-      backgroundColor = Colors.white;
-    } else if (daysLeft > 0) {
-      displayText = 'D-$daysLeft';
-      borderColor = SUB_BLUE_COLOR;
-      textColor = SUB_BLUE_COLOR;
-      backgroundColor = Colors.white;
-    } else if (daysLeft == 0) {
-      displayText = 'D-day';
-      borderColor = SUB_BLUE_COLOR;
-      textColor = Colors.white;
-      backgroundColor = SUB_BLUE_COLOR;
-    } else {
-      displayText = '마감';
-      borderColor = PRIMARY_COLOR;
-      textColor = Colors.white;
-      backgroundColor = PRIMARY_COLOR;
-    }
+      if (daysLeft > 3) {
+        displayText = 'D-$daysLeft';
+        borderColor = SUB_BLUE_COLOR;
+        textColor = SUB_BLUE_COLOR;
+        backgroundColor = Colors.white;
+      } else if (daysLeft > 0) {
+        displayText = 'D-$daysLeft';
+        borderColor = SUB_BLUE_COLOR;
+        textColor = SUB_BLUE_COLOR;
+        backgroundColor = Colors.white;
+      } else if (daysLeft == 0) {
+        displayText = 'D-day';
+        borderColor = SUB_BLUE_COLOR;
+        textColor = Colors.white;
+        backgroundColor = SUB_BLUE_COLOR;
+      } else {
+        displayText = '마감';
+        borderColor = PRIMARY_COLOR;
+        textColor = Colors.white;
+        backgroundColor = PRIMARY_COLOR;
+      }
 
-    return Scaffold(
-      backgroundColor: Colors.white,
-      appBar: AppBar(
+
+      return Scaffold(
         backgroundColor: Colors.white,
-        elevation: 0,
-        leading: IconButton(
-          icon: Icon(
-            Icons.arrow_back_ios,
-            color: Colors.black,
-            size: 20,
-          ),
-          onPressed: () => context.go('/'),
-        ),
-        actions: [
-          IconButton(
+        appBar: AppBar(
+          backgroundColor: Colors.white,
+          elevation: 0,
+          leading: IconButton(
             icon: Icon(
-              Icons.share,
+              Icons.arrow_back_ios,
               color: Colors.black,
+              size: 20,
             ),
-            onPressed: () {
-              // 공유 기능 구현 부분
-            },
+            onPressed: () => context.go('/'),
           ),
-          PopupMenuButton<String>(
-            onSelected: (value) {
-              // 선택된 메뉴 아이템에 따른 로직 구현
-              if (value == 'report') {
-                try {
-                  ref.read(researchProvider.notifier).reportResearchNow(id: widget.id.toString(), content: 'lets get it!');
-                  print(widget.id);
-                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('리서치 게시물이 신고되었습니다.')));
-                } catch (error) {
-                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('댓글 신고 중 오류가 발생했습니다.')));
+          actions: [
+            IconButton(
+              icon: Icon(
+                Icons.share,
+                color: Colors.black,
+              ),
+              onPressed: () {
+                // 공유 기능 구현 부분
+              },
+            ),
+            PopupMenuButton<String>(
+              onSelected: (value) {
+                // 선택된 메뉴 아이템에 따른 로직 구현
+                if (value == 'report') {
+                  try {
+                    ref.read(researchProvider.notifier).reportResearchNow(
+                        id: widget.id.toString(), content: 'lets get it!');
+                    print(widget.id);
+                    ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(content: Text('리서치 게시물이 신고되었습니다.')));
+                  } catch (error) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(content: Text('댓글 신고 중 오류가 발생했습니다.')));
+                  }
                 }
-              }
-              // 기타 메뉴 아이템에 대한 로직 추가 가능
-            },
-            itemBuilder: (BuildContext context) => <PopupMenuEntry<String>>[
-              const PopupMenuItem<String>(
-                value: 'report',
-                child: Text('신고하기'),
+                // 기타 메뉴 아이템에 대한 로직 추가 가능
+              },
+              itemBuilder: (BuildContext context) =>
+              <PopupMenuEntry<String>>[
+                const PopupMenuItem<String>(
+                  value: 'report',
+                  child: Text('신고하기'),
+                ),
+                // 필요하다면 여기에 다른 메뉴 아이템 추가 가능
+              ],
+              icon: Icon(
+                Icons.more_vert,
+                color: Colors.black,
               ),
-              // 필요하다면 여기에 다른 메뉴 아이템 추가 가능
-            ],
-            icon: Icon(
-              Icons.more_vert,
-              color: Colors.black,
-            ),
-          ),
-        ],
-      ),
-      body: SingleChildScrollView(
-        physics: AlwaysScrollableScrollPhysics(),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Padding(
-              padding: const EdgeInsets.fromLTRB(20, 5, 20, 10),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  _buildHeader(state, displayText, textColor, borderColor,
-                      backgroundColor),
-                  _buildMainContent(state),
-                ],
-              ),
-            ),
-            Divider(color: Colors.grey[200], thickness: 8.0),
-            Padding(
-              padding: const EdgeInsets.fromLTRB(20, 0, 20, 10),
-              child: _buildDescription(state),
-            ),
-            Divider(color: Colors.grey[200], thickness: 8.0),
-            Padding(
-              padding: const EdgeInsets.fromLTRB(20, 0, 20, 20),
-              child: _buildComment(state),
             ),
           ],
         ),
-      ),
-      bottomNavigationBar: _buildBottomButtons(state),
-    );
+        body: SingleChildScrollView(
+          physics: AlwaysScrollableScrollPhysics(),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Padding(
+                padding: const EdgeInsets.fromLTRB(20, 5, 20, 10),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    _buildHeader(state, displayText, textColor, borderColor,
+                        backgroundColor),
+                    _buildMainContent(state),
+                  ],
+                ),
+              ),
+              Divider(color: Colors.grey[200], thickness: 8.0),
+              Padding(
+                padding: const EdgeInsets.fromLTRB(20, 0, 20, 10),
+                child: _buildDescription(state),
+              ),
+              Divider(color: Colors.grey[200], thickness: 8.0),
+              Padding(
+                padding: const EdgeInsets.fromLTRB(20, 0, 20, 20),
+                child: _buildComment(state),
+              ),
+            ],
+          ),
+        ),
+        bottomNavigationBar: _buildBottomButtons(state),
+      );
+    }
   }
+
 
   Widget _buildComment(ResearchDetailModel state) {
     final notifier = ref.watch(commentNotifierProvider);

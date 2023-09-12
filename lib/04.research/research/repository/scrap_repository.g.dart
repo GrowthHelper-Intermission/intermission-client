@@ -19,7 +19,7 @@ class _ScrapRepository implements ScrapRepository {
   String? baseUrl;
 
   @override
-  Future<CursorPagination<ResearchModel>> paginate({
+  Future<CursorPagination<ScrapResearchModel>> paginate({
     path = '/',
     researchType,
     paginationParams = const PaginationParams(),
@@ -32,7 +32,7 @@ class _ScrapRepository implements ScrapRepository {
     _headers.removeWhere((k, v) => v == null);
     final Map<String, dynamic>? _data = null;
     final _result = await _dio.fetch<Map<String, dynamic>>(
-        _setStreamType<CursorPagination<ResearchModel>>(Options(
+        _setStreamType<CursorPagination<ScrapResearchModel>>(Options(
       method: 'GET',
       headers: _headers,
       extra: _extra,
@@ -44,9 +44,9 @@ class _ScrapRepository implements ScrapRepository {
               data: _data,
             )
             .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
-    final value = CursorPagination<ResearchModel>.fromJson(
+    final value = CursorPagination<ScrapResearchModel>.fromJson(
       _result.data!,
-      (json) => ResearchModel.fromJson(json as Map<String, dynamic>),
+      (json) => ScrapResearchModel.fromJson(json as Map<String, dynamic>),
     );
     return value;
   }

@@ -92,7 +92,6 @@ U extends IBasePaginationRepository<T>>
     String path = '/';
     if (researchType == 'me') {
       path = '/me';
-      researchType = null;  // /me 엔드포인트에는 researchType이 필요하지 않으므로 null로 설정
     }
 
 

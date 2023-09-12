@@ -1,6 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intermission_project/04.research/research/model/research_detail_model.dart';
 import 'package:intermission_project/04.research/research/model/research_model.dart';
+import 'package:intermission_project/04.research/research/model/scrap_research_model.dart';
 import 'package:intermission_project/04.research/research/repository/research_repository.dart';
 import 'package:intermission_project/04.research/research/repository/scrap_repository.dart';
 import 'package:intermission_project/common/model/cursor_pagination_model.dart';
@@ -28,7 +29,7 @@ StateNotifierProvider<ScrapStateNotifier, CursorPaginationBase>(
 );
 
 class ScrapStateNotifier
-    extends PaginationProvider<ResearchModel, ScrapRepository> {
+    extends PaginationProvider<ScrapResearchModel, ScrapRepository> {
   ScrapStateNotifier({
     required super.repository,
   }): super(autoFetch: false) {
