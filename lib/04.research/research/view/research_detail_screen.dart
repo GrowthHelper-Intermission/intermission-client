@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:intermission_project/01.user/user/provider/join_provider.dart';
 import 'package:intermission_project/04.research/research/model/research_detail_model.dart';
 import 'package:intermission_project/04.research/research/model/research_model.dart';
 import 'package:intermission_project/04.research/research/model/research_report_model.dart';
@@ -77,6 +78,7 @@ class _ResearchDetailScreenState extends ConsumerState<ResearchDetailScreen> {
 
     if (response is ParticipationResponse && response.isJoin == 'Y') {
       setState(() {
+        ref.read(joinProvider.notifier).paginate();
         isButtonEnabled = false;
         print('비활');
       });

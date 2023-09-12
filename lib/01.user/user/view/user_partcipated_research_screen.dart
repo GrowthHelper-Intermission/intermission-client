@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:intermission_project/01.user/user/provider/join_provider.dart';
 import 'package:intermission_project/04.research/research/component/research_card.dart';
 import 'package:intermission_project/04.research/research/provider/research_provider.dart';
 import 'package:intermission_project/04.research/research/provider/scrap_provider.dart';
@@ -22,7 +23,7 @@ class _ParticipatedResearchScreenState extends ConsumerState<ParticipatedResearc
   @override
   void initState() {
     print('crash');
-    ref.read(scrapProvider.notifier).paginate();
+    ref.read(joinProvider.notifier).paginate();
     super.initState();
     _tabController = TabController(length: 3, vsync: this); // 3개의 탭
   }
@@ -65,28 +66,30 @@ class _ParticipatedResearchScreenState extends ConsumerState<ParticipatedResearc
 
   Widget _buildTabContent(String title) {
     if (title == "전체") {
-      ref.read(researchProvider.notifier).paginate();
+      ref.read(joinProvider.notifier).paginate();
     } else if (title == "진행중" || title == "마감") {
-      ref.read(researchProvider.notifier).paginate();
+      ref.read(joinProvider.notifier).paginate();
     }
 
     // 데이터의 상태를 확인합니다.
-    final state = ref.watch(scrapProvider);
+    final state = ref.watch(joinProvider);
 
     if (state == null || state is! CursorPagination) {
       return Center(child: CircularProgressIndicator());
     } else {
-      return _buildInterviewPage(researchProvider);
+      return _buildInterviewPage(joinProvider,title);
     }
   }
 
 
 
 
-  Widget _buildInterviewPage(StateNotifierProvider<ResearchStateNotifier, CursorPaginationBase> provider) {
+  Widget _buildInterviewPage(StateNotifierProvider<JoinStateNotifier, CursorPaginationBase> provider, String title) {
     return PaginationListView(
       provider: provider,
       itemBuilder: <ResearchModel>(BuildContext context, int index, model) {
+        if (title == "진행중" && model.isOnGoing != 'Y') return SizedBox.shrink();
+        if (title == "마감" && model.isOnGoing != 'N') return SizedBox.shrink();
         return ResearchCard.fromModel(model: model);
       },
     );
