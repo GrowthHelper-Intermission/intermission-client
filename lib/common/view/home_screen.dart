@@ -36,7 +36,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
 
     ref.read(researchProvider.notifier).getTopThreeResearches();
 
-    final userPointState = ref.read(pointProvider);
+    final userPointState = ref.watch(pointProvider);
     int point = 0;
 
     if(userPointState is CursorPagination<PointModel>){
@@ -123,7 +123,8 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Expanded(
-                          child: Container(
+                          child:
+                          Container(
                             height: 18,
                             child: Text(
                               '[공지]',
@@ -195,9 +196,9 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                   ),
                 ),
                 OngoingResearchList(),
-                SizedBox(
-                  height: 5,
-                ),
+                // SizedBox(
+                //   height: 5,
+                // ),
                 Align(
                   alignment: Alignment.center,
                   child: GestureDetector(

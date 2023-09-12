@@ -9,10 +9,11 @@ class OngoingResearchList extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final interviewNotifier = ref.watch(researchProvider.notifier);
+    ref.read(researchProvider.notifier).paginate();
+    final interviewNotifier = ref.read(researchProvider.notifier);
     final ongoingInterviews = interviewNotifier.getTopThreeResearches();
 
-    final interviewState = ref.watch(researchProvider);
+    final interviewState = ref.read(researchProvider);
 
     if (interviewState is! CursorPagination || ongoingInterviews.isEmpty) {
       return Container(

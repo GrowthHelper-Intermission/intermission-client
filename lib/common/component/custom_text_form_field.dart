@@ -13,8 +13,12 @@ class CustomTextFormField extends StatefulWidget {
   final bool? enable;
   final int? maxLines; // 추가
   final bool? expands; // 추가
+  final TextAlign textAlign;  // 추가
+  final TextAlignVertical textAlignVertical;  // 추가
 
   const CustomTextFormField({
+    this.textAlign = TextAlign.start,  // 기본값을 왼쪽으로 설정
+    this.textAlignVertical = TextAlignVertical.top,  // 기본값을 상단으로 설정
     this.enable,
     required this.onChanged,
     this.textFieldMinLine = 1,
@@ -49,6 +53,8 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
     return Padding(
       padding: const EdgeInsets.fromLTRB(0, 4, 14, 6),
       child: TextFormField(
+        textAlign: widget.textAlign,
+        textAlignVertical: widget.textAlignVertical,
         enabled: widget.enable ?? true,
         onTap: () {
           setState(() {

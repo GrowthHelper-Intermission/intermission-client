@@ -129,7 +129,7 @@ class _PaginationListViewState<T extends IModelWithId>
           return widget.itemBuilder(context, index, pItem);
         },
         separatorBuilder: (_, index) {
-          return SizedBox(height: 12);
+          return SizedBox(height: 0);
         },
       ),
     );

@@ -62,23 +62,37 @@ class _ScrapedResearchScreenState extends ConsumerState<ScrapedResearchScreen> w
     );
   }
 
+  // Widget _buildTabContent(String title) {
+  //   if (title == "전체") {
+  //     ref.read(scrapProvider.notifier).paginate();
+  //   } else if (title == "진행중" || title == "마감") {
+  //     ref.read(scrapProvider.notifier).paginate();
+  //   }
+  // }
+
   Widget _buildTabContent(String title) {
     if (title == "전체") {
       ref.read(scrapProvider.notifier).paginate();
-      return _buildInterviewPage(scrapProvider);
     } else if (title == "진행중" || title == "마감") {
       ref.read(scrapProvider.notifier).paginate();
-      return _buildInterviewPage(scrapProvider);
+    }
+
+    // 데이터의 상태를 확인합니다.
+    final state = ref.watch(scrapProvider);
+
+    if (state == null || state is! CursorPagination) {
+      return Center(child: CircularProgressIndicator());
     } else {
-      return Center(child: Text(title));
+      return _buildResearchPage(scrapProvider,title);
     }
   }
 
-
-  Widget _buildInterviewPage(StateNotifierProvider<ScrapStateNotifier, CursorPaginationBase> provider) {
+  Widget _buildResearchPage(StateNotifierProvider<ScrapStateNotifier, CursorPaginationBase> provider, String title) {
     return PaginationListView(
       provider: provider,
       itemBuilder: <ScrapResearchModel>(BuildContext context, int index, model) {
+        if (title == "진행중" && model.isOnGoing != 'Y') return SizedBox.shrink();
+        if (title == "마감" && model.isOnGoing != 'N') return SizedBox.shrink();
         return ScrapResearchCard.fromModel(model: model);
       },
     );

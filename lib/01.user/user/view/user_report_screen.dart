@@ -116,6 +116,8 @@ class _UserReportScreenState extends ConsumerState<UserReportScreen>
               },
               controller: contentsController,
               hintText: '문의내용을 작성해 주세요',
+              textAlign: TextAlign.start, // 왼쪽 정렬
+              textAlignVertical: TextAlignVertical.top, // 상단 정렬
             ),
           ),
           SizedBox(height: 50),

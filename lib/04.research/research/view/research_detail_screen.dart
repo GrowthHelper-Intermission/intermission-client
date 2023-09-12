@@ -3,8 +3,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intermission_project/01.user/user/provider/join_provider.dart';
 import 'package:intermission_project/04.research/research/model/research_detail_model.dart';
-import 'package:intermission_project/04.research/research/model/research_model.dart';
-import 'package:intermission_project/04.research/research/model/research_report_model.dart';
 import 'package:intermission_project/04.research/research/model/single_comment.dart';
 import 'package:intermission_project/04.research/research/provider/comment_provider.dart';
 import 'package:intermission_project/04.research/research/provider/research_provider.dart';
@@ -12,11 +10,7 @@ import 'package:intermission_project/04.research/research/provider/scrap_provide
 import 'package:intermission_project/04.research/research/repository/research_repository.dart';
 import 'package:intermission_project/04.research/research/repository/scrap_repository.dart';
 import 'package:intermission_project/04.research/research/view/google_form_web_view.dart';
-import 'package:intermission_project/04.research/research/view/simple_button.dart';
-import 'package:intermission_project/common/component/custom_appbar.dart';
 import 'package:intermission_project/common/component/custom_text_style.dart';
-import 'package:intermission_project/common/component/login_next_button.dart';
-import 'package:intermission_project/common/component/pagination_list_view.dart';
 import 'package:intermission_project/common/const/colors.dart';
 import 'package:skeletons/skeletons.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -231,7 +225,6 @@ class _ResearchDetailScreenState extends ConsumerState<ResearchDetailScreen> {
       );
     }
   }
-
 
   Widget _buildComment(ResearchDetailModel state) {
     final notifier = ref.watch(commentNotifierProvider);
@@ -635,8 +628,8 @@ class _ResearchDetailScreenState extends ConsumerState<ResearchDetailScreen> {
             ),
             Expanded(
               child: SimpleButton(
-                isButtonEnabled: isButtonEnabled,
-                onPressed: isButtonEnabled
+                isButtonEnabled: isButtonEnabled && state.isPossible != "N",
+                onPressed: isButtonEnabled && state.isPossible != "N"
                     ? () async {
                         // await _handleParticipation();
                         await Navigator.push(
@@ -655,7 +648,7 @@ class _ResearchDetailScreenState extends ConsumerState<ResearchDetailScreen> {
                         );
                       }
                     : null, // 비활성화 상태일 때 null
-                buttonName: isButtonEnabled ? '참여하기' : '참여완료',
+                buttonName: state.isPossible == "N" ? '참여 대상이 아닙니다' : (isButtonEnabled ? '참여하기' : '참여완료'),
               ),
             ),
           ],

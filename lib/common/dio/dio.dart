@@ -85,17 +85,22 @@ class CustomInterceptor extends Interceptor {
     }
 
     final isStatus401 = err.response?.statusCode == 401; //401
-    final isStatus402 = err.response?.statusCode == 402; //401
     final isStatus403 = err.response?.statusCode == 403; //403
     final isPathRefresh = err.requestOptions.path == '/auth/token';
     final isStatus500 = err.response?.statusCode == 500; // 추가: 500 에러 체크
 
+    // if (isStatus403) {
+    //   print('Refresh token has expired. Logging out...');
+    //   ref.read(authProvider.notifier).logout();  // 로그아웃 처리
+    //   // 여기서 이전처럼 라우팅 변경 로직이 없어야 합니다. 홈 화면을 그대로 유지하기 위해.
+    //   print('hing');
+    //   return handler.reject(err);
+    // }
+
     print('tlqkf');
     print(refreshToken);
     //토큰을 refresh하려는 의도가 아니었는데 403에러가 났다면?
-    if ((isStatus401 && !isPathRefresh) ||
-        (isStatus403 && !isPathRefresh) ||
-        ((isStatus402 && !isPathRefresh))) {
+    if ((isStatus401 && !isPathRefresh) ||(isStatus403 && !isPathRefresh)) {
       final dio = Dio();
       try {
         final resp = await dio.post(
@@ -132,12 +137,7 @@ class CustomInterceptor extends Interceptor {
         ref.read(authProvider.notifier).logout();
         return handler.reject(err);
       }
-    } else if (isStatus500) {
-      // 500 에러일 경우, 그대로 응답을 처리해줍니다.
-      print('state is 500?');
-      return null;
     }
-    print('Hallo');
     return handler.reject(err);
   }
 }

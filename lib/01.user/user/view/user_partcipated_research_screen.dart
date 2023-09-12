@@ -77,14 +77,11 @@ class _ParticipatedResearchScreenState extends ConsumerState<ParticipatedResearc
     if (state == null || state is! CursorPagination) {
       return Center(child: CircularProgressIndicator());
     } else {
-      return _buildInterviewPage(joinProvider,title);
+      return _buildResearchPage(joinProvider,title);
     }
   }
 
-
-
-
-  Widget _buildInterviewPage(StateNotifierProvider<JoinStateNotifier, CursorPaginationBase> provider, String title) {
+  Widget _buildResearchPage(StateNotifierProvider<JoinStateNotifier, CursorPaginationBase> provider, String title) {
     return PaginationListView(
       provider: provider,
       itemBuilder: <ResearchModel>(BuildContext context, int index, model) {
