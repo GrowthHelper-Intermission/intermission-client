@@ -1,19 +1,4 @@
 import 'package:flutter/material.dart';
-// import 'package:intermission_project/common/component/custom_appbar.dart';
-// import 'package:intermission_project/common/component/root_tab.dart';
-// import 'package:intermission_project/common/const/interviews.dart';
-// import 'package:intermission_project/common/const/tabs.dart';
-// import 'package:intermission_project/common/const/colors.dart';
-// import 'package:intermission_project/user/friend_invite_screen.dart';
-// import 'package:intermission_project/views/home/home_appbar.dart';
-// import 'package:intermission_project/views/home/home_bottom_button.dart';
-// import 'package:intermission_project/views/home/home_ongoing_interview_header.dart';
-// import 'package:intermission_project/user/research_collection_screen.dart';
-// import 'package:intermission_project/views/login/login_screen.dart';
-// import 'package:intermission_project/user/matching_screen.dart';
-// import 'package:intermission_project/views/home/home_notice_card.dart';
-// import 'package:intermission_project/common/component/custom_text_style.dart';
-// import 'package:intermission_project/views/home/home_ongoing_research_list.dart';
 
 class DefaultLayout extends StatelessWidget {
   final Color? backgroundColor;

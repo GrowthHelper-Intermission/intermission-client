@@ -164,24 +164,25 @@ class AuthProvider extends ChangeNotifier {
     return null;
   }
 
-// FutureOr<String?> redirectLogic(BuildContext context, GoRouterState state) {
-//   final UserModelBase? user = ref.read(userMeProvider);
-//
-//   if ((state.matchedLocation == '/signup' || state.matchedLocation == '/login') && user is UserModel)
-//     return '/';
-//
-//   if (state.matchedLocation.startsWith('/signup')) return null;
-//
-//   if (state.matchedLocation == '/login' && user is UserModel) return '/';
-//
-//   if (!state.matchedLocation.startsWith('/login') && user == null) return '/select';
-//
-//   if (user is UserModel &&
-//       (state.matchedLocation == '/select'
-//           || state.matchedLocation == '/splash')) return '/';
-//
-//   return null;
-// }
-
+  // FutureOr<String?> redirectLogic(BuildContext context, GoRouterState state) {
+  //   final UserModelBase? user = ref.read(userMeProvider);
+  //
+  //   // 로그인 페이지나 회원가입 페이지에 있고, 사용자가 이미 로그인했다면 메인 화면으로 리다이렉트
+  //   if ((state.matchedLocation.startsWith('/signup') || state.matchedLocation == '/login') && user is UserModel) {
+  //     return '/';
+  //   }
+  //
+  //   // 메인 화면('/')에 있거나 로그인/회원가입 관련 페이지에 있으면 아무 것도 하지 않음
+  //   if (state.matchedLocation == '/' || state.matchedLocation.startsWith('/signup') || state.matchedLocation == '/login') {
+  //     return null;
+  //   }
+  //
+  //   // 로그인하지 않은 상태이고, 로그인/회원가입 페이지가 아니라면 /select로 리다이렉트
+  //   if (user == null) {
+  //     return '/select';
+  //   }
+  //
+  //   return null;
+  // }
 
 }

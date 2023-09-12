@@ -28,6 +28,7 @@ ResearchDetailModel _$ResearchDetailModelFromJson(Map<String, dynamic> json) =>
       comments: (json['comments'] as List<dynamic>)
           .map((e) => Comment.fromJson(e as Map<String, dynamic>))
           .toList(),
+      isPossible: json['isPossible'] as String,
     );
 
 Map<String, dynamic> _$ResearchDetailModelToJson(
@@ -42,6 +43,7 @@ Map<String, dynamic> _$ResearchDetailModelToJson(
       'researchRewdAmt': instance.researchRewdAmt,
       'isOnGoing': instance.isOnGoing,
       'isBlock': instance.isBlock,
+      'isPossible': instance.isPossible,
       'researchType': instance.researchType,
       'minAge': instance.minAge,
       'detail': instance.detail,

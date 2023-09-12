@@ -115,7 +115,7 @@ class _ResearchCardState extends State<ScrapResearchCard> {
     }
 
     return Padding(
-      padding: const EdgeInsets.fromLTRB(11, 0, 21, 0),
+      padding: const EdgeInsets.fromLTRB(11, 0, 21, 10),
       child: Card(
         child: InkWell(
           onTap: () {

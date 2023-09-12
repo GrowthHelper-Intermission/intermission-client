@@ -10,7 +10,7 @@ import 'package:intermission_project/common/view/home_screen.dart';
 import 'package:provider/provider.dart';
 
 class RootTab extends StatefulWidget {
-  static String get routeName => 'home';
+  static String get routeName => '/';
   const RootTab({
     Key? key,
   }) : super(key: key);
