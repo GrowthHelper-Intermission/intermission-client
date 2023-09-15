@@ -8,7 +8,10 @@ part of 'research_req_model.dart';
 
 ResearchReqModel _$ResearchReqModelFromJson(Map<String, dynamic> json) =>
     ResearchReqModel(
-      userId: json['userId'] as String?,
+      researchTgtAsignTpCd: json['researchTgtAsignTpCd'] as String?,
+      researchTgtHouseTpCd: json['researchTgtHouseTpCd'] as String?,
+      researchTgtJobTpCd: json['researchTgtJobTpCd'] as String?,
+      researchTgtWedTpCd: json['researchTgtWedTpCd'] as String?,
       taskTpCd: json['taskTpCd'] as String?,
       etcTaskSubs: json['etcTaskSubs'] as String?,
       compNm: json['compNm'] as String?,
@@ -33,7 +36,6 @@ ResearchReqModel _$ResearchReqModelFromJson(Map<String, dynamic> json) =>
       researchPostAgreeYn: json['researchPostAgreeYn'] as String?,
       hpNum: json['hpNum'] as String?,
       email: json['email'] as String?,
-      delYn: json['delYn'] as String?,
     );
 
 Map<String, dynamic> _$ResearchReqModelToJson(ResearchReqModel instance) =>
@@ -53,7 +55,6 @@ Map<String, dynamic> _$ResearchReqModelToJson(ResearchReqModel instance) =>
       'researchType': instance.researchType,
       'researchMethTpCd': instance.researchMethTpCd,
       'researchRewdAmt': instance.researchRewdAmt,
-      'userId': instance.userId,
       'email': instance.email,
       'taskTpCd': instance.taskTpCd,
       'etcTaskSubs': instance.etcTaskSubs,
@@ -63,5 +64,8 @@ Map<String, dynamic> _$ResearchReqModelToJson(ResearchReqModel instance) =>
       'etcReqCn': instance.etcReqCn,
       'researchPostAgreeYn': instance.researchPostAgreeYn,
       'hpNum': instance.hpNum,
-      'delYn': instance.delYn,
+      'researchTgtAsignTpCd': instance.researchTgtAsignTpCd,
+      'researchTgtHouseTpCd': instance.researchTgtHouseTpCd,
+      'researchTgtJobTpCd': instance.researchTgtJobTpCd,
+      'researchTgtWedTpCd': instance.researchTgtWedTpCd,
     };

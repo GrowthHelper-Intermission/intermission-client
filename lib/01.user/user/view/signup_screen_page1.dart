@@ -21,6 +21,7 @@ import 'package:intermission_project/common/component/signup_appbar.dart';
 import 'package:intermission_project/common/component/signup_ask_label.dart';
 import 'package:intermission_project/common/component/signup_either_button.dart';
 import 'package:intermission_project/common/const/colors.dart';
+import 'package:intermission_project/common/const/data.dart';
 import 'package:intl/intl.dart';
 
 extension InputValidate on String {
@@ -101,7 +102,7 @@ class _SignupScreenPage1State extends ConsumerState<SignupScreenPage1> {
       };
 
       var response = await dio.post(
-        'http://35.216.100.47:8080/api/auth/email',
+        'http://$ip/api/auth/email',
         data: data,
       );
 

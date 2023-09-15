@@ -3,6 +3,9 @@ import 'package:intermission_project/common/component/custom_text_style.dart';
 import 'package:intermission_project/common/component/login_next_button.dart';
 import 'package:intermission_project/common/component/normal_appbar.dart';
 import 'package:intermission_project/common/const/colors.dart';
+import 'package:intermission_project/common/view/interview_request_screen.dart';
+import 'package:intermission_project/common/view/survey_request_screen.dart';
+import 'package:intermission_project/common/view/tester_request_screen.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class MatchingScreen extends StatelessWidget {
@@ -27,20 +30,36 @@ class MatchingScreen extends StatelessWidget {
                 ),
               ),
               _buildCardButton(
-                onPressed: () => _launchURL('https://docs.google.com/forms/d/e/1FAIpQLScpInA5ldhmSqRSZjw8By71xaZkYoq2thsUlM4eXhEV9ELrMA/viewform'),
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => InterviewRequestScreen()),
+                  );
+                },
                 buttonName: '인터뷰 의뢰하기',
                 description: '인터뷰 매칭비용 할인 중!\n인터뷰 질문개발, 인터뷰이 모집, 진행대행',
               ),
               _buildCardButton(
-                onPressed: () => _launchURL('https://docs.google.com/forms/d/e/1FAIpQLSc6k65N6yNbnTBNN4oHg6A0e_2hrucjMSfkEl3jdTANGKhUJQ/viewform'),
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => SurveyRequestScreen()),
+                  );
+                },
                 buttonName: '설문 의뢰하기',
                 description: '합리적인가격!\n설문 설계-입력-응답 결과 보고까지 한번에!',
               ),
               _buildCardButton(
-                onPressed: () => _launchURL('https://docs.google.com/forms/d/e/1FAIpQLSdZuQK4k5Cf1LXSYnbROof0ePo3-kJQctbXS-yxCZPK3ZeLNw/viewform'),
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => TesterRequestScreen()),
+                  );
+                },
                 buttonName: '제품/서비스 테스터 의뢰하기',
                 description: '제품/서비스가 나온 후에도 리서치는 필수!\n테스터를 통해 이용에 불편함이 없는지 알아봐요',
               ),
+
             ],
           ),
         ),
@@ -76,6 +95,7 @@ class MatchingScreen extends StatelessWidget {
       ),
     );
   }
+
 
   _launchURL(String url) async {
     if (await canLaunch(url)) {

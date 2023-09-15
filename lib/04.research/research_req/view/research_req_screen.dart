@@ -22,28 +22,35 @@ class ResearchReqScreen extends ConsumerWidget {
           ElevatedButton(
             onPressed: () async {
               ResearchReqModel newResearch = ResearchReqModel(
-                mainTitle: '피억 개발을 위한 설문 조사',
+                mainTitle: '기환 개발을 위한 설문 조사',
                 subTitle: '온라인, 서울 중구 기준 30분 거리면 오프 라인 방문 가능',
-                dueDate: '2023-09-06',
+                dueDate: '2023-09-24',
                 exceptTime: '2',
+                isFifties: "N",
+                isForties: "N",
+                isSeventies: "N",
+                isSixties: "N",
                 isTeenagers: "Y",
-                isSeventies: "Y",
+                isThirties: "N",
+                isTwenties: "Y",
                 detail:
                     '안녕하세요. 한국대학병원 서비스 조사팀 김철수입니다. 현재 한국대학에서는 뇌졸중 환자 및 보호자 설문 모집하고 있습니다. 본 설문조사는 뇌졸중 연구 논문에 참고 자료로 사용될 예정입니다. 작성해주신 모든 응답과 신상 정보는 철저히 보호될 것을 약속드립니다. 감사합니다.',
-                researchType: "survey",
+                researchType: "설문조사",
                 researchMethTpCd: '온라인',
                 researchRewdAmt: "30000원",
-                userId: "12",
                 email: "chaseB",
                 taskTpCd: "대표자",
                 etcTaskSubs: "기타직",
                 compNm: "카카오",
-                researchTgtZendTpCd: "남성/여성",
+                researchTgtZendTpCd: "남성",
                 researchEntryCnt: "4",
                 etcReqCn: "동대생",
                 researchPostAgreeYn: "동의",
                 hpNum: "010-1313-2424",
-                delYn: "N",
+                researchTgtAsignTpCd: "상관없음",
+                researchTgtHouseTpCd: "상관없음",
+                researchTgtJobTpCd: "상관없음",
+                researchTgtWedTpCd: "상관없음",
               );
               try {
                 ref
@@ -51,7 +58,7 @@ class ResearchReqScreen extends ConsumerWidget {
                     .postResearch(newResearch);
                 print('Research posted successfully');
 
-                ref.read(researchProvider.notifier).getTopThreeResearches();
+                // ref.read(researchProvider.notifier).getTopThreeResearches();
 
                 // Show the confirmation dialog
                 await showDialog(

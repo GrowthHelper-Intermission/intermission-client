@@ -19,7 +19,7 @@ class _ResearchReqRepository implements ResearchReqRepository {
   String? baseUrl;
 
   @override
-  Future<ResearchReqModel> postResearch({required researchReqModel}) async {
+  Future<ApiResponse> postResearch({required researchReqModel}) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{r'accessToken': 'true'};
@@ -27,7 +27,7 @@ class _ResearchReqRepository implements ResearchReqRepository {
     final _data = <String, dynamic>{};
     _data.addAll(researchReqModel.toJson());
     final _result = await _dio
-        .fetch<Map<String, dynamic>>(_setStreamType<ResearchReqModel>(Options(
+        .fetch<Map<String, dynamic>>(_setStreamType<ApiResponse>(Options(
       method: 'POST',
       headers: _headers,
       extra: _extra,
@@ -39,7 +39,7 @@ class _ResearchReqRepository implements ResearchReqRepository {
               data: _data,
             )
             .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
-    final value = ResearchReqModel.fromJson(_result.data!);
+    final value = ApiResponse.fromJson(_result.data!);
     return value;
   }
 

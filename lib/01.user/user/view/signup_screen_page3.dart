@@ -7,30 +7,17 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intermission_project/01.user/user/model/signup_user_model.dart';
-import 'package:intermission_project/01.user/user/model/test_user_model.dart';
-import 'package:intermission_project/01.user/user/model/user_model.dart';
 import 'package:intermission_project/01.user/user/provider/signup_user_provider.dart';
 import 'package:intermission_project/01.user/user/provider/user_me_provider.dart';
-import 'package:intermission_project/01.user/user/repository/user_me_repository.dart';
 import 'package:intermission_project/01.user/user/view/login_screen.dart';
 import 'package:intermission_project/common/component/custom_appbar.dart';
 import 'package:intermission_project/common/component/custom_dropdown_button.dart';
 import 'package:intermission_project/common/component/custom_text_form_field.dart';
-import 'package:intermission_project/common/component/custom_text_style.dart';
 import 'package:intermission_project/common/component/login_next_button.dart';
 import 'package:intermission_project/common/component/signup_appbar.dart';
-import 'package:intermission_project/common/component/signup_ask_label.dart';
-import 'package:intermission_project/common/component/signup_either_button.dart';
 import 'package:intermission_project/common/component/signup_long_ask_label.dart';
 import 'package:intermission_project/common/dio/dio.dart';
-import 'package:intermission_project/common/storage/secure_storage.dart';
-import 'package:intermission_project/common/view/root_tab.dart';
-import 'package:intermission_project/common/const/colors.dart';
-import 'package:intermission_project/common/const/data.dart';
 import 'package:flutter/foundation.dart'; // Import the 'foundation' package
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:provider/provider.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class SignupScreenPage3 extends ConsumerStatefulWidget {
   static String get routeName => 'signup3';
@@ -94,7 +81,6 @@ class _SignupScreenPage3State extends ConsumerState<SignupScreenPage3> {
 
   @override
   Widget build(BuildContext context) {
-    final dio = ref.watch(dioProvider);
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: CustomAppBar(),
@@ -211,8 +197,8 @@ class _SignupScreenPage3State extends ConsumerState<SignupScreenPage3> {
 
                        final SignupUserModel newUser = SignupUserModel(
                          userTpCd: "개인",
-                         researchSidoCd: state.researchSidoCd ?? "blank",
-                         researchSigunguCd: state.researchSigunguCd ?? "blank",
+                         researchSidoCd: state.researchSidoCd ?? state.occpSidoCd,
+                         researchSigunguCd: state.researchSigunguCd ?? state.occpSigunguCd,
                          jobGrdNm: "blank",
                          jobCd: state.jobCd,
                          asignJobCd: state.asignJobCd,

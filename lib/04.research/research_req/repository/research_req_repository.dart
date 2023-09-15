@@ -27,7 +27,33 @@ abstract class ResearchReqRepository {
   @Headers({
     'accessToken': 'true',
   })
-  Future<ResearchReqModel> postResearch({
+  Future<ApiResponse> postResearch({
     @Body() required ResearchReqModel researchReqModel,
   });
+}
+
+
+
+class ApiResponse {
+  final int code;
+  final String message;
+  final String? data;
+
+  ApiResponse({required this.code, required this.message, this.data});
+
+  factory ApiResponse.fromJson(Map<String, dynamic> json) {
+    return ApiResponse(
+      code: json['code'],
+      message: json['message'],
+      data: json['data'],
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'code': code,
+      'message': message,
+      'data': data,
+    };
+  }
 }

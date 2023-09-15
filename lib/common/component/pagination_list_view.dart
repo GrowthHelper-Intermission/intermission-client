@@ -58,7 +58,6 @@ class _PaginationListViewState<T extends IModelWithId>
 
   @override
   Widget build(BuildContext context) {
-    // super.build(context);
     final state = ref.watch(widget.provider);
     //완전 처음 로딩일때
     if (state is CursorPaginationLoading) {
