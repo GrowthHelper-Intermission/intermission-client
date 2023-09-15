@@ -4,12 +4,8 @@ part 'research_req_model.g.dart';
 
 @JsonSerializable()
 class ResearchReqModel {
-  // /// 인터뷰 유일 ID(PK) 필수
-  // final String id;
-
   /// 인터뷰명
   final String mainTitle;
-
   /// 부제목
   final String subTitle;
 
@@ -42,9 +38,6 @@ class ResearchReqModel {
 
   //// 여기까지가 유저가 앱에서 보이는 것들 (기존에 테스트했던 10개의 변수 그대로)
 
-  /// 회원번호(일단 임의로 한개 지정, 의뢰하는 userId) 필수
-  final String? userId;
-
   /// EMAIL주소(일단 임의로 한개 지정!!! User정보에서 가져와야함. GET 요청 필수)
   final String? email;
 
@@ -72,47 +65,17 @@ class ResearchReqModel {
   /// 선택적 기입(의뢰자가 기업소속이나, 다른 단체 휴대폰 있을때 위함)
   final String? hpNum;
 
-  /// 삭제여부(물리적인 삭제는 없으며, Flag 처리)
-  final String? delYn;
+  final String? researchTgtAsignTpCd;
+  final String? researchTgtHouseTpCd;
+  final String? researchTgtJobTpCd;
+  final String? researchTgtWedTpCd;
 
-  // /// 최초입력일시(데이터를 입력한 최초 일시 , SYSTEM DATE)
-  // final DateTime? frstRegtDt;
-  //
-  // /// 최종수정일시
-  // final DateTime? finlUpdtDt;
-
-  // /// 아이템명
-  // final String? itemNm;
-  //
-  // /// 아이템한줄소개내용
-  // final String? item1LnIntroCn;
-
-  // /// 인터뷰연령대10대여부(Y/N, Default = 'N')
-  // final String? intvAge10Yn;
-  //
-  // /// 인터뷰연령대20대여부
-  // final String? intvAge20Yn;
-  //
-  // /// 인터뷰연령대30대여부
-  // final String? intvAge30Yn;
-  //
-  // /// 인터뷰연령대40대여부
-  // final String? intvAge40Yn;
-  //
-  // /// 인터뷰연령대50대여부
-  // final String? intvAge50Yn;
-  //
-  // /// 인터뷰연령대60대여부
-  // final String? intvAge60Yn;
-  //
-  // /// 인터뷰연령대70대이상여부
-  // final String? intvAge70Yn;
-  //
-  // /// 무직위여부(연령 성별 구분없이 Random하게 추출하는 지에 대한 여부,Y/N)
-  // final String? intvAgeRandYn;
 
   ResearchReqModel({
-    this.userId,
+    this.researchTgtAsignTpCd,
+    this.researchTgtHouseTpCd,
+    this.researchTgtJobTpCd,
+    this.researchTgtWedTpCd,
     this.taskTpCd,
     this.etcTaskSubs,
     this.compNm,
@@ -137,7 +100,6 @@ class ResearchReqModel {
     this.researchPostAgreeYn,
     this.hpNum,
     this.email,
-    this.delYn,
   });
 
   factory ResearchReqModel.fromJson(Map<String, dynamic> json) =>

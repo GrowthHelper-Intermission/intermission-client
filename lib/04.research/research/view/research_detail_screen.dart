@@ -88,9 +88,7 @@ class _ResearchDetailScreenState extends ConsumerState<ResearchDetailScreen> {
       print('걸린다');
       print(state.toString());
       return Scaffold(body: renderLoading());
-    }
-
-    else {
+    } else {
       print('nco');
       isScrapped = state.isScrap == "Y" ? true : false;
 
@@ -136,7 +134,6 @@ class _ResearchDetailScreenState extends ConsumerState<ResearchDetailScreen> {
         backgroundColor = PRIMARY_COLOR;
       }
 
-
       return Scaffold(
         backgroundColor: Colors.white,
         appBar: AppBar(
@@ -177,8 +174,7 @@ class _ResearchDetailScreenState extends ConsumerState<ResearchDetailScreen> {
                 }
                 // 기타 메뉴 아이템에 대한 로직 추가 가능
               },
-              itemBuilder: (BuildContext context) =>
-              <PopupMenuEntry<String>>[
+              itemBuilder: (BuildContext context) => <PopupMenuEntry<String>>[
                 const PopupMenuItem<String>(
                   value: 'report',
                   child: Text('신고하기'),
@@ -640,15 +636,18 @@ class _ResearchDetailScreenState extends ConsumerState<ResearchDetailScreen> {
                                 await _handleParticipation(); // 콜백 내에서 참여 처리 함수 호출
                               },
                               completionURL:
-                                  'https://docs.google.com/forms/d/e/1FAIpQLSdMOssE_VzRdeKVid0UlNDAtuxYLuN6uMVy-_zJIreNr7ZBmA/formResponse?pli=1',
+                                  'https://docs.google.com/forms/u/0/d/e/1FAIpQLScLq4BPS21q1CmeQipv068UyMCYsz9Kxa_3d-8ISF_jlfgByA/formResponse',
                               homeUrl:
-                                  'https://docs.google.com/forms/d/1AkYT38aaIB9ACx1C60xcbzGJxF_BHTyRebaZt2_QPsQ/viewform?edit_requested=true&pli=1',
+                                  'https://docs.google.com/forms/d/e/1FAIpQLScLq4BPS21q1CmeQipv068UyMCYsz9Kxa_3d-8ISF_jlfgByA/viewform',
+                              page: 8,
                             ),
                           ),
                         );
                       }
                     : null, // 비활성화 상태일 때 null
-                buttonName: state.isPossible == "N" ? '참여 대상이 아닙니다' : (isButtonEnabled ? '참여하기' : '참여완료'),
+                buttonName: state.isPossible == "N"
+                    ? '참여 대상이 아닙니다'
+                    : (isButtonEnabled ? '참여하기' : '참여완료'),
               ),
             ),
           ],
