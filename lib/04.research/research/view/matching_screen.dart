@@ -3,9 +3,9 @@ import 'package:intermission_project/common/component/custom_text_style.dart';
 import 'package:intermission_project/common/component/login_next_button.dart';
 import 'package:intermission_project/common/component/normal_appbar.dart';
 import 'package:intermission_project/common/const/colors.dart';
-import 'package:intermission_project/common/view/interview_request_screen.dart';
-import 'package:intermission_project/common/view/survey_request_screen.dart';
-import 'package:intermission_project/common/view/tester_request_screen.dart';
+import 'package:intermission_project/04.research/research_req/view/interview_request_screen.dart';
+import 'package:intermission_project/04.research/research_req/view/survey_request_screen.dart';
+import 'package:intermission_project/04.research/research_req/view/tester_request_screen.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class MatchingScreen extends StatelessWidget {
@@ -33,7 +33,7 @@ class MatchingScreen extends StatelessWidget {
                 onPressed: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => InterviewRequestScreen()),
+                    MaterialPageRoute(builder: (context) => InterviewReqScreen()),
                   );
                 },
                 buttonName: '인터뷰 의뢰하기',
@@ -43,7 +43,7 @@ class MatchingScreen extends StatelessWidget {
                 onPressed: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => SurveyRequestScreen()),
+                    MaterialPageRoute(builder: (context) => SurveyReqScreen()),
                   );
                 },
                 buttonName: '설문 의뢰하기',
@@ -53,7 +53,7 @@ class MatchingScreen extends StatelessWidget {
                 onPressed: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => TesterRequestScreen()),
+                    MaterialPageRoute(builder: (context) => TesterReqScreen()),
                   );
                 },
                 buttonName: '제품/서비스 테스터 의뢰하기',
