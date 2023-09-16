@@ -187,12 +187,6 @@ class _SignupScreenPage3State extends ConsumerState<SignupScreenPage3> {
                        state.setHobySubs(yourHobbyController.text.trim());
                        state.setRcmdUserCd(recommandNameController.text.trim());
                        state.setIsAgreeYn( isAgree == true ? "Y" : "N");
-
-                       // state.set(DateTime.now().toString());
-                       // state.setFrstRegtDt(DateTime.now().toString());
-                       // state.setJoinDay(DateTime.now().toString());
-                       // state.setEmpNo("");
-                       // state.setEmpYn("Y");
                        state.setDelYn("N");
 
                        final SignupUserModel newUser = SignupUserModel(
@@ -224,36 +218,6 @@ class _SignupScreenPage3State extends ConsumerState<SignupScreenPage3> {
                          pwd: state.pwd ?? "blank",
                          userNm: state.userNm,
                        );
-
-                       // print('userTpCd: ${newUser.userTpCd}');
-                       // print('researchSidoCd: ${newUser.researchSidoCd}');
-                       // print('researchSigunguCd: ${newUser.researchSigunguCd}');
-                       // print('jobGrdNm: ${newUser.jobGrdNm}');
-                       // print('jobCd: ${newUser.jobCd}');
-                       // print('asignJobCd: ${newUser.asignJobCd}');
-                       // print('accountNumber: ${newUser.accountNumber}');
-                       // print('bankAccount: ${newUser.bankAccount}');
-                       // print('isAgreeYn: ${newUser.isAgreeYn}');
-                       // print('hobySubs: ${newUser.hobySubs}');
-                       // print('onlResRwdTpCd: ${newUser.onlResRwdTpCd}');
-                       // print('oflResRwdTpCd: ${newUser.oflResRwdTpCd}');
-                       // print('petTpCd: ${newUser.petTpCd}');
-                       // print('housTpCd: ${newUser.housTpCd}');
-                       // print('wedTpCd: ${newUser.wedTpCd}');
-                       // print('birthDay: ${newUser.birthDay}');
-                       // print('delYn: ${newUser.delYn}');
-                       // print('email: ${newUser.email}');
-                       // print('genderCd: ${newUser.genderCd}');
-                       // print('hpNum: ${newUser.hpNum}');
-                       // print('mainUseOnlSvcCn: ${newUser.mainUseOnlSvcCn}');
-                       // print('occpSidoCd: ${newUser.occpSidoCd}');
-                       // print('occpSigunguCd: ${newUser.occpSigunguCd}');
-                       // print('petNm: ${newUser.petNm}');
-                       // print('petYn: ${newUser.petYn}');
-                       // print('pwd: ${newUser.pwd}');
-                       // print('userNm: ${newUser.userNm}');
-
-
                        try{
                          ref.read(userMeProvider.notifier).postUser(newUser);
                          print('성공적 수행');
@@ -332,3 +296,33 @@ class PrivacyAgreement extends StatelessWidget {
     );
   }
 }
+
+
+
+// print('userTpCd: ${newUser.userTpCd}');
+// print('researchSidoCd: ${newUser.researchSidoCd}');
+// print('researchSigunguCd: ${newUser.researchSigunguCd}');
+// print('jobGrdNm: ${newUser.jobGrdNm}');
+// print('jobCd: ${newUser.jobCd}');
+// print('asignJobCd: ${newUser.asignJobCd}');
+// print('accountNumber: ${newUser.accountNumber}');
+// print('bankAccount: ${newUser.bankAccount}');
+// print('isAgreeYn: ${newUser.isAgreeYn}');
+// print('hobySubs: ${newUser.hobySubs}');
+// print('onlResRwdTpCd: ${newUser.onlResRwdTpCd}');
+// print('oflResRwdTpCd: ${newUser.oflResRwdTpCd}');
+// print('petTpCd: ${newUser.petTpCd}');
+// print('housTpCd: ${newUser.housTpCd}');
+// print('wedTpCd: ${newUser.wedTpCd}');
+// print('birthDay: ${newUser.birthDay}');
+// print('delYn: ${newUser.delYn}');
+// print('email: ${newUser.email}');
+// print('genderCd: ${newUser.genderCd}');
+// print('hpNum: ${newUser.hpNum}');
+// print('mainUseOnlSvcCn: ${newUser.mainUseOnlSvcCn}');
+// print('occpSidoCd: ${newUser.occpSidoCd}');
+// print('occpSigunguCd: ${newUser.occpSigunguCd}');
+// print('petNm: ${newUser.petNm}');
+// print('petYn: ${newUser.petYn}');
+// print('pwd: ${newUser.pwd}');
+// print('userNm: ${newUser.userNm}');
