@@ -9,24 +9,26 @@ import 'package:webview_flutter_wkwebview/webview_flutter_wkwebview.dart';
 class GoogleFormWebView extends StatefulWidget {
   final VoidCallback onComplete;
   final String homeUrl;
-  final String completionURL;
-  final int page; // 페이지 수를 나타내는 변수
 
   GoogleFormWebView({
     required this.onComplete,
     required this.homeUrl,
-    required this.completionURL,
-    required this.page,
   });
 
   @override
   _GoogleFormWebViewState createState() => _GoogleFormWebViewState();
 }
 
+
 class _GoogleFormWebViewState extends State<GoogleFormWebView> {
   late WebViewController controller;
-  int pageReachedCount = 0;
-  int currentHistoryLength = 0; // 현재 페이지의 히스토리 길이를 저장하는 변수
+
+  bool isGoogleFormUrl(Uri uri) {
+    if (uri.host == "forms.gle") {
+      return true;
+    }
+    return uri.host == "docs.google.com" && uri.path.contains("forms");
+  }
 
   void _showCompletionDialog() {
     showDialog(
@@ -47,7 +49,6 @@ class _GoogleFormWebViewState extends State<GoogleFormWebView> {
     );
   }
 
-  @override
   void initState() {
     super.initState();
     controller = WebViewController()
@@ -55,14 +56,6 @@ class _GoogleFormWebViewState extends State<GoogleFormWebView> {
       ..setNavigationDelegate(
         NavigationDelegate(
           onProgress: (int progress) {
-            if (progress == 100) {
-              pageReachedCount++;
-              if (pageReachedCount == widget.page) {
-                print('설문 완료');
-                widget.onComplete();
-                _showCompletionDialog();
-              }
-            }
             print(progress);
           },
           onPageStarted: (String url) {
@@ -70,17 +63,20 @@ class _GoogleFormWebViewState extends State<GoogleFormWebView> {
           },
           onPageFinished: (String url) {
             print(url);
+
+            Uri uri = Uri.parse(url);
+            bool alreadyResponded = url.contains("/alreadyresponded");
+            bool responded = url.contains("/formResponse");
+
+            if (isGoogleFormUrl(uri) && (alreadyResponded)) {
+              _showCompletionDialog();
+              widget.onComplete();
+            }
           },
           onWebResourceError: (WebResourceError error) {
             print('Web resource error: ${error.toString()}');
           },
           onNavigationRequest: (NavigationRequest request) {
-            // if (request.url.startsWith(widget.completionURL)) {
-            //
-            //   widget.onComplete();
-            //   _showCompletionDialog();
-            //   return NavigationDecision.prevent;
-            // }
             return NavigationDecision.navigate;
           },
         ),
@@ -88,12 +84,44 @@ class _GoogleFormWebViewState extends State<GoogleFormWebView> {
       ..loadRequest(Uri.parse(widget.homeUrl));
   }
 
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: NormalAppbar(title: '구글폼'),
+      appBar: AppBar(
+        title: Text('구글폼'),
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back),
+          onPressed: _showExitConfirmation,
+        ),
+      ),
       body: WebViewWidget(
         controller: controller,
+      ),
+    );
+  }
+
+  void _showExitConfirmation() {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text('설문 응답 종료'),
+        content: Text('설문 응답을 그만두시겠습니까?'),
+        actions: <Widget>[
+          TextButton(
+            child: Text('이어하기'),
+            onPressed: () {
+              Navigator.of(context).pop(); // 다이얼로그만 닫음
+            },
+          ),
+          TextButton(
+            child: Text('그만두기'),
+            onPressed: () {
+              Navigator.of(context).pop(); // 다이얼로그 닫기
+              Navigator.of(context).pop(); // 웹뷰 화면에서 이전 화면으로 돌아감
+            },
+          ),
+        ],
       ),
     );
   }

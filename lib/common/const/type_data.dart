@@ -8,6 +8,9 @@ const List<String> residenceTypes = [
   '6인 이상 가구',
 ];
 
+
+const List<String> taskTpOptions = ['선택', '대표자', 'PM/PO', 'UX 리서처', '고객개발팀', '기타'];
+
 const List<String> jobCdTypes = [
   '선택',
   '초등 학생',

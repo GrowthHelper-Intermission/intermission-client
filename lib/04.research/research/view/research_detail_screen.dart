@@ -92,7 +92,7 @@ class _ResearchDetailScreenState extends ConsumerState<ResearchDetailScreen> {
       print('nco');
       isScrapped = state.isScrap == "Y" ? true : false;
 
-      if (state.isJoin == "Y") {
+      if (state.participationStatus == "참여완료" || state.participationStatus == "참여진행중" || state.participationStatus == "참여불가") {
         isButtonEnabled = false;
       }
 
@@ -635,19 +635,14 @@ class _ResearchDetailScreenState extends ConsumerState<ResearchDetailScreen> {
                               onComplete: () async {
                                 await _handleParticipation(); // 콜백 내에서 참여 처리 함수 호출
                               },
-                              completionURL:
-                                  'https://docs.google.com/forms/u/0/d/e/1FAIpQLScLq4BPS21q1CmeQipv068UyMCYsz9Kxa_3d-8ISF_jlfgByA/formResponse',
                               homeUrl:
                                   'https://docs.google.com/forms/d/e/1FAIpQLScLq4BPS21q1CmeQipv068UyMCYsz9Kxa_3d-8ISF_jlfgByA/viewform',
-                              page: 8,
                             ),
                           ),
                         );
                       }
                     : null, // 비활성화 상태일 때 null
-                buttonName: state.isPossible == "N"
-                    ? '참여 대상이 아닙니다'
-                    : (isButtonEnabled ? '참여하기' : '참여완료'),
+                buttonName: state.participationStatus ?? '참여하장',
               ),
             ),
           ],

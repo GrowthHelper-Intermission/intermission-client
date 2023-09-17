@@ -49,6 +49,7 @@ class _SignupScreenPage2State extends ConsumerState<SignupScreenPage2> {
 
   bool isAreaValid = false;
 
+
   final residenceType = [
     '선택',
     '1인 가구',
