@@ -16,6 +16,7 @@ class ResearchModel implements IModelWithId {
   final String researchRewdAmt;
   final String isOnGoing;
   final String isBlock;
+  final String? researchRewdPoint;
 
   ResearchModel({
     required this.id,
@@ -27,6 +28,7 @@ class ResearchModel implements IModelWithId {
     required this.researchRewdAmt,
     required this.isOnGoing,
     required this.isBlock,
+    this.researchRewdPoint,
   });
 
   factory ResearchModel.fromJson(Map<String, dynamic> json)

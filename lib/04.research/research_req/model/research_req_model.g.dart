@@ -8,6 +8,8 @@ part of 'research_req_model.dart';
 
 ResearchReqModel _$ResearchReqModelFromJson(Map<String, dynamic> json) =>
     ResearchReqModel(
+      researchUrl: json['researchUrl'] as String?,
+      researchRewdPoint: json['researchRewdPoint'] as int?,
       researchTgtAsignTpCd: json['researchTgtAsignTpCd'] as String?,
       researchTgtHouseTpCd: json['researchTgtHouseTpCd'] as String?,
       researchTgtJobTpCd: json['researchTgtJobTpCd'] as String?,
@@ -68,4 +70,6 @@ Map<String, dynamic> _$ResearchReqModelToJson(ResearchReqModel instance) =>
       'researchTgtHouseTpCd': instance.researchTgtHouseTpCd,
       'researchTgtJobTpCd': instance.researchTgtJobTpCd,
       'researchTgtWedTpCd': instance.researchTgtWedTpCd,
+      'researchRewdPoint': instance.researchRewdPoint,
+      'researchUrl': instance.researchUrl,
     };

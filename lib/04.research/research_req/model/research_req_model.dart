@@ -70,8 +70,14 @@ class ResearchReqModel {
   final String? researchTgtJobTpCd;
   final String? researchTgtWedTpCd;
 
+  final int? researchRewdPoint;
+  final String? researchUrl;
+
+
 
   ResearchReqModel({
+    this.researchUrl,
+    this.researchRewdPoint,
     this.researchTgtAsignTpCd,
     this.researchTgtHouseTpCd,
     this.researchTgtJobTpCd,

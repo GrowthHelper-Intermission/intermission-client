@@ -14,11 +14,14 @@ class ResearchDetailModel extends ResearchModel{
   final String minAge;
   final String detail;
   final String researchEntryCnt;
-  final String researchCnt;
-  final String isJoin;
+  final String? researchCnt;
   final String isScrap;
   final String scrapCnt;
   final List<Comment> comments;  // comments 필드 추가
+
+  // n,c 조건 추가
+  final String? participationStatus; //"참여가능" ,참여중, 참여 완료
+  final String? researchUrl;
 
 
   ResearchDetailModel({
@@ -31,12 +34,14 @@ class ResearchDetailModel extends ResearchModel{
     required super.researchRewdAmt,
     required super.isOnGoing,
     required super.isBlock,
+    super.researchRewdPoint,
+    this.participationStatus,
+    this.researchUrl,
     required this.detail,
     required this.researchType,
     required this.minAge,
     required this.researchEntryCnt,
     required this.researchCnt,
-    required this.isJoin,
     required this.isScrap,
     required this.scrapCnt,
     required this.comments,
