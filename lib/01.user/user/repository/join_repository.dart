@@ -28,8 +28,6 @@ final joinRepositoryProvider = Provider<JoinRepository>(
   },
 );
 
-
-
 @RestApi()
 abstract class JoinRepository implements
     IBasePaginationRepository<ResearchModel> {
@@ -54,12 +52,4 @@ abstract class JoinRepository implements
   Future<ResearchDetailModel> getResearchDetail({
     @Path() required String id,
   });
-
-
-  // @POST('/{id}')
-  // @Headers({
-  //   'accessToken': 'true',
-  // })
-  // Future<ScrapResponse> scrapResearch({@Path() required String id});
-
 }

@@ -67,8 +67,8 @@ abstract class ResearchRepository implements
     @Path() required String id,
   });
 
-
-  @POST('/{id}')
+//리서치 참여하기
+  @PATCH('/{id}')
   @Headers({
     'accessToken': 'true',
   })
