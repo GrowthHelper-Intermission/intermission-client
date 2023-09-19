@@ -23,12 +23,12 @@ class GoogleFormWebView extends StatefulWidget {
 class _GoogleFormWebViewState extends State<GoogleFormWebView> {
   late WebViewController controller;
 
-  bool isGoogleFormUrl(Uri uri) {
-    if (uri.host == "forms.gle") {
-      return true;
-    }
-    return uri.host == "docs.google.com" && uri.path.contains("forms");
-  }
+  // bool isGoogleFormUrl(Uri uri) {
+  //   if (uri.host == "forms.gle") {
+  //     return true;
+  //   }
+  //   return uri.host == "docs.google.com" && uri.path.contains("forms");
+  // }
 
   void _showCompletionDialog() {
     showDialog(
@@ -49,6 +49,13 @@ class _GoogleFormWebViewState extends State<GoogleFormWebView> {
     );
   }
 
+
+  Future<bool> checkFormFilledStatus(WebViewController controller) async {
+    var result = await controller.runJavaScriptReturningResult("document.getElementsByClassName('vHW8K').length > 0");
+    return result == true;
+  }
+
+
   void initState() {
     super.initState();
     controller = WebViewController()
@@ -61,14 +68,11 @@ class _GoogleFormWebViewState extends State<GoogleFormWebView> {
           onPageStarted: (String url) {
             print(url);
           },
-          onPageFinished: (String url) {
+          onPageFinished: (String url) async {
             print(url);
-
-            Uri uri = Uri.parse(url);
-            bool alreadyResponded = url.contains("/alreadyresponded");
-            bool responded = url.contains("/formResponse");
-
-            if (isGoogleFormUrl(uri) && (alreadyResponded)) {
+            bool isFormFilled = await checkFormFilledStatus(controller);
+            print(isFormFilled);
+            if (isFormFilled) {
               _showCompletionDialog();
               widget.onComplete();
             }

@@ -9,6 +9,7 @@ class SurveyReqModel {
   final String completeUrl; // "저희가 만든 유알엘이랍니다"
   final String exceptCountTime; // "40개 물을거고요 20분정도 걸릴듯"
   final String researchEntryCnt; // 10
+  final String surveyInput;
   final String surveyRes; // "Y"
   final String surveyDev; // "Y"
   final String isAgree; // "Y"
@@ -19,6 +20,7 @@ class SurveyReqModel {
     required this.completeUrl,
     required this.exceptCountTime,
     required this.researchEntryCnt,
+    required this.surveyInput,
     required this.surveyRes,
     required this.surveyDev,
     required this.isAgree,
