@@ -18,6 +18,7 @@ final interviewProvider = StateNotifierProvider<ResearchStateNotifier, CursorPag
 );
 
 
+
 final surveyProvider = StateNotifierProvider<ResearchStateNotifier, CursorPaginationBase>(
       (ref) {
     final repository = ref.watch(researchRepositoryProvider);
@@ -96,7 +97,6 @@ class ResearchStateNotifier
     );
     return topThreeList;
   }
-
 
   void getDetail({
     required String id,

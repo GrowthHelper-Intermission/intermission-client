@@ -5,7 +5,8 @@ import 'package:intermission_project/01.user/user/model/point_model.dart';
 import 'package:intermission_project/01.user/user/model/user_model.dart';
 import 'package:intermission_project/01.user/user/provider/point_provider.dart';
 import 'package:intermission_project/01.user/user/provider/user_me_provider.dart';
-import 'package:intermission_project/04.research/research/component/home_ongoing_research_list.dart';
+import 'package:intermission_project/04.research/research/component/research_card.dart';
+import 'package:intermission_project/04.research/research/model/research_model.dart';
 import 'package:intermission_project/04.research/research/provider/research_provider.dart';
 import 'package:intermission_project/common/const/colors.dart';
 import 'package:intermission_project/common/model/cursor_pagination_model.dart';
@@ -25,32 +26,36 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final researchNotifier = ref.watch(researchProvider);
+    List<ResearchModel> ongoingResearches = [];
 
-    ref.read(researchProvider.notifier).paginate();
-    final userState = ref.watch(userMeProvider); // 상태를 읽어옴
-    UserModel? user; // UserModel을 nullable로 선언
-
+    final userState = ref.watch(userMeProvider);
+    UserModel? user;
     if (userState is UserModel) {
       user = userState; // UserModel로 캐스팅
     }
 
-    ref.read(researchProvider.notifier).getTopThreeResearches();
+    if(researchNotifier is CursorPagination<ResearchModel>){
+      print('threedebug');
+      ongoingResearches.addAll(ref.read(researchProvider.notifier).getTopThreeResearches());
+      print(ongoingResearches);
+    }
 
-    final userPointState = ref.watch(pointProvider);
+    final userPointState = ref.read(pointProvider);
     int point = 0;
 
-    if(userPointState is CursorPagination<PointModel>){
+    if (userPointState is CursorPagination<PointModel>) {
       point = userPointState.meta.totalPoint!;
+      print('point debug');
     }
 
     // user 또는 userPointState가 로딩 중일 때 로딩 인디케이터를 표시
-    if (user == null || userPointState is CursorPaginationLoading) {
-      print('halla');
+    if (user == null || ongoingResearches == []) {
+      print('로딩중...');
       return Center(
         child: CircularProgressIndicator(),
       );
-    }
-    else {
+    } else {
       return Scaffold(
         appBar: AppBar(
           automaticallyImplyLeading: false,
@@ -74,8 +79,8 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                     Text(
                       // user.userNm,
                       user.userNm!,
-                      style: TextStyle(
-                          fontSize: 16, fontWeight: FontWeight.w400),
+                      style:
+                          TextStyle(fontSize: 16, fontWeight: FontWeight.w400),
                     ),
                     Text(
                       '$point P',
@@ -95,8 +100,8 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                     MaterialPageRoute(builder: (context) => SettingScreen()),
                   );
                 },
-                icon:
-                Image.asset('assets/img/Setting.png', width: 32, height: 32),
+                icon: Image.asset('assets/img/Setting.png',
+                    width: 32, height: 32),
               ),
             ],
           ),
@@ -123,8 +128,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Expanded(
-                          child:
-                          Container(
+                          child: Container(
                             height: 18,
                             child: Text(
                               '[공지]',
@@ -176,8 +180,8 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                     children: [
                       Text(
                         '진행 중인 리서치',
-                        style:
-                        TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
+                        style: TextStyle(
+                            fontSize: 14, fontWeight: FontWeight.w600),
                       ),
                       TextButton(
                         onPressed: () {
@@ -195,10 +199,19 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                     ],
                   ),
                 ),
-                OngoingResearchList(),
-                // SizedBox(
-                //   height: 5,
-                // ),
+                Expanded(
+                  child: ListView.builder(
+                    itemCount: ongoingResearches.length,
+                    itemBuilder: (context, index) {
+                      if (ongoingResearches.isNotEmpty) {
+                        final interview = ongoingResearches[index];
+                        return ResearchCard.fromModel(model: interview);
+                      } else {
+                        return Text("No interviews available");
+                      }
+                    },
+                  ),
+                ),
                 Align(
                   alignment: Alignment.center,
                   child: GestureDetector(
