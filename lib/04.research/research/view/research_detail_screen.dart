@@ -80,7 +80,7 @@ class _ResearchDetailScreenState extends ConsumerState<ResearchDetailScreen> {
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context)  {
     final state = ref.watch(researchDetailProvider(widget.id));
 
     // 데이터가 없거나 로딩 중인 경우
@@ -627,7 +627,6 @@ class _ResearchDetailScreenState extends ConsumerState<ResearchDetailScreen> {
                 isButtonEnabled: isButtonEnabled && state.isPossible != "N",
                 onPressed: isButtonEnabled && state.isPossible != "N"
                     ? () async {
-                        // await _handleParticipation();
                         await Navigator.push(
                           context,
                           MaterialPageRoute(
@@ -635,7 +634,7 @@ class _ResearchDetailScreenState extends ConsumerState<ResearchDetailScreen> {
                               onComplete: () async {
                                 await _handleParticipation(); // 콜백 내에서 참여 처리 함수 호출
                               },
-                              homeUrl: 'https://docs.google.com/forms/d/e/1FAIpQLSe0PYqfFJNUNlo07evTMeWzDjPc0saRRQyYg2tBQBpPZE_CiA/viewform?pli=1&pli=1',
+                              homeUrl: 'https://docs.google.com/forms/d/e/1FAIpQLSe0PYqfFJNUNlo07evTMeWzDjPc0saRRQyYg2tBQBpPZE_CiA/viewform',
                             ),
                           ),
                         );
