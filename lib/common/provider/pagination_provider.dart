@@ -67,20 +67,6 @@ U extends IBasePaginationRepository<T>>
     )); //1개 밖에 못넣기때메 fetch관련 3개를 클래스로 묶어전달
   }
 
-  // researchType을 받지 않는 새로운 버전의 paginate 함수를 추가합니다.
-  Future<void> paginateWithoutType({
-    int fetchCount = 10,
-    bool fetchMore = false,
-    bool forceRefetch = false,
-  }) async {
-    // 기존의 paginate 함수를 호출하되 researchType을 전달하지 않습니다.
-    return paginate(
-      fetchCount: fetchCount,
-      fetchMore: fetchMore,
-      forceRefetch: forceRefetch,
-    );
-  }
-
 
   _throttledPagination(_PaginationInfo info) async {
     final fetchCount = info.fetchCount;

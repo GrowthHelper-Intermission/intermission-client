@@ -22,7 +22,7 @@ class RootTab extends StatefulWidget {
 class _RootTabState extends State<RootTab>
     with SingleTickerProviderStateMixin {
   late TabController _tabController;
-  int _currentIndex = 2; // Set the initial selected tab index to 2 (the "홈" tab)
+  int _currentIndex = 2;
 
   @override
   void initState() {
@@ -102,17 +102,3 @@ class _RootTabState extends State<RootTab>
     );
   }
 }
-
-// class TabContentWidget extends StatelessWidget {
-//   final String label;
-//
-//   const TabContentWidget({required this.label});
-//
-//   @override
-//   Widget build(BuildContext context) {
-//     // Replace this with the content you want to display for each tab
-//     return Center(
-//       child: Text(label),
-//     );
-//   }
-// }

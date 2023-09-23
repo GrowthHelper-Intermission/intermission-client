@@ -38,8 +38,6 @@ class _ResearchScreenState extends ConsumerState<ResearchScreen> with SingleTick
     _tabController?.dispose();
     super.dispose();
   }
-
-  @override
   @override
   Widget build(BuildContext context) {
     final userState = ref.watch(userMeProvider); // 상태를 읽어옴
@@ -92,6 +90,7 @@ class _ResearchScreenState extends ConsumerState<ResearchScreen> with SingleTick
               child: TabBarView(
                 controller: _tabController,
                   children: [
+
                     _buildResearchPage(researchProvider), // "전체" 탭
                     _buildResearchPage(interviewProvider), // "인터뷰" 탭
                     _buildResearchPage(surveyProvider), // "설문조사" 탭
