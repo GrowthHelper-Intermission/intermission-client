@@ -27,7 +27,7 @@ class ShoppingScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: SUB_COLOR,
       appBar: NormalAppbar(
-        title: '쇼핑몰',
+        title: '포인트 교환',
       ),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,

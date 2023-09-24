@@ -24,7 +24,7 @@ class ResearchReqScreen extends ConsumerWidget {
               ResearchReqModel newResearch = ResearchReqModel(
                 researchRewdPoint: 3000,
                 researchUrl: "sival",
-                mainTitle: '피환 개발을 위한 설문 조사',
+                mainTitle: '재발재발 위한 인터뷰',
                 subTitle: '온라인, 서울 중구 기준 30분 거리면 오프 라인 방문 가능',
                 dueDate: '2023-09-24',
                 exceptTime: '2',
@@ -37,7 +37,7 @@ class ResearchReqScreen extends ConsumerWidget {
                 isTwenties: "Y",
                 detail:
                     '안녕하세요. 한국대학병원 서비스 조사팀 김철수입니다. 현재 한국대학에서는 뇌졸중 환자 및 보호자 설문 모집하고 있습니다. 본 설문조사는 뇌졸중 연구 논문에 참고 자료로 사용될 예정입니다. 작성해주신 모든 응답과 신상 정보는 철저히 보호될 것을 약속드립니다. 감사합니다.',
-                researchType: "설문조사",
+                researchType: "인터뷰",
                 researchMethTpCd: '온라인',
                 researchRewdAmt: "30000원",
                 email: "chaseB",
