@@ -5,6 +5,8 @@ import 'package:intermission_project/01.user/user/model/point_model.dart';
 import 'package:intermission_project/01.user/user/model/signup_user_model.dart';
 import 'package:intermission_project/01.user/user/model/test_user_model.dart';
 import 'package:intermission_project/01.user/user/model/user_model.dart';
+import 'package:intermission_project/04.research/research/repository/research_repository.dart';
+import 'package:intermission_project/04.research/research/repository/scrap_repository.dart';
 import 'package:intermission_project/common/const/data.dart';
 import 'package:intermission_project/common/dio/dio.dart';
 import 'package:retrofit/retrofit.dart';
@@ -15,7 +17,7 @@ final userMeRepositoryProvider = Provider<UserMeRepository>(
   (ref) {
     final dio = ref.watch(dioProvider);
 
-    return UserMeRepository(dio, baseUrl: 'http://$ip/api/user');
+    return UserMeRepository(dio, baseUrl: 'http://$ip/api/user/');
   },
 );
 
@@ -43,4 +45,10 @@ abstract class UserMeRepository {
   Future<PasswordChangeModel> changePassword({
     @Body() required PasswordChangeModel passwordChangeModel,
   });
+
+  @POST('block/{id}')
+  @Headers({
+    'accessToken': 'true',
+  })
+  Future<InterviewTesterResponse> block({@Path() required int id});
 }

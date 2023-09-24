@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:intermission_project/01.user/user/provider/user_me_provider.dart';
 import 'package:intermission_project/04.research/research/model/research_detail_model.dart';
 import 'package:intermission_project/04.research/research/model/single_comment.dart';
 import 'package:intermission_project/04.research/research/provider/comment_provider.dart';
@@ -11,12 +12,12 @@ import '../provider/research_provider.dart'; // 날짜와 시간 포매팅을 �
 class CommentComponent extends ConsumerStatefulWidget {
   final ResearchDetailModel state;
   final WidgetRef ref;
-  final String id;  // widget.id 접근을 위해 추가
+  final String id; // widget.id 접근을 위해 추가
 
   CommentComponent({
     required this.state,
     required this.ref,
-    required this.id,  // 생성자에 추가
+    required this.id, // 생성자에 추가
   });
 
   @override
@@ -43,10 +44,11 @@ class _CommentComponentState extends ConsumerState<CommentComponent> {
       int reCommentCount = model.comments
           .map(
             (comment) => comment.reComments?.length ?? 0,
-      )
+          )
           .fold(0, (a, b) => a + b); // reduce 대신 fold를 사용하여 초기값을 지정
       return commentCount + reCommentCount;
     }
+
     return Column(
       children: [
         Padding(
@@ -121,8 +123,8 @@ class _CommentComponentState extends ConsumerState<CommentComponent> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Image.asset('assets/img/pinkCircle.png',
-                        width: 40, height: 40), // Image asset 추가 (댓글)
-                    SizedBox(width: 5), // 이미지와 텍스트 사이의 간격 조정
+                        width: 40, height: 40),
+                    SizedBox(width: 5),
                     Expanded(
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -134,13 +136,13 @@ class _CommentComponentState extends ConsumerState<CommentComponent> {
                               Text(
                                 "·",
                                 style:
-                                TextStyle(color: Colors.grey, fontSize: 13),
+                                    TextStyle(color: Colors.grey, fontSize: 13),
                               ),
                               SizedBox(width: 5),
                               Text(
                                 _timeAgo(DateTime.parse(comment.createdDate)),
                                 style:
-                                TextStyle(color: Colors.grey, fontSize: 13),
+                                    TextStyle(color: Colors.grey, fontSize: 13),
                               ),
                             ],
                           ),
@@ -150,7 +152,7 @@ class _CommentComponentState extends ConsumerState<CommentComponent> {
                       ),
                     ),
                     PopupMenuButton<String>(
-                      onSelected: (value) {
+                      onSelected: (value) async {
                         if (value == 'delete') {
                           notifier.deleteComment(comment.commentId.toString());
                           setState(() {
@@ -168,6 +170,18 @@ class _CommentComponentState extends ConsumerState<CommentComponent> {
                             ScaffoldMessenger.of(context).showSnackBar(
                                 SnackBar(content: Text('댓글 신고 중 오류가 발생했습니다.')));
                           }
+                        } else if (value == 'block') {
+                          try {
+                            await ref.read(userMeProvider.notifier).postBlock(
+                                comment
+                                    .userId); // writerId는 실제 사용자 ID를 나타내는 필드여야 합니다.
+                            ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(content: Text('해당 사용자가 차단되었습니다.')));
+                            ref.read(researchProvider.notifier).getDetail(id: widget.id);
+                          } catch (error) {
+                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                                content: Text('사용자 차단 중 오류가 발생했습니다.')));
+                          }
                         }
                       },
                       itemBuilder: (BuildContext context) {
@@ -183,6 +197,10 @@ class _CommentComponentState extends ConsumerState<CommentComponent> {
                             const PopupMenuItem<String>(
                               value: 'report',
                               child: Text('신고하기'),
+                            ),
+                            const PopupMenuItem<String>(
+                              value: 'block',
+                              child: Text('이 사용자의 글 보지 않기'),
                             ),
                           ];
                         }
@@ -236,7 +254,7 @@ class _CommentComponentState extends ConsumerState<CommentComponent> {
                                               comment.commentId.toString(),
                                               SingleComment(
                                                 content:
-                                                reCommentController.text,
+                                                    reCommentController.text,
                                               ),
                                             );
                                             reCommentController.clear();
@@ -318,31 +336,54 @@ class _CommentComponentState extends ConsumerState<CommentComponent> {
                                       await ref
                                           .read(commentNotifierProvider)
                                           .deleteComment(
-                                          reComment.reCommentId as String);
+                                              reComment.reCommentId as String);
                                       ScaffoldMessenger.of(context)
-                                          .showSnackBar(SnackBar(
+                                          .showSnackBar(
+                                        SnackBar(
                                           content: Text(
-                                              'Comment deleted successfully')));
+                                              'Comment deleted successfully'),
+                                        ),
+                                      );
                                     } catch (error) {
                                       ScaffoldMessenger.of(context)
                                           .showSnackBar(SnackBar(
-                                          content: Text(
-                                              'Error deleting comment')));
+                                              content: Text(
+                                                  'Error deleting comment')));
                                     }
                                   } else if (value == 'report') {
                                     try {
                                       await ref
                                           .read(commentNotifierProvider)
                                           .reportComment(
-                                          reComment.reCommentId.toString());
+                                              reComment.reCommentId.toString());
                                       ScaffoldMessenger.of(context)
                                           .showSnackBar(SnackBar(
-                                          content: Text('대댓글이 신고되었습니다.')));
+                                              content: Text('대댓글이 신고되었습니다.')));
                                     } catch (error) {
                                       ScaffoldMessenger.of(context)
                                           .showSnackBar(SnackBar(
-                                          content: Text(
-                                              '대댓글 신고 중 오류가 발생했습니다.')));
+                                              content: Text(
+                                                  '대댓글 신고 중 오류가 발생했습니다.')));
+                                    }
+                                  } else if (value == 'block') {
+                                    try {
+                                      await ref
+                                          .read(userMeProvider.notifier)
+                                          .postBlock(
+                                            reComment.userId,
+                                          ); // writerId는 실제 사용자 ID를 나타내는 필드여야 합니다.
+                                      ScaffoldMessenger.of(context)
+                                          .showSnackBar(
+                                        SnackBar(
+                                          content: Text('해당 사용자가 차단되었습니다.'),
+                                        ),
+                                      );
+                                      ref.read(researchProvider.notifier).getDetail(id: widget.id);
+                                    } catch (error) {
+                                      ScaffoldMessenger.of(context)
+                                          .showSnackBar(SnackBar(
+                                              content: Text(
+                                                  '대댓글 신고 중 오류가 발생했습니다.')));
                                     }
                                   }
                                 },
@@ -359,6 +400,10 @@ class _CommentComponentState extends ConsumerState<CommentComponent> {
                                       const PopupMenuItem<String>(
                                         value: 'report',
                                         child: Text('신고하기'),
+                                      ),
+                                      const PopupMenuItem<String>(
+                                        value: 'block',
+                                        child: Text('이 사용자의 글 보지 않기'),
                                       ),
                                     ];
                                   }
@@ -396,6 +441,3 @@ class _CommentComponentState extends ConsumerState<CommentComponent> {
     }
   }
 }
-
-
-

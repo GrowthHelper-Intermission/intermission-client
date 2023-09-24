@@ -9,26 +9,21 @@ import 'package:intermission_project/01.user/user/model/test_user_model.dart';
 import 'package:intermission_project/01.user/user/model/user_model.dart';
 import 'package:intermission_project/01.user/user/repository/auth_repository.dart';
 import 'package:intermission_project/01.user/user/repository/user_me_repository.dart';
+import 'package:intermission_project/04.research/research/repository/research_repository.dart';
 import 'package:intermission_project/common/const/data.dart';
 import 'package:intermission_project/common/dio/dio.dart';
 import 'package:intermission_project/common/storage/secure_storage.dart';
-import 'package:provider/provider.dart';
-
-// Provider-in-Provider
-// final userModelProvider = StateProvider<UserModel?>((ref) => null);
 
 final userMeProvider =
 StateNotifierProvider<UserMeStateNotifier, UserModelBase?>((ref) {
   final authRepository = ref.watch(authRepositoryProvider);
   final userMeRepository = ref.watch(userMeRepositoryProvider);
   final storage = ref.watch(secureStorageProvider);
-  final dio = ref.watch(dioProvider);
 
   return UserMeStateNotifier(
     authRepository: authRepository,
     repository: userMeRepository,
     storage: storage,
-    dio: dio,
     ref: ref, //getMe로 받은걸 뿌려주기 위함
   );
 });
@@ -38,18 +33,15 @@ class UserMeStateNotifier extends StateNotifier<UserModelBase?> {
   final UserMeRepository repository;
   final FlutterSecureStorage storage;
   final AuthRepository authRepository;
-  final Dio dio;
   final Ref ref; // ProviderReference 인스턴스
 
   UserMeStateNotifier({
     required this.authRepository,
     required this.repository,
     required this.storage,
-    required this.dio,
     required this.ref,
   }) : super(UserModelLoading()) {
     //유저 정보 바로 가져 오기
-    // logout();
     getMe();
   }
 
@@ -85,7 +77,7 @@ class UserMeStateNotifier extends StateNotifier<UserModelBase?> {
     print(accessToken);
 
     //refreshToken이 만료된게 아니라면 -> 강제 로그아웃(이대로하면 너무 자주로그아웃됨)
-    if (refreshToken == null) {
+    if (refreshToken == null || accessToken == null) {
       state = null; //토큰이 2중 1개라도 없다면 로그아웃
       return;
     }
@@ -125,7 +117,7 @@ class UserMeStateNotifier extends StateNotifier<UserModelBase?> {
       return userResp;
     } catch (e) {
       //ID잘못이다, PW잘못이다 세부작업 필요 ->  Repository 수정필요
-      state = UserModelError(message: '로그인에 실갸패했습니다');
+      state = UserModelError(message: '로그인에 실패했습니다');
 
       return Future.value(state);
     }
@@ -154,14 +146,22 @@ class UserMeStateNotifier extends StateNotifier<UserModelBase?> {
     }
   }
 
+  Future<InterviewTesterResponse> postBlock(int id) async{
+    try{
+      final blockResp = await repository.block(id: id);
+      // // 딜레이 추가: 2초 동안 대기
+      // await Future.delayed(Duration(seconds: 2));
+      return blockResp;
+    }catch(e){
+      state = UserModelError(message: '차단에 실패했습니다');
+      return Future.error(UserModelError(message: '차단에 실패했습니다'));
+    }
+  }
+
 
   Future<void> logout() async {
     state = null;
-    //2가지 동시 실행
-
-    print('ajw');
-    print(storage.read(key: REFRESH_TOKEN_KEY));
-    Future.wait([
+    await Future.wait([
       storage.delete(key: REFRESH_TOKEN_KEY),
       storage.delete(key: ACCESS_TOKEN_KEY),
     ]);

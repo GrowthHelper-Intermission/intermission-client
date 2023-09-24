@@ -10,7 +10,7 @@ final routeProvider = Provider<GoRouter>(
 
     return GoRouter(
       routes: provider.routes,
-      initialLocation: '/',
+      initialLocation: '/splash',
       refreshListenable: provider,
       redirect: provider.redirectLogic,
     );

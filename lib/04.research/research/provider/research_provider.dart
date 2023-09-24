@@ -58,8 +58,6 @@ Provider.family<ResearchModel?, String>((ref, id) {
 
 class ResearchStateNotifier
     extends PaginationProvider<ResearchModel, ResearchRepository> {
-  // final RestaurantRepository repository;
-
   final String? researchType;
 
   ResearchStateNotifier({

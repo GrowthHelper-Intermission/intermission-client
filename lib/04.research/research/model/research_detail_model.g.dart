@@ -8,6 +8,7 @@ part of 'research_detail_model.dart';
 
 ResearchDetailModel _$ResearchDetailModelFromJson(Map<String, dynamic> json) =>
     ResearchDetailModel(
+      userId: json['userId'] as int,
       id: json['id'] as String,
       mainTitle: json['mainTitle'] as String,
       subTitle: json['subTitle'] as String,
@@ -46,6 +47,7 @@ Map<String, dynamic> _$ResearchDetailModelToJson(
       'isOnGoing': instance.isOnGoing,
       'isBlock': instance.isBlock,
       'researchRewdPoint': instance.researchRewdPoint,
+      'userId': instance.userId,
       'isPossible': instance.isPossible,
       'researchType': instance.researchType,
       'minAge': instance.minAge,

@@ -3,6 +3,7 @@ import 'package:json_annotation/json_annotation.dart';
 part 'recomment_model.g.dart';
 @JsonSerializable()
 class ReComment {
+  final int userId;
   final int reCommentId;
   final String? writer;
   final String? content;
@@ -11,6 +12,7 @@ class ReComment {
   final String? isMyComment;
 
   ReComment({
+    required this.userId,
     required this.reCommentId,
     this.writer,
     this.content,
