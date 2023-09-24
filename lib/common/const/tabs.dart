@@ -11,16 +11,16 @@ class TabItem {
 
 const List<TabItem> tabItems = [
   TabItem(
-      label: '쇼핑몰',
+      label: '포인트 교환',
       iconPath: 'assets/tabimg/ShoppingBag.png',
       selectedPath: 'assets/tabimg/ShoppingBag2.png'),
-  TabItem(label: '매칭 요청', iconPath: 'assets/tabimg/HandHeart.png'),
+  TabItem(label: '리서치 의뢰', iconPath: 'assets/tabimg/HandHeart.png'),
   TabItem(
       label: '홈',
       iconPath: 'assets/tabimg/Home.png',
       selectedPath: 'assets/tabimg/Home2.png'),
   TabItem(
-      label: '인터뷰 모음',
+      label: '리서치 모음',
       iconPath: 'assets/tabimg/AddressBook.png',
       selectedPath: 'assets/tabimg/AddressBook2.png'),
   TabItem(

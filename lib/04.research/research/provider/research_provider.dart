@@ -71,8 +71,12 @@ class ResearchStateNotifier
     // print("Research Type: $researchType");
   }
 
-  Future<ParticipationResponse> participateInResearch({required String id}) async {
-    return await repository.participateResearch(id: id);
+  Future<SurveyParticipationResponse> participateInSurvey({required String id}) async {
+    return await repository.participateSurvey(id: id);
+  }
+
+  Future<InterviewTesterResponse> participateInInterviewTester({required String id}) async {
+    return await repository.participateInterviewTester(id: id);
   }
 
   Future<PostResponse>reportResearchNow({required String id, required String content}) async{

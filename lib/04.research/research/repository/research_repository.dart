@@ -47,16 +47,6 @@ abstract class ResearchRepository implements
     @Queries() PaginationParams? paginationParams = const PaginationParams(),
   });
 
-  // @GET('/me')
-  // @Headers({
-  //   'accessToken': 'true',
-  // })
-  // Future<CursorPagination<ResearchModel>> paginate({
-  //   @Path() String path = '/', // 기본값을 root path로 설정
-  //   @Query('researchType') String? researchType,
-  //   @Queries() PaginationParams? paginationParams = const PaginationParams(),
-  // });
-
   // http://34.64.77.5:8080/api/v1/test/interview
   // 'http://$ip/restaurant/:id'
   @GET('/{id}') //Detailrestaurant용
@@ -67,12 +57,19 @@ abstract class ResearchRepository implements
     @Path() required String id,
   });
 
-//리서치 참여하기
+//설문조사 참여하기(POST!!)
+  @POST('/{id}')
+  @Headers({
+    'accessToken': 'true',
+  })
+  Future<SurveyParticipationResponse> participateSurvey({@Path() required String id});
+
+  //인터뷰, 테스터 참여 하기(패치!!)
   @PATCH('/{id}')
   @Headers({
     'accessToken': 'true',
   })
-  Future<ParticipationResponse> participateResearch({@Path() required String id});
+  Future<InterviewTesterResponse> participateInterviewTester({@Path() required String id});
 
 
   //리서치 신고하기
@@ -84,13 +81,30 @@ abstract class ResearchRepository implements
 
 }
 
-
-class ParticipationResponse {
+///설문 조사
+class SurveyParticipationResponse {
   final String isJoin;
 
-  ParticipationResponse({required this.isJoin});
+  SurveyParticipationResponse({required this.isJoin});
 
-  factory ParticipationResponse.fromJson(Map<String, dynamic> json) {
-    return ParticipationResponse(isJoin: json['isJoin']);
+  factory SurveyParticipationResponse.fromJson(Map<String, dynamic> json) {
+    return SurveyParticipationResponse(isJoin: json['isJoin']);
+  }
+}
+
+///인터뷰 테스터
+class InterviewTesterResponse {
+  final int code;
+  final String message;
+  final String? data;
+
+  InterviewTesterResponse({required this.code, required this.message, this.data});
+
+  factory InterviewTesterResponse.fromJson(Map<String, dynamic> json) {
+    return InterviewTesterResponse(
+        code: json['code'],
+        message: json['message'],
+        data: json['data']
+    );
   }
 }
