@@ -9,6 +9,7 @@ part 'research_detail_model.g.dart';
 @JsonSerializable()
 class ResearchDetailModel extends ResearchModel{
   // final String isJoin;
+  final int userId;
   final String isPossible;
   final String researchType;
   final String minAge;
@@ -25,6 +26,7 @@ class ResearchDetailModel extends ResearchModel{
 
 
   ResearchDetailModel({
+    required this.userId,
     required super.id,
     required super.mainTitle,
     required super.subTitle,

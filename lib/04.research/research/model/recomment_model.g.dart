@@ -7,6 +7,7 @@ part of 'recomment_model.dart';
 // **************************************************************************
 
 ReComment _$ReCommentFromJson(Map<String, dynamic> json) => ReComment(
+      userId: json['userId'] as int,
       reCommentId: json['reCommentId'] as int,
       writer: json['writer'] as String?,
       content: json['content'] as String?,
@@ -16,6 +17,7 @@ ReComment _$ReCommentFromJson(Map<String, dynamic> json) => ReComment(
     );
 
 Map<String, dynamic> _$ReCommentToJson(ReComment instance) => <String, dynamic>{
+      'userId': instance.userId,
       'reCommentId': instance.reCommentId,
       'writer': instance.writer,
       'content': instance.content,

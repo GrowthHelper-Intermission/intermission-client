@@ -19,6 +19,7 @@ class UserModelSuccess extends UserModelBase {}
 @JsonSerializable()
 class UserModel extends UserModelBase {
   // 변수들
+  final int? userId;
   final String? userTpCd;
   final String? userNm;
   final String? joinDay;
@@ -47,8 +48,10 @@ class UserModel extends UserModelBase {
   final String? rcmdUserCd;
   final String? isAgreeYn;
   final String? delYn;
+  final String? pointAmt;
 
   UserModel({
+    this.userId,
     this.userTpCd,
     this.userNm,
     this.joinDay,
@@ -77,6 +80,7 @@ class UserModel extends UserModelBase {
     this.rcmdUserCd,
     this.isAgreeYn,
     this.delYn,
+    this.pointAmt,
   });
 
   factory UserModel.fromJson(Map<String, dynamic> json)

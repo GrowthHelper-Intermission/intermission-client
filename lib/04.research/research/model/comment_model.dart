@@ -5,6 +5,7 @@ part 'comment_model.g.dart';
 
 @JsonSerializable()
 class Comment{
+  final int userId;
   final int commentId;
   final String? writer;
   final String? content;
@@ -14,6 +15,7 @@ class Comment{
   final List<ReComment> reComments;
 
   Comment({
+    required this.userId,
     required this.commentId,
     this.writer,
     this.content,

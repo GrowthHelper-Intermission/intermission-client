@@ -7,6 +7,7 @@ part of 'user_model.dart';
 // **************************************************************************
 
 UserModel _$UserModelFromJson(Map<String, dynamic> json) => UserModel(
+      userId: json['userId'] as int?,
       userTpCd: json['userTpCd'] as String?,
       userNm: json['userNm'] as String?,
       joinDay: json['joinDay'] as String?,
@@ -35,9 +36,11 @@ UserModel _$UserModelFromJson(Map<String, dynamic> json) => UserModel(
       rcmdUserCd: json['rcmdUserCd'] as String?,
       isAgreeYn: json['isAgreeYn'] as String?,
       delYn: json['delYn'] as String?,
+      pointAmt: json['pointAmt'] as String?,
     );
 
 Map<String, dynamic> _$UserModelToJson(UserModel instance) => <String, dynamic>{
+      'userId': instance.userId,
       'userTpCd': instance.userTpCd,
       'userNm': instance.userNm,
       'joinDay': instance.joinDay,
@@ -66,4 +69,5 @@ Map<String, dynamic> _$UserModelToJson(UserModel instance) => <String, dynamic>{
       'rcmdUserCd': instance.rcmdUserCd,
       'isAgreeYn': instance.isAgreeYn,
       'delYn': instance.delYn,
+      'pointAmt': instance.pointAmt,
     };

@@ -11,6 +11,7 @@ import 'package:intermission_project/04.research/research/provider/research_prov
 import 'package:intermission_project/common/const/colors.dart';
 import 'package:intermission_project/common/model/cursor_pagination_model.dart';
 import 'package:intermission_project/common/view/setting/setting_screen.dart';
+import 'package:intermission_project/common/view/splash_screen.dart';
 
 class HomeScreen extends ConsumerStatefulWidget {
   final TabController? tabController;
@@ -36,25 +37,22 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     }
 
     if(researchNotifier is CursorPagination<ResearchModel>){
-      print('threedebug');
       ongoingResearches.addAll(ref.read(researchProvider.notifier).getTopThreeResearches());
       print(ongoingResearches);
     }
 
-    final userPointState = ref.read(pointProvider);
-    int point = 0;
-
-    if (userPointState is CursorPagination<PointModel>) {
-      point = userPointState.meta.totalPoint!;
-      print('point debug');
-    }
+    // final userPointState = ref.read(pointProvider);
+    // int point = 0;
+    //
+    // if (userPointState is CursorPagination<PointModel>) {
+    //   point = userPointState.meta.totalPoint!;
+    //   print('point debug');
+    // }
 
     // user 또는 userPointState가 로딩 중일 때 로딩 인디케이터를 표시
     if (user == null || ongoingResearches == []) {
       print('로딩중...');
-      return Center(
-        child: CircularProgressIndicator(),
-      );
+      return SplashScreen();
     } else {
       return Scaffold(
         appBar: AppBar(
@@ -83,7 +81,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                           TextStyle(fontSize: 16, fontWeight: FontWeight.w400),
                     ),
                     Text(
-                      '$point P',
+                       user.pointAmt ?? "50",
                       style: TextStyle(
                         fontWeight: FontWeight.w600,
                         fontSize: 14.0,
