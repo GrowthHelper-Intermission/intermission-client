@@ -124,99 +124,106 @@ class _ResearchDetailScreenState extends ConsumerState<ResearchDetailScreen> {
 
       daysLeft = _getDaysLeft();
 
-      return Scaffold(
-        backgroundColor: Colors.white,
-
-        /// AppBar
-        appBar: AppBar(
+      return GestureDetector(
+        onHorizontalDragEnd: (details) {
+          if (details.primaryVelocity! > 0) { // 왼쪽으로 스와이프
+            context.pop();
+          }
+        },
+        child: Scaffold(
           backgroundColor: Colors.white,
-          elevation: 0,
-          leading: IconButton(
-            icon: Icon(
-              Icons.arrow_back_ios,
-              color: Colors.black,
-              size: 20,
-            ),
-            onPressed: () => context.go('/'),
-          ),
-          actions: [
-            IconButton(
-              icon: Icon(
-                Icons.share,
-                color: Colors.black,
-              ),
-              onPressed: () {
-                // 공유 기능 구현 부분
-              },
-            ),
-            PopupMenuButton<String>(
-              onSelected: (value) async {
-                switch (value) {
-                  case 'report':
-                    // 신고하기 로직
-                    break;
-                  case 'hide':
-                    // 리서치 차단 로직
-                    try {
-                      await ref.read(userMeProvider.notifier).postBlock(state.userId); // writerId는 실제 사용자 ID를 나타내는 필드여야 합니다. 이 부분을 정확한 필드명으로 수정해야 합니다.
-                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('해당 리서치가 차단되었습니다.')));
-                      ref.read(researchProvider.notifier).getDetail(id: widget.id);
-                    } catch (error) {
-                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('리서치 차단 중 오류가 발생했습니다.')));
-                    }
-                    break;
-                }
-              },
-              itemBuilder: (BuildContext context) => <PopupMenuEntry<String>>[
-                const PopupMenuItem<String>(
-                  value: 'report',
-                  child: Text('신고하기'),
-                ),
-                const PopupMenuItem<String>(
-                  value: 'hide',
-                  child: Text('이 사용자의 글 보지 않기'),
-                ),
-              ],
-              icon: Icon(
-                Icons.more_vert,
-                color: Colors.black,
-              ),
-            ),
-          ],
-        ),
 
-        /// Body
-        body: SingleChildScrollView(
-          physics: AlwaysScrollableScrollPhysics(),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Padding(
-                padding: const EdgeInsets.fromLTRB(20, 5, 20, 10),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    researchBuildHeader(state, daysLeft),
-                    researchBuildMainContent(state),
-                  ],
+          /// AppBar
+          appBar: AppBar(
+            backgroundColor: Colors.white,
+            elevation: 0,
+            leading: IconButton(
+              icon: Icon(
+                Icons.arrow_back_ios,
+                color: Colors.black,
+                size: 20,
+              ),
+              onPressed: () => context.go('/'),
+            ),
+            actions: [
+              IconButton(
+                icon: Icon(
+                  Icons.share,
+                  color: Colors.black,
                 ),
+                onPressed: () {
+                  // 공유 기능 구현 부분
+                },
               ),
-              Divider(color: Colors.grey[200], thickness: 8.0),
-              Padding(
-                padding: const EdgeInsets.fromLTRB(20, 0, 20, 10),
-                child: researchBuildDescription(state),
-              ),
-              Divider(color: Colors.grey[200], thickness: 8.0),
-              Padding(
-                padding: const EdgeInsets.fromLTRB(20, 0, 20, 20),
-                child: CommentComponent(state: state, ref: ref, id: widget.id),
+              PopupMenuButton<String>(
+                onSelected: (value) async {
+                  switch (value) {
+                    case 'report':
+                      // 신고하기 로직
+                      break;
+                    case 'hide':
+                      // 리서치 차단 로직
+                      try {
+                        await ref.read(userMeProvider.notifier).postBlock(state.userId); // writerId는 실제 사용자 ID를 나타내는 필드여야 합니다. 이 부분을 정확한 필드명으로 수정해야 합니다.
+                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('해당 리서치가 차단되었습니다.')));
+                        ref.read(researchProvider.notifier).getDetail(id: widget.id);
+                      } catch (error) {
+                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('리서치 차단 중 오류가 발생했습니다.')));
+                      }
+                      break;
+                  }
+                },
+                itemBuilder: (BuildContext context) => <PopupMenuEntry<String>>[
+                  const PopupMenuItem<String>(
+                    value: 'report',
+                    child: Text('신고하기'),
+                  ),
+                  const PopupMenuItem<String>(
+                    value: 'hide',
+                    child: Text('이 사용자의 글 보지 않기'),
+                  ),
+                ],
+                icon: Icon(
+                  Icons.more_vert,
+                  color: Colors.black,
+                ),
               ),
             ],
           ),
-        ),
 
-        /// BottomNavigationBar
-        bottomNavigationBar: _buildBottomButtons(state),
+          /// Body
+          body: SingleChildScrollView(
+            physics: AlwaysScrollableScrollPhysics(),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(20, 5, 20, 10),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      researchBuildHeader(state, daysLeft),
+                      researchBuildMainContent(state),
+                    ],
+                  ),
+                ),
+                Divider(color: Colors.grey[200], thickness: 8.0),
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(20, 0, 20, 10),
+                  child: researchBuildDescription(state),
+                ),
+                Divider(color: Colors.grey[200], thickness: 8.0),
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(20, 0, 20, 20),
+                  child: CommentComponent(state: state, ref: ref, id: widget.id),
+                ),
+              ],
+            ),
+          ),
+
+          /// BottomNavigationBar
+          bottomNavigationBar: _buildBottomButtons(state),
+        ),
       );
     }
   }

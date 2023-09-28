@@ -8,7 +8,7 @@ import 'package:intermission_project/01.user/user/model/user_model.dart';
 import 'package:intermission_project/01.user/user/provider/user_me_provider.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intermission_project/01.user/user/view/login_screen.dart';
-import 'package:intermission_project/01.user/user/view/select_screen.dart';
+import 'package:intermission_project/common/view/select_screen.dart';
 import 'package:intermission_project/01.user/user/view/user_report_screen.dart';
 import 'package:intermission_project/04.research/research/view/notice_detail_screen.dart';
 import 'package:intermission_project/04.research/research/view/notice_req_screen.dart';

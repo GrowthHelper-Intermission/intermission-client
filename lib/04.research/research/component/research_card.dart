@@ -120,7 +120,8 @@ class _ResearchCardState extends State<ResearchCard> {
       child: Card(
         child: InkWell(
           onTap: () {
-            context.goNamed(ResearchDetailScreen.routeName,
+            //goNamed -> pushNamed
+            context.pushNamed(ResearchDetailScreen.routeName,
                 pathParameters: {'id': widget.id});
           },
           child: Container(
