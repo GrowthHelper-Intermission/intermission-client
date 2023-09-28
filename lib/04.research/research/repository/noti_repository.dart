@@ -3,7 +3,6 @@ import 'package:dio/dio.dart' hide Headers;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intermission_project/01.user/point/model/point_model.dart';
 import 'package:intermission_project/01.user/user/model/point_model.dart';
-import 'package:intermission_project/03.management/noti/model/noti_model.dart';
 import 'package:intermission_project/04.research/research/model/noti_detail_model.dart';
 import 'package:intermission_project/04.research/research/model/noti_model.dart';
 import 'package:intermission_project/common/const/data.dart';
