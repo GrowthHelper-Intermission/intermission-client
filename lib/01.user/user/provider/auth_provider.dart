@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:intermission_project/01.user/user/view/certification.dart';
+import 'package:intermission_project/01.user/user/view/certification_result.dart';
+import 'package:intermission_project/01.user/user/view/certification_test.dart';
 import 'package:intermission_project/01.user/user/view/report_detail_screen.dart';
 import 'package:intermission_project/01.user/user/view/signup_screen_page1.dart';
 import 'package:intermission_project/01.user/user/view/signup_screen_page2.dart';
@@ -8,6 +11,8 @@ import 'package:intermission_project/01.user/user/model/user_model.dart';
 import 'package:intermission_project/01.user/user/provider/user_me_provider.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intermission_project/01.user/user/view/login_screen.dart';
+import 'package:intermission_project/common/view/home.dart';
+import 'package:intermission_project/common/view/home_screen.dart';
 import 'package:intermission_project/common/view/select_screen.dart';
 import 'package:intermission_project/01.user/user/view/user_report_screen.dart';
 import 'package:intermission_project/04.research/research/view/notice_detail_screen.dart';
@@ -46,9 +51,31 @@ class AuthProvider extends ChangeNotifier {
     //'interview' 아래에 ':rid'를 붙였을 때의 경로는 /interview/:rid 자동으로 /가 추가된다
     GoRoute(
       path: '/',
-      name: RootTab.routeName,
-      builder: (_, __) => RootTab(),
+      name: Home.routeName,
+      builder: (_, __) => Home(),
       routes: [
+        GoRoute(
+          path: 'certification-test',
+          name: CertificationTest.routeName,
+          builder: (context, state) => CertificationTest(),
+        ),
+        // GoRoute(
+        //   path: '/certification-result',
+        //
+        //   name: CertificationResult.routeName,
+        //   builder: (context, state) => CertificationResult(),
+        // ),
+        GoRoute(
+            path: 'certification-result',
+            pageBuilder: (context, state) {
+              return MaterialPage(child: CertificationResult());
+            }
+        ),
+        GoRoute(
+          path: 'certification',
+          name: Certification.routeName,
+          builder: (_, __) => Certification(),
+        ),
         GoRoute(
           path: 'research',
           name: ResearchScreen.routeName,
@@ -135,6 +162,33 @@ class AuthProvider extends ChangeNotifier {
       name: NotiReqScreen.routeName,
       builder: (_, __) => NotiReqScreen(),
     ),
+    // GoRoute(
+    //   path: '/test-home',
+    //   name: Home.routeName,
+    //   builder: (_, __) => HomeScreen(),
+    // ),
+    // GoRoute(
+    //   path: '/certification-test',
+    //   name: CertificationTest.routeName,
+    //   builder: (context, state) => CertificationTest(),
+    // ),
+    // // GoRoute(
+    // //   path: '/certification-result',
+    // //
+    // //   name: CertificationResult.routeName,
+    // //   builder: (context, state) => CertificationResult(),
+    // // ),
+    // GoRoute(
+    //     path: '/certification-result',
+    //     pageBuilder: (context, state) {
+    //       return MaterialPage(child: CertificationResult());
+    //     }
+    // ),
+    // GoRoute(
+    //   path: '/certification',
+    //   name: Certification.routeName,
+    //   builder: (_, __) => Certification(),
+    // ),
   ];
 
   logout() {
@@ -143,46 +197,28 @@ class AuthProvider extends ChangeNotifier {
   }
 
   FutureOr<String?> redirectLogic(BuildContext context, GoRouterState state) {
-    final UserModelBase? user = ref.read(userMeProvider);
-
-    // 회원가입 페이지에서 회원가입 완료 후 로그인 페이지로 리다이렉트
-    if (state.matchedLocation == '/signup' && user is UserModel) return '/';
-
-    if (state.matchedLocation.startsWith('/signup')) return null;
-
-    if (state.matchedLocation == '/login' && user is UserModel) return '/';
-
-    if (!state.matchedLocation.startsWith('/login') && user == null) return '/select';
-
-    if (user is UserModel &&
-        (state.matchedLocation == '/select'
-            || state.matchedLocation == '/login' ||
-            state.matchedLocation == '/splash')) return '/';
-
-    // if (user is UserModelError) return '/select';
-
-    return null;
+    // final UserModelBase? user = ref.read(userMeProvider);
+    //
+    // // 회원가입 페이지에서 회원가입 완료 후 로그인 페이지로 리다이렉트
+    // if (state.matchedLocation == '/signup' && user is UserModel) return '/';
+    //
+    // if (state.matchedLocation.startsWith('/signup')) return null;
+    //
+    // if (state.matchedLocation == '/login' && user is UserModel) return '/';
+    //
+    // // if (!state.matchedLocation.startsWith('/login') && user == null) return '/select';
+    //
+    // if (!state.matchedLocation.startsWith('/login') && user == null) return '/test-home';
+    //
+    //
+    // // if (user is UserModel &&
+    // //     (state.matchedLocation == '/select'
+    // //         || state.matchedLocation == '/login' ||
+    // //         state.matchedLocation == '/splash')) return '/';
+    //
+    // // if (user is UserModelError) return '/select';
+    //
+    // return null;
   }
-
-  // FutureOr<String?> redirectLogic(BuildContext context, GoRouterState state) {
-  //   final UserModelBase? user = ref.read(userMeProvider);
-  //
-  //   // 로그인 페이지나 회원가입 페이지에 있고, 사용자가 이미 로그인했다면 메인 화면으로 리다이렉트
-  //   if ((state.matchedLocation.startsWith('/signup') || state.matchedLocation == '/login') && user is UserModel) {
-  //     return '/';
-  //   }
-  //
-  //   // 메인 화면('/')에 있거나 로그인/회원가입 관련 페이지에 있으면 아무 것도 하지 않음
-  //   if (state.matchedLocation == '/' || state.matchedLocation.startsWith('/signup') || state.matchedLocation == '/login') {
-  //     return null;
-  //   }
-  //
-  //   // 로그인하지 않은 상태이고, 로그인/회원가입 페이지가 아니라면 /select로 리다이렉트
-  //   if (user == null) {
-  //     return '/select';
-  //   }
-  //
-  //   return null;
-  // }
 
 }

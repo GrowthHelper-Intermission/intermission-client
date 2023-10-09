@@ -5,8 +5,6 @@ import 'package:intermission_project/01.user/user/model/user_model.dart';
 import 'package:intermission_project/01.user/user/provider/user_me_provider.dart';
 import 'package:intermission_project/04.research/research/component/research_card.dart';
 import 'package:intermission_project/04.research/research/provider/research_provider.dart';
-import 'package:intermission_project/common/component/custom_appbar.dart';
-import 'package:intermission_project/common/component/custom_text_style.dart';
 import 'package:intermission_project/common/component/normal_appbar.dart';
 import 'package:intermission_project/common/component/pagination_list_view.dart';
 import 'package:intermission_project/common/model/cursor_pagination_model.dart';
