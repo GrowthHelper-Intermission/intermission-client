@@ -1,18 +1,22 @@
 
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 /* 아임포트 휴대폰 본인인증 모듈을 불러옵니다. */
 import 'package:iamport_flutter/iamport_certification.dart';
 /* 아임포트 휴대폰 본인인증 데이터 모델을 불러옵니다. */
 import 'package:iamport_flutter/model/certification_data.dart';
+import 'package:intermission_project/01.user/user/view/certification_result.dart';
 
 class CertificationTest extends StatelessWidget {
+  const CertificationTest({super.key});
+
   static String get routeName => 'certification-test';
   @override
   Widget build(BuildContext context) {
     return IamportCertification(
-      appBar: new AppBar(
-        title: new Text('아임포트 본인인증22'),
+      appBar: AppBar(
+        title: Text('아임포트 본인인증22'),
       ),
       /* 웹뷰 로딩 컴포넌트 */
       initialChild: Container(
@@ -56,10 +60,25 @@ class CertificationTest extends StatelessWidget {
           if (result['success'] == 'true') {
             print(result['success']);
             // 본인 인증 성공
-            Navigator.of(context).pushReplacementNamed(
+            // Navigator.of(context).pushReplacementNamed(
+            //   '/certification-result',
+            //   arguments: result,
+            // );
+
+//             print(result['success']);
+// // 본인 인증 성공
+//             Navigator.of(context).pushReplacement(
+//               MaterialPageRoute(
+//                 builder: (context) => CertificationResult(),
+//               ),
+//             );
+
+            Navigator.pushReplacementNamed(
+              context,
               '/certification-result',
               arguments: result,
             );
+
             print('wee');
           } else {
             // 본인 인증 실패 또는 취소

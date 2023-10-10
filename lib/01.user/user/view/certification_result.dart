@@ -3,13 +3,17 @@ import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
+import 'package:intermission_project/common/view/root_tab.dart';
+
 class CertificationResult extends StatelessWidget {
   static const Color successColor = Color(0xff52c41a);
   static const Color failureColor = Color(0xfff5222d);
 
-  final Map<String,String>? result;
+  // final Map<String,String> result;
+  //
+  // const CertificationResult({super.key, required this.result});
 
-  const CertificationResult({super.key, this.result});
+
 
   static String get routeName => 'certification-result';
 
@@ -36,7 +40,7 @@ class CertificationResult extends StatelessWidget {
     }
   }
 
-  Future<void> getCertificationResult(String impUid, String accessToken) async {
+  Future<void> getCertificationResult(String impUid, String accessToken,BuildContext context) async {
     var url = Uri.parse('https://api.iamport.kr/certifications/$impUid');
 
     print(impUid);
@@ -52,7 +56,12 @@ class CertificationResult extends StatelessWidget {
 
     if (response.statusCode == 200) {
       print('Response data: ${response.body}');
-      Get.offAllNamed('/');
+      Navigator.of(context).pushReplacement(
+        MaterialPageRoute(
+          builder: (context) => RootTab()),
+        );
+      Get.offAllNamed('/home');
+      // Get.offAllNamed('/');
     } else {
       print('Request failed with status: ${response.statusCode}.');
     }
@@ -61,6 +70,7 @@ class CertificationResult extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // Map<String, String> result = context as Map<String, String>;
+    Map<String, String> result = Get.arguments as Map<String, String>;
     String message;
     IconData icon;
     Color color;
@@ -79,7 +89,7 @@ class CertificationResult extends StatelessWidget {
           .then(
             (accessToken) {
           print(accessToken);
-          getCertificationResult(result!['imp_uid']!, accessToken);
+          getCertificationResult(result!['imp_uid']!, accessToken, context);
         },
       );
     } else {

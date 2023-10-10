@@ -65,12 +65,12 @@ class AuthProvider extends ChangeNotifier {
         //   name: CertificationResult.routeName,
         //   builder: (context, state) => CertificationResult(),
         // ),
-        GoRoute(
-            path: 'certification-result',
-            pageBuilder: (context, state) {
-              return MaterialPage(child: CertificationResult());
-            }
-        ),
+        // GoRoute(
+        //     path: 'certification-result',
+        //     pageBuilder: (context, state) {
+        //       return MaterialPage(child: CertificationResult());
+        //     }
+        // ),
         GoRoute(
           path: 'certification',
           name: Certification.routeName,
@@ -146,7 +146,6 @@ class AuthProvider extends ChangeNotifier {
       name: SelectScreen.routeName,
       builder: (_, __) => SelectScreen(),
     ),
-
     GoRoute(
       path: '/login',
       name: LoginScreen.routeName,
@@ -197,6 +196,9 @@ class AuthProvider extends ChangeNotifier {
   }
 
   FutureOr<String?> redirectLogic(BuildContext context, GoRouterState state) {
+    if(state.matchedLocation == '/certification-result'){
+      return '/certification-result';
+    }
     // final UserModelBase? user = ref.read(userMeProvider);
     //
     // // 회원가입 페이지에서 회원가입 완료 후 로그인 페이지로 리다이렉트
@@ -218,7 +220,8 @@ class AuthProvider extends ChangeNotifier {
     //
     // // if (user is UserModelError) return '/select';
     //
-    // return null;
+    return null;
+    // return '/';
   }
 
 }

@@ -5,7 +5,7 @@ import 'package:iamport_flutter/model/certification_data.dart';
 
 class Certification extends StatelessWidget {
   static const String userCode = 'imp34178186';
-  static String get routeName => 'Certification';
+  static String get routeName => 'certification';
 
   @override
   Widget build(BuildContext context) {

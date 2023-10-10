@@ -127,7 +127,7 @@ class CustomInterceptor extends Interceptor {
         return handler.resolve(response); //외부에서는 이 과정만보임 (요청이 잘 끝났음 의미)
       } on DioError catch (e) {
         print('DioError Occurred: ${e.message}');
-        ref.read(authProvider.notifier).logout();
+        // ref.read(authProvider.notifier).logout();
         return handler.reject(e);
       }
     }
