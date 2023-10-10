@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:intermission_project/01.user/user/view/certification_test.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -135,9 +136,17 @@ class _HomeState extends State<Home> {
                             fontWeight: FontWeight.bold,
                           ),
                         ),
+                        // onPressed: () {
+                        //   context.goNamed('certification-test');
+                        // },
                         onPressed: () {
-                          context.pushNamed('certification-test');
+                          Navigator.of(context).push(
+                            MaterialPageRoute(
+                              builder: (context) => CertificationTest(),
+                            ),
+                          );
                         },
+
                       ),
                     ),
                     Padding(padding: EdgeInsets.only(right: 20)),

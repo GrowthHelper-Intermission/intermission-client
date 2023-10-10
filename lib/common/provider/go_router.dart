@@ -9,6 +9,7 @@ final routeProvider = Provider<GoRouter>(
     final provider = ref.read(authProvider);
 
     return GoRouter(
+      debugLogDiagnostics: true,
       routes: provider.routes,
       initialLocation: '/',
       refreshListenable: provider,
