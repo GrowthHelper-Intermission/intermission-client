@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:go_router/go_router.dart';
 import 'package:http/http.dart' as http;
+import 'package:intermission_project/01.user/user/view/login_screen.dart';
 import 'dart:convert';
 
 import 'package:intermission_project/common/view/root_tab.dart';
@@ -9,9 +11,9 @@ class CertificationResult extends StatelessWidget {
   static const Color successColor = Color(0xff52c41a);
   static const Color failureColor = Color(0xfff5222d);
 
-  // final Map<String,String> result;
-  //
-  // const CertificationResult({super.key, required this.result});
+  final Map<String,String> result;
+
+  const CertificationResult({super.key, required this.result});
 
 
 
@@ -56,12 +58,16 @@ class CertificationResult extends StatelessWidget {
 
     if (response.statusCode == 200) {
       print('Response data: ${response.body}');
-      Navigator.of(context).pushReplacement(
+      // Navigator.of(context).pushReplacement(
+      //   MaterialPageRoute(
+      //     builder: (context) => RootTab()),
+      //   );
+      // Get.offAllNamed('/home');
+      Navigator.of(context).push(
         MaterialPageRoute(
-          builder: (context) => RootTab()),
-        );
-      Get.offAllNamed('/home');
-      // Get.offAllNamed('/');
+          builder: (context) => LoginScreen(),
+        ),
+      );
     } else {
       print('Request failed with status: ${response.statusCode}.');
     }
@@ -70,7 +76,7 @@ class CertificationResult extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // Map<String, String> result = context as Map<String, String>;
-    Map<String, String> result = Get.arguments as Map<String, String>;
+    // Map<String, String> result = Get.arguments as Map<String, String>;
     String message;
     IconData icon;
     Color color;

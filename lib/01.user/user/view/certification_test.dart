@@ -72,12 +72,18 @@ class CertificationTest extends StatelessWidget {
 //                 builder: (context) => CertificationResult(),
 //               ),
 //             );
-
-            Navigator.pushReplacementNamed(
+            Navigator.push(
               context,
-              '/certification-result',
-              arguments: result,
+              MaterialPageRoute(
+                builder: (context) => CertificationResult(result:result),
+              ),
             );
+
+            // Navigator.pushReplacementNamed(
+            //   context,
+            //   '/certification-result',
+            //   arguments: result,
+            // );
 
             print('wee');
           } else {
