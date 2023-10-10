@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:get/get.dart';
 import 'package:intermission_project/01.user/point/model/point_model.dart';
 import 'package:intermission_project/01.user/user/model/password_change_model.dart';
 import 'package:intermission_project/01.user/user/model/signup_user_model.dart';
@@ -43,7 +44,7 @@ class UserMeStateNotifier extends StateNotifier<UserModelBase?> {
   }) : super(UserModelLoading()) {
     //유저 정보 바로 가져 오기
     // logout();
-    // getMe();
+    getMe();
   }
 
   // UserMeStateNotifier 클래스 내부에 추가
@@ -168,3 +169,7 @@ class UserMeStateNotifier extends StateNotifier<UserModelBase?> {
     ]);
   }
 }
+
+
+
+

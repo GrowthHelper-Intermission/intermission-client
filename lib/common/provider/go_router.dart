@@ -6,7 +6,7 @@ final routeProvider = Provider<GoRouter>(
   (ref) {
     //watch - 값 변경될때마다 빌드
     //read - 1번만 읽고 값 변경되도 재빌드 X
-    final provider = ref.read(authProvider);
+    final provider = ref.watch(authProvider);
 
     return GoRouter(
       debugLogDiagnostics: true,

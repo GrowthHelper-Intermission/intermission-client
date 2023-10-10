@@ -52,43 +52,31 @@ class AuthProvider extends ChangeNotifier {
     GoRoute(
       path: '/',
       name: Home.routeName,
-      builder: (_, __) => Home(),
+      builder: (_, __) => const Home(),
       routes: [
         GoRoute(
           path: 'certification-test',
           name: CertificationTest.routeName,
           builder: (context, state) => CertificationTest(),
         ),
-        // GoRoute(
-        //   path: '/certification-result',
-        //
-        //   name: CertificationResult.routeName,
-        //   builder: (context, state) => CertificationResult(),
-        // ),
-        // GoRoute(
-        //     path: 'certification-result',
-        //     pageBuilder: (context, state) {
-        //       return MaterialPage(child: CertificationResult());
-        //     }
-        // ),
         GoRoute(
           path: 'certification',
           name: Certification.routeName,
           builder: (_, __) => Certification(),
         ),
-        GoRoute(
-          path: 'research',
-          name: ResearchScreen.routeName,
-          builder: (_, state) => ResearchScreen(),
-          routes: [ // InterviewScreen 아래에 nested route로 DetailScreen 설정
-            GoRoute(
-              path: ':id',
-              name: ResearchDetailScreen.routeName,
-              builder: (_, state) =>
-                  ResearchDetailScreen(id: state.pathParameters['id']!),
-            ),
-          ],
-        ),
+        // GoRoute(
+        //   path: 'research',
+        //   name: ResearchScreen.routeName,
+        //   builder: (_, state) => ResearchScreen(),
+        //   routes: [ // InterviewScreen 아래에 nested route로 DetailScreen 설정
+        //     GoRoute(
+        //       path: ':id',
+        //       name: ResearchDetailScreen.routeName,
+        //       builder: (_, state) =>
+        //           ResearchDetailScreen(id: state.pathParameters['id']!),
+        //     ),
+        //   ],
+        // ),
         GoRoute(
           path: 'noti',
           name: NoticeScreen.routeName,
