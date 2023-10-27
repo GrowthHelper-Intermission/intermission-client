@@ -16,7 +16,7 @@ class ResearchReqScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return DefaultLayout(
-      title: '리서치 등록',
+      title: '리서치 등록222',
       child: Column(
         children: [
           ElevatedButton(
