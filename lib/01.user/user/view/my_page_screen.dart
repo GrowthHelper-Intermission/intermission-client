@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:intermission_project/01.user/user/etc/friend_invite_screen.dart';
 import 'package:intermission_project/01.user/user/model/user_model.dart';
 import 'package:intermission_project/01.user/user/provider/user_me_provider.dart';
@@ -80,8 +81,7 @@ class MyPageScreen extends ConsumerWidget {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) =>
-                                      ParticipatedResearchScreen(),
+                                  builder: (context) => ParticipatedResearchScreen(),
                                 ),
                               );
                             },
@@ -90,11 +90,10 @@ class MyPageScreen extends ConsumerWidget {
                               height: 80,
                               child: Column(
                                 children: [
-                                  Image.asset(
-                                    'assets/tabimg/mypage/interview.png',
+                                  SvgPicture.asset(
+                                    'assets/tabimg/mypage/joined.svg',
                                     width: 40,
                                     height: 40,
-                                    color: Colors.grey[800],
                                   ),
                                   SizedBox(
                                     height: 10,
@@ -118,11 +117,11 @@ class MyPageScreen extends ConsumerWidget {
                               height: 80,
                               child: Column(
                                 children: [
-                                  Image.asset(
-                                    'assets/tabimg/mypage/scrap.png',
+                                  SvgPicture.asset(
+                                    'assets/tabimg/mypage/scrap.svg',
                                     width: 40,
                                     height: 40,
-                                    color: Colors.grey[800],
+                                    color: Colors.grey[800], // SVG 이미지에 적용할 색상
                                   ),
                                   SizedBox(
                                     height: 10,
@@ -134,19 +133,17 @@ class MyPageScreen extends ConsumerWidget {
                           ),
                           InkWell(
                             onTap: () {
-                              tabController
-                                  .animateTo(1); // MatchingScreen이 있는 인덱스로 탭 이동
+                              tabController.animateTo(1); // MatchingScreen이 있는 인덱스로 탭 이동
                             },
                             child: SizedBox(
                               width: 80,
                               height: 80,
                               child: Column(
                                 children: [
-                                  Image.asset(
-                                    'assets/tabimg/mypage/HandHeartBlack.png',
+                                  SvgPicture.asset(
+                                    'assets/tabimg/mypage/request.svg',
                                     width: 40,
                                     height: 40,
-                                    color: Colors.grey[800],
                                   ),
                                   SizedBox(
                                     height: 10,

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:intermission_project/01.user/user/view/login_screen.dart';
 import 'package:intermission_project/01.user/user/view/my_page_screen.dart';
 import 'package:intermission_project/01.user/user/view/shopping_screen.dart';
@@ -87,13 +88,20 @@ class _RootTabState extends State<RootTab>
           fontWeight: FontWeight.w400,
         ),
         items: tabItems.map((tab) {
+          bool isSelected = _currentIndex == tabItems.indexOf(tab);
           return BottomNavigationBarItem(
-            icon: Image.asset(
-              _currentIndex == tabItems.indexOf(tab)
-                  ? tab.selectedPath ?? tab.iconPath
-                  : tab.iconPath,
+            icon: isSelected && tab.selectedIconPath != null
+                ? SvgPicture.asset(
+              tab.selectedIconPath!,
               width: 24,
               height: 24,
+              color: PRIMARY_COLOR, // 선택된 아이템의 색상
+            )
+                : SvgPicture.asset(
+              tab.iconPath,
+              width: 24,
+              height: 24,
+              color: isSelected ? PRIMARY_COLOR : Colors.grey[600], // 선택되지 않은 아이템의 색상
             ),
             label: tab.label,
           );
