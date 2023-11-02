@@ -577,8 +577,49 @@ class _SignupScreenPage1State extends ConsumerState<SignupScreenPage1> {
       );
 
       if (response.statusCode == 200 && response.data["isDuplicated"] is bool) {
-        serverCode = response.data["isDuplicated"];  // bool 값을 직접 할당
+        serverCode = response.data["isDuplicated"];
         print(serverCode);
+
+        // 중복 검사 결과에 따라 대화 상자를 띄움
+        if (serverCode == true) {
+          // 중복된 이메일인 경우
+          showDialog(
+            context: context,
+            builder: (BuildContext context) {
+              return AlertDialog(
+                title: Text('알림'),
+                content: Text('이미 사용중인 아이디입니다.'),
+                actions: <Widget>[
+                  TextButton(
+                    child: Text('확인'),
+                    onPressed: () {
+                      Navigator.of(context).pop(); // 대화 상자를 닫음
+                    },
+                  ),
+                ],
+              );
+            },
+          );
+        } else {
+          // 사용 가능한 이메일인 경우
+          showDialog(
+            context: context,
+            builder: (BuildContext context) {
+              return AlertDialog(
+                title: Text('알림'),
+                content: Text('사용 가능한 아이디입니다!'),
+                actions: <Widget>[
+                  TextButton(
+                    child: Text('확인'),
+                    onPressed: () {
+                      Navigator.of(context).pop(); // 대화 상자를 닫음
+                    },
+                  ),
+                ],
+              );
+            },
+          );
+        }
       } else {
         print('Failed to send verification email or unexpected response format.');
       }
