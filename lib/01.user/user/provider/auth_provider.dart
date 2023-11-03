@@ -54,16 +54,6 @@ class AuthProvider extends ChangeNotifier {
           name: RootTab.routeName,
           builder: (_, __) => const RootTab(),
           routes: [
-            // GoRoute(
-            //   path: 'certification-test',
-            //   name: CertificationTest.routeName,
-            //   builder: (context, state) => CertificationTest(),
-            // ),
-            // GoRoute(
-            //   path: 'certification',
-            //   name: Certification.routeName,
-            //   builder: (_, __) => Certification(),
-            // ),
             GoRoute(
               path: 'research',
               name: ResearchScreen.routeName,
@@ -150,33 +140,6 @@ class AuthProvider extends ChangeNotifier {
           name: NotiReqScreen.routeName,
           builder: (_, __) => NotiReqScreen(),
         ),
-        // GoRoute(
-        //   path: '/test-home',
-        //   name: Home.routeName,
-        //   builder: (_, __) => HomeScreen(),
-        // ),
-        // GoRoute(
-        //   path: '/certification-test',
-        //   name: CertificationTest.routeName,
-        //   builder: (context, state) => CertificationTest(),
-        // ),
-        // // GoRoute(
-        // //   path: '/certification-result',
-        // //
-        // //   name: CertificationResult.routeName,
-        // //   builder: (context, state) => CertificationResult(),
-        // // ),
-        // GoRoute(
-        //     path: '/certification-result',
-        //     pageBuilder: (context, state) {
-        //       return MaterialPage(child: CertificationResult());
-        //     }
-        // ),
-        // GoRoute(
-        //   path: '/certification',
-        //   name: Certification.routeName,
-        //   builder: (_, __) => Certification(),
-        // ),
       ];
 
   logout() {

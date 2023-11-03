@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:intermission_project/01.user/user/view/my_page_screen.dart';
 import 'package:intermission_project/common/component/normal_appbar.dart';
 import 'package:intermission_project/common/const/colors.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -8,44 +10,70 @@ class Product {
   final String title;
   final String price;
 
-  Product(this.imagePath, this.title, this.price);
+  const Product(this.imagePath, this.title, this.price);
+
+  Widget get imageWidget {
+    return Image.asset(
+      imagePath,
+      height: 25.0,
+    );
+  }
 }
 
+// svg
+// class Product {
+//   final String imagePath;
+//   final String title;
+//   final String price;
+//
+//   const Product(this.imagePath, this.title, this.price);
+//
+//   Widget get imageWidget {
+//     return SvgPicture.asset(
+//       imagePath,
+//       height: 25.0,
+//     );
+//   }
+// }
+
 final List<Product> products = [
-  Product('assets/tabimg/shopping/GuideBook.png', 'PMF를 찾기 위한 효율적인\n고객 인터뷰 가이드북 상품', '70P'),
-  Product('assets/tabimg/shopping/GuideBook2.png', '66일 인문학 대화법', '50P'),
-  Product('assets/img/money.png', '현금교환권(10000원)', '100P'),
-  Product('assets/img/money.png', '현금교환권(5000원)', '50P'),
+  Product('assets/img/plz.png', '현금교환', '2000P'),
+  Product('assets/img/cash.png', '현금교환', '3000P'),
+  Product('assets/img/cash.png', '현금교환', '5000P'),
+  Product('assets/img/cash.png', '현금교환', '10000P'),
 ];
 
 class ShoppingScreen extends StatelessWidget {
   const ShoppingScreen({Key? key}) : super(key: key);
 
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: SUB_COLOR,
+      backgroundColor: Colors.white,
       appBar: NormalAppbar(
         title: '포인트 교환',
+        color: Colors.white,
       ),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Padding(
-            padding: const EdgeInsets.all(16.0),
+            padding: const EdgeInsets.fromLTRB(15, 0, 0, 15),
             child: Text(
-              'BEST 상품',
+              '적립한 포인트를 현금으로\n교환해 보세요!',
               style: TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.w700,
-                color: SUB_COLOR,
+                fontSize: 13.5,
+                color: Colors.grey[700],
               ),
             ),
           ),
+          Divider(
+            color: Colors.grey[200],
+            height: 1,
+          ),
           Expanded(
             child: GridView.builder(
-              padding: const EdgeInsets.all(16),
+              padding: const EdgeInsets.all(6),
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 2,
                 childAspectRatio: 0.7,
@@ -53,7 +81,8 @@ class ShoppingScreen extends StatelessWidget {
                 mainAxisSpacing: 16,
               ),
               itemCount: products.length,
-              itemBuilder: (context, index) => _buildProductItem(context, products[index]),
+              itemBuilder: (context, index) =>
+                  _buildProductItem(context, products[index]),
             ),
           ),
         ],
@@ -67,34 +96,28 @@ class ShoppingScreen extends StatelessWidget {
         _launchURL('https://growthhelper.kr/shop/?idx=9');
       },
       child: Container(
-        decoration: BoxDecoration(
-          border: Border.all(color: Colors.white, width: 2.0), // 보라색 테두리 추가
-          borderRadius: BorderRadius.circular(8.0), // 테두리를 둥글게
-          color: Colors.white,
-        ),
-        padding: const EdgeInsets.all(8.0), // 테두리와 내용 사이의 여백
+        color: Colors.white,
+        padding: const EdgeInsets.all(10.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            AspectRatio(
-              aspectRatio: 1,
-              child: Image.asset(product.imagePath),
+            Expanded(
+              child: product.imageWidget, // SVG 이미지 위젯을 가져옵니다.
             ),
-            const SizedBox(height: 8),
-            Container(
-              height: 40,
-              child: Text(
-                product.title,
-                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
-                overflow: TextOverflow.ellipsis,
-              ),
+            const SizedBox(height: 6),
+            Text(
+              product.title,
+              style: TextStyle(fontWeight: FontWeight.w500, fontSize: 14),
+              overflow: TextOverflow.ellipsis,
             ),
             Align(
               alignment: Alignment.bottomLeft,
               child: Text(
                 product.price,
                 style: TextStyle(
-                    color: PRIMARY_COLOR, fontSize: 16, fontWeight: FontWeight.w700),
+                    color: Colors.black,
+                    fontSize: 16,
+                    fontWeight: FontWeight.w700),
               ),
             ),
           ],
@@ -102,42 +125,6 @@ class ShoppingScreen extends StatelessWidget {
       ),
     );
   }
-
-
-  // Widget _buildProductItem(BuildContext context, Product product) {
-  //   return GestureDetector(
-  //     onTap: () {
-  //       _launchURL('https://growthhelper.kr/shop/?idx=9');
-  //     },
-  //     child: Column(
-  //       crossAxisAlignment: CrossAxisAlignment.start,
-  //       children: [
-  //         AspectRatio(
-  //           aspectRatio: 1,
-  //           child: Image.asset(product.imagePath),
-  //         ),
-  //         const SizedBox(height: 8),
-  //         Container(
-  //           height: 40,
-  //           child: Text(
-  //             product.title,
-  //             style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14),
-  //             overflow: TextOverflow.ellipsis,
-  //           ),
-  //         ),
-  //         Align(
-  //           alignment: Alignment.bottomLeft,
-  //           child: Text(
-  //             product.price,
-  //             style: TextStyle(color: PRIMARY_COLOR, fontSize: 16, fontWeight: FontWeight.w500),
-  //           ),
-  //         ),
-  //       ],
-  //     ),
-  //   );
-  // }
-
-
 
   _launchURL(String url) async {
     if (await canLaunch(url)) {

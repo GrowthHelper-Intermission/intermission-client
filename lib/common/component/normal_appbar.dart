@@ -14,7 +14,6 @@ class NormalAppbar extends StatelessWidget implements PreferredSizeWidget{
     return AppBar(
       backgroundColor: color ?? Colors.white,
       automaticallyImplyLeading: this.automaticallyImplyLeading ?? false,
-      elevation: 0,
       title: Align(
         alignment: Alignment.centerLeft,
         child: Text(

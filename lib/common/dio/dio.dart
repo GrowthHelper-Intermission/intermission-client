@@ -92,7 +92,8 @@ class CustomInterceptor extends Interceptor {
     print('tlqkf');
     print(refreshToken);
     //토큰을 refresh하려는 의도가 아니었는데 403에러가 났다면?
-    if ((isStatus401 && !isPathRefresh) ||(isStatus500 && !isPathRefresh)) {
+    // if ((isStatus403 && !isPathRefresh) ||(isStatus500 && !isPathRefresh)) {
+    if ((isStatus403 && !isPathRefresh)) {
       final dio = Dio();
       try {
         print('token refresh start');
@@ -117,7 +118,7 @@ class CustomInterceptor extends Interceptor {
           'authorization': 'Bearer $accessToken',
         });
 
-        print('테스트용: ${accessToken}');
+        print('테스트용(리프레쉬된 어세스야): ${accessToken}');
         //storage 업데이트 당연히 필요
         await storage.write(key: ACCESS_TOKEN_KEY, value: accessToken);
 

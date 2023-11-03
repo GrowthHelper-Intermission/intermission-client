@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-
+//png 방식
 // class TabItem {
 //   final String label;
 //   final String iconPath;
@@ -54,6 +54,7 @@ import 'package:flutter/material.dart';
 //   ),
 // ];
 
+// svg
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -86,6 +87,7 @@ const List<TabItem> tabItems = [
   TabItem(
     label: '리서치 의뢰',
     iconPath: 'assets/tabimg/HandHeart1.svg',
+    selectedIconPath: 'assets/tabimg/HandHeart2.svg',
   ),
   TabItem(
     label: '홈',
@@ -104,53 +106,52 @@ const List<TabItem> tabItems = [
   ),
 ];
 
-class MyPageTabItem {
-  final String label;
-  final String iconPath;
-
-  const MyPageTabItem({
-    required this.label,
-    required this.iconPath,
-  });
-
-  Widget get icon {
-    return SvgPicture.asset(
-      iconPath,
-      height: 25.0, // 또는 원하는 크기
-    );
-  }
-}
-
-const List<MyPageTabItem> myPageTabItems = [
-  MyPageTabItem(
-    label: '참여한 인터뷰',
-    iconPath: 'assets/tabimg/mypage/joined.svg', // .png를 .svg로 변경
+const List<TabItem> cashItems = [
+  TabItem(
+    label: '현금 교환',
+    iconPath: 'assets/img/cash.svg',
   ),
-  MyPageTabItem(
-    label: '스크랩',
-    iconPath: 'assets/tabimg/mypage/scrap.svg', // .png를 .svg로 변경
+  TabItem(
+    label: '현금 교환',
+    iconPath: 'assets/img/cash.svg',
   ),
-  MyPageTabItem(
-    label: '매칭 요청',
-    iconPath: 'assets/tabimg/mypage/request.svg', // .png를 .svg로 변경
+  TabItem(
+    label: '현금 교환',
+    iconPath: 'assets/img/cash.svg',
+  ),
+  TabItem(
+    label: '현금 교환',
+    iconPath: 'assets/img/cash.svg',
   ),
 ];
 
-
-///
-// MyPageTabItem(
-//   label: '포인트 적립 내역',
-//   iconPath: 'assets/tabimg/mypage/pointCount.png',
-// ),
-// MyPageTabItem(
-//   label: '공지 사항',
-//   iconPath: 'assets/tabimg/mypage/notification.png',
-// ),
-// MyPageTabItem(
-//   label: '문의하기',
-//   iconPath: 'assets/tabimg/mypage/askInfo.png',
-// ),
-// MyPageTabItem(
-//   label: '친구 추천',
-//   iconPath: 'assets/tabimg/mypage/recommendFriend.png',
-// ),
+const List<TabItem> myPageTabItems = [
+  TabItem(
+    label: '참여한 인터뷰',
+    iconPath: 'assets/tabimg/mypage/joined.svg', // .png를 .svg로 변경
+  ),
+  TabItem(
+    label: '스크랩',
+    iconPath: 'assets/tabimg/mypage/scrap.svg', // .png를 .svg로 변경
+  ),
+  TabItem(
+    label: '매칭 요청',
+    iconPath: 'assets/tabimg/mypage/request.svg', // .png를 .svg로 변경
+  ),
+  TabItem(
+    label: '포인트 적립 내역',
+    iconPath: 'assets/tabimg/mypage/Coin.svg', // .png를 .svg로 변경
+  ),
+  TabItem(
+    label: '공지사항',
+    iconPath: 'assets/tabimg/mypage/alarm.svg', // .png를 .svg로 변경
+  ),
+  TabItem(
+    label: '친구 추천',
+    iconPath: 'assets/tabimg/mypage/memberPlus.svg', // .png를 .svg로 변경
+  ),
+  TabItem(
+    label: '문의하기',
+    iconPath: 'assets/tabimg/mypage/help.svg', // .png를 .svg로 변경
+  ),
+];

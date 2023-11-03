@@ -166,9 +166,8 @@ class MyPageScreen extends ConsumerWidget {
                     SettingComponent(
                       title: '포인트 적립 내역',
                       otherScreen: PointCount(),
-                      icon: 'assets/tabimg/mypage/pointCount.png',
+                      icon: 'assets/tabimg/mypage/Coin.svg', // .png에서 .svg로 변경
                     ),
-                    //Divider(color: Colors.grey[400], thickness: 0.5),
                     Container(
                       color: Colors.grey[900],
                       height: 0.1,
@@ -176,7 +175,7 @@ class MyPageScreen extends ConsumerWidget {
                     SettingComponent(
                       title: '공지사항',
                       otherScreen: NoticeScreen(),
-                      icon: 'assets/tabimg/mypage/notification.png',
+                      icon: 'assets/tabimg/mypage/alarm.svg', // .png에서 .svg로 변경
                     ),
                     Container(
                       color: Colors.grey[900],
@@ -185,7 +184,7 @@ class MyPageScreen extends ConsumerWidget {
                     SettingComponent(
                       title: '문의하기',
                       otherScreen: UserReportScreen(),
-                      icon: 'assets/tabimg/mypage/askInfo.png',
+                      icon: 'assets/tabimg/mypage/help.svg', // .png에서 .svg로 변경
                     ),
                     Container(
                       color: Colors.grey[900],
@@ -194,12 +193,13 @@ class MyPageScreen extends ConsumerWidget {
                     SettingComponent(
                       title: '친구 추천',
                       otherScreen: FriendInviteScreen(),
-                      icon: 'assets/tabimg/mypage/recommendFriend.png',
+                      icon: 'assets/tabimg/mypage/memberPlus.svg',
                     ),
+                    // 관리자 페이지 아이콘도 필요한 경우 SVG로 변경하세요.
                     SettingComponent(
                       title: '관리자 페이지',
                       otherScreen: AdminPage(),
-                      icon: 'assets/img/link.png',
+                      icon: 'assets/tabimg/mypage/Link.svg',
                     ),
                   ],
                 ),
@@ -215,12 +215,13 @@ class MyPageScreen extends ConsumerWidget {
 class SettingComponent extends StatelessWidget {
   final String title;
   final Widget otherScreen;
-  final String icon; // 아이콘 경로를 받을 변수 추가
+  final String icon;
+
   SettingComponent({
     required this.title,
     required this.otherScreen,
-    required this.icon, // required로 icon 파라미터 추가
-    Key? key, // super.key를 Key? key로 수정
+    required this.icon,
+    Key? key,
   }) : super(key: key);
 
   @override
@@ -234,11 +235,7 @@ class SettingComponent extends StatelessWidget {
             MaterialPageRoute(builder: (context) => otherScreen),
           );
         },
-        leading: Image.asset(
-          icon,
-          width: 30,
-          height: 30,
-        ), // 이미지를 이용하여 아이콘 추가
+        leading: svgIcon(icon), // Updated to use svgIcon function
         title: Text(
           title,
           style: TextStyle(
@@ -247,18 +244,11 @@ class SettingComponent extends StatelessWidget {
             fontWeight: FontWeight.w600,
           ),
         ),
-        trailing: Image.asset(
-          'assets/img/forwardArrow.png',
-          width: 30,
-          height: 30,
-          color: Colors.grey[600],
-        ), // 오른쪽 화살표 아이콘 추가
+        trailing: svgIcon('assets/img/forwardArrow.svg', color: Colors.grey[600]), // Updated to use svgIcon function
       ),
     );
   }
 }
-
-
 class AdminPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -269,15 +259,25 @@ class AdminPage extends StatelessWidget {
           SettingComponent(
             title: '리서치 게시하기',
             otherScreen: ResearchReqScreen(),
-            icon: 'assets/tabimg/mypage/recommendFriend.png',
+            icon: 'assets/tabimg/mypage/recommendFriend.svg',
           ),
           SettingComponent(
             title: '공지사항 게시하기',
             otherScreen: NotiReqScreen(),
-            icon: 'assets/tabimg/mypage/recommendFriend.png',
+            icon: 'assets/tabimg/mypage/alarm.svg',
           ),
         ],
       ),
     );
   }
+}
+
+
+Widget svgIcon(String assetName, {double width = 30, double height = 30, Color? color}) {
+  return SvgPicture.asset(
+    assetName,
+    width: width,
+    height: height,
+    color: color,
+  );
 }
