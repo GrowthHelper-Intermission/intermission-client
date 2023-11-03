@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:intermission_project/01.user/user/view/my_page_screen.dart';
+import 'package:intermission_project/01.user/user/view/shopping_detail_screen.dart';
 import 'package:intermission_project/common/component/normal_appbar.dart';
 import 'package:intermission_project/common/const/colors.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -37,10 +38,10 @@ class Product {
 // }
 
 final List<Product> products = [
-  Product('assets/img/plz.png', '현금교환', '2000P'),
-  Product('assets/img/cash.png', '현금교환', '3000P'),
-  Product('assets/img/cash.png', '현금교환', '5000P'),
-  Product('assets/img/cash.png', '현금교환', '10000P'),
+  Product('assets/img/2000.png', '현금교환', '2000P'),
+  Product('assets/img/3000.png', '현금교환', '3000P'),
+  Product('assets/img/5000.png', '현금교환', '5000P'),
+  Product('assets/img/10000.png', '현금교환', '10000P'),
 ];
 
 class ShoppingScreen extends StatelessWidget {
@@ -93,7 +94,9 @@ class ShoppingScreen extends StatelessWidget {
   Widget _buildProductItem(BuildContext context, Product product) {
     return GestureDetector(
       onTap: () {
-        _launchURL('https://growthhelper.kr/shop/?idx=9');
+        Navigator.of(context).push(
+          MaterialPageRoute(builder: (context) => ShoppingDetailScreen()),
+        );
       },
       child: Container(
         color: Colors.white,
@@ -115,9 +118,10 @@ class ShoppingScreen extends StatelessWidget {
               child: Text(
                 product.price,
                 style: TextStyle(
-                    color: Colors.black,
-                    fontSize: 16,
-                    fontWeight: FontWeight.w700),
+                  color: GREEN_COLOR,
+                  fontSize: 16,
+                  fontWeight: FontWeight.w700,
+                ),
               ),
             ),
           ],

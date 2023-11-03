@@ -189,7 +189,7 @@ class _ResearchCardState extends State<ResearchCard> {
                     children: [
                       Text(
                         widget.researchMethTpCd,
-                        style: blackSmallTextStyle,
+                        style: greySmallTextStyle,
                       ),
                       Text(
                         ' | ',

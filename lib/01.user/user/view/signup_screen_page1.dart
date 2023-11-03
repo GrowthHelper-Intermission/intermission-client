@@ -716,7 +716,7 @@ class _SignupScreenPage1State extends ConsumerState<SignupScreenPage1> {
                   SizedBox(
                     height: 15,
                   ),
-                  PrivacyAgreement(
+                  CustomCheckBox(
                     isAgree: isAgree,
                     title: '이용약관에 동의합니다(필수)',
                     onChanged: (value) {
@@ -726,7 +726,7 @@ class _SignupScreenPage1State extends ConsumerState<SignupScreenPage1> {
                       });
                     },
                   ),
-                  PrivacyAgreement(
+                  CustomCheckBox(
                     isAgree: isAgree2,
                     title: '개인정보 처리방침에 동의합니다(필수)',
                     onChanged: (value) {
@@ -793,16 +793,19 @@ class CustomButton extends StatelessWidget {
   }
 }
 
-class PrivacyAgreement extends StatelessWidget {
+class CustomCheckBox extends StatelessWidget {
   final bool isAgree;
   final ValueChanged<bool?> onChanged;
   final String title;
+  final bool? isArrow;
 
-  const PrivacyAgreement({
+  const CustomCheckBox({
+    Key? key, // Best practice: always add a Key parameter to stateless widgets
     required this.isAgree,
     required this.onChanged,
     required this.title,
-  });
+    this.isArrow = false, // Default value is false if not provided
+  }) : super(key: key); // Pass key to the super constructor
 
   @override
   Widget build(BuildContext context) {
@@ -833,16 +836,18 @@ class PrivacyAgreement extends StatelessWidget {
               ),
             ),
           ),
-          Spacer(),  // 이를 사용하여 아이콘 버튼을 오른쪽 끝으로 밀어냅니다.
-          IconButton(
-            icon: Icon(Icons.arrow_forward_ios, size: 20),
-            onPressed: () {
-              // Navigator.push(
-              //   context,
-              //   MaterialPageRoute(builder: (context) => NewScreen()),  // 여기에 원하는 화면을 지정하세요.
-              // );
-            },
-          ),
+          Spacer(),
+          if (isArrow ?? false) // isArrow가 null이 아니고 true일 경우에만 IconButton을 표시
+            IconButton(
+              icon: Icon(Icons.arrow_forward_ios, size: 20),
+              onPressed: () {
+                // Navigator.push(
+                //   context,
+                //   MaterialPageRoute(builder: (context) => NewScreen()),
+                // );
+              },
+            ),
+          // 조건이 거짓이라면 아무것도 표시하지 않음
         ],
       ),
     );

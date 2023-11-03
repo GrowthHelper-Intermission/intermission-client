@@ -12,7 +12,7 @@ class NormalAppbar extends StatelessWidget implements PreferredSizeWidget{
   @override
   Widget build(BuildContext context) {
     return AppBar(
-      backgroundColor: color ?? Colors.white,
+      backgroundColor: Colors.white,
       automaticallyImplyLeading: this.automaticallyImplyLeading ?? false,
       title: Align(
         alignment: Alignment.centerLeft,

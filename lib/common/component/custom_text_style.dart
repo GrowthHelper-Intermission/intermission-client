@@ -18,7 +18,7 @@ TextStyle InterviewTitleStyle = TextStyle(
   color: Colors.black,
 );
 
-TextStyle blackSmallTextStyle = TextStyle(
+TextStyle greySmallTextStyle = TextStyle(
   fontWeight: FontWeight.w700,
   fontSize: 13.0,
   color: Colors.grey,
@@ -29,6 +29,12 @@ TextStyle whiteSmallTextStyle = TextStyle(
   fontWeight: FontWeight.w700,
   fontSize: 13.0,
   color: Colors.grey[400],
+);
+
+TextStyle blackSmallTextStyle = TextStyle(
+  fontWeight: FontWeight.w500,
+  fontSize: 13.0,
+  color: Colors.black,
 );
 
 TextStyle whiteBlueTextStyle = TextStyle(

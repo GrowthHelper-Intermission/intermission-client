@@ -11,11 +11,10 @@ TesterReqModel _$TesterReqModelFromJson(Map<String, dynamic> json) =>
       taskTpCd: json['taskTpCd'] as String,
       compNm: json['compNm'] as String,
       completeUrl: json['completeUrl'] as String,
-      researchMethTpCd: json['researchMethTpCd'] as String,
-      exceptCountTime: json['exceptCountTime'] as String,
+      fgiTarget: json['fgiTarget'] as String,
+      fgiMethod: json['fgiMethod'] as String,
       preferredTime: json['preferredTime'] as String,
-      isAgree: json['isAgree'] as String,
-      researchEntryCnt: json['researchEntryCnt'] as String,
+      exceptTimeCnt: json['exceptTimeCnt'] as String,
     );
 
 Map<String, dynamic> _$TesterReqModelToJson(TesterReqModel instance) =>
@@ -23,9 +22,8 @@ Map<String, dynamic> _$TesterReqModelToJson(TesterReqModel instance) =>
       'taskTpCd': instance.taskTpCd,
       'compNm': instance.compNm,
       'completeUrl': instance.completeUrl,
-      'researchMethTpCd': instance.researchMethTpCd,
-      'exceptCountTime': instance.exceptCountTime,
+      'fgiTarget': instance.fgiTarget,
+      'fgiMethod': instance.fgiMethod,
       'preferredTime': instance.preferredTime,
-      'isAgree': instance.isAgree,
-      'researchEntryCnt': instance.researchEntryCnt,
+      'exceptTimeCnt': instance.exceptTimeCnt,
     };
