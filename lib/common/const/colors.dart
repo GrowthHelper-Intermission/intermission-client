@@ -22,3 +22,5 @@ const YELLOW_COLOR = Color(0xFFFEE500);
 
 
 const GREY_COLOR = Color(0xFF828282);
+
+const GREEN_COLOR = Color(0XFF1F533A);

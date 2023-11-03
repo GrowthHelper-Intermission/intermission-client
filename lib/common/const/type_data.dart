@@ -11,6 +11,8 @@ const List<String> residenceTypes = [
 
 const List<String> taskTpOptions = ['선택', '대표자', 'PM/PO', 'UX 리서처', '고객개발팀', '기타'];
 
+const List<String> timeTypes = ['평일 오전', '평일 오후', '평일 저녁', '주말 오전', '주말 오후', '주말 저녁', '상관없음', '기타'];
+
 const List<String> jobCdTypes = [
   '선택',
   '초등 학생',

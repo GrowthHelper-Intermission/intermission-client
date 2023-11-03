@@ -14,15 +14,18 @@ class MatchingScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: NormalAppbar(title: '리서치 의뢰',),
+      appBar: NormalAppbar(
+        title: '리서치 의뢰',
+      ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16.0),
         child: SingleChildScrollView(
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,  // add this
+            crossAxisAlignment: CrossAxisAlignment.stretch, // add this
             children: [
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 6),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 20, vertical: 6),
                 child: Text(
                   "누구나 쉽게 리서치를 의뢰하실 수 있습니다!\n논문 리서치도 가능해요!😊\n",
                   style: TextStyle(fontSize: 17, fontWeight: FontWeight.bold),
@@ -33,7 +36,9 @@ class MatchingScreen extends StatelessWidget {
                 onPressed: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => InterviewReqScreen()),
+                    MaterialPageRoute(
+                      builder: (context) => InterviewReqScreen(),
+                    ),
                   );
                 },
                 buttonName: '인터뷰 의뢰하기',
@@ -43,7 +48,9 @@ class MatchingScreen extends StatelessWidget {
                 onPressed: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => SurveyReqScreen()),
+                    MaterialPageRoute(
+                      builder: (context) => SurveyReqScreen(),
+                    ),
                   );
                 },
                 buttonName: '설문 의뢰하기',
@@ -53,13 +60,15 @@ class MatchingScreen extends StatelessWidget {
                 onPressed: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => TesterReqScreen()),
+                    MaterialPageRoute(
+                      builder: (context) => TesterReqScreen(),
+                    ),
                   );
                 },
                 buttonName: '제품/서비스 테스터 의뢰하기',
-                description: '제품/서비스가 나온 후에도 리서치는 필수!\n테스터를 통해 이용에 불편함이 없는지 알아봐요',
+                description:
+                    '제품/서비스가 나온 후에도 리서치는 필수!\n테스터를 통해 이용에 불편함이 없는지 알아봐요',
               ),
-
             ],
           ),
         ),
@@ -96,7 +105,6 @@ class MatchingScreen extends StatelessWidget {
     );
   }
 
-
   _launchURL(String url) async {
     if (await canLaunch(url)) {
       await launch(url);
@@ -105,8 +113,6 @@ class MatchingScreen extends StatelessWidget {
     }
   }
 }
-
-
 
 class CustomLoginNextButton extends StatefulWidget {
   final String buttonName;
@@ -138,7 +144,7 @@ class _CustomLoginNextButtonState extends State<CustomLoginNextButton> {
               onPressed: widget.isButtonEnabled ? widget.onPressed : null,
               style: ElevatedButton.styleFrom(
                 primary:
-                widget.isButtonEnabled ? PRIMARY_COLOR : Colors.grey[200],
+                    widget.isButtonEnabled ? PRIMARY_COLOR : Colors.grey[200],
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(10),
                 ),

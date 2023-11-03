@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:intermission_project/01.user/user/view/signup_screen_page1.dart';
 import 'package:intermission_project/04.research/research/provider/research_provider.dart';
 import 'package:intermission_project/04.research/research/view/research_screen.dart';
 import 'package:intermission_project/04.research/research_req/model/interview_req_model.dart';
@@ -31,34 +32,6 @@ class _SurveyReqScreenState extends ConsumerState<SurveyReqScreen> {
   bool isButtonEnabled = false;
 
   void checkButtonEnabled() {
-    // bool isTaskSelected =
-    //     selectedTaskTp != null && selectedTaskTp != '선택'; // '선택'일 때 비활성화 조건 추가
-    // bool isCompNmFilled =
-    //     compNmController.text.trim().isNotEmpty; // 회사명 또는 아이템명
-    // bool isItemOneLineFilled =
-    //     itemOneLineController.text.trim().isNotEmpty; // 아이템 한 줄 소개
-    // bool isResearchMethodFilled =
-    //     researchMethTpCdController.text.trim().isNotEmpty; // 인터뷰 방법
-    // bool isExceptTimeFilled =
-    //     exceptTimeMinuteController.text.trim().isNotEmpty; // 인터뷰 예상 소요 시간
-    // bool isRewardFilled = rewardController.text.trim().isNotEmpty; // 인터뷰 보상
-    // bool isWhatYouWantFilled =
-    //     whatYouWantController.text.trim().isNotEmpty; // 원하는 인터뷰이 특성
-    // bool isCntFilled = cntController.text.trim().isNotEmpty; // 원하는 인원
-    // bool isServiceSelected = isMatchingChecked ||
-    //     isQuestionChecked ||
-    //     isInsteadChecked; // 의뢰하시는 서비스 선택 여부
-    //
-    // bool isFieldsValid = isTaskSelected &&
-    //     isCompNmFilled &&
-    //     isItemOneLineFilled &&
-    //     isResearchMethodFilled &&
-    //     isExceptTimeFilled &&
-    //     isRewardFilled &&
-    //     isWhatYouWantFilled &&
-    //     isCntFilled &&
-    //     isServiceSelected;
-
     bool isFieldsValid = true;
 
     setState(() {
@@ -69,6 +42,8 @@ class _SurveyReqScreenState extends ConsumerState<SurveyReqScreen> {
   bool surveyResChecked = false;
   bool surveyDevChecked = false;
   bool surveyInputChecked = false;
+
+  bool isAgree = false;
 
   TextEditingController urlController = TextEditingController();
   TextEditingController exceptTimeMinuteController = TextEditingController();
@@ -114,6 +89,9 @@ class _SurveyReqScreenState extends ConsumerState<SurveyReqScreen> {
                     // checkButtonEnabled();
                   },
                 ),
+                SizedBox(
+                  height: 20,
+                ),
                 SignupAskLabel(text: '설문대상'),
                 Text('무작위면 무작위로 적어주시면 감사하겠습니다. 대상자에 따라 스크리닝 비용 추가됩니다.',
                     style: TextStyle(fontSize: 13, color: GREY_COLOR)),
@@ -124,6 +102,9 @@ class _SurveyReqScreenState extends ConsumerState<SurveyReqScreen> {
                   controller: screeningController,
                   hintText: '20대/30대 반려동물 소유 여성',
                 ),
+                SizedBox(
+                  height: 20,
+                ),
                 SignupAskLabel(text: '완성된 설문이 있다면 설문 링크'),
                 CustomTextFormField(
                   onChanged: (String value) {
@@ -131,6 +112,9 @@ class _SurveyReqScreenState extends ConsumerState<SurveyReqScreen> {
                   },
                   controller: urlController,
                   hintText: 'url이 있으시면 적어주세요!',
+                ),
+                SizedBox(
+                  height: 20,
                 ),
                 SignupAskLabel(text: '설문이 없다면 예상 설문 문항 수 및 예상 응답 시간'),
                 CustomTextFormField(
@@ -140,6 +124,9 @@ class _SurveyReqScreenState extends ConsumerState<SurveyReqScreen> {
                   controller: exceptTimeMinuteController,
                   hintText: '50문항, 30분',
                 ),
+                SizedBox(
+                  height: 20,
+                ),
                 SignupAskLabel(text: '원하는 인원'),
                 CustomTextFormField(
                   onChanged: (String value) {
@@ -148,41 +135,42 @@ class _SurveyReqScreenState extends ConsumerState<SurveyReqScreen> {
                   controller: cntController,
                   hintText: '40명',
                 ),
+                SizedBox(
+                  height: 20,
+                ),
                 SignupAskLabel(text: '의뢰하시는 서비스를 선택해주세요'),
-                CheckboxListTile(
-                  controlAffinity: ListTileControlAffinity
-                      .leading, // this line positions the checkbox on the left
-                  title: Text('설문 응답'),
-                  value: surveyResChecked,
-                  onChanged: (bool? value) {
+                CustomCheckBox(
+                  isAgree: surveyResChecked,
+                  onChanged: (value) {
                     setState(() {
                       surveyResChecked = value!;
                       checkButtonEnabled();
                     });
                   },
+                  title: '설문 응답',
                 ),
-                CheckboxListTile(
-                  controlAffinity: ListTileControlAffinity.leading,
-                  title: Text('설문지 개발'),
-                  value: surveyDevChecked,
-                  onChanged: (bool? value) {
+                CustomCheckBox(
+                  isAgree: surveyDevChecked,
+                  onChanged: (value) {
                     setState(() {
                       surveyDevChecked = value!;
                       checkButtonEnabled();
                     });
                   },
+                  title: '설문지 개발',
                 ),
-                CheckboxListTile(
-                  controlAffinity: ListTileControlAffinity
-                      .leading, // this line positions the checkbox on the left
-                  title: Text('설문 입력'),
-                  value: surveyInputChecked,
-                  onChanged: (bool? value) {
+                CustomCheckBox(
+                  isAgree: surveyInputChecked,
+                  onChanged: (value) {
                     setState(() {
                       surveyInputChecked = value!;
                       checkButtonEnabled();
                     });
                   },
+                  title: '설문 입력',
+                ),
+                SizedBox(
+                  height: 20,
                 ),
                 SignupAskLabel(text: '기타 요청 사항'),
                 CustomTextFormField(

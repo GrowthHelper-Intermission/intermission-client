@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:intermission_project/01.user/user/view/signup_screen_page1.dart';
 import 'package:intermission_project/04.research/research/provider/research_provider.dart';
 import 'package:intermission_project/04.research/research/view/research_screen.dart';
 import 'package:intermission_project/04.research/research_req/model/interview_req_model.dart';
 import 'package:intermission_project/04.research/research_req/model/research_req_model.dart';
 import 'package:intermission_project/04.research/research_req/provider/interview_req_provider.dart';
 import 'package:intermission_project/04.research/research_req/provider/research_req_provider.dart';
+import 'package:intermission_project/04.research/research_req/view/survey_request_screen.dart';
 import 'package:intermission_project/common/component/custom_dropdown_button.dart';
 import 'package:intermission_project/common/component/custom_text_form_field.dart';
 import 'package:intermission_project/common/component/login_next_button.dart';
@@ -78,7 +80,6 @@ class _InterviewReqScreenState extends ConsumerState<InterviewReqScreen> {
   bool isQuestionChecked = false;
   bool isInsteadChecked = false;
 
-  // Function to close the dropdown when tapping outside
   void closeDropdown() {
     FocusScope.of(context).requestFocus(FocusNode());
   }
@@ -86,7 +87,7 @@ class _InterviewReqScreenState extends ConsumerState<InterviewReqScreen> {
   @override
   Widget build(BuildContext context) {
     return DefaultLayout(
-      title: '인터뷰 의뢰',
+      title: '인터뷰이 매칭 요청서',
       child: GestureDetector(
         onTap: closeDropdown,
         child: SingleChildScrollView(
@@ -110,15 +111,23 @@ class _InterviewReqScreenState extends ConsumerState<InterviewReqScreen> {
                     // checkButtonEnabled();
                   },
                 ),
+                SizedBox(
+                  height: 20,
+                ),
                 SignupAskLabel(text: '회사명 / 아이템명'),
-                Text('회사명이 없다면 아이템명만 작성해주시면 됩니다',
-                    style: TextStyle(fontSize: 13, color: GREY_COLOR)),
+                Text(
+                  '회사명이 없다면 아이템명만 작성해주시면 됩니다!',
+                  style: TextStyle(fontSize: 13, color: GREY_COLOR),
+                ),
                 CustomTextFormField(
                   onChanged: (String value) {
                     checkButtonEnabled();
                   },
                   controller: compNmController,
                   hintText: '그로스 헬퍼/렌터카 경험 인터뷰',
+                ),
+                SizedBox(
+                  height: 20,
                 ),
                 SignupAskLabel(text: '아이템 한 줄 소개'),
                 CustomTextFormField(
@@ -128,16 +137,23 @@ class _InterviewReqScreenState extends ConsumerState<InterviewReqScreen> {
                   controller: itemOneLineController,
                   hintText: '그로스 헬퍼/렌터카 경험 인터뷰',
                 ),
+                SizedBox(
+                  height: 20,
+                ),
                 SignupAskLabel(text: '인터뷰 방법'),
                 Text(
-                    '온라인인지 오프라인인지. 오프라인일 경우 인터뷰이가 있는 장소로\n 일정 조율해서 가는지 아니면 지정된 장소로 가야하는지 기재 부탁드립니다.',
-                    style: TextStyle(fontSize: 13, color: GREY_COLOR)),
+                  '온라인인지 오프라인인지. 오프라인일 경우 인터뷰이가 있는 장소로\n일정 조율해서 가는지 아니면 지정된 장소로 가야하는지 기재 부탁드립니다.',
+                  style: TextStyle(fontSize: 13, color: GREY_COLOR),
+                ),
                 CustomTextFormField(
                   onChanged: (String value) {
                     checkButtonEnabled();
                   },
                   controller: researchMethTpCdController,
                   hintText: '오프라인, 서울 중구',
+                ),
+                SizedBox(
+                  height: 20,
                 ),
                 SignupAskLabel(text: '인터뷰 예상 소요 시간'),
                 CustomTextFormField(
@@ -147,6 +163,9 @@ class _InterviewReqScreenState extends ConsumerState<InterviewReqScreen> {
                   controller: exceptTimeMinuteController,
                   hintText: '30분',
                 ),
+                SizedBox(
+                  height: 20,
+                ),
                 SignupAskLabel(text: '인터뷰 보상'),
                 CustomTextFormField(
                   onChanged: (String value) {
@@ -155,9 +174,12 @@ class _InterviewReqScreenState extends ConsumerState<InterviewReqScreen> {
                   controller: rewardController,
                   hintText: '5000원',
                 ),
+                SizedBox(
+                  height: 20,
+                ),
                 SignupAskLabel(text: '원하는 인터뷰이 특성'),
                 Text(
-                  ' 나이/성별/거주지에 관한 것 등의 자세할수록 좋습니다!',
+                  '나이/성별/거주지에 관한 것 등의 자세할수록 좋습니다!',
                   style: TextStyle(fontSize: 13, color: GREY_COLOR),
                 ),
                 CustomTextFormField(
@@ -167,6 +189,9 @@ class _InterviewReqScreenState extends ConsumerState<InterviewReqScreen> {
                   controller: whatYouWantController,
                   hintText: '20대/30대/남성/크로스핏',
                 ),
+                SizedBox(
+                  height: 20,
+                ),
                 SignupAskLabel(text: '원하는 인원'),
                 CustomTextFormField(
                   onChanged: (String value) {
@@ -174,6 +199,9 @@ class _InterviewReqScreenState extends ConsumerState<InterviewReqScreen> {
                   },
                   controller: cntController,
                   hintText: '10명',
+                ),
+                SizedBox(
+                  height: 20,
                 ),
                 SignupAskLabel(text: '기타 요청 사항'),
                 CustomTextFormField(
@@ -183,43 +211,48 @@ class _InterviewReqScreenState extends ConsumerState<InterviewReqScreen> {
                   controller: etcReqCn,
                   hintText: '추가적인 요청사항 입력',
                 ),
+                SizedBox(
+                  height: 20,
+                ),
                 SignupAskLabel(text: '의뢰하시는 서비스를 선택해주세요'),
-                CheckboxListTile(
-                  controlAffinity: ListTileControlAffinity
-                      .leading, // this line positions the checkbox on the left
-                  title: Text('인터뷰이 매칭'),
-                  value: isMatchingChecked,
-                  onChanged: (bool? value) {
+                CustomCheckBox(
+                  isAgree: isMatchingChecked,
+                  onChanged: (value) {
                     setState(() {
                       isMatchingChecked = value!;
                       checkButtonEnabled();
                     });
                   },
+                  title: '인터뷰이 매칭',
                 ),
-                CheckboxListTile(
-                  controlAffinity: ListTileControlAffinity.leading,
-                  title: Text('인터뷰 질문 개발'),
-                  value: isQuestionChecked,
-                  onChanged: (bool? value) {
+                CustomCheckBox(
+                  isAgree: isQuestionChecked,
+                  onChanged: (value) {
                     setState(() {
                       isQuestionChecked = value!;
                       checkButtonEnabled();
                     });
                   },
+                  title: '인터뷰 질문 개발',
                 ),
-                CheckboxListTile(
-                  controlAffinity: ListTileControlAffinity
-                      .leading, // this line positions the checkbox on the left
-                  title: Text('인터뷰 진행 대행'),
-                  value: isInsteadChecked,
-                  onChanged: (bool? value) {
+                CustomCheckBox(
+                  isAgree: isInsteadChecked,
+                  onChanged: (value) {
                     setState(() {
                       isInsteadChecked = value!;
                       checkButtonEnabled();
                     });
                   },
+                  title: '인터뷰 진행 대행',
+                ),
+                SizedBox(
+                  height: 20,
                 ),
                 SignupAskLabel(text: '질문 개발, 진행 대행 의뢰시 인터뷰 목적 기재'),
+                Text(
+                  '질문을 대신하여 개발해 드립니다!',
+                  style: TextStyle(fontSize: 13, color: GREY_COLOR),
+                ),
                 CustomTextFormField(
                   onChanged: (String value) {
                     checkButtonEnabled();
