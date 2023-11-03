@@ -97,7 +97,7 @@ flutter:
     - assets/img/
     - assets/tabimg/
     - assets/tabimg/mypage/
-    - assets/tabimg/shopping/
+    - assets/tabimg/point/
 
   # To add assets to your application, add an assets section, like this:
   # assets:
