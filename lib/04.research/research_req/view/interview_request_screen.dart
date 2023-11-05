@@ -271,21 +271,19 @@ class _InterviewReqScreenState extends ConsumerState<InterviewReqScreen> {
                       taskTpCd: selectedTaskTp!,
                       compNm: compNmController.text.trim().toString(),
                       itemOneLine: itemOneLineController.text.trim().toString(),
-                      researchMethTpCd:
+                      interviewMethTpCd:
                           researchMethTpCdController.text.trim().toString(),
                       exceptTime:
                           exceptTimeMinuteController.text.trim().toString(),
-                      researchRewdAmt: rewardController.text.trim().toString(),
+                      interviewRewdAmt: rewardController.text.trim().toString(),
                       whatYouWant: whatYouWantController.text.trim().toString(),
-                      researchEntryCnt: cntController.text.trim().toString(),
+                      interviewEntryCnt: cntController.text.trim().toString(),
                       etcReqCn: etcReqCn.text.trim().toString(),
                       matching: isMatchingChecked ? "Y" : "N",
                       question: isQuestionChecked ? "Y" : "N",
                       instead: isInsteadChecked ? "Y" : "N",
                       questionDetail:
                           interviewPurposeController.text.trim().toString(),
-                      isAgree: 'Y',
-                      researchRewdPoint: 30,
                     );
                     try {
                       ref
