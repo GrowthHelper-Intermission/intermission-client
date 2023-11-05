@@ -10,7 +10,6 @@ part 'research_detail_model.g.dart';
 class ResearchDetailModel extends ResearchModel{
   // final String isJoin;
   final int userId;
-  final String isPossible;
   final String researchType;
   final String minAge;
   final String detail;
@@ -19,13 +18,14 @@ class ResearchDetailModel extends ResearchModel{
   final String isScrap;
   final String scrapCnt;
   final List<Comment> comments;  // comments 필드 추가
-
+  final String isScreening;
   // n,c 조건 추가
   final String? participationStatus; //"참여가능" ,참여중, 참여 완료
   final String? researchUrl;
 
 
   ResearchDetailModel({
+    required this.isScreening,
     required this.userId,
     required super.id,
     required super.mainTitle,
@@ -47,7 +47,6 @@ class ResearchDetailModel extends ResearchModel{
     required this.isScrap,
     required this.scrapCnt,
     required this.comments,
-    required this.isPossible,
     //comment 필요ㄷ
 });
 

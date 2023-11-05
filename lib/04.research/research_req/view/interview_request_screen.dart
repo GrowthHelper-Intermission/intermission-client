@@ -108,7 +108,7 @@ class _InterviewReqScreenState extends ConsumerState<InterviewReqScreen> {
                         checkButtonEnabled();
                       },
                     );
-                    // checkButtonEnabled();
+                    checkButtonEnabled();
                   },
                 ),
                 SizedBox(
@@ -284,6 +284,7 @@ class _InterviewReqScreenState extends ConsumerState<InterviewReqScreen> {
                       instead: isInsteadChecked ? "Y" : "N",
                       questionDetail:
                           interviewPurposeController.text.trim().toString(),
+                      isAgree: "Y",
                     );
                     try {
                       ref
@@ -291,7 +292,7 @@ class _InterviewReqScreenState extends ConsumerState<InterviewReqScreen> {
                           .postInterview(newInterview);
                       print('Research posted successfully');
 
-                      // ref.read(researchProvider.notifier).getTopThreeResearches();
+                      ref.read(researchProvider.notifier).getTopThreeResearches();
 
                       // Show the confirmation dialog
                       await showDialog(

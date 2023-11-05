@@ -230,6 +230,21 @@ class _ResearchDetailScreenState extends ConsumerState<ResearchDetailScreen> {
 
   /// 스크랩 ~ 참여 버튼
   Widget _buildBottomButtons(ResearchDetailModel state) {
+    bool isParticipationComplete = state.isOnGoing == "N";
+    bool isEligibleForParticipation = state.isScreening == "N";
+
+    // 버튼 텍스트 설정
+    String buttonText = '참여가능';
+    if (isParticipationComplete) {
+      buttonText = '참여자 모집이 완료되었습니다!';
+      isButtonEnabled = false;
+    } else if (isEligibleForParticipation) {
+      buttonText = '참여 대상이 아닙니다!';
+      isButtonEnabled = false;
+    } else if (state.researchType != '설문조사') {
+      buttonText = '참여중...';
+    }
+
     return Container(
       height: 120,
       decoration: BoxDecoration(
@@ -264,38 +279,42 @@ class _ResearchDetailScreenState extends ConsumerState<ResearchDetailScreen> {
                 ),
                 Flexible(
                   child: SizedBox(
-                    height: 20, // Text 위젯의 최대 높이를 제한
+                    height: 20,
                     child: Text(
-                        isScraping ? "스크랩 중..." : state.scrapCnt.toString(),
-                        style: TextStyle(fontSize: 13)),
+                      isScraping ? "스크랩 중..." : state.scrapCnt.toString(),
+                      style: TextStyle(fontSize: 13),
+                    ),
                   ),
                 ),
               ],
             ),
             Expanded(
               child: SimpleButton(
-                isButtonEnabled: isButtonEnabled && state.isPossible != "N",
-                onPressed: isButtonEnabled && state.isPossible != "N"
+                isButtonEnabled: isButtonEnabled && state.isScreening != "N",
+                onPressed: isButtonEnabled && state.isScreening != "N"
                     ? () async {
-                        if (state.researchType == '설문조사') {
-                          await Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => GoogleFormWebView(
-                                onComplete: () async {
-                                  await _handleSurveyParticipation(); // 콜백 내에서 참여 처리 함수 호출
-                                },
-                                homeUrl:
-                                    'https://docs.google.com/forms/d/e/1FAIpQLSe0PYqfFJNUNlo07evTMeWzDjPc0saRRQyYg2tBQBpPZE_CiA/viewform',
-                              ),
-                            ),
-                          );
-                        } else {
-                          await _handleInterviewTesterParticipationResponse();
-                        }
-                      }
+                  if (state.researchType == '설문조사') {
+                    await Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => GoogleFormWebView(
+                          onComplete: () async {
+                            await _handleSurveyParticipation(); // 콜백 내에서 참여 처리 함수 호출
+                          },
+                          // homeUrl: state.researchUrl!,
+                          homeUrl: 'https://docs.google.com/forms/d/e/1FAIpQLSe0PYqfFJNUNlo07evTMeWzDjPc0saRRQyYg2tBQBpPZE_CiA/viewform',
+                        ),
+                      ),
+                    );
+                  } else {
+                    // 여기서는 참여중... 상태로만 변경되며, 실제 구글 폼으로는 이동하지 않음
+                    setState(() {
+                      // 참여중... 상태로 변경하는 로직 필요 (상태 관리 코드를 추가해야 함)
+                    });
+                  }
+                }
                     : null, // 비활성화 상태일 때 null
-                buttonName: state.participationStatus ?? '참여하장',
+                buttonName: buttonText,
               ),
             ),
           ],

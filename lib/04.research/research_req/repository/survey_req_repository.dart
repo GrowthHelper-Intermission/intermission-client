@@ -17,7 +17,7 @@ final surveyReqRepositoryProvider = Provider<SurveyReqRepository>(
     // return UserMeRepository(dio,baseUrl: 'http://$ip/user/me');
     // 'http://localhost:8080/api/user/save'
     return SurveyReqRepository(dio,
-        baseUrl: 'http://35.216.100.47:8080/api/survey');
+        baseUrl: 'https://growthhelper-intermission.com/api/survey');
   },
 );
 

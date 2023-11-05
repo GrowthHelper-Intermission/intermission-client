@@ -17,6 +17,7 @@ class InterviewReqModel {
   final String question; // "Y"
   final String instead; // "Y"
   final String questionDetail; // 질문개발및대행시, 인터뷰 목적을 상세히
+  final String isAgree;
 
   InterviewReqModel({
     required this.taskTpCd,
@@ -32,6 +33,7 @@ class InterviewReqModel {
     required this.question,
     required this.instead,
     required this.questionDetail,
+    required this.isAgree,
   });
 
   factory InterviewReqModel.fromJson(Map<String, dynamic> json) =>
