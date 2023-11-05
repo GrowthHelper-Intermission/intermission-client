@@ -15,7 +15,7 @@ final testerReqRepositoryProvider = Provider<TesterReqRepository>(
       (ref) {
     final dio = ref.watch(dioProvider);
     return TesterReqRepository(dio,
-        baseUrl: 'http://35.216.100.47:8080/api/tester');
+        baseUrl: 'https://growthhelper-intermission.com/api/tester');
   },
 );
 

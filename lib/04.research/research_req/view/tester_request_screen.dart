@@ -132,9 +132,6 @@ class _TesterReqScreenState extends ConsumerState<TesterReqScreen> {
     bool isMethodFilled =
         fgiMethodController.text.trim().isNotEmpty; // 인터뷰 예상 소요 시간
 
-
-    bool isExceptTimeCntFilled = exceptTimeCntController.text.trim().isNotEmpty; // 원하는 인원
-
     bool isFieldsValid = isTaskSelected && isCompNmFilled && isTargetFilled &&
         isTimeSelected && isUrlFilled && isMethodFilled;
 
@@ -177,10 +174,10 @@ class _TesterReqScreenState extends ConsumerState<TesterReqScreen> {
                     setState(
                       () {
                         selectedTaskTp = value;
-                        // checkButtonEnabled();
+                        checkButtonEnabled();
                       },
                     );
-                    // checkButtonEnabled();
+                    checkButtonEnabled();
                   },
                 ),
                 SizedBox(
@@ -261,10 +258,10 @@ class _TesterReqScreenState extends ConsumerState<TesterReqScreen> {
                     setState(
                       () {
                         selectedTimeTp = value;
-                        // checkButtonEnabled();
+                        checkButtonEnabled();
                       },
                     );
-                    // checkButtonEnabled();
+                    checkButtonEnabled();
                   },
                 ),
                 SizedBox(
@@ -289,7 +286,7 @@ class _TesterReqScreenState extends ConsumerState<TesterReqScreen> {
                           .postTester(testerReqModel);
                       print('Research posted successfully');
 
-                      // ref.read(researchProvider.notifier).getTopThreeResearches();
+                      ref.read(researchProvider.notifier).getTopThreeResearches();
 
                       // Show the confirmation dialog
                       await showDialog(

@@ -21,6 +21,7 @@ InterviewReqModel _$InterviewReqModelFromJson(Map<String, dynamic> json) =>
       question: json['question'] as String,
       instead: json['instead'] as String,
       questionDetail: json['questionDetail'] as String,
+      isAgree: json['isAgree'] as String,
     );
 
 Map<String, dynamic> _$InterviewReqModelToJson(InterviewReqModel instance) =>
@@ -38,4 +39,5 @@ Map<String, dynamic> _$InterviewReqModelToJson(InterviewReqModel instance) =>
       'question': instance.question,
       'instead': instance.instead,
       'questionDetail': instance.questionDetail,
+      'isAgree': instance.isAgree,
     };

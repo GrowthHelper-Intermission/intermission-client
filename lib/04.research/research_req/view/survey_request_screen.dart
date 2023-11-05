@@ -86,7 +86,7 @@ class _SurveyReqScreenState extends ConsumerState<SurveyReqScreen> {
                         checkButtonEnabled();
                       },
                     );
-                    // checkButtonEnabled();
+                    checkButtonEnabled();
                   },
                 ),
                 SizedBox(
@@ -193,9 +193,9 @@ class _SurveyReqScreenState extends ConsumerState<SurveyReqScreen> {
                       completeUrl: urlController.text.trim(),
                       exceptCountTime: exceptTimeMinuteController.text.trim(),
                       researchEntryCnt: cntController.text.trim(),
-                      surveyInput: surveyInputChecked ? "Y" : "N",
-                      surveyRes: surveyResChecked ? "Y" : "N",
-                      surveyDev: surveyDevChecked ? "Y" : "N",
+                      surveyInput: surveyInputChecked ? "Ywe" : "N",
+                      surveyRes: surveyResChecked ? "test" : "N",
+                      surveyDev: surveyDevChecked ? "test" : "N",
                       isAgree: "Y",
                     );
                     try {

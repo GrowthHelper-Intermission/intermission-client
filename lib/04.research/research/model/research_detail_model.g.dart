@@ -8,6 +8,7 @@ part of 'research_detail_model.dart';
 
 ResearchDetailModel _$ResearchDetailModelFromJson(Map<String, dynamic> json) =>
     ResearchDetailModel(
+      isScreening: json['isScreening'] as String,
       userId: json['userId'] as int,
       id: json['id'] as String,
       mainTitle: json['mainTitle'] as String,
@@ -31,7 +32,6 @@ ResearchDetailModel _$ResearchDetailModelFromJson(Map<String, dynamic> json) =>
       comments: (json['comments'] as List<dynamic>)
           .map((e) => Comment.fromJson(e as Map<String, dynamic>))
           .toList(),
-      isPossible: json['isPossible'] as String,
     );
 
 Map<String, dynamic> _$ResearchDetailModelToJson(
@@ -48,7 +48,6 @@ Map<String, dynamic> _$ResearchDetailModelToJson(
       'isBlock': instance.isBlock,
       'researchRewdPoint': instance.researchRewdPoint,
       'userId': instance.userId,
-      'isPossible': instance.isPossible,
       'researchType': instance.researchType,
       'minAge': instance.minAge,
       'detail': instance.detail,
@@ -57,6 +56,7 @@ Map<String, dynamic> _$ResearchDetailModelToJson(
       'isScrap': instance.isScrap,
       'scrapCnt': instance.scrapCnt,
       'comments': instance.comments,
+      'isScreening': instance.isScreening,
       'participationStatus': instance.participationStatus,
       'researchUrl': instance.researchUrl,
     };
