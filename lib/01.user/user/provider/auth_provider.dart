@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:intermission_project/01.user/user/view/certification.dart';
-import 'package:intermission_project/01.user/user/view/certification_result.dart';
-import 'package:intermission_project/01.user/user/view/certification_test.dart';
 import 'package:intermission_project/01.user/user/view/report_detail_screen.dart';
 import 'package:intermission_project/01.user/user/view/signup_screen_page1.dart';
 import 'package:intermission_project/01.user/user/view/signup_screen_page2.dart';
@@ -11,8 +8,6 @@ import 'package:intermission_project/01.user/user/model/user_model.dart';
 import 'package:intermission_project/01.user/user/provider/user_me_provider.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intermission_project/01.user/user/view/login_screen.dart';
-import 'package:intermission_project/common/view/home.dart';
-import 'package:intermission_project/common/view/home_screen.dart';
 import 'package:intermission_project/common/view/select_screen.dart';
 import 'package:intermission_project/01.user/user/view/user_report_screen.dart';
 import 'package:intermission_project/04.research/research/view/notice_detail_screen.dart';

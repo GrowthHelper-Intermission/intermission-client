@@ -1,17 +1,17 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:get/get.dart';
-import 'package:go_router/go_router.dart';
 import 'package:http/http.dart' as http;
 import 'package:intermission_project/01.user/user/model/signup_user_model.dart';
 import 'package:intermission_project/01.user/user/provider/signup_user_provider.dart';
-import 'package:intermission_project/01.user/user/provider/user_me_provider.dart';
+import 'package:intermission_project/01.user/user/view/certification_result_provider.dart';
 import 'package:intermission_project/01.user/user/view/login_screen.dart';
+import 'package:intermission_project/01.user/user/view/signup_screen_page3.dart';
 import 'package:intermission_project/common/const/data.dart';
 import 'dart:convert';
+import 'package:intermission_project/common/view/splash_screen.dart';
 
-import 'package:intermission_project/common/view/root_tab.dart';
+import '../../../common/view/select_screen.dart';
 
 class CertificationResult extends ConsumerWidget {
   static const Color successColor = Color(0xff52c41a);
@@ -19,7 +19,11 @@ class CertificationResult extends ConsumerWidget {
 
   final Map<String, String> result;
 
-  const CertificationResult({super.key, required this.result});
+  bool _isGetCertificationResultCalled = false;
+
+  /// 1
+
+  CertificationResult({super.key, required this.result});
 
   static String get routeName => 'certification-result';
 
@@ -60,6 +64,7 @@ class CertificationResult extends ConsumerWidget {
       },
     );
 
+    /// Iamport에서 성공적으로 데이터받아왓다면
     if (response.statusCode == 200) {
       print('Response data: ${response.body}');
       var data = json.decode(response.body);
@@ -72,11 +77,6 @@ class CertificationResult extends ConsumerWidget {
       String? phoneNumber = responseData['phone'];
       String? userName = responseData['name'];
 
-      print('birthday: $birthday');
-      print('uniqueKey: $uniqueKey');
-      print('certifiedAt: $certifiedAt');
-      print('phoneNumber: $phoneNumber');
-      print('userName: $userName');
       // 상태 변경
       final state = ref.read(signupUserProvider.notifier);
       state.setBirthday(birthday);
@@ -90,53 +90,28 @@ class CertificationResult extends ConsumerWidget {
         password: state.password,
         isTermsAgreed: state.isTermsAgreed,
         isPrivacyAgreed: state.isPrivacyAgreed,
-
         jobCd: state.jobCd,
         asignJobCd: state.asignJobCd,
         wedCd: state.wedCd,
         genderCd: state.genderCd,
         petCd: "강아지",
-
-        ///error point
         occpSidoCd: state.occpSidoCd,
         occpSigunguCd: state.occpSigunguCd,
         houseTpCd: state.housTpCd,
         userCd: state.userCd,
-
         birthday: state.birthday,
-        uniqueKey: "24241310",
-        certifiedAt: "24241310",
+        uniqueKey: state.certifiedAt,
+        certifiedAt: state.certifiedAt,
         phoneNumber: state.phoneNumber,
         userName: state.userName,
       );
       try {
         print('hmm');
-        print(newUser.email);
-        print(newUser.password);
-        print(newUser.isTermsAgreed);
-        print(newUser.isPrivacyAgreed);
-
-        print(newUser.jobCd);
-        print(newUser.asignJobCd);
-        print(newUser.wedCd);
-        print(newUser.genderCd);
-        print(newUser.petCd);
-        print(newUser.occpSidoCd);
-        print(newUser.occpSigunguCd);
-        print(newUser.houseTpCd);
-        print(newUser.userCd);
-
-        print(newUser.birthday);
-        print(newUser.uniqueKey);
-        print(newUser.certifiedAt);
-        print(newUser.phoneNumber);
-        print(newUser.userName);
-
-        // ref.read(userMeProvider.notifier).postUser(newUser);
         var dio = Dio();
         var data = newUser.toJson();
-        print('h');
-        print(data);
+
+        /// 여기까지 정상수행
+        ///
         var response = await dio.post(
           'https://$ip/api/user/save',
           data: {
@@ -144,8 +119,9 @@ class CertificationResult extends ConsumerWidget {
             "email": newUser.email,
             "userName": newUser.userName,
             "password": newUser.password,
-            "uniqueKey": newUser.uniqueKey,
-            "certifiedAt": newUser.certifiedAt,
+            // 1699339688.toString() -> 중복계정 테스트할때
+            "uniqueKey": newUser.uniqueKey.toString(),
+            "certifiedAt": newUser.certifiedAt.toString(),
             "phoneNumber": newUser.phoneNumber,
             "jobCd": newUser.jobCd,
             "asignJobCd": newUser.asignJobCd,
@@ -165,35 +141,33 @@ class CertificationResult extends ConsumerWidget {
             },
           ),
         );
-        print('why');
-        print(response);
-        print('why2');
-        if (response.statusCode == 201) {
-          Navigator.of(context).push(
-            MaterialPageRoute(
-              builder: (context) => LoginScreen(),
-            ),
-          );
-        }
-        print('성공적 수행??????');
+        print('성공적 수행');
+        final notifier = ref.read(certificationResultProvider.notifier);
+        notifier.setLoading(false);
+        notifier.setSuccess(true);
       } catch (e) {
         print(e);
-        print('sibal');
-        print('에러');
+        final notifier = ref.read(certificationResultProvider.notifier);
+        notifier.setLoading(false);
+        notifier.setSuccess(false);
       }
-    } else {
+    }
+
+    /// 아임포트에서 문제가 생겼을때
+    else {
+      print('아임포트 쪽 에러');
       print('Request failed with status: ${response.statusCode}.');
     }
   }
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final certificationState = ref.watch(certificationResultProvider);
+
     String message;
     IconData icon;
     Color color;
     bool isErrorMessageRendering;
-
-    // print(result);
 
     if (result!['success'] == 'true') {
       message = '본인인증에 성공하였습니다';
@@ -201,15 +175,23 @@ class CertificationResult extends ConsumerWidget {
       color = successColor;
       isErrorMessageRendering = false;
 
-      getAccessToken('1188833256121578',
-              'WqgqCGlYJPB9e5j7bpTsPPMDhZP7mdncthivWfKYDrcDRpXYbCCphRqkEwqfcLXZMJ0TVl2h2E6XXJhk')
-          .then(
-        (accessToken) {
-          print(accessToken);
-          getCertificationResult(
-              result!['imp_uid']!, accessToken, context, ref);
-        },
-      );
+      if (!_isGetCertificationResultCalled) {
+        _isGetCertificationResultCalled = true;
+        getAccessToken(
+          '1188833256121578',
+          'WqgqCGlYJPB9e5j7bpTsPPMDhZP7mdncthivWfKYDrcDRpXYbCCphRqkEwqfcLXZMJ0TVl2h2E6XXJhk',
+        ).then(
+          (accessToken) {
+            print('iamport accessToken: $accessToken');
+            getCertificationResult(
+              result!['imp_uid']!,
+              accessToken,
+              context,
+              ref,
+            );
+          },
+        );
+      }
     } else {
       message = '본인인증에 실패하였습니다';
       icon = Icons.error;
@@ -217,32 +199,47 @@ class CertificationResult extends ConsumerWidget {
       isErrorMessageRendering = true;
     }
 
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('본인인증 결과'),
-        centerTitle: true,
-        automaticallyImplyLeading: false,
-      ),
-      body: SafeArea(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Icon(
-              icon,
-              color: color,
-              size: 200,
-            ),
-            Text(
-              message,
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 20,
-              ),
-            ),
-            // ... (other parts of your code remain unchanged)
-          ],
+    void navigateToScreen(Widget screen) {
+      Future.delayed(Duration(seconds: 1), () {
+        // Wait for 2 seconds
+        Navigator.of(context).pushReplacement(MaterialPageRoute(
+          builder: (context) => screen,
+        ));
+      });
+    }
+
+    if (certificationState.isLoading && !certificationState.isSuccess) {
+      return SplashScreen();
+    } else if (!certificationState.isSuccess && !certificationState.isLoading) {
+      navigateToScreen(
+        SignupScreenPage3(),
+      );
+      return Scaffold(
+        appBar: AppBar(
+          title: Text('본인인증 결과'),
+          centerTitle: true,
+          automaticallyImplyLeading: false,
         ),
-      ),
-    );
+        body: AlertDialog(
+          title: Text('중복 회원'),
+          content: Text('중복된 회원입니다. 다시 회원가입 해주세요!'),
+        ),
+      );
+    } else {
+      navigateToScreen(
+        LoginScreen(),
+      );
+      return Scaffold(
+        appBar: AppBar(
+          title: Text('본인인증 결과'),
+          centerTitle: true,
+          automaticallyImplyLeading: false,
+        ),
+        body: AlertDialog(
+          title: Text('회원가입 완료'),
+          content: Text('로그인 해주세요!'),
+        ),
+      );
+    }
   }
 }
