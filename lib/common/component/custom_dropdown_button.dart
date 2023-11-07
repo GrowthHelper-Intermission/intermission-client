@@ -12,8 +12,10 @@ class CustomDropdownButton extends StatefulWidget {
   // 새로운 속성들
   final bool enabled;
   final String? errorText;
+  final double? dropdownWidth;
 
   const CustomDropdownButton({
+    this.dropdownWidth,
     Key? key,
     this.enabled = true,
     this.errorText,
@@ -31,12 +33,13 @@ class _CustomDropdownButtonState extends State<CustomDropdownButton> {
   String? selectedItem;
   OverlayEntry? _overlayEntry;
   final LayerLink _layerLink = LayerLink();
-  static const double _dropdownWidth = 360;
+  late double _dropdownWidth;
   static const double _dropdownHeight = 48;
 
   @override
   void initState() {
     super.initState();
+    _dropdownWidth = widget.dropdownWidth ?? 360;
     selectedItem = widget.hintText;
   }
 
@@ -50,7 +53,7 @@ class _CustomDropdownButtonState extends State<CustomDropdownButton> {
     return OverlayEntry(
       maintainState: true,
       builder: (context) => Positioned(
-        width: _dropdownWidth - 6,
+        width: _dropdownWidth,
         child: CompositedTransformFollower(
           link: _layerLink,
           offset: const Offset(0, _dropdownHeight),

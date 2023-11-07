@@ -1,27 +1,3 @@
-// import 'package:flutter/material.dart';
-// import 'package:intermission_project/common/component/custom_text_style.dart';
-//
-// class SignupLongAskLabel extends StatelessWidget {
-//   final String text;
-//   const SignupLongAskLabel({required this.text, super.key});
-//
-//   @override
-//   Widget build(BuildContext context) {
-//     return Padding(
-//       padding: const EdgeInsets.only(top: 10,bottom: 2),
-//       child: SizedBox(
-//         width: 380,
-//         height: 51,
-//         child: Text(
-//           text,
-//           style: customTextStyle,
-//           maxLines: 2,
-//         ),
-//       ),
-//     );
-//   }
-// }
-
 import 'package:flutter/material.dart';
 import 'package:intermission_project/common/component/custom_text_style.dart';
 

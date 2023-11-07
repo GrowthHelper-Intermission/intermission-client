@@ -9,9 +9,9 @@ import 'package:url_launcher/url_launcher.dart';
 class Product {
   final String imagePath;
   final String title;
-  final String price;
+  final int point;
 
-  const Product(this.imagePath, this.title, this.price);
+  const Product(this.imagePath, this.title, this.point);
 
   Widget get imageWidget {
     return Image.asset(
@@ -21,27 +21,11 @@ class Product {
   }
 }
 
-// svg
-// class Product {
-//   final String imagePath;
-//   final String title;
-//   final String price;
-//
-//   const Product(this.imagePath, this.title, this.price);
-//
-//   Widget get imageWidget {
-//     return SvgPicture.asset(
-//       imagePath,
-//       height: 25.0,
-//     );
-//   }
-// }
-
 final List<Product> products = [
-  Product('assets/img/2000.png', '현금교환', '2000P'),
-  Product('assets/img/3000.png', '현금교환', '3000P'),
-  Product('assets/img/5000.png', '현금교환', '5000P'),
-  Product('assets/img/10000.png', '현금교환', '10000P'),
+  Product('assets/img/2000.png', '현금교환', 2000),
+  Product('assets/img/3000.png', '현금교환', 3000),
+  Product('assets/img/5000.png', '현금교환', 5000),
+  Product('assets/img/10000.png', '현금교환', 10000),
 ];
 
 class ShoppingScreen extends StatelessWidget {
@@ -95,7 +79,7 @@ class ShoppingScreen extends StatelessWidget {
     return GestureDetector(
       onTap: () {
         Navigator.of(context).push(
-          MaterialPageRoute(builder: (context) => ShoppingDetailScreen()),
+          MaterialPageRoute(builder: (context) => ShoppingDetailScreen(point: product.point,)),
         );
       },
       child: Container(
@@ -116,7 +100,7 @@ class ShoppingScreen extends StatelessWidget {
             Align(
               alignment: Alignment.bottomLeft,
               child: Text(
-                product.price,
+                '${product.point}p',
                 style: TextStyle(
                   color: GREEN_COLOR,
                   fontSize: 16,
