@@ -21,4 +21,6 @@ class PointStateNotifier extends PaginationProvider<PointModel, PointRepository>
   }) : super(autoFetch: true) {
     paginate();
   }
+
+
 }

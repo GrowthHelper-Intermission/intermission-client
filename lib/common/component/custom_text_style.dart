@@ -33,7 +33,7 @@ TextStyle whiteSmallTextStyle = TextStyle(
 
 TextStyle blackSmallTextStyle = TextStyle(
   fontWeight: FontWeight.w500,
-  fontSize: 13.0,
+  fontSize: 15.0,
   color: Colors.black,
 );
 
