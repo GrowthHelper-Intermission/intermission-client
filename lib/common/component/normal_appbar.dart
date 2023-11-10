@@ -12,8 +12,8 @@ class NormalAppbar extends StatelessWidget implements PreferredSizeWidget{
   @override
   Widget build(BuildContext context) {
     return AppBar(
-      backgroundColor: Colors.white,
-      automaticallyImplyLeading: this.automaticallyImplyLeading ?? false,
+      backgroundColor: color ?? Colors.white,
+      automaticallyImplyLeading: automaticallyImplyLeading ?? false,
       title: Align(
         alignment: Alignment.centerLeft,
         child: Text(
@@ -21,6 +21,7 @@ class NormalAppbar extends StatelessWidget implements PreferredSizeWidget{
           style: TextStyle(
             fontSize: 18,
             fontWeight: FontWeight.w700,
+            color: Colors.white,
           ),
         ),
       ),

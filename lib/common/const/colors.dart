@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 
 //주색상
-const PRIMARY_COLOR = Color(0xFFC9A7EB);
+const PRIMARY_COLOR = Color(0xFF469946);
+const PRIMARY_COLOR2 = Color(0xFF356C32);
 //서브 색상
-const SUB_COLOR = Color(0xFFEBD7FF);
+const SUB_COLOR = Color(0xFFE1F2DF);
 const SUB_COLOR2 = Color(0xFFF0E0FF);
 //블루 생상
 const BLUE_COLOR = Color(0xFF0284C7);

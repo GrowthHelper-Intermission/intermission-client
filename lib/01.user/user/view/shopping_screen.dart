@@ -37,7 +37,7 @@ class ShoppingScreen extends StatelessWidget {
       backgroundColor: Colors.white,
       appBar: NormalAppbar(
         title: '포인트 교환',
-        color: Colors.white,
+        color: PRIMARY_COLOR,
       ),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -47,8 +47,9 @@ class ShoppingScreen extends StatelessWidget {
             child: Text(
               '적립한 포인트를 현금으로\n교환해 보세요!',
               style: TextStyle(
-                fontSize: 13.5,
-                color: Colors.grey[700],
+                fontSize: 15.5,
+                color: PRIMARY_COLOR,
+                fontWeight: FontWeight.w700
               ),
             ),
           ),
