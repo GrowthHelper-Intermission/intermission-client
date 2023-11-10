@@ -17,21 +17,22 @@ class SplashScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return DefaultLayout(
-      backgroundColor: Colors.white,
+      backgroundColor: Color(0xFF469946),
       child: SizedBox(
         width: MediaQuery.of(context).size.width,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Image.asset(
-              'assets/img/whitelogo.png',
+              // 'assets/img/whitelogo.png',
+              'assets/launcher_icon/iconapp2.png',
               width: MediaQuery.of(context).size.width / 2,
             ),
             const SizedBox(
               height: 16,
             ),
             CircularProgressIndicator(
-              color: PRIMARY_COLOR,
+              color: Colors.white,
             ),
           ],
         ),
