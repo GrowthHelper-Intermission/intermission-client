@@ -89,7 +89,6 @@ class CustomInterceptor extends Interceptor {
     final isPathRefresh = err.requestOptions.path == '/auth/token';
     final isStatus500 = err.response?.statusCode == 500; // 추가: 500 에러 체크
 
-    print('tlqkf');
     print(refreshToken);
     //토큰을 refresh하려는 의도가 아니었는데 403에러가 났다면?
     // if ((isStatus403 && !isPathRefresh) ||(isStatus500 && !isPathRefresh)) {
@@ -117,8 +116,6 @@ class CustomInterceptor extends Interceptor {
         options.headers.addAll({
           'authorization': 'Bearer $accessToken',
         });
-
-        print('테스트용(리프레쉬된 어세스야): ${accessToken}');
         //storage 업데이트 당연히 필요
         await storage.write(key: ACCESS_TOKEN_KEY, value: accessToken);
 

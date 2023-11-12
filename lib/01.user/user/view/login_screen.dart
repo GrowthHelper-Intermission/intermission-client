@@ -30,6 +30,8 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
 
   bool _isLoading = false; // 로딩 중 상태를 나타내는 변수
 
+  bool isLoginError = false;
+
   bool _isChecked = false;
   // bool _isAutoLogin = false;
   TextEditingController _emailController = TextEditingController();
@@ -156,16 +158,36 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                                   _isLoading = true; // 로딩 중 상태로 변경
                                 });
                                 try {
-                                  await ref.read(userMeProvider.notifier).login(
+                                  final result = await ref.read(userMeProvider.notifier).login(
                                     username: _emailController.text.trim(),
                                     password: _passwordController.text.trim(),
                                   );
-                                } catch (e) {
-                                  // 로그인 실패 시 예외 처리
+                                  if(result is UserModelError){
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      SnackBar(
+                                        content: Text("아이디 혹은 비밀번호가 잘못되었습니다!"),
+                                        backgroundColor: PRIMARY_COLOR, // 여기에 PRIMARYCOLOR 지정
+                                        behavior: SnackBarBehavior.fixed, // 스낵바 스타일 설정
+                                        duration: Duration(seconds: 1),
+                                      ),
+                                    );
+                                  }
+                                }  catch (e) {
+                                  // 로그인 실패 시 스낵바를 표시
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(
+                                      content: Text("아이디 혹은 비밀번호가 잘못되었습니다!@@@"),
+                                      backgroundColor: PRIMARY_COLOR, // 여기에 PRIMARYCOLOR 지정
+                                      behavior: SnackBarBehavior.floating, // 스낵바 스타일 설정
+                                    ),
+                                  );
                                 } finally {
-                                  setState(() {
-                                    _isLoading = false; // 로딩 상태 해제
-                                  });
+                                  if (mounted) {
+                                    setState(() {
+                                      _isLoading = false; // 로딩 상태 해제
+                                    });
+                                  }
+
                                 }
                               },
                             ),
