@@ -22,10 +22,10 @@ class Product {
 }
 
 final List<Product> products = [
-  Product('assets/img/2000.png', '현금교환', 2000),
-  Product('assets/img/3000.png', '현금교환', 3000),
-  Product('assets/img/5000.png', '현금교환', 5000),
-  Product('assets/img/10000.png', '현금교환', 10000),
+  Product('assets/img/shopping/2000.png', '현금교환', 2000),
+  Product('assets/img/shopping/3000.png', '현금교환', 3000),
+  Product('assets/img/shopping/5000.png', '현금교환', 5000),
+  Product('assets/img/shopping/10000.png', '현금교환', 10000),
 ];
 
 class ShoppingScreen extends StatelessWidget {
@@ -46,11 +46,11 @@ class ShoppingScreen extends StatelessWidget {
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(10),
             ),
-            alignment: Alignment.centerLeft,
+            alignment: Alignment.center,
             child: Text(
               '적립한 포인트를 현금으로\n교환해 보세요!',
               textAlign: TextAlign.center,
-              style: TextStyle(fontSize: 17, fontWeight: FontWeight.bold,color: Colors.black),
+              style: TextStyle(fontSize: 17, fontWeight: FontWeight.bold,color: PRIMARY_COLOR),
               maxLines: 3,
             ),
           ),

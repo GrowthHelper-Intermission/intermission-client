@@ -74,7 +74,7 @@ class _ResearchScreenState extends ConsumerState<ResearchScreen>
                     width: 80,
                     height: 80,
                     child: SvgPicture.asset(
-                      'assets/img/userColor.svg',
+                      'assets/img/circle/userColor.svg',
                     ),
                   ),
                 ],
@@ -83,6 +83,8 @@ class _ResearchScreenState extends ConsumerState<ResearchScreen>
             TabBar(
               controller: _tabController,
               isScrollable: false,
+              labelColor: PRIMARY_COLOR,
+              indicatorColor: PRIMARY_COLOR,
               tabs: [
                 _buildTabItem("전체"),
                 _buildTabItem("인터뷰"),

@@ -132,7 +132,7 @@ class _ShoppingDetailScreenState extends ConsumerState<ShoppingDetailScreen> {
             Center(
               child: Container(
                 child: Image.asset(
-                  'assets/img/ab.png',
+                  'assets/img/shopping/ab.png',
                 ),
               ),
             ),
@@ -168,17 +168,14 @@ class _ShoppingDetailScreenState extends ConsumerState<ShoppingDetailScreen> {
                       ],
                     ),
                   ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 20),
-                    child: Divider(
-                      height: 1,
-                      color: Colors.grey[200],
-                    ),
+                  Divider(
+                    height: 1,
+                    color: Colors.grey[200],
                   ),
                   InkWell(
                     onTap: _showAddDialog,
                     child: Container(
-                      height: 20,
+                      height: 60,
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
@@ -188,24 +185,17 @@ class _ShoppingDetailScreenState extends ConsumerState<ShoppingDetailScreen> {
                           ),
                           SvgPicture.asset(
                             'assets/img/rightArrow.svg',
-                            width: 70,
-                            height: 70,
+                            width: 20,
+                            height: 20,
                           ),
                         ],
                       ),
                     ),
                   ),
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(0, 25, 0, 5),
-                    child: Divider(
-                      height: 1,
-                      color: Colors.grey[200],
-                    ),
-                  ),
                   //아래 상자부터 UI작업 시작
                   // Image.asset('assets/img/exchange.png'),
                   SvgPicture.asset(
-                    'assets/img/exchange.svg',
+                    'assets/img/shopping/exchange.svg',
                     width: 400,
                   ),
                 ],

@@ -72,7 +72,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                       '${user.userName!}님',
                       style: TextStyle(
                         fontSize: 18,
-                        fontWeight: FontWeight.w600,
+                        fontWeight: FontWeight.w700,
                         color: Colors.white,
                       ),
                     ),
@@ -100,8 +100,8 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                 },
                 icon: Image.asset(
                   'assets/img/Setting.png',
-                  width: 40,
-                  height: 40,
+                  width: 45,
+                  height: 45,
                   color: Colors.white,
                 ),
               ),
@@ -137,8 +137,8 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                               child: Text(
                                 '[공지]',
                                 style: TextStyle(
-                                  fontSize: 12,
-                                  color: Color(0xFF9C5EDA),
+                                  fontSize: 15,
+                                  color: PRIMARY_COLOR,
                                   fontWeight: FontWeight.w600,
                                 ),
                               ),
@@ -150,7 +150,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                               child: Text(
                                 '투표 이미지 업로드 테스트를 시작해요~!',
                                 style: TextStyle(
-                                  fontSize: 15,
+                                  fontSize: 16,
                                   color: Colors.black,
                                   fontWeight: FontWeight.w600,
                                 ),
@@ -166,7 +166,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                               child: Text(
                                 '이미지 업로드 가이드 라인',
                                 style: TextStyle(
-                                  fontSize: 12,
+                                  fontSize: 13,
                                   fontWeight: FontWeight.w100,
                                   color: Colors.grey[600],
                                 ),
@@ -185,7 +185,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                         Text(
                           '진행 중인 리서치',
                           style: TextStyle(
-                              fontSize: 14, fontWeight: FontWeight.w600),
+                              fontSize: 16, fontWeight: FontWeight.w600),
                         ),
                         TextButton(
                           onPressed: () {
@@ -194,8 +194,8 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                           child: Text(
                             'More',
                             style: TextStyle(
-                              color: SUB_BLUE_COLOR,
-                              fontSize: 14.0,
+                              color: PRIMARY_COLOR,
+                              fontSize: 15.0,
                               fontWeight: FontWeight.w600,
                             ),
                           ),
@@ -236,7 +236,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                             color: Colors.white,
                             borderRadius: BorderRadius.circular(8),
                             border: Border.all(
-                              color: SUB_BLUE_COLOR,
+                              color: PRIMARY_COLOR,
                               width: 1.0,
                             ),
                           ),
@@ -246,7 +246,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                               style: TextStyle(
                                 fontSize: 13,
                                 fontWeight: FontWeight.w600,
-                                color: SUB_BLUE_COLOR,
+                                color: PRIMARY_COLOR,
                               ),
                             ),
                           ),

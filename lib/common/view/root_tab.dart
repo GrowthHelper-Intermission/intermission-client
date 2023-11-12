@@ -80,12 +80,12 @@ class _RootTabState extends State<RootTab>
         },
         unselectedItemColor: Colors.grey[600], // Set unselected item color
         selectedLabelStyle: TextStyle(
-          fontSize: 10,
-          fontWeight: FontWeight.w400,
+          fontSize: 13,
+          fontWeight: FontWeight.w600,
         ),
         unselectedLabelStyle: TextStyle(
-          fontSize: 10,
-          fontWeight: FontWeight.w400,
+          fontSize: 13,
+          fontWeight: FontWeight.w600,
         ),
         items: tabItems.map((tab) {
           bool isSelected = _currentIndex == tabItems.indexOf(tab);
