@@ -247,7 +247,7 @@ class _ShoppingDetailScreenState extends ConsumerState<ShoppingDetailScreen> {
       builder: (BuildContext context) {
         return Container(
           color: Colors.white,
-          padding: EdgeInsets.all(16),
+          padding: EdgeInsets.fromLTRB(15, 15, 15, 50),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
@@ -281,10 +281,13 @@ class _ShoppingDetailScreenState extends ConsumerState<ShoppingDetailScreen> {
               //   Navigator.of(context).pop(); // Bottom sheet 닫기
               //   /// PATCH 계좌번호 등록/변경 요청
               // }),
-              LoginNextButton(onPressed: () {
-                Navigator.of(context).pop(); // Bottom sheet 닫기
-                /// PATCH 계좌번호 등록/변경 요청
-              }, buttonName: '변경하기', isButtonEnabled: isButtonEnabled),
+              Padding(
+                padding: const EdgeInsets.only(top: 30),
+                child: LoginNextButton(onPressed: () {
+                  Navigator.of(context).pop(); // Bottom sheet 닫기
+                  /// PATCH 계좌번호 등록/변경 요청
+                }, buttonName: '변경하기', isButtonEnabled: isButtonEnabled),
+              ),
             ],
           ),
         );

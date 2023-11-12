@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:intermission_project/common/const/colors.dart';
 import 'package:intermission_project/common/model/cursor_pagination_model.dart';
 import 'package:intermission_project/common/model/model_with_id.dart';
 import 'package:intermission_project/common/provider/pagination_provider.dart';
@@ -28,7 +29,8 @@ class PaginationListView<T extends IModelWithId>
 }
 
 class _PaginationListViewState<T extends IModelWithId>
-    extends ConsumerState<PaginationListView> with AutomaticKeepAliveClientMixin {
+    extends ConsumerState<PaginationListView>
+    with AutomaticKeepAliveClientMixin {
   final ScrollController controller = ScrollController();
 
   @override
@@ -62,7 +64,7 @@ class _PaginationListViewState<T extends IModelWithId>
     //완전 처음 로딩일때
     if (state is CursorPaginationLoading) {
       return Center(
-        child: CircularProgressIndicator(),
+        child: CircularProgressIndicator(color: PRIMARY_COLOR),
       );
     }
 
@@ -101,6 +103,7 @@ class _PaginationListViewState<T extends IModelWithId>
       onRefresh: () async {
         ref.read(widget.provider.notifier).paginate(forceRefetch: true);
       },
+      color: PRIMARY_COLOR,
       child: ListView.separated(
         physics: AlwaysScrollableScrollPhysics(),
         controller: controller,
@@ -111,15 +114,21 @@ class _PaginationListViewState<T extends IModelWithId>
             if (cp is! CursorPaginationFetchingMore) {
               if (cp is CursorPagination && cp.meta.hasMore) {
                 return Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                  child: Center(child: CircularProgressIndicator()),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                  child: Center(
+                    child: CircularProgressIndicator(
+                      color: PRIMARY_COLOR,
+                    ),
+                  ),
                 );
-              }else {
-                return SizedBox.shrink();  // 아무것도 표시하지 않음
+              } else {
+                return SizedBox.shrink(); // 아무것도 표시하지 않음
               }
             } else {
               return Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                 child: Center(child: CircularProgressIndicator()),
               );
             }

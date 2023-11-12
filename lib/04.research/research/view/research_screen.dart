@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intermission_project/01.user/user/model/user_model.dart';
 import 'package:intermission_project/01.user/user/provider/user_me_provider.dart';
@@ -7,8 +8,8 @@ import 'package:intermission_project/04.research/research/component/research_car
 import 'package:intermission_project/04.research/research/provider/research_provider.dart';
 import 'package:intermission_project/common/component/normal_appbar.dart';
 import 'package:intermission_project/common/component/pagination_list_view.dart';
+import 'package:intermission_project/common/const/colors.dart';
 import 'package:intermission_project/common/model/cursor_pagination_model.dart';
-
 
 class ResearchScreen extends ConsumerStatefulWidget {
   static String get routeName => 'research';
@@ -16,10 +17,9 @@ class ResearchScreen extends ConsumerStatefulWidget {
   _ResearchScreenState createState() => _ResearchScreenState();
 }
 
-class _ResearchScreenState extends ConsumerState<ResearchScreen> with SingleTickerProviderStateMixin,AutomaticKeepAliveClientMixin {
+class _ResearchScreenState extends ConsumerState<ResearchScreen>
+    with SingleTickerProviderStateMixin, AutomaticKeepAliveClientMixin {
   TabController? _tabController;
-
-
 
   @override
   bool get wantKeepAlive => true;
@@ -28,7 +28,7 @@ class _ResearchScreenState extends ConsumerState<ResearchScreen> with SingleTick
   void initState() {
     // ref.read(researchProvider.notifier).paginate(forceRefetch: true,researchType: null);
     super.initState();
-    _tabController = TabController(length: 4, vsync: this);  // 4개의 탭
+    _tabController = TabController(length: 4, vsync: this); // 4개의 탭
   }
 
   @override
@@ -36,6 +36,7 @@ class _ResearchScreenState extends ConsumerState<ResearchScreen> with SingleTick
     _tabController?.dispose();
     super.dispose();
   }
+
   @override
   Widget build(BuildContext context) {
     final userState = ref.watch(userMeProvider); // 상태를 읽어옴
@@ -54,11 +55,14 @@ class _ResearchScreenState extends ConsumerState<ResearchScreen> with SingleTick
     return DefaultTabController(
       length: 4,
       child: Scaffold(
-        appBar: NormalAppbar(title: '리서치모음',),
+        appBar: NormalAppbar(
+          title: '리서치모음',
+          color: PRIMARY_COLOR,
+        ),
         body: Column(
           children: [
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20,vertical: 6),
+              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 6),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -69,7 +73,9 @@ class _ResearchScreenState extends ConsumerState<ResearchScreen> with SingleTick
                   SizedBox(
                     width: 80,
                     height: 80,
-                    child: Image.asset('assets/img/userColor.png'),
+                    child: SvgPicture.asset(
+                      'assets/img/userColor.svg',
+                    ),
                   ),
                 ],
               ),
@@ -85,15 +91,12 @@ class _ResearchScreenState extends ConsumerState<ResearchScreen> with SingleTick
               ],
             ),
             Expanded(
-              child: TabBarView(
-                controller: _tabController,
-                  children: [
-                    _buildResearchPage(researchProvider), // "전체" 탭
-                    _buildResearchPage(interviewProvider), // "인터뷰" 탭
-                    _buildResearchPage(surveyProvider), // "설문조사" 탭
-                    _buildResearchPage(testerProvider), // "테스트 참여" 탭
-                  ]
-              ),
+              child: TabBarView(controller: _tabController, children: [
+                _buildResearchPage(researchProvider), // "전체" 탭
+                _buildResearchPage(interviewProvider), // "인터뷰" 탭
+                _buildResearchPage(surveyProvider), // "설문조사" 탭
+                _buildResearchPage(testerProvider), // "테스트 참여" 탭
+              ]),
             ),
           ],
         ),
@@ -109,8 +112,9 @@ class _ResearchScreenState extends ConsumerState<ResearchScreen> with SingleTick
     );
   }
 
-
-  Widget _buildResearchPage(StateNotifierProvider<ResearchStateNotifier, CursorPaginationBase> provider) {
+  Widget _buildResearchPage(
+      StateNotifierProvider<ResearchStateNotifier, CursorPaginationBase>
+          provider) {
     return PaginationListView(
       provider: provider,
       itemBuilder: <ResearchModel>(BuildContext context, int index, model) {
