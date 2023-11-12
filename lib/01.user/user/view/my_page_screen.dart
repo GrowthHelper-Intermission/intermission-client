@@ -56,7 +56,7 @@ class MyPageScreen extends ConsumerWidget {
                         width: 80,
                         height: 80,
                         child: SvgPicture.asset(
-                          'assets/img/userColor.svg',
+                          'assets/img/circle/userColor.svg',
                         ),
                       ),
                     ),
