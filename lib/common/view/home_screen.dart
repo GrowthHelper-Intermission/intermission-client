@@ -36,18 +36,11 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
       user = userState; // UserModel로 캐스팅
     }
 
-    if(researchNotifier is CursorPagination<ResearchModel>){
-      ongoingResearches.addAll(ref.read(researchProvider.notifier).getTopThreeResearches());
+    if (researchNotifier is CursorPagination<ResearchModel>) {
+      ongoingResearches
+          .addAll(ref.read(researchProvider.notifier).getTopThreeResearches());
       print(ongoingResearches);
     }
-
-    // final userPointState = ref.read(pointProvider);
-    // int point = 0;
-    //
-    // if (userPointState is CursorPagination<PointModel>) {
-    //   point = userPointState.meta.totalPoint!;
-    //   print('point debug');
-    // }
 
     // user 또는 userPointState가 로딩 중일 때 로딩 인디케이터를 표시
     if (user == null || ongoingResearches == []) {
@@ -58,33 +51,40 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
         appBar: AppBar(
           automaticallyImplyLeading: false,
           elevation: 0,
-          backgroundColor: Colors.white,
+          backgroundColor: PRIMARY_COLOR,
           foregroundColor: Colors.black,
           title: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Expanded(
-                child: Image.asset('assets/img/intermissionLogo.png',
+                child: Image.asset('assets/launcher_icon/iconapp2.png',
                     width: 60, height: 38),
               ),
               SizedBox(width: 100),
               Expanded(
-                flex: 2,
+                flex: 3,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
                       // user.userNm,
-                      user.userName!,
-                      style:
-                          TextStyle(fontSize: 16, fontWeight: FontWeight.w400),
-                    ),
-                    Text(
-                       user.pointAmount ?? "50",
+                      '${user.userName!}님',
                       style: TextStyle(
+                        fontSize: 18,
                         fontWeight: FontWeight.w600,
-                        fontSize: 14.0,
+                        color: Colors.white,
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 15),
+                      child: Text(
+                        user.pointAmount ?? "50",
+                        style: TextStyle(
+                          fontWeight: FontWeight.w600,
+                          fontSize: 16.0,
+                          color: Colors.white,
+                        ),
                       ),
                     ),
                   ],
@@ -98,157 +98,164 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                     MaterialPageRoute(builder: (context) => SettingScreen()),
                   );
                 },
-                icon: Image.asset('assets/img/Setting.png',
-                    width: 32, height: 32),
+                icon: Image.asset(
+                  'assets/img/Setting.png',
+                  width: 40,
+                  height: 40,
+                  color: Colors.white,
+                ),
               ),
             ],
           ),
         ),
-        body: Container(
-          color: Colors.white12,
-          child: Center(
-            child: Column(
-              children: [
-                Container(
-                  width: 350,
-                  height: 84,
-                  decoration: BoxDecoration(
-                    border: Border.all(
-                      width: 1.0,
+        body: Padding(
+          padding: const EdgeInsets.only(top: 10),
+          child: Container(
+            color: Colors.white12,
+            child: Center(
+              child: Column(
+                children: [
+                  Container(
+                    width: 350,
+                    height: 84,
+                    decoration: BoxDecoration(
+                      border: Border.all(
+                        width: 1.0,
+                        color: SUB_COLOR,
+                      ),
                       color: SUB_COLOR,
+                      borderRadius: BorderRadius.circular(5.0),
                     ),
-                    color: SUB_COLOR,
-                    borderRadius: BorderRadius.circular(5.0),
+                    child: Padding(
+                      padding: const EdgeInsets.all(12.0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Expanded(
+                            child: Container(
+                              height: 18,
+                              child: Text(
+                                '[공지]',
+                                style: TextStyle(
+                                  fontSize: 12,
+                                  color: Color(0xFF9C5EDA),
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
+                            ),
+                          ),
+                          Expanded(
+                            child: Container(
+                              height: 40,
+                              child: Text(
+                                '투표 이미지 업로드 테스트를 시작해요~!',
+                                style: TextStyle(
+                                  fontSize: 15,
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
+                            ),
+                          ),
+                          SizedBox(
+                            height: 3,
+                          ),
+                          Expanded(
+                            child: Container(
+                              height: 14,
+                              child: Text(
+                                '이미지 업로드 가이드 라인',
+                                style: TextStyle(
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.w100,
+                                  color: Colors.grey[600],
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
                   ),
-                  child: Padding(
-                    padding: const EdgeInsets.all(12.0),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(20, 8, 10, 0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Expanded(
-                          child: Container(
-                            height: 18,
-                            child: Text(
-                              '[공지]',
-                              style: TextStyle(
-                                fontSize: 12,
-                                color: Color(0xFF9C5EDA),
-                                fontWeight: FontWeight.w600,
-                              ),
-                            ),
-                          ),
+                        Text(
+                          '진행 중인 리서치',
+                          style: TextStyle(
+                              fontSize: 14, fontWeight: FontWeight.w600),
                         ),
-                        Expanded(
-                          child: Container(
-                            height: 40,
-                            child: Text(
-                              '투표 이미지 업로드 테스트를 시작해요~!',
-                              style: TextStyle(
-                                fontSize: 15,
-                                color: Colors.black,
-                                fontWeight: FontWeight.w600,
-                              ),
-                            ),
-                          ),
-                        ),
-                        SizedBox(
-                          height: 3,
-                        ),
-                        Expanded(
-                          child: Container(
-                            height: 14,
-                            child: Text(
-                              '이미지 업로드 가이드 라인',
-                              style: TextStyle(
-                                fontSize: 12,
-                                fontWeight: FontWeight.w100,
-                                color: Colors.grey[600],
-                              ),
+                        TextButton(
+                          onPressed: () {
+                            widget.tabController?.animateTo(3);
+                          },
+                          child: Text(
+                            'More',
+                            style: TextStyle(
+                              color: SUB_BLUE_COLOR,
+                              fontSize: 14.0,
+                              fontWeight: FontWeight.w600,
                             ),
                           ),
                         ),
                       ],
                     ),
                   ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(20, 8, 10, 0),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        '진행 중인 리서치',
-                        style: TextStyle(
-                            fontSize: 14, fontWeight: FontWeight.w600),
-                      ),
-                      TextButton(
-                        onPressed: () {
-                          widget.tabController?.animateTo(3);
-                        },
-                        child: Text(
-                          'More',
-                          style: TextStyle(
-                            color: SUB_BLUE_COLOR,
-                            fontSize: 14.0,
-                            fontWeight: FontWeight.w600,
-                          ),
-                        ),
-                      ),
-                    ],
+                  Expanded(
+                    child: ListView.builder(
+                      itemCount: ongoingResearches.length,
+                      itemBuilder: (context, index) {
+                        if (ongoingResearches.isNotEmpty) {
+                          final interview = ongoingResearches[index];
+                          return ResearchCard.fromModel(model: interview);
+                        } else {
+                          return Text("No interviews available");
+                        }
+                      },
+                    ),
                   ),
-                ),
-                Expanded(
-                  child: ListView.builder(
-                    itemCount: ongoingResearches.length,
-                    itemBuilder: (context, index) {
-                      if (ongoingResearches.isNotEmpty) {
-                        final interview = ongoingResearches[index];
-                        return ResearchCard.fromModel(model: interview);
-                      } else {
-                        return Text("No interviews available");
-                      }
-                    },
-                  ),
-                ),
-                Align(
-                  alignment: Alignment.center,
-                  child: GestureDetector(
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => FriendInviteScreen(),
-                        ),
-                      );
-                    },
-                    child: Padding(
-                      padding: const EdgeInsets.fromLTRB(0, 10, 0, 3),
-                      child: Container(
-                        width: 335,
-                        height: 48,
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(8),
-                          border: Border.all(
-                            color: SUB_BLUE_COLOR,
-                            width: 1.0,
+                  Align(
+                    alignment: Alignment.center,
+                    child: GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => FriendInviteScreen(),
                           ),
-                        ),
-                        child: Center(
-                          child: Text(
-                            '친구초대하고 300P받기',
-                            style: TextStyle(
-                              fontSize: 13,
-                              fontWeight: FontWeight.w600,
+                        );
+                      },
+                      child: Padding(
+                        padding: const EdgeInsets.fromLTRB(0, 10, 0, 3),
+                        child: Container(
+                          width: 335,
+                          height: 48,
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(8),
+                            border: Border.all(
                               color: SUB_BLUE_COLOR,
+                              width: 1.0,
+                            ),
+                          ),
+                          child: Center(
+                            child: Text(
+                              '친구초대하고 300P받기',
+                              style: TextStyle(
+                                fontSize: 13,
+                                fontWeight: FontWeight.w600,
+                                color: SUB_BLUE_COLOR,
+                              ),
                             ),
                           ),
                         ),
                       ),
                     ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
         ),

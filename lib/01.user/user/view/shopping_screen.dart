@@ -44,14 +44,13 @@ class ShoppingScreen extends StatelessWidget {
         children: [
           Container(
             decoration: BoxDecoration(
-              color: Colors.grey[100],
               borderRadius: BorderRadius.circular(10),
             ),
-            alignment: Alignment.center,
+            alignment: Alignment.centerLeft,
             child: Text(
               '적립한 포인트를 현금으로\n교환해 보세요!',
               textAlign: TextAlign.center,
-              style: TextStyle(fontSize: 17, fontWeight: FontWeight.bold,color: PRIMARY_COLOR),
+              style: TextStyle(fontSize: 17, fontWeight: FontWeight.bold,color: Colors.black),
               maxLines: 3,
             ),
           ),

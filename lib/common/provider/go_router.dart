@@ -9,9 +9,9 @@ final routeProvider = Provider<GoRouter>(
     final provider = ref.watch(authProvider);
 
     return GoRouter(
-      debugLogDiagnostics: true,
+      // debugLogDiagnostics: true, // 로깅 비활성화
       routes: provider.routes,
-      initialLocation: '/',
+      initialLocation: '/splash',
       refreshListenable: provider,
       redirect: provider.redirectLogic,
     );

@@ -30,7 +30,7 @@ class MatchingScreen extends StatelessWidget {
                     const EdgeInsets.symmetric(horizontal: 5, vertical: 10),
                 child: Container(
                   decoration: BoxDecoration(
-                    color: Colors.grey[100],
+                    color: Colors.grey[300],
                     borderRadius: BorderRadius.circular(10), // 모서리를 둥글게 깎기 위함
                   ),
                   height: 90,
@@ -196,7 +196,15 @@ Widget _buildClickableContainer({
       margin: const EdgeInsets.symmetric(vertical: 10.0),
       padding: const EdgeInsets.all(12.0),
       decoration: BoxDecoration(
-        color: Colors.white,
+        // 그라데이션 효과 적용
+        gradient: LinearGradient(
+          begin: Alignment.topCenter,
+          end: Alignment.bottomCenter,
+          colors: [
+            PRIMARY_COLOR.withOpacity(0.1), // 연하게
+            PRIMARY_COLOR.withOpacity(0.7), //원래의 색상 * 0.8
+          ],
+        ),
         borderRadius: BorderRadius.circular(10),
         boxShadow: [
           BoxShadow(
