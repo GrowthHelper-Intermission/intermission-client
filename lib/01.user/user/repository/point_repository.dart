@@ -32,10 +32,4 @@ abstract class PointRepository implements IBasePaginationRepository<PointModel> 
     @Path() String path = '/',
     @Query('researchType') String? researchType,
   });
-
-  // Future<CursorPagination<ResearchModel>> paginate({
-  //   @Path() String path = '/', // 기본값을 root path로 설정
-  //   @Query('researchType') String? researchType,
-  //   @Queries() PaginationParams? paginationParams = const PaginationParams(),
-  // });
 }

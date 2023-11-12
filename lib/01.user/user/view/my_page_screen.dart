@@ -13,6 +13,7 @@ import 'package:intermission_project/04.research/research/view/notice_req_screen
 import 'package:intermission_project/04.research/research/view/notice_screen.dart';
 import 'package:intermission_project/04.research/research_req/view/research_req_screen.dart';
 import 'package:intermission_project/common/component/normal_appbar.dart';
+import 'package:intermission_project/common/const/colors.dart';
 
 
 class MyPageScreen extends ConsumerWidget {
@@ -39,7 +40,8 @@ class MyPageScreen extends ConsumerWidget {
     } else {
       return Scaffold(
         appBar: NormalAppbar(
-          title: 'My PAGE',
+          title: '마이 페이지',
+          color: PRIMARY_COLOR,
         ),
         backgroundColor: Colors.white,
         body: SingleChildScrollView(
@@ -53,7 +55,9 @@ class MyPageScreen extends ConsumerWidget {
                       child: SizedBox(
                         width: 80,
                         height: 80,
-                        child: Image.asset('assets/img/userColor.png'),
+                        child: SvgPicture.asset(
+                          'assets/img/userColor.svg',
+                        ),
                       ),
                     ),
                     Padding(
