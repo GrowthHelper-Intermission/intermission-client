@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get/get.dart';
+import 'package:go_router/go_router.dart';
 import 'package:intermission_project/01.user/point/model/point_model.dart';
 import 'package:intermission_project/01.user/user/model/password_change_model.dart';
 import 'package:intermission_project/01.user/user/model/signup_user_model.dart';
@@ -79,7 +80,7 @@ class UserMeStateNotifier extends StateNotifier<UserModelBase?> {
     print(accessToken);
 
     //refreshToken이 만료된게 아니라면 -> 강제 로그아웃(이대로하면 너무 자주로그아웃됨)
-    if (refreshToken == null || accessToken == null) {
+    if (refreshToken == null) {
       state = null; //토큰이 2중 1개라도 없다면 로그아웃
       return;
     }
@@ -111,13 +112,13 @@ class UserMeStateNotifier extends StateNotifier<UserModelBase?> {
 
       //storage에 넣은 토큰이 유효한지 판단하기 위해서(서버에서 내 유저정보를 가져올 수 있다면?) getMe()
       // 유효한 토큰임을 인증
-      final userResp = await repository.
-      getMe();
+      final userResp = await repository.getMe();
 
       state = userResp;
 
       return userResp;
     } catch (e) {
+      print(e);
       //ID잘못이다, PW잘못이다 세부작업 필요 ->  Repository 수정필요
       state = UserModelError(message: '로그인에 실패했습니다');
 
