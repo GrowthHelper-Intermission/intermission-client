@@ -12,6 +12,7 @@ import 'package:intermission_project/04.research/research/component/simple_butto
 import 'package:intermission_project/common/component/custom_dropdown_button.dart';
 import 'package:intermission_project/common/component/custom_text_form_field.dart';
 import 'package:intermission_project/common/component/custom_text_style.dart';
+import 'package:intermission_project/common/component/login_next_button.dart';
 import 'package:intermission_project/common/component/signup_ask_label.dart';
 import 'package:intermission_project/common/const/colors.dart';
 import 'package:intermission_project/common/const/data.dart';
@@ -174,26 +175,24 @@ class _ShoppingDetailScreenState extends ConsumerState<ShoppingDetailScreen> {
                       color: Colors.grey[200],
                     ),
                   ),
-                  Container(
-                    height: 20,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          '받으실 곳',
-                          style: whiteMiddleTextStyle,
-                        ),
-                        InkWell(
-                          onTap: () {
-                            _showAddDialog();
-                          },
-                          child: SvgPicture.asset(
+                  InkWell(
+                    onTap: _showAddDialog,
+                    child: Container(
+                      height: 20,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            '받으실 곳',
+                            style: whiteMiddleTextStyle,
+                          ),
+                          SvgPicture.asset(
                             'assets/img/rightArrow.svg',
                             width: 70,
                             height: 70,
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
                   ),
                   Padding(
@@ -237,29 +236,19 @@ class _ShoppingDetailScreenState extends ConsumerState<ShoppingDetailScreen> {
       String accountNumber = accountNumberController.text.trim();
       bool isAccountValid = accountNumber.length >= 9;
       setState(() {
-        //phoneNumErrorText = isValid ? null : '올바른 전화번호 형식이 아닙니다';
         accountNumberValid = isAccountValid;
         accountErrorText = accountNumberValid ? null : '숫자만 입력해 주세요';
       });
       checkButtonEnabled();
     }
 
-    showDialog(
+    showModalBottomSheet(
       context: context,
       builder: (BuildContext context) {
-        return AlertDialog(
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(12.0), // 모서리를 둥글게
-            side: BorderSide(
-              color: PRIMARY_COLOR,
-              width: 2,
-            ), // 테두리 색과 두께
-          ),
-          backgroundColor: Colors.white,
-          title: Center(
-            child: const Text('계좌 등록하기'),
-          ),
-          content: Column(
+        return Container(
+          color: Colors.white,
+          padding: EdgeInsets.all(16),
+          child: Column(
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
               Divider(
@@ -268,22 +257,18 @@ class _ShoppingDetailScreenState extends ConsumerState<ShoppingDetailScreen> {
               ),
               SignupAskLabel(text: '사용 은행'),
               Center(
-                child: CustomDropdownButton(
-                  dropdownWidth: 250,
-                  items: bankAccountType,
-                  hintText: '선택',
-                  onItemSelected: (value) {
-                    setState(
-                      () {
-                        selectedBankType = value;
-                      },
-                    );
-                  },
+                child: GestureDetector(
+                  child: CustomDropdownButton(
+                    dropdownWidth: 350,
+                    items: bankAccountType,
+                    hintText: '선택',
+                    onItemSelected: (value) {
+                      selectedBankType = value;
+                    },
+                  ),
                 ),
               ),
-              SizedBox(
-                height: 15,
-              ),
+              SizedBox(height: 15),
               SignupAskLabel(text: '계좌번호'),
               CustomTextFormField(
                 controller: accountNumberController,
@@ -292,10 +277,14 @@ class _ShoppingDetailScreenState extends ConsumerState<ShoppingDetailScreen> {
                 },
                 errorText: accountNumberValid ? null : accountErrorText,
               ),
-              buildElevatedButton('계좌 변호 변경하기', () {
-                Navigator.of(context).pop(); // 대화상자 닫기
+              // buildElevatedButton('계좌 번호 변경하기', () {
+              //   Navigator.of(context).pop(); // Bottom sheet 닫기
+              //   /// PATCH 계좌번호 등록/변경 요청
+              // }),
+              LoginNextButton(onPressed: () {
+                Navigator.of(context).pop(); // Bottom sheet 닫기
                 /// PATCH 계좌번호 등록/변경 요청
-              }),
+              }, buttonName: '변경하기', isButtonEnabled: isButtonEnabled),
             ],
           ),
         );

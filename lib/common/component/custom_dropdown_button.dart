@@ -26,10 +26,10 @@ class CustomDropdownButton extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  _CustomDropdownButtonState createState() => _CustomDropdownButtonState();
+  CustomDropdownButtonState createState() => CustomDropdownButtonState();
 }
 
-class _CustomDropdownButtonState extends State<CustomDropdownButton> {
+class CustomDropdownButtonState extends State<CustomDropdownButton> {
   String? selectedItem;
   OverlayEntry? _overlayEntry;
   final LayerLink _layerLink = LayerLink();
@@ -43,6 +43,11 @@ class _CustomDropdownButtonState extends State<CustomDropdownButton> {
     selectedItem = widget.hintText;
   }
 
+  // 드롭다운을 닫는 public 메서드
+  void closeDropdown() {
+    _removeOverlay();
+  }
+
   @override
   void dispose() {
     _overlayEntry?.dispose();
@@ -52,65 +57,74 @@ class _CustomDropdownButtonState extends State<CustomDropdownButton> {
   OverlayEntry _customDropdown() {
     return OverlayEntry(
       maintainState: true,
-      builder: (context) => Positioned(
-        width: _dropdownWidth,
-        child: CompositedTransformFollower(
-          link: _layerLink,
-          offset: const Offset(0, _dropdownHeight),
-          child: Material(
-            color: Colors.white,
-            child: Container(
-              // height: (22.0 * widget.items.length) +
-              //     (21 * (widget.items.length - 1)) +
-              //     20,
-              height: min(240.0, (22.0 * widget.items.length) + (21 * (widget.items.length - 1)) + 20),
-              decoration: BoxDecoration(
-                border: Border.all(color: BORDER_COLOR),
-                borderRadius: BorderRadius.circular(6),
-              ),
-              child: ListView.separated(
-                physics: const ClampingScrollPhysics(),
-                padding: const EdgeInsets.symmetric(vertical: 10),
-                itemCount: widget.items.length,
-                itemBuilder: (context, index) {
-                  return CupertinoButton(
-                    padding: const EdgeInsets.symmetric(horizontal: 14,),
-                    pressedOpacity: 1,
-                    minSize: 0,
-                    onPressed: () {
-                      setState(() {
-                        selectedItem = widget.items.elementAt(index);
-                        widget.onItemSelected(selectedItem!);
-                      });
-                      _removeOverlay();
-                    },
-                    child: Align(
-                      alignment: Alignment.centerLeft,
-                      child: Text(
-                        widget.items.elementAt(index),
-                        style: const TextStyle(
-                          fontSize: 16,
-                          height: 22 / 16,
-                          color: Colors.black,
-                        ),
-                      ),
-                    ),
-                  );
-                },
-                separatorBuilder: (context, index) {
-                  return const Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 8),
-                    child: Divider(
-                      color: Colors.grey,
-                      height: 20,
-                    ),
-                  );
-                },
+      builder: (context) {
+        return Stack(
+          children: [
+            // 전체 화면을 커버하는 GestureDetector
+            Positioned.fill(
+              child: GestureDetector(
+                onTap: _removeOverlay,
+                behavior: HitTestBehavior.translucent,
               ),
             ),
-          ),
-        ),
-      ),
+            // 드롭다운 메뉴
+            CompositedTransformFollower(
+              link: _layerLink,
+              offset: const Offset(0, _dropdownHeight),
+              child: Material(
+                color: Colors.white,
+                child: Container(
+                  width: _dropdownWidth,
+                  height: min(240.0, (22.0 * widget.items.length) + (21 * (widget.items.length - 1)) + 20),
+                  decoration: BoxDecoration(
+                    border: Border.all(color: BORDER_COLOR),
+                    borderRadius: BorderRadius.circular(6),
+                  ),
+                  child: ListView.separated(
+                    physics: const ClampingScrollPhysics(),
+                    padding: const EdgeInsets.symmetric(vertical: 10),
+                    itemCount: widget.items.length,
+                    itemBuilder: (context, index) {
+                      return CupertinoButton(
+                        padding: const EdgeInsets.symmetric(horizontal: 14,),
+                        pressedOpacity: 1,
+                        minSize: 0,
+                        onPressed: () {
+                          setState(() {
+                            selectedItem = widget.items.elementAt(index);
+                            widget.onItemSelected(selectedItem!);
+                          });
+                          _removeOverlay();
+                        },
+                        child: Align(
+                          alignment: Alignment.centerLeft,
+                          child: Text(
+                            widget.items.elementAt(index),
+                            style: const TextStyle(
+                              fontSize: 16,
+                              height: 22 / 16,
+                              color: Colors.black,
+                            ),
+                          ),
+                        ),
+                      );
+                    },
+                    separatorBuilder: (context, index) {
+                      return const Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 8),
+                        child: Divider(
+                          color: Colors.grey,
+                          height: 20,
+                        ),
+                      );
+                    },
+                  ),
+                ),
+              ),
+            ),
+          ],
+        );
+      },
     );
   }
 
@@ -129,49 +143,40 @@ class _CustomDropdownButtonState extends State<CustomDropdownButton> {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () {
-        if (widget.enabled) { // enabled 값 확인
-          if (_overlayEntry != null) {
-            _removeOverlay();
-          } else {
-            _createOverlay();
-          }
-        } else {
-          ScaffoldMessenger.of(context).showSnackBar( // 오류 메시지 표시
-            SnackBar(content: Text(widget.errorText ?? "오류!")),
-          );
-        }
-      },
-      child: CompositedTransformTarget(
-        link: _layerLink,
-        child: Padding(
-          padding: widget.padding,
-          child: Container(
-            width: _dropdownWidth,
-            height: _dropdownHeight,
-            padding: EdgeInsets.only(left: 6),
-            decoration: BoxDecoration(
-              border: Border.all(color: BORDER_COLOR),
-              borderRadius: BorderRadius.circular(6.0),
-            ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                // 선택값.
-                Text(
-                  selectedItem!,
-                  style: const TextStyle(
-                    fontSize: 16,
-                    height: 22 / 16,
-                    color: Colors.black,
+      onTap: () => _removeOverlay(),
+      child: InkWell(
+        onTap: () => _createOverlay(),
+        child: CompositedTransformTarget(
+          link: _layerLink,
+          child: Padding(
+            padding: widget.padding,
+            child: Container(
+              width: _dropdownWidth,
+              height: _dropdownHeight,
+              padding: EdgeInsets.only(left: 6),
+              decoration: BoxDecoration(
+                border: Border.all(color: BORDER_COLOR),
+                borderRadius: BorderRadius.circular(6.0),
+              ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  // 선택값.
+                  Text(
+                    selectedItem!,
+                    style: const TextStyle(
+                      fontSize: 16,
+                      height: 22 / 16,
+                      color: Colors.black,
+                    ),
                   ),
-                ),
-                // 아이콘.
-                const Icon(
-                  Icons.arrow_drop_down,
-                  size: 36,
-                ),
-              ],
+                  // 아이콘.
+                  const Icon(
+                    Icons.arrow_drop_down,
+                    size: 36,
+                  ),
+                ],
+              ),
             ),
           ),
         ),
