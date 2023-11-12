@@ -54,7 +54,7 @@ class _RootTabState extends State<RootTab>
     return Scaffold(
       body: TabBarView(
         controller: _tabController,
-        physics: NeverScrollableScrollPhysics(), // Disable swiping between tabs
+        physics: NeverScrollableScrollPhysics(),
         children: <Widget>[
           ShoppingScreen(),
           MatchingScreen(),
