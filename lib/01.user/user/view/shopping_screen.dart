@@ -42,15 +42,17 @@ class ShoppingScreen extends StatelessWidget {
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Padding(
-            padding: const EdgeInsets.fromLTRB(15, 0, 0, 15),
+          Container(
+            decoration: BoxDecoration(
+              color: Colors.grey[100],
+              borderRadius: BorderRadius.circular(10),
+            ),
+            alignment: Alignment.center,
             child: Text(
               '적립한 포인트를 현금으로\n교환해 보세요!',
-              style: TextStyle(
-                fontSize: 15.5,
-                color: PRIMARY_COLOR,
-                fontWeight: FontWeight.w700
-              ),
+              textAlign: TextAlign.center,
+              style: TextStyle(fontSize: 17, fontWeight: FontWeight.bold,color: PRIMARY_COLOR),
+              maxLines: 3,
             ),
           ),
           Divider(
@@ -101,7 +103,7 @@ class ShoppingScreen extends StatelessWidget {
             Align(
               alignment: Alignment.bottomLeft,
               child: Text(
-                '${product.point}p',
+                '${product.point}P',
                 style: TextStyle(
                   color: GREEN_COLOR,
                   fontSize: 16,

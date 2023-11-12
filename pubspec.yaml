@@ -103,7 +103,7 @@ flutter:
     - assets/tabimg/mypage/
     - assets/tabimg/point/
     - assets/launcher_icon/
-    - assets/shopping/
+    - assets/request/
 
   # To add assets to your application, add an assets section, like this:
   # assets:
