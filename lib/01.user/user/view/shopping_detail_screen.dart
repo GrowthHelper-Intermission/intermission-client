@@ -21,7 +21,6 @@ import 'package:intermission_project/common/model/cursor_pagination_model.dart';
 import 'package:intermission_project/common/view/default_layout.dart';
 import 'package:intl/intl.dart';
 
-
 class ShoppingDetailScreen extends ConsumerStatefulWidget {
   int point;
   ShoppingDetailScreen({
@@ -43,9 +42,9 @@ class _ShoppingDetailScreenState extends ConsumerState<ShoppingDetailScreen> {
   void initState() {
     super.initState();
     DateTime threeDaysFromNow = DateTime.now().add(Duration(days: 3));
-    formattedDate = DateFormat('yyyy-MM-dd').format(threeDaysFromNow); // Initialize it here within initState
+    formattedDate = DateFormat('yyyy-MM-dd')
+        .format(threeDaysFromNow); // Initialize it here within initState
   }
-
 
   void requestExchange() async {
     /// 유저 포인트 접근 필요
@@ -104,6 +103,7 @@ class _ShoppingDetailScreenState extends ConsumerState<ShoppingDetailScreen> {
       totalPoints = state.meta.totalPoint!; // Meta에서 totalPoint 가져오기
     }
     return DefaultLayout(
+      isResize: true,
       title: '',
       bottomNavigationBar: Container(
         height: 120,
@@ -233,17 +233,62 @@ class _ShoppingDetailScreenState extends ConsumerState<ShoppingDetailScreen> {
     }
 
     showModalBottomSheet(
+      isScrollControlled: true,
       context: context,
       builder: (BuildContext context) {
         return Container(
           color: Colors.white,
-          padding: EdgeInsets.fromLTRB(15, 15, 15, 50),
+          padding: EdgeInsets.only(
+            left: 15,
+            top: 15,
+            right: 15,
+            bottom:
+                MediaQuery.of(context).viewInsets.bottom + 50,
+          ),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
-              Divider(
-                color: Colors.grey[300],
-                thickness: 2,
+              Center(
+                child: SvgPicture.asset(
+                  'assets/img/shopping/bottomSheet.svg',
+                  // width: 400,
+                ),
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  SizedBox(
+                    width: 20,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 5),
+                    child: Text(
+                      '계좌번호 등록/변경', // 중앙 제목
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                  IconButton(
+                    icon: Icon(Icons.close),
+                    onPressed: () {
+                      Navigator.of(context).pop(); // 닫기 아이콘 클릭 시 BottomSheet 닫힘
+                    },
+                  ),
+                ],
+              ),
+              Row(
+                children: [
+                  Text(
+                    '포인트 교환 시 사용되며, 본인 명의의 계좌만 등록할 수 있습\n니다. 입력하신 개인 정보는 안전하게 보관됩니다.',
+                    style: greySmallTextStyle,
+                  ),
+                ],
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 10),
+                child: SignupAskLabel(text: '현재 등록된 계좌정보'),
               ),
               SignupAskLabel(text: '사용 은행'),
               Center(
@@ -261,22 +306,24 @@ class _ShoppingDetailScreenState extends ConsumerState<ShoppingDetailScreen> {
               SizedBox(height: 15),
               SignupAskLabel(text: '계좌번호'),
               CustomTextFormField(
+                onlyNumber: true,
                 controller: accountNumberController,
                 onChanged: (String value) {
                   checkAccountEnabled();
                 },
                 errorText: accountNumberValid ? null : accountErrorText,
+                hintText: '숫자만 입력',
+                showClearIcon: true,
               ),
-              // buildElevatedButton('계좌 번호 변경하기', () {
-              //   Navigator.of(context).pop(); // Bottom sheet 닫기
-              //   /// PATCH 계좌번호 등록/변경 요청
-              // }),
               Padding(
                 padding: const EdgeInsets.only(top: 30),
-                child: LoginNextButton(onPressed: () {
-                  Navigator.of(context).pop(); // Bottom sheet 닫기
-                  /// PATCH 계좌번호 등록/변경 요청
-                }, buttonName: '변경하기', isButtonEnabled: isButtonEnabled),
+                child: LoginNextButton(
+                    onPressed: () {
+                      Navigator.of(context).pop(); // Bottom sheet 닫기
+                      /// PATCH 계좌번호 등록/변경 요청
+                    },
+                    buttonName: '변경하기',
+                    isButtonEnabled: isButtonEnabled),
               ),
             ],
           ),

@@ -15,8 +15,12 @@ class CustomTextFormField extends StatefulWidget {
   final bool? expands; // 추가
   final TextAlign textAlign;  // 추가
   final TextAlignVertical textAlignVertical;  // 추가
+  final bool? showClearIcon;
+  final bool? onlyNumber;
 
   const CustomTextFormField({
+    this.onlyNumber = false,
+    this.showClearIcon = false,
     this.textAlign = TextAlign.start,  // 기본값을 왼쪽으로 설정
     this.textAlignVertical = TextAlignVertical.top,  // 기본값을 상단으로 설정
     this.enable,
@@ -53,6 +57,7 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
     return Padding(
       padding: const EdgeInsets.fromLTRB(0, 4, 14, 6),
       child: TextFormField(
+        keyboardType: widget.onlyNumber! ? TextInputType.number : null, // 숫자 키보드만 표시
         textAlign: widget.textAlign,
         textAlignVertical: widget.textAlignVertical,
         enabled: widget.enable ?? true,
@@ -71,6 +76,13 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
         autofocus: widget.autofocus,
         onChanged: widget.onChanged,
         decoration: InputDecoration(
+          suffixIcon: widget.showClearIcon! ? IconButton( // 추가한 부분
+            icon: Icon(Icons.clear),
+            onPressed: () {
+              // 아이콘 버튼 클릭 시 텍스트 필드 내용 지우기
+              widget.controller?.clear();
+            },
+          ) : null,
           contentPadding: EdgeInsets.fromLTRB(14, 12, 14, 12),
           hintText: widget.hintText,
           errorText: widget.errorText,
