@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:intermission_project/01.user/user/provider/user_me_provider.dart';
 import 'package:intermission_project/04.research/research/model/research_detail_model.dart';
 import 'package:intermission_project/04.research/research/model/single_comment.dart';
@@ -122,9 +123,9 @@ class _CommentComponentState extends ConsumerState<CommentComponent> {
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Image.asset('assets/img/pinkCircle.png',
+                    SvgPicture.asset('assets/img/circle/userColor.svg',
                         width: 40, height: 40),
-                    SizedBox(width: 5),
+                    SizedBox(width: 15),
                     Expanded(
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -165,7 +166,10 @@ class _CommentComponentState extends ConsumerState<CommentComponent> {
                             notifier
                                 .reportComment(comment.commentId.toString());
                             ScaffoldMessenger.of(context).showSnackBar(
-                                SnackBar(content: Text('댓글이 신고되었습니다.')));
+                              SnackBar(
+                                content: Text('댓글이 신고되었습니다.'),
+                              ),
+                            );
                           } catch (error) {
                             ScaffoldMessenger.of(context).showSnackBar(
                                 SnackBar(content: Text('댓글 신고 중 오류가 발생했습니다.')));
@@ -177,7 +181,9 @@ class _CommentComponentState extends ConsumerState<CommentComponent> {
                                     .userId); // writerId는 실제 사용자 ID를 나타내는 필드여야 합니다.
                             ScaffoldMessenger.of(context).showSnackBar(
                                 SnackBar(content: Text('해당 사용자가 차단되었습니다.')));
-                            ref.read(researchProvider.notifier).getDetail(id: widget.id);
+                            ref
+                                .read(researchProvider.notifier)
+                                .getDetail(id: widget.id);
                           } catch (error) {
                             ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                                 content: Text('사용자 차단 중 오류가 발생했습니다.')));
@@ -215,72 +221,76 @@ class _CommentComponentState extends ConsumerState<CommentComponent> {
                 ),
                 Align(
                   alignment: Alignment.centerLeft,
-                  child: TextButton(
-                    child: Text("답글 달기", style: TextStyle(color: Colors.grey)),
-                    onPressed: () {
-                      showModalBottomSheet(
-                        context: context,
-                        builder: (BuildContext context) {
-                          return SingleChildScrollView(
-                            padding: EdgeInsets.only(
-                              bottom: MediaQuery.of(context).viewInsets.bottom,
-                            ),
-                            child: Container(
-                              padding: EdgeInsets.all(10),
-                              child: Column(
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  TextFormField(
-                                    decoration: InputDecoration(
-                                      hintText: "답글 내용을 입력하세요.",
-                                      border: OutlineInputBorder(),
-                                    ),
-                                    controller: reCommentController,
-                                    onChanged: (text) {
-                                      // 필요한 경우에 사용할 수 있는 부분
-                                    },
-                                  ),
-                                  SizedBox(height: 10),
-                                  Row(
-                                    children: [
-                                      Spacer(),
-                                      TextButton(
-                                        child: Text("완료"),
-                                        onPressed: () async {
-                                          if (reCommentController
-                                              .text.isNotEmpty) {
-                                            await notifier.postReComment(
-                                              widget.id,
-                                              comment.commentId.toString(),
-                                              SingleComment(
-                                                content:
-                                                    reCommentController.text,
-                                              ),
-                                            );
-                                            reCommentController.clear();
-                                            Navigator.of(context).pop();
-                                            setState(() {});
-                                            ref
-                                                .read(researchProvider.notifier)
-                                                .getDetail(id: widget.id);
-                                          }
-                                        },
-                                      ),
-                                      TextButton(
-                                        child: Text("취소"),
-                                        onPressed: () {
-                                          Navigator.of(context).pop();
-                                        },
-                                      ),
-                                    ],
-                                  ),
-                                ],
+                  child: Padding(
+                    padding: const EdgeInsets.only(left: 40),
+                    child: TextButton(
+                      child: Text("답글 달기", style: TextStyle(color: Colors.grey)),
+                      onPressed: () {
+                        showModalBottomSheet(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return SingleChildScrollView(
+                              padding: EdgeInsets.only(
+                                bottom: MediaQuery.of(context).viewInsets.bottom,
                               ),
-                            ),
-                          );
-                        },
-                      );
-                    },
+                              child: Container(
+                                padding: EdgeInsets.all(10),
+                                child: Column(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    TextFormField(
+                                      decoration: InputDecoration(
+                                        fillColor: PRIMARY_COLOR2,
+                                        hintText: "답글 내용을 입력하세요.",
+                                        border: OutlineInputBorder(),
+                                      ),
+                                      controller: reCommentController,
+                                      onChanged: (text) {
+                                        // 필요한 경우에 사용할 수 있는 부분
+                                      },
+                                    ),
+                                    SizedBox(height: 10),
+                                    Row(
+                                      children: [
+                                        Spacer(),
+                                        TextButton(
+                                          child: Text("완료"),
+                                          onPressed: () async {
+                                            if (reCommentController
+                                                .text.isNotEmpty) {
+                                              await notifier.postReComment(
+                                                widget.id,
+                                                comment.commentId.toString(),
+                                                SingleComment(
+                                                  content:
+                                                      reCommentController.text,
+                                                ),
+                                              );
+                                              reCommentController.clear();
+                                              Navigator.of(context).pop();
+                                              setState(() {});
+                                              ref
+                                                  .read(researchProvider.notifier)
+                                                  .getDetail(id: widget.id);
+                                            }
+                                          },
+                                        ),
+                                        TextButton(
+                                          child: Text("취소"),
+                                          onPressed: () {
+                                            Navigator.of(context).pop();
+                                          },
+                                        ),
+                                      ],
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            );
+                          },
+                        );
+                      },
+                    ),
                   ),
                 ),
                 Padding(
@@ -292,8 +302,8 @@ class _CommentComponentState extends ConsumerState<CommentComponent> {
                           Row(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Image.asset(
-                                'assets/img/blueCircle.png',
+                              SvgPicture.asset(
+                                'assets/img/circle/blueColor.svg',
                                 width: 40,
                                 height: 40,
                               ),
@@ -378,7 +388,9 @@ class _CommentComponentState extends ConsumerState<CommentComponent> {
                                           content: Text('해당 사용자가 차단되었습니다.'),
                                         ),
                                       );
-                                      ref.read(researchProvider.notifier).getDetail(id: widget.id);
+                                      ref
+                                          .read(researchProvider.notifier)
+                                          .getDetail(id: widget.id);
                                     } catch (error) {
                                       ScaffoldMessenger.of(context)
                                           .showSnackBar(SnackBar(
@@ -421,6 +433,7 @@ class _CommentComponentState extends ConsumerState<CommentComponent> {
                     }).toList(),
                   ),
                 ),
+                Divider(thickness: 1,color: Colors.grey[300],),
               ],
             );
           }).toList(),
