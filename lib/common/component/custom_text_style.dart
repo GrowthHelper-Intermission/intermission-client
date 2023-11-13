@@ -31,6 +31,12 @@ TextStyle whiteSmallTextStyle = TextStyle(
   color: Colors.grey[400],
 );
 
+TextStyle whiteWhiteSmallTextStyle = TextStyle(
+  fontWeight: FontWeight.w700,
+  fontSize: 14.0,
+  color: Colors.white,
+);
+
 TextStyle blackSmallTextStyle = TextStyle(
   fontWeight: FontWeight.w500,
   fontSize: 15.0,
