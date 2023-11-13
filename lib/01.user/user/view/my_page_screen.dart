@@ -200,11 +200,11 @@ class MyPageScreen extends ConsumerWidget {
                       icon: 'assets/tabimg/mypage/memberPlus.svg',
                     ),
                     // 관리자 페이지 아이콘도 필요한 경우 SVG로 변경하세요.
-                    SettingComponent(
-                      title: '관리자 페이지',
-                      otherScreen: AdminPage(),
-                      icon: 'assets/tabimg/mypage/Link.svg',
-                    ),
+                    // SettingComponent(
+                    //   title: '관리자 페이지',
+                    //   otherScreen: AdminPage(),
+                    //   icon: 'assets/tabimg/mypage/Link.svg',
+                    // ),
                   ],
                 ),
               ),

@@ -4,6 +4,7 @@ import 'package:intermission_project/04.research/research/component/research_car
 import 'package:intermission_project/04.research/research/model/scrap_card.dart';
 import 'package:intermission_project/04.research/research/provider/scrap_provider.dart';
 import 'package:intermission_project/common/component/pagination_list_view.dart';
+import 'package:intermission_project/common/const/colors.dart';
 import 'package:intermission_project/common/model/cursor_pagination_model.dart';
 import 'package:intermission_project/common/view/default_layout.dart';
 
@@ -14,8 +15,8 @@ class ScrapedResearchScreen extends ConsumerStatefulWidget {
   _ScrapedResearchScreenState createState() => _ScrapedResearchScreenState();
 }
 
-class _ScrapedResearchScreenState extends ConsumerState<ScrapedResearchScreen> with SingleTickerProviderStateMixin {
-
+class _ScrapedResearchScreenState extends ConsumerState<ScrapedResearchScreen>
+    with SingleTickerProviderStateMixin {
   TabController? _tabController;
 
   @override
@@ -40,6 +41,9 @@ class _ScrapedResearchScreenState extends ConsumerState<ScrapedResearchScreen> w
       child: Column(
         children: [
           TabBar(
+            isScrollable: false,
+            labelColor: PRIMARY_COLOR,
+            indicatorColor: PRIMARY_COLOR,
             controller: _tabController,
             tabs: [
               _buildTabItem("전체"),
@@ -81,16 +85,26 @@ class _ScrapedResearchScreenState extends ConsumerState<ScrapedResearchScreen> w
     final state = ref.watch(scrapProvider);
 
     if (state == null || state is! CursorPagination) {
-      return Center(child: CircularProgressIndicator());
+      return Center(
+        child: CircularProgressIndicator(
+          color: PRIMARY_COLOR,
+        ),
+      );
     } else {
-      return _buildResearchPage(scrapProvider,title);
+      return _buildResearchPage(
+        scrapProvider,
+        title,
+      );
     }
   }
 
-  Widget _buildResearchPage(StateNotifierProvider<ScrapStateNotifier, CursorPaginationBase> provider, String title) {
+  Widget _buildResearchPage(
+      StateNotifierProvider<ScrapStateNotifier, CursorPaginationBase> provider,
+      String title) {
     return PaginationListView(
       provider: provider,
-      itemBuilder: <ScrapResearchModel>(BuildContext context, int index, model) {
+      itemBuilder:
+          <ScrapResearchModel>(BuildContext context, int index, model) {
         if (title == "진행중" && model.isOnGoing != 'Y') return SizedBox.shrink();
         if (title == "마감" && model.isOnGoing != 'N') return SizedBox.shrink();
         return ScrapResearchCard.fromModel(model: model);
