@@ -14,7 +14,7 @@ class CertificationTest extends StatelessWidget {
   Widget build(BuildContext context) {
     return IamportCertification(
       appBar: AppBar(
-        title: Text('아임포트 본인인증!'),
+        title: Text('아임포트 본인인증'),
       ),
       /* 웹뷰 로딩 컴포넌트 */
       initialChild: Container(
@@ -22,7 +22,7 @@ class CertificationTest extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Image.asset('assets/img/iamport-logo.png'),
+              Image.asset('assets/img/iamportLogo.png'),
               Padding(padding: EdgeInsets.symmetric(vertical: 15)),
               Text('잠시만 기다려주세요...', style: TextStyle(fontSize: 20)),
             ],
