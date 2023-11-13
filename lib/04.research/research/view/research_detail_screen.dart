@@ -106,7 +106,6 @@ class _ResearchDetailScreenState extends ConsumerState<ResearchDetailScreen> {
       print(state.toString());
       return Scaffold(body: renderLoading());
     } else {
-      print('nco');
       isScrapped = state.isScrap == "Y" ? true : false;
 
       if (state.participationStatus == "참여완료" ||
@@ -125,6 +124,9 @@ class _ResearchDetailScreenState extends ConsumerState<ResearchDetailScreen> {
       daysLeft = _getDaysLeft();
 
       return GestureDetector(
+        onTap: () {
+          FocusScope.of(context).requestFocus(FocusNode());
+        },
         onHorizontalDragEnd: (details) {
           if (details.primaryVelocity! > 0) { // 왼쪽으로 스와이프
             context.pop();
@@ -243,6 +245,7 @@ class _ResearchDetailScreenState extends ConsumerState<ResearchDetailScreen> {
       isButtonEnabled = false;
     } else if (state.researchType != '설문조사') {
       buttonText = '참여중...';
+      isButtonEnabled = false;
     }
 
     return Container(
@@ -322,4 +325,18 @@ class _ResearchDetailScreenState extends ConsumerState<ResearchDetailScreen> {
       ),
     );
   }
+  Future<void> _navigateToGoogleForm() async {
+    await Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => GoogleFormWebView(
+          onComplete: () async {
+            await _handleSurveyParticipation(); // 콜백 내에서 참여 처리 함수 호출
+          },
+          homeUrl: 'https://docs.google.com/forms/d/e/1FAIpQLSe0PYqfFJNUNlo07evTMeWzDjPc0saRRQyYg2tBQBpPZE_CiA/viewform',
+        ),
+      ),
+    );
+  }
+
 }
