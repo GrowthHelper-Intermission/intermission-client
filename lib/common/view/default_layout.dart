@@ -5,7 +5,9 @@ class DefaultLayout extends StatelessWidget {
   final Widget child;
   final String? title;
   final Widget? bottomNavigationBar;
+  final bool? isResize;
   const DefaultLayout({
+    this.isResize,
     this.bottomNavigationBar,
     this.title,
     required this.child,
@@ -16,6 +18,7 @@ class DefaultLayout extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: isResize ?? false,
       backgroundColor: backgroundColor ?? Colors.white,
       appBar: renderAppBar(),
       body: child,
