@@ -25,7 +25,7 @@ final commentRepositoryProvider = Provider<CommentRepository>(
   (ref) {
     final dio = ref.watch(dioProvider);
     return CommentRepository(dio,
-        baseUrl: 'http://$ip/api/comment');
+        baseUrl: 'https://$ip/api/comment');
     // 'http://localhost:8080/api/interview'
   },
 );

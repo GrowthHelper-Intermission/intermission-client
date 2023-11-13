@@ -1,6 +1,7 @@
 import 'package:intermission_project/04.research/research_req/model/interview_req_model.dart';
 import 'package:intermission_project/04.research/research_req/model/research_req_model.dart';
 import 'package:intermission_project/04.research/research_req/repository/research_req_repository.dart';
+import 'package:intermission_project/common/const/data.dart';
 import 'package:intermission_project/common/dio/dio.dart';
 import 'package:dio/dio.dart' hide Headers; //주의
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -16,7 +17,7 @@ final interviewReqRepositoryProvider = Provider<InterviewReqRepository>(
     // return UserMeRepository(dio,baseUrl: 'http://$ip/user/me');
     // 'http://localhost:8080/api/user/save'
     return InterviewReqRepository(dio,
-        baseUrl: 'https://growthhelper-intermission.com/api/interview');
+        baseUrl: 'https://$ip/api/interview');
   },
 );
 

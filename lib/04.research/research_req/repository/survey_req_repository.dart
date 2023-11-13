@@ -2,6 +2,7 @@ import 'package:intermission_project/04.research/research_req/model/interview_re
 import 'package:intermission_project/04.research/research_req/model/research_req_model.dart';
 import 'package:intermission_project/04.research/research_req/model/survey_req_model.dart';
 import 'package:intermission_project/04.research/research_req/repository/research_req_repository.dart';
+import 'package:intermission_project/common/const/data.dart';
 import 'package:intermission_project/common/dio/dio.dart';
 import 'package:dio/dio.dart' hide Headers; //주의
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -17,7 +18,7 @@ final surveyReqRepositoryProvider = Provider<SurveyReqRepository>(
     // return UserMeRepository(dio,baseUrl: 'http://$ip/user/me');
     // 'http://localhost:8080/api/user/save'
     return SurveyReqRepository(dio,
-        baseUrl: 'https://growthhelper-intermission.com/api/survey');
+        baseUrl: 'https://$ip/api/survey');
   },
 );
 

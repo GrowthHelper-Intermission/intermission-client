@@ -3,6 +3,7 @@ import 'package:intermission_project/04.research/research_req/model/research_req
 import 'package:intermission_project/04.research/research_req/model/survey_req_model.dart';
 import 'package:intermission_project/04.research/research_req/model/tester_req_model.dart';
 import 'package:intermission_project/04.research/research_req/repository/research_req_repository.dart';
+import 'package:intermission_project/common/const/data.dart';
 import 'package:intermission_project/common/dio/dio.dart';
 import 'package:dio/dio.dart' hide Headers; //주의
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -15,7 +16,7 @@ final testerReqRepositoryProvider = Provider<TesterReqRepository>(
       (ref) {
     final dio = ref.watch(dioProvider);
     return TesterReqRepository(dio,
-        baseUrl: 'https://growthhelper-intermission.com/api/tester');
+        baseUrl: 'https://$ip/api/tester');
   },
 );
 
