@@ -23,7 +23,7 @@ part 'join_repository.g.dart';
 final joinRepositoryProvider = Provider<JoinRepository>(
       (ref) {
     final dio = ref.watch(dioProvider);
-    return JoinRepository(dio, baseUrl: 'http://$ip/api/research/me');
+    return JoinRepository(dio, baseUrl: 'https://$ip/api/research/me');
     // 'http://localhost:8080/api/interview'
   },
 );

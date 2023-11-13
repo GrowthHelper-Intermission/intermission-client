@@ -17,7 +17,7 @@ final notiReqRepositoryProvider = Provider<NotiReqRepository>(
     // return UserMeRepository(dio,baseUrl: 'http://$ip/user/me');
     // 'http://localhost:8080/api/user/save'
     return NotiReqRepository(dio,
-        baseUrl: 'http://$ip/api/noti');
+        baseUrl: 'https://$ip/api/noti');
   },
 );
 

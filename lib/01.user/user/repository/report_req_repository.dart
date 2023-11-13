@@ -1,5 +1,6 @@
 import 'package:intermission_project/01.user/user/model/report_req_model.dart';
 import 'package:intermission_project/04.research/research_req/model/research_req_model.dart';
+import 'package:intermission_project/common/const/data.dart';
 import 'package:intermission_project/common/dio/dio.dart';
 import 'package:dio/dio.dart' hide Headers; //주의
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -15,7 +16,7 @@ final reportReqRepositoryProvider = Provider<ReportReqRepository>(
     // return UserMeRepository(dio,baseUrl: 'http://$ip/user/me');
     // 'http://localhost:8080/api/user/save'
     return ReportReqRepository(dio,
-        baseUrl: 'http://35.216.100.47:8080/api/ask');
+        baseUrl: 'https://$ip/api/ask');
   },
 );
 

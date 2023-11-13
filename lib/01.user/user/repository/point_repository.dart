@@ -15,7 +15,7 @@ part 'point_repository.g.dart';
 final pointRepositoryProvider = Provider<PointRepository>(
       (ref) {
     final dio = ref.watch(dioProvider);
-    return PointRepository(dio, baseUrl: 'http://$ip/api/user');
+    return PointRepository(dio, baseUrl: 'https://$ip/api/user');
   },
 );
 

@@ -23,7 +23,7 @@ part 'scrap_repository.g.dart';
 final scrapRepositoryProvider = Provider<ScrapRepository>(
       (ref) {
     final dio = ref.watch(dioProvider);
-    return ScrapRepository(dio, baseUrl: 'http://$ip/api/scrap');
+    return ScrapRepository(dio, baseUrl: 'https://$ip/api/scrap');
     // 'http://localhost:8080/api/interview'
   },
 );

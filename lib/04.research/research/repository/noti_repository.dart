@@ -17,7 +17,7 @@ part 'noti_repository.g.dart';
 final notiRepositoryProvider = Provider<NotiRepository>(
       (ref) {
     final dio = ref.watch(dioProvider);
-    return NotiRepository(dio, baseUrl: 'http://$ip/api/noti');
+    return NotiRepository(dio, baseUrl: 'https://$ip/api/noti');
   },
 );
 
