@@ -5,6 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intermission_project/01.user/user/view/login_screen.dart';
 import 'package:intermission_project/common/component/alert_dialog.dart';
 import 'package:intermission_project/common/component/circular_progress_indicator.dart';
+import 'package:intermission_project/common/component/custom_text_style.dart';
 import 'package:intermission_project/common/layout/default_layout.dart';
 import 'package:intermission_project/common/view/root_tab.dart';
 import 'package:intermission_project/common/const/colors.dart';
@@ -28,6 +29,7 @@ class SplashScreen extends ConsumerWidget {
               'assets/launcher_icon/iconapp2.png',
               width: MediaQuery.of(context).size.width / 2,
             ),
+            Text('앱 정보를 가져오는중...',style: whiteWhiteSmallTextStyle),
             const SizedBox(
               height: 16,
             ),
