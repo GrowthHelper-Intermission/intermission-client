@@ -655,104 +655,109 @@ class _SignupScreenPage1State extends ConsumerState<SignupScreenPage1> {
   Widget build(BuildContext context) {
     // final state = ref.watch(userMeProvider);
 
-    return Scaffold(
-      backgroundColor: Colors.white,
-      appBar: CustomAppBar(),
-      body: SafeArea(
-        child: SingleChildScrollView(
-          keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
-          child: Padding(
-            padding: EdgeInsets.only(
-                left: ScreenUtil().setWidth(12),
-                right: ScreenUtil().setWidth(12)),
-            child: Form(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  SignupAppBar(currentPage: '1/3'),
-                  SignupAskLabel(text: '이메일'),
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Expanded(
-                        flex: 5, // 비율을 사용하여 width를 조절
-                        child: CustomTextFormField(
-                          controller: emailController,
-                          hintText: 'email@email.com',
-                          onChanged: (String value) {
-                            // checkEmailEnabled();
-                          },
-                          // errorText: emailErrorText,
-                        ),
-                      ),
-                      SizedBox(width: 10), // 텍스트 필드와 버튼 사이의 간격
-                      Expanded(
-                        flex: 2,
-                        child: ElevatedButton(
-                          onPressed: sendEmailVerification,
-                          child: Text('중복 확인'),
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: SUB_COLOR,
-                            shape: RoundedRectangleBorder(
-                              borderRadius:
-                                  BorderRadius.circular(8.0), // 모서리 깎기
-                            ),
-                            padding: EdgeInsets.symmetric(
-                                horizontal: 20, vertical: 12),
+    return WillPopScope(
+      onWillPop: () async{
+        return true;
+      },
+      child: Scaffold(
+        backgroundColor: Colors.white,
+        appBar: CustomAppBar(),
+        body: SafeArea(
+          child: SingleChildScrollView(
+            keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
+            child: Padding(
+              padding: EdgeInsets.only(
+                  left: ScreenUtil().setWidth(12),
+                  right: ScreenUtil().setWidth(12)),
+              child: Form(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    SignupAppBar(currentPage: '1/3'),
+                    SignupAskLabel(text: '이메일'),
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Expanded(
+                          flex: 5, // 비율을 사용하여 width를 조절
+                          child: CustomTextFormField(
+                            controller: emailController,
+                            hintText: 'email@email.com',
+                            onChanged: (String value) {
+                              // checkEmailEnabled();
+                            },
+                            // errorText: emailErrorText,
                           ),
                         ),
-                      )
-                    ],
-                  ),
-                  SizedBox(height: 10),
-                  SignupAskLabel(text: '비밀번호'),
-                  CustomTextFormField(
-                    controller: passwordController,
-                    hintText: '8자 이상의 영문/숫자 조합',
-                    onChanged: (String value) {},
-                    obscureText: true,
-                  ),
-                  SizedBox(
-                    height: 15,
-                  ),
-                  CustomCheckBox(
-                    isAgree: isAgree,
-                    title: '이용약관에 동의합니다(필수)',
-                    onChanged: (value) {
-                      setState(() {
-                        isAgree = value!;
-                        checkButtonEnabled();
-                      });
-                    },
-                  ),
-                  CustomCheckBox(
-                    isAgree: isAgree2,
-                    title: '개인정보 처리방침에 동의합니다(필수)',
-                    onChanged: (value) {
-                      setState(() {
-                        isAgree2 = value!;
-                        checkButtonEnabled();
-                      });
-                    },
-                  ),
-                  SizedBox(height: 300,),
-                  LoginNextButton(
-                    buttonName: '다음',
-                    // isButtonEnabled: isButtonEnabled,
-                    isButtonEnabled: true,
-                    onPressed: () {
-                      final state = ref.read(signupUserProvider.notifier);
-                      // //10개
-                      state.setEmail(emailController.text.trim());
-                      state.setPassword(passwordController.text.trim());
-                      state.setIsPrivacyAgreed(isAgree == true ? "Y" : "N");
-                      state.setIsTermsAgreed(isAgree2 == true ? "Y" : "N");
+                        SizedBox(width: 10), // 텍스트 필드와 버튼 사이의 간격
+                        Expanded(
+                          flex: 2,
+                          child: ElevatedButton(
+                            onPressed: sendEmailVerification,
+                            child: Text('중복 확인'),
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: SUB_COLOR,
+                              shape: RoundedRectangleBorder(
+                                borderRadius:
+                                    BorderRadius.circular(8.0), // 모서리 깎기
+                              ),
+                              padding: EdgeInsets.symmetric(
+                                  horizontal: 20, vertical: 12),
+                            ),
+                          ),
+                        )
+                      ],
+                    ),
+                    SizedBox(height: 10),
+                    SignupAskLabel(text: '비밀번호'),
+                    CustomTextFormField(
+                      controller: passwordController,
+                      hintText: '8자 이상의 영문/숫자 조합',
+                      onChanged: (String value) {},
+                      obscureText: true,
+                    ),
+                    SizedBox(
+                      height: 15,
+                    ),
+                    CustomCheckBox(
+                      isAgree: isAgree,
+                      title: '이용약관에 동의합니다(필수)',
+                      onChanged: (value) {
+                        setState(() {
+                          isAgree = value!;
+                          checkButtonEnabled();
+                        });
+                      },
+                    ),
+                    CustomCheckBox(
+                      isAgree: isAgree2,
+                      title: '개인정보 처리방침에 동의합니다(필수)',
+                      onChanged: (value) {
+                        setState(() {
+                          isAgree2 = value!;
+                          checkButtonEnabled();
+                        });
+                      },
+                    ),
+                    SizedBox(height: 300,),
+                    LoginNextButton(
+                      buttonName: '다음',
+                      // isButtonEnabled: isButtonEnabled,
+                      isButtonEnabled: true,
+                      onPressed: () {
+                        final state = ref.read(signupUserProvider.notifier);
+                        // //10개
+                        state.setEmail(emailController.text.trim());
+                        state.setPassword(passwordController.text.trim());
+                        state.setIsPrivacyAgreed(isAgree == true ? "Y" : "N");
+                        state.setIsTermsAgreed(isAgree2 == true ? "Y" : "N");
 
-                      context.pushNamed(SignupScreenPage2.routeName);
-                    },
-                  ),
-                ],
+                        context.pushNamed(SignupScreenPage2.routeName);
+                      },
+                    ),
+                  ],
+                ),
               ),
             ),
           ),
