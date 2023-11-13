@@ -17,4 +17,4 @@ final simulatorIp = '127.0.0.1:3000';
 // final ip = Platform.isIOS ? simulatorIp : emulatorIp;
 
 
-final ip = 'growthhelper-intermission.com';
+const ip = 'growthhelper-intermission.com';
