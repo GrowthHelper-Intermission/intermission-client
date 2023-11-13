@@ -274,46 +274,51 @@ class _SignupScreenPage3State extends ConsumerState<SignupScreenPage3> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.white,
-      appBar: CustomAppBar(),
-      body: SafeArea(
-        child: SingleChildScrollView(
-          keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
-          child: Padding(
-            padding: EdgeInsets.only(
-                left: ScreenUtil().setWidth(12),
-                right: ScreenUtil().setWidth(12)),
-            child: Form(
-              key: globalKey,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  SignupAppBar(currentPage: '3/3'),
-                  Padding(
-                    padding: const EdgeInsets.only(right: 15),
-                    child: LoginNextButton(
-                      buttonName: '본인인증 실행하기',
-                      isButtonEnabled: true,
-                      onPressed: () async {
-                        Navigator.of(context).push(
-                          MaterialPageRoute(
-                            builder: (context) => CertificationTest(),
-                          ),
-                        );
-                        // try {
-                        //   // ref.read(userMeProvider.notifier).postUser(newUser);
-                        //   print('성공적 수행');
-                        // } catch (e) {
-                        //   print(e);
-                        //   print('에러');
-                        // }
-                        // context.goNamed(LoginScreen.routeName);
-                      },
+    return WillPopScope(
+      onWillPop: () async{
+        return true;
+      },
+      child: Scaffold(
+        backgroundColor: Colors.white,
+        appBar: CustomAppBar(),
+        body: SafeArea(
+          child: SingleChildScrollView(
+            keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
+            child: Padding(
+              padding: EdgeInsets.only(
+                  left: ScreenUtil().setWidth(12),
+                  right: ScreenUtil().setWidth(12)),
+              child: Form(
+                key: globalKey,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    SignupAppBar(currentPage: '3/3'),
+                    Padding(
+                      padding: const EdgeInsets.only(right: 15),
+                      child: LoginNextButton(
+                        buttonName: '본인인증 실행하기',
+                        isButtonEnabled: true,
+                        onPressed: () async {
+                          Navigator.of(context).push(
+                            MaterialPageRoute(
+                              builder: (context) => CertificationTest(),
+                            ),
+                          );
+                          // try {
+                          //   // ref.read(userMeProvider.notifier).postUser(newUser);
+                          //   print('성공적 수행');
+                          // } catch (e) {
+                          //   print(e);
+                          //   print('에러');
+                          // }
+                          // context.goNamed(LoginScreen.routeName);
+                        },
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
           ),

@@ -5,6 +5,7 @@ import 'package:intermission_project/04.research/research/component/research_car
 import 'package:intermission_project/04.research/research/provider/research_provider.dart';
 import 'package:intermission_project/04.research/research/provider/scrap_provider.dart';
 import 'package:intermission_project/common/component/pagination_list_view.dart';
+import 'package:intermission_project/common/const/colors.dart';
 import 'package:intermission_project/common/model/cursor_pagination_model.dart';
 import 'package:intermission_project/common/view/default_layout.dart';
 import 'package:provider/provider.dart';
@@ -48,6 +49,8 @@ class _ParticipatedResearchScreenState extends ConsumerState<ParticipatedResearc
               _buildTabItem("진행중"),
               _buildTabItem("마감"),
             ],
+            labelColor: PRIMARY_COLOR,
+            indicatorColor: PRIMARY_COLOR,
           ),
           Expanded(
             child: TabBarView(

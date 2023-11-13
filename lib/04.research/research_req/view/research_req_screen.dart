@@ -15,88 +15,93 @@ class ResearchReqScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return DefaultLayout(
-      title: '리서치 등록222',
-      child: Column(
-        children: [
-          ElevatedButton(
-            onPressed: () async {
-              ResearchReqModel newResearch = ResearchReqModel(
-                researchRewdPoint: 3000,
-                researchUrl: "sival",
-                mainTitle: '재발재발 위한 인터뷰',
-                subTitle: '온라인, 서울 중구 기준 30분 거리면 오프 라인 방문 가능',
-                dueDate: '2023-09-24',
-                exceptTime: '2',
-                isFifties: "N",
-                isForties: "N",
-                isSeventies: "N",
-                isSixties: "N",
-                isTeenagers: "Y",
-                isThirties: "N",
-                isTwenties: "Y",
-                detail:
-                    '안녕하세요. 한국대학병원 서비스 조사팀 김철수입니다. 현재 한국대학에서는 뇌졸중 환자 및 보호자 설문 모집하고 있습니다. 본 설문조사는 뇌졸중 연구 논문에 참고 자료로 사용될 예정입니다. 작성해주신 모든 응답과 신상 정보는 철저히 보호될 것을 약속드립니다. 감사합니다.',
-                researchType: "인터뷰",
-                researchMethTpCd: '온라인',
-                researchRewdAmt: "30000원",
-                email: "chaseB",
-                taskTpCd: "대표자",
-                etcTaskSubs: "기타직",
-                compNm: "카카오",
-                researchTgtZendTpCd: "남성",
-                researchEntryCnt: "4",
-                etcReqCn: "동대생",
-                researchPostAgreeYn: "동의",
-                hpNum: "010-1313-2424",
-                researchTgtAsignTpCd: "상관없음",
-                researchTgtHouseTpCd: "상관없음",
-                researchTgtJobTpCd: "상관없음",
-                researchTgtWedTpCd: "상관없음",
+    return WillPopScope(
+      onWillPop: () async{
+        return true;
+      },
+      child: DefaultLayout(
+        title: '리서치 등록',
+        child: Column(
+          children: [
+            ElevatedButton(
+              onPressed: () async {
+                ResearchReqModel newResearch = ResearchReqModel(
+                  researchRewdPoint: 3000,
+                  researchUrl: "sival",
+                  mainTitle: '재발재발 위한 인터뷰',
+                  subTitle: '온라인, 서울 중구 기준 30분 거리면 오프 라인 방문 가능',
+                  dueDate: '2023-09-24',
+                  exceptTime: '2',
+                  isFifties: "N",
+                  isForties: "N",
+                  isSeventies: "N",
+                  isSixties: "N",
+                  isTeenagers: "Y",
+                  isThirties: "N",
+                  isTwenties: "Y",
+                  detail:
+                      '안녕하세요. 한국대학병원 서비스 조사팀 김철수입니다. 현재 한국대학에서는 뇌졸중 환자 및 보호자 설문 모집하고 있습니다. 본 설문조사는 뇌졸중 연구 논문에 참고 자료로 사용될 예정입니다. 작성해주신 모든 응답과 신상 정보는 철저히 보호될 것을 약속드립니다. 감사합니다.',
+                  researchType: "인터뷰",
+                  researchMethTpCd: '온라인',
+                  researchRewdAmt: "30000원",
+                  email: "chaseB",
+                  taskTpCd: "대표자",
+                  etcTaskSubs: "기타직",
+                  compNm: "카카오",
+                  researchTgtZendTpCd: "남성",
+                  researchEntryCnt: "4",
+                  etcReqCn: "동대생",
+                  researchPostAgreeYn: "동의",
+                  hpNum: "010-1313-2424",
+                  researchTgtAsignTpCd: "상관없음",
+                  researchTgtHouseTpCd: "상관없음",
+                  researchTgtJobTpCd: "상관없음",
+                  researchTgtWedTpCd: "상관없음",
 
-              );
-              try {
-                ref
-                    .read(researchReqStateNotifierProvider.notifier)
-                    .postResearch(newResearch);
-                print('Research posted successfully');
-
-                // ref.read(researchProvider.notifier).getTopThreeResearches();
-
-                // Show the confirmation dialog
-                await showDialog(
-                  context: context,
-                  builder: (BuildContext context) {
-                    return AlertDialog(
-                      title: Text("알림"),
-                      content: Text("등록되었습니다!"),
-                      actions: [
-                        TextButton(
-                          child: Text("확인"),
-                          onPressed: () {
-                            Navigator.of(context).pop(); // Close the dialog
-                            context.goNamed(RootTab
-                                .routeName); // Navigate to the next screen
-                            ref
-                                .read(researchProvider.notifier)
-                                .paginate(forceRefetch: true);
-                            ref.read(interviewProvider.notifier).paginate();
-                            ref.read(surveyProvider.notifier).paginate();
-                            ref.read(testerProvider.notifier).paginate();
-                          },
-                        ),
-                      ],
-                    );
-                  },
                 );
-              } catch (e) {
-                print(e);
-                print('Error occurred while posting research');
-              }
-            },
-            child: Text('리서치 등록'),
-          ),
-        ],
+                try {
+                  ref
+                      .read(researchReqStateNotifierProvider.notifier)
+                      .postResearch(newResearch);
+                  print('Research posted successfully');
+
+                  // ref.read(researchProvider.notifier).getTopThreeResearches();
+
+                  // Show the confirmation dialog
+                  await showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return AlertDialog(
+                        title: Text("알림"),
+                        content: Text("등록되었습니다!"),
+                        actions: [
+                          TextButton(
+                            child: Text("확인"),
+                            onPressed: () {
+                              Navigator.of(context).pop(); // Close the dialog
+                              context.goNamed(RootTab
+                                  .routeName); // Navigate to the next screen
+                              ref
+                                  .read(researchProvider.notifier)
+                                  .paginate(forceRefetch: true);
+                              ref.read(interviewProvider.notifier).paginate();
+                              ref.read(surveyProvider.notifier).paginate();
+                              ref.read(testerProvider.notifier).paginate();
+                            },
+                          ),
+                        ],
+                      );
+                    },
+                  );
+                } catch (e) {
+                  print(e);
+                  print('Error occurred while posting research');
+                }
+              },
+              child: Text('리서치 등록'),
+            ),
+          ],
+        ),
       ),
     );
   }

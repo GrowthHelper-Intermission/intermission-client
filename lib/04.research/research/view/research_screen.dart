@@ -93,12 +93,15 @@ class _ResearchScreenState extends ConsumerState<ResearchScreen>
               ],
             ),
             Expanded(
-              child: TabBarView(controller: _tabController, children: [
-                _buildResearchPage(researchProvider), // "전체" 탭
-                _buildResearchPage(interviewProvider), // "인터뷰" 탭
-                _buildResearchPage(surveyProvider), // "설문조사" 탭
-                _buildResearchPage(testerProvider), // "테스트 참여" 탭
-              ]),
+              child: TabBarView(
+                controller: _tabController,
+                children: [
+                  _buildResearchPage(researchProvider), // "전체" 탭
+                  _buildResearchPage(interviewProvider), // "인터뷰" 탭
+                  _buildResearchPage(surveyProvider), // "설문조사" 탭
+                  _buildResearchPage(testerProvider), // "테스트 참여" 탭
+                ],
+              ),
             ),
           ],
         ),
