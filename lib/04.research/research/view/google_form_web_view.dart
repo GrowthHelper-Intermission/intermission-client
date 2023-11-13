@@ -93,7 +93,6 @@ class _GoogleFormWebViewState extends State<GoogleFormWebView> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('구글폼d'),
         leading: IconButton(
           icon: Icon(Icons.arrow_back),
           onPressed: _showExitConfirmation,
