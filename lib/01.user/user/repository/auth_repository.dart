@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:dio/dio.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:intermission_project/common/const/data.dart';
 import 'package:intermission_project/common/dio/dio.dart';
 import 'package:intermission_project/common/model/login_response.dart';
@@ -7,22 +8,22 @@ import 'package:intermission_project/common/model/token_response.dart';
 import 'package:intermission_project/common/utils/data_utils.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
+import '../provider/firebase_token_provider.dart';
+
 final authRepositoryProvider = Provider<AuthRepository>((ref) {
   final dio = ref.watch(dioProvider);
-
-  // return AuthRepository(baseUrl: 'http://localhost:8080/api/auth', dio: dio);
-  // 34.64.77.5/api/auth/login
-  return AuthRepository(baseUrl: 'https://$ip/api/auth', dio: dio);
+  return AuthRepository(ref: ref, baseUrl: 'https://$ip/api/auth', dio: dio); // Pass `ref` here
 });
 
 class AuthRepository {
-  //baseUrl == http://$ip/auth
   final String baseUrl;
   final Dio dio;
+  final ProviderRef ref;
 
   AuthRepository({
     required this.baseUrl,
     required this.dio,
+    required this.ref,
   });
 
   Future<LoginResponse> login({
@@ -31,17 +32,23 @@ class AuthRepository {
   }) async {
     final serialized = DataUtils.plainToBase64('$username:$password');
 
+    final firebaseToken = await readTokenFromSecureStorage();
+
+    print('here');
+    print(firebaseToken);
+
     final resp = await dio.post(
       '$baseUrl/login',
+      data: {
+        "firebaseToken": firebaseToken.toString(),
+      },
       options: Options(
         headers: {
           'authorization': 'Basic $serialized',
         },
       ),
     );
-    return LoginResponse.fromJson(
-      resp.data,
-    );
+    return LoginResponse.fromJson(resp.data);
   }
 
   Future<TokenResponse> token() async {
@@ -57,4 +64,9 @@ class AuthRepository {
       resp.data,
     );
   }
+}
+
+Future<String?> readTokenFromSecureStorage() async {
+  const storage = FlutterSecureStorage();
+  return await storage.read(key: 'firebase_token');
 }
