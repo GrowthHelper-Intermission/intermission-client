@@ -51,10 +51,10 @@ class _ShoppingDetailScreenState extends ConsumerState<ShoppingDetailScreen> {
   Widget build(BuildContext context) {
     final state = ref.watch(pointProvider);
 
-    // 데이터가 없거나 로딩 중인 경우
-    if (state is CursorPaginationLoading || state == null) {
-      return Scaffold(body: renderLoading());
-    }
+    // // 데이터가 없거나 로딩 중인 경우
+    // if (state is CursorPaginationLoading || state == null) {
+    //   return Scaffold(body: renderLoading());
+    // }
 
     int totalPoints = 0; // Default value
     if (state is CursorPagination<PointModel>) {
@@ -80,18 +80,49 @@ class _ShoppingDetailScreenState extends ConsumerState<ShoppingDetailScreen> {
         child: BottomAppBar(
           child: SimpleButton(
 
-            onPressed: () {
+            onPressed: () async{
               PointChangeModel pointChangeModel = PointChangeModel(
                 point: point,
               );
-              ref
-                  .read(
-                    pointProvider.notifier,
-                  )
-                  .repository
-                  .changePoint(
-                   pointChangeModel: pointChangeModel
+              try {
+                // changePoint 요청을 보내고 응답을 받습니다.
+                var response =  await ref
+                    .read(pointProvider.notifier)
+                    .repository
+                    .changePoint(pointChangeModel: pointChangeModel);
+
+                // 성공 응답 처리
+                if (response.code == 200) {
+                  showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return AlertDialog(
+                        backgroundColor: PRIMARY_COLOR,
+                        title: Text("성공"),
+                        content: Text("포인트 교환이 완료되었습니다. 관리자에 의해 3일 이내에 송금됩니다!",style: TextStyle(color: Colors.white),),
+                        actions: <Widget>[
+                          // 확인 버튼 등
+                        ],
+                      );
+                    },
                   );
+                }
+              } catch (e) {
+                // 실패 응답 처리
+                showDialog(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return AlertDialog(
+                      title: Text("실패"),
+                      content: Text("포인트가 부족합니다ㅠㅠ"),
+                      actions: <Widget>[
+                        // 확인 버튼 등
+                      ],
+                    );
+                  },
+                );
+              }
+
               ref.read(userMeProvider.notifier).getMe();
               ref.read(pointProvider.notifier).paginate(forceRefetch: true);
             },
