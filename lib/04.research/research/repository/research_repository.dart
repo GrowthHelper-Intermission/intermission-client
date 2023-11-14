@@ -1,5 +1,4 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:intermission_project/01.user/point/model/point_model.dart';
 import 'package:intermission_project/04.research/research/model/research_detail_model.dart';
 import 'package:intermission_project/04.research/research/model/research_model.dart';
 import 'package:intermission_project/04.research/research/model/research_report_model.dart';

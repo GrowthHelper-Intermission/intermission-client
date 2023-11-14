@@ -1,7 +1,6 @@
 // PointRepository
 import 'package:dio/dio.dart' hide Headers;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:intermission_project/01.user/point/model/point_model.dart';
 import 'package:intermission_project/01.user/user/model/point_model.dart';
 import 'package:intermission_project/04.research/research/model/noti_detail_model.dart';
 import 'package:intermission_project/04.research/research/model/noti_model.dart';
@@ -43,10 +42,4 @@ abstract class NotiRepository implements IBasePaginationRepository<NotiModel> {
   Future<NotiDetailModel> getNotiDetail({
     @Path() required String id,
   });
-
-// Future<CursorPagination<ResearchModel>> paginate({
-//   @Path() String path = '/', // 기본값을 root path로 설정
-//   @Query('researchType') String? researchType,
-//   @Queries() PaginationParams? paginationParams = const PaginationParams(),
-// });
 }
