@@ -8,21 +8,25 @@ part of 'point_model.dart';
 
 PointModel _$PointModelFromJson(Map<String, dynamic> json) => PointModel(
       id: json['id'] as String,
-      createdAt: json['createdAt'] as String,
-      expireTime: json['expireTime'] as String,
       pointStatus: json['pointStatus'] as String,
-      pointAmount: json['pointAmount'] as int,
-      researchTitle: json['researchTitle'] as String,
-      researchType: json['researchType'] as String,
+      pointChangeBalance: json['pointChangeBalance'] as int,
+      pointCurrentBalance: json['pointCurrentBalance'] as int,
+      pointPreviousBalance: json['pointPreviousBalance'] as int,
+      pointEventType: json['pointEventType'] as String,
+      createdDate: json['createdDate'] as String,
+      expireTime: json['expireTime'] as String,
+      pointEventName: json['pointEventName'] as String?,
     );
 
 Map<String, dynamic> _$PointModelToJson(PointModel instance) =>
     <String, dynamic>{
       'id': instance.id,
-      'createdAt': instance.createdAt,
-      'expireTime': instance.expireTime,
       'pointStatus': instance.pointStatus,
-      'pointAmount': instance.pointAmount,
-      'researchTitle': instance.researchTitle,
-      'researchType': instance.researchType,
+      'pointChangeBalance': instance.pointChangeBalance,
+      'pointCurrentBalance': instance.pointCurrentBalance,
+      'pointPreviousBalance': instance.pointPreviousBalance,
+      'pointEventType': instance.pointEventType,
+      'createdDate': instance.createdDate,
+      'expireTime': instance.expireTime,
+      'pointEventName': instance.pointEventName,
     };

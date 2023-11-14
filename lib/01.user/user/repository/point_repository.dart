@@ -1,7 +1,6 @@
 // PointRepository
 import 'package:dio/dio.dart' hide Headers;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:intermission_project/01.user/point/model/point_model.dart';
 import 'package:intermission_project/01.user/user/model/point_model.dart';
 import 'package:intermission_project/common/const/data.dart';
 import 'package:intermission_project/common/dio/dio.dart';
@@ -15,7 +14,7 @@ part 'point_repository.g.dart';
 final pointRepositoryProvider = Provider<PointRepository>(
       (ref) {
     final dio = ref.watch(dioProvider);
-    return PointRepository(dio, baseUrl: 'https://$ip/api/user');
+    return PointRepository(dio, baseUrl: 'https://$ip/api');
   },
 );
 

@@ -6,11 +6,13 @@ class PaginationParams{
   final String? after;
   final int? count;
   final int? totalPoint;
+  final bool? hasMore;
 
   const PaginationParams({
     this.after,
     this.count,
     this.totalPoint,
+    this.hasMore,
   });
 
   PaginationParams copyWith({
@@ -21,6 +23,7 @@ class PaginationParams{
       after: after ?? this.after,
       count: count ?? this.count,
       totalPoint: totalPoint ?? this.totalPoint,
+      hasMore: hasMore ?? this.hasMore,
     );
   }
 
