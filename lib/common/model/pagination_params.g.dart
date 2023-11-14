@@ -11,6 +11,7 @@ PaginationParams _$PaginationParamsFromJson(Map<String, dynamic> json) =>
       after: json['after'] as String?,
       count: json['count'] as int?,
       totalPoint: json['totalPoint'] as int?,
+      hasMore: json['hasMore'] as bool?,
     );
 
 Map<String, dynamic> _$PaginationParamsToJson(PaginationParams instance) =>
@@ -18,4 +19,5 @@ Map<String, dynamic> _$PaginationParamsToJson(PaginationParams instance) =>
       'after': instance.after,
       'count': instance.count,
       'totalPoint': instance.totalPoint,
+      'hasMore': instance.hasMore,
     };

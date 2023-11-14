@@ -22,7 +22,7 @@ class PointCount extends ConsumerWidget {
 
     int totalPoints = 0; // Default value
     if (state is CursorPagination<PointModel>) {
-      totalPoints = state.meta.totalPoint!; // Meta에서 totalPoint 가져오기
+      totalPoints = state.meta.pointAmount!; // Meta에서 totalPoint 가져오기
     }
 
     return DefaultLayout(
@@ -70,10 +70,14 @@ class PointCount extends ConsumerWidget {
               provider: pointProvider,
               itemBuilder: <PointModel>(context, index, model) {
                 return _buildPointDetail(
-                  date: model.createdAt,
-                  reason: model.researchTitle,
-                  pointChange: '+ ${model.pointAmount}P',
-                  detailReason: model.researchType,
+                  pointStatus: model.pointStatus,
+                  pointChangeBalance: model.pointChangeBalance.toString(),
+                  pointCurrentBalance: model.pointCurrentBalance.toString(),
+                  pointPreviousBalance: model.pointPreviousBalance.toString(),
+                  pointEventType: model.pointEventType,
+                  createdDate: model.createdDate,
+                  expireTime: model.expireTime,
+                  pointEventName: model.pointEventName,
                 );
               },
             ),
@@ -85,10 +89,14 @@ class PointCount extends ConsumerWidget {
 }
 
 Widget _buildPointDetail({
-  required String date,
-  required String reason,
-  required String pointChange,
-  required String detailReason,
+  required String pointStatus,
+  required String pointChangeBalance,
+  required String pointCurrentBalance,
+  required String pointPreviousBalance,
+  required String pointEventType,
+  required String createdDate,
+  required String expireTime,
+  String? pointEventName,
 }) {
   return Column(
     children: [
@@ -99,18 +107,18 @@ Widget _buildPointDetail({
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                date,
+                createdDate,
                 style: TextStyle(color: Colors.grey[400]),
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(reason),
-                  Text(pointChange),
+                  Text(pointEventType),
+                  Text(pointStatus),
                 ],
               ),
               Text(
-                detailReason,
+                pointCurrentBalance,
                 style: TextStyle(color: Colors.grey[600]),
               ),
             ],
