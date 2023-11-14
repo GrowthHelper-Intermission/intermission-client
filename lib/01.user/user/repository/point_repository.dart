@@ -1,6 +1,7 @@
 // PointRepository
 import 'package:dio/dio.dart' hide Headers;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:intermission_project/01.user/user/model/point_change_model.dart';
 import 'package:intermission_project/01.user/user/model/point_model.dart';
 import 'package:intermission_project/common/const/data.dart';
 import 'package:intermission_project/common/dio/dio.dart';
@@ -31,4 +32,13 @@ abstract class PointRepository implements IBasePaginationRepository<PointModel> 
     @Path() String path = '/',
     @Query('researchType') String? researchType,
   });
+
+  @POST('/point')
+  @Headers({
+    'accessToken':'true',
+  })
+  Future<void> changePoint({
+    @Body() required PointChangeModel pointChangeModel,
+  });
+
 }

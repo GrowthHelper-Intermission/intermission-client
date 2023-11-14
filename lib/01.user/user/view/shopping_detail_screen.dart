@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:intermission_project/01.user/user/model/point_change_model.dart';
 import 'package:intermission_project/01.user/user/model/point_model.dart';
 import 'package:intermission_project/01.user/user/model/user_model.dart';
 import 'package:intermission_project/01.user/user/provider/point_provider.dart';
@@ -46,49 +47,6 @@ class _ShoppingDetailScreenState extends ConsumerState<ShoppingDetailScreen> {
         .format(threeDaysFromNow); // Initialize it here within initState
   }
 
-  void requestExchange() async {
-    /// 유저 포인트 접근 필요
-    final userState = ref.read(userMeProvider.notifier);
-    // 유저 상태에서 토큰 가져오기, 이 부분은 상태 관리 구조에 따라 달라질 수 있습니다.
-    final accessToken = userState;
-
-    try {
-      var dio = Dio();
-      var data = {
-        /// test 금액
-        "point": 1000000,
-      };
-
-      var response = await dio.post(
-        'https://$ip/api/point',
-        data: data,
-        options: Options(
-          headers: {
-            "Authorization":
-                "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJFbWFpbCI6InRlc3RAbmF2ZXIuY29tIiwiZXhwIjoxNjk5MzAyNzE0fQ.xwN8-hchYQyfUWrI8s2qiaPJYEIQPrjFjtR3PlVZVDXgitPNAD_-PfHrFRBctZNC8aYiWRxxC1cSOOyIemyFEg", // 여기에 Bearer 토큰을 추가
-            // 다른 헤더들도 필요하다면 여기에 추가
-          },
-        ),
-      );
-
-      if (response.statusCode == 200) {
-        var message = response.data["message"];
-        print(message);
-        // 성공적으로 포인트 교환 요청 처리 후 추가 로직 구현
-      } else {
-        // 서버가 성공이 아닌 다른 상태 코드를 반환했을 때의 처리
-      }
-    } catch (e) {
-      if (e is DioError) {
-        // 에러 응답에 대한 처리
-        print(e.response?.data);
-      } else {
-        // Dio 이외의 에러 처리
-        print(e);
-      }
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     final state = ref.watch(pointProvider);
@@ -102,6 +60,8 @@ class _ShoppingDetailScreenState extends ConsumerState<ShoppingDetailScreen> {
     if (state is CursorPagination<PointModel>) {
       totalPoints = state.meta.pointAmount!; // Meta에서 totalPoint 가져오기
     }
+    int point = widget.point;
+
     return DefaultLayout(
       isResize: true,
       title: '',
@@ -119,7 +79,22 @@ class _ShoppingDetailScreenState extends ConsumerState<ShoppingDetailScreen> {
         ),
         child: BottomAppBar(
           child: SimpleButton(
-            onPressed: requestExchange,
+
+            onPressed: () {
+              PointChangeModel pointChangeModel = PointChangeModel(
+                point: point,
+              );
+              ref
+                  .read(
+                    pointProvider.notifier,
+                  )
+                  .repository
+                  .changePoint(
+                   pointChangeModel: pointChangeModel
+                  );
+              ref.read(userMeProvider.notifier).getMe();
+              ref.read(pointProvider.notifier).paginate(forceRefetch: true);
+            },
             isButtonEnabled: true,
             buttonName: '교환하기',
           ),
@@ -242,8 +217,7 @@ class _ShoppingDetailScreenState extends ConsumerState<ShoppingDetailScreen> {
             left: 15,
             top: 15,
             right: 15,
-            bottom:
-                MediaQuery.of(context).viewInsets.bottom + 50,
+            bottom: MediaQuery.of(context).viewInsets.bottom + 50,
           ),
           child: Column(
             mainAxisSize: MainAxisSize.min,
