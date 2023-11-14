@@ -100,7 +100,7 @@ class _ShoppingDetailScreenState extends ConsumerState<ShoppingDetailScreen> {
 
     int totalPoints = 0; // Default value
     if (state is CursorPagination<PointModel>) {
-      totalPoints = state.meta.totalPoint!; // Meta에서 totalPoint 가져오기
+      totalPoints = state.meta.pointAmount!; // Meta에서 totalPoint 가져오기
     }
     return DefaultLayout(
       isResize: true,
