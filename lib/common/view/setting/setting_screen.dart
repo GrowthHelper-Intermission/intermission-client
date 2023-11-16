@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intermission_project/01.user/user/provider/user_me_provider.dart';
 import 'package:intermission_project/common/component/custom_text_style.dart';
+import 'package:intermission_project/common/const/colors.dart';
 import 'package:intermission_project/common/layout/default_layout.dart';
 import 'package:intermission_project/01.user/user/view/password_change_screen.dart';
 import 'package:intermission_project/common/view/setting/personal_info.dart';
@@ -12,11 +13,11 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'alarm_setting_screen.dart';
 import 'cancel_member.dart';
 
-
 class SettingScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return DefaultLayout(
+      backgroundColor: Colors.white,
       title: '설정',
       child: Column(
         children: [
@@ -31,21 +32,21 @@ class SettingScreen extends StatelessWidget {
           LogoutSettingComponent(
             title: '로그 아웃',
           ),
-          SettingComponent(
-            title: '이용 약관',
-            otherScreen: RuleExplainScreen(),
-          ),
-          SettingComponent(
-            title: '개인정보처리방침',
-            otherScreen: PersonalInfo(),
-          ),
+          // SettingComponent(
+          //   title: '이용 약관',
+          //   otherScreen: RuleExplainScreen(),
+          // ),
+          // SettingComponent(
+          //   title: '개인정보처리방침',
+          //   otherScreen: PersonalInfo(),
+          // ),
           SettingComponent(
             title: '버전 정보',
             otherScreen: VersionInfo(),
           ),
           SettingComponent(
             title: '회원 탈퇴',
-            otherScreen: CancelMember(),
+            otherScreen: DeleteMemberScreen(),
           ),
         ],
       ),
@@ -64,6 +65,7 @@ class SettingComponent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+      color: Colors.white,
       height: 50,
       child: ListTile(
         onTap: () {
@@ -102,20 +104,84 @@ class LogoutSettingComponent extends ConsumerWidget {
             context: context,
             builder: (BuildContext context) {
               return AlertDialog(
-                title: Text('로그 아웃'),
-                content: Text('로그아웃 하시겠습니까?'),
-                actions: [
-                  TextButton(
-                    onPressed: () {
-                      Navigator.pop(context, '아니오');
-                    },
-                    child: Text('아니오'),
+                backgroundColor: Colors.white,
+                content: SizedBox(
+                  height: 65, // Increase the height of the AlertDialog
+                  child: Center(
+                    child: Text(
+                      '로그아웃 하시겠습니까?',
+                      style: TextStyle(
+                        fontWeight: FontWeight.w700,
+                        fontSize: 16,
+                      ),
+                    ),
                   ),
-                  TextButton(
-                    onPressed: () {
-                      Navigator.pop(context, '예');
-                    },
-                    child: Text('예'),
+                ),
+                actions: [
+                  Row(
+                    children: [
+                      Container(
+                        width: 125,
+                        decoration: BoxDecoration(
+                          color:
+                              PRIMARY_COLOR, // Background color for the '아니오' button
+                          borderRadius:
+                              BorderRadius.circular(10), // Rounded corners
+                        ),
+                        child: TextButton(
+                          onPressed: () {
+                            Navigator.pop(context, '아니오');
+                          },
+                          style: TextButton.styleFrom(
+                            primary:
+                                Colors.white, // Set the text color to white
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(
+                                10,
+                              ), // Match container's border radius
+                            ),
+                          ),
+                          child: Text(
+                            '아니요',
+                            style: TextStyle(
+                              fontWeight: FontWeight.w600,
+                              fontSize: 15,
+                            ),
+                          ),
+                        ),
+                      ),
+                      SizedBox(
+                        width: 10,
+                      ),
+                      Container(
+                        width: 125,
+                        decoration: BoxDecoration(
+                          color: Colors.grey[400],
+                          borderRadius: BorderRadius.circular(
+                              10), // Rounded corners for the '예' button
+                        ),
+                        child: TextButton(
+                          onPressed: () {
+                            Navigator.pop(context, '예');
+                          },
+                          style: TextButton.styleFrom(
+                            primary: Colors
+                                .white, // Set the text color for the '예' button
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(
+                                  10), // Match container's border radius
+                            ),
+                          ),
+                          child: Text(
+                            '예',
+                            style: TextStyle(
+                              fontWeight: FontWeight.w600,
+                              fontSize: 15,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                 ],
               );
@@ -139,14 +205,4 @@ class LogoutSettingComponent extends ConsumerWidget {
       ),
     );
   }
-
-  // Future<void> logout(BuildContext context) async {
-  //   SharedPreferences prefs = await SharedPreferences.getInstance();
-  //   await prefs.setBool('autoLogin', false);
-  //   Navigator.pushNamedAndRemoveUntil(
-  //     context,
-  //     '/',
-  //         (route) => false,
-  //   );
-  // }
 }
