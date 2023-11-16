@@ -102,7 +102,7 @@ U extends IBasePaginationRepository<T>>
       if (state is CursorPagination && !forceRefetch) {
         //pagination 1번이상 한 경우
         final pState = state as CursorPagination; //
-        print(pState.meta.hasMore);
+        // print(pState.meta.hasMore);
         //더이상 데이터 없다면?
         if (!pState.meta.hasMore) {
           print(pState.meta.hasMore);

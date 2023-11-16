@@ -64,7 +64,7 @@ class PointCount extends ConsumerWidget {
             ),
           ),
           SizedBox(height: 20), // 간격 조정
-          Divider(color: Colors.grey[200], thickness: 12.0),
+          Divider(color: Colors.grey[200], thickness: 10.0),
           Expanded(
             child: PaginationListView<PointModel>(
               provider: pointProvider,
@@ -98,6 +98,46 @@ Widget _buildPointDetail({
   required String expireTime,
   String? pointEventName,
 }) {
+  final DateTime parsedDate = DateTime.parse(createdDate);
+  final String formattedDate =
+      '${parsedDate.year}-${parsedDate.month.toString().padLeft(2, '0')}-${parsedDate.day.toString().padLeft(2, '0')}';
+  String displayEventType = '';
+  switch (pointEventType) {
+    case 'RECOMMENDATION':
+      displayEventType = '추천인 이벤트 참여';
+      break;
+    case 'RESEARCH_PARTICIPATION':
+      displayEventType = '리서치 참여';
+      break;
+  }
+
+  String displayStatus = '';
+  Color statusColor = Colors.black; // Default color
+
+  switch (pointStatus) {
+    case 'ACCUMULATED':
+      displayStatus = '+$pointChangeBalance';
+      statusColor = PRIMARY_COLOR;
+      break;
+    case 'USED':
+      displayStatus = '$pointChangeBalance P';
+      statusColor = Colors.red;
+      break;
+    case 'EXPIRED':
+      displayStatus = '포인트 기한 만료';
+      statusColor = SUB_BLUE_COLOR;
+      break;
+  }
+
+  Widget? eventNameWidget;
+  if (pointEventType == 'RESEARCH_PARTICIPATION' && pointEventName != null) {
+    eventNameWidget = Text(
+      pointEventName,
+      style: TextStyle(
+          color: Colors.black, fontWeight: FontWeight.w500, fontSize: 15),
+    );
+  }
+
   return Column(
     children: [
       Padding(
@@ -107,20 +147,44 @@ Widget _buildPointDetail({
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                createdDate,
-                style: TextStyle(color: Colors.grey[400]),
+                formattedDate,
+                style: TextStyle(
+                    color: Colors.grey[500], fontWeight: FontWeight.w600),
               ),
+              if (eventNameWidget != null) eventNameWidget,
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(pointEventType),
-                  Text(pointStatus),
+                  Text(
+                    displayEventType,
+                    style: TextStyle(
+                      color: PRIMARY_COLOR,
+                      fontWeight: FontWeight.w500,
+                      fontSize: 14,
+                    ),
+                  ),
+                  Text(
+                    displayStatus,
+                    style: TextStyle(
+                      color: statusColor,
+                      fontWeight: FontWeight.w500,
+                      fontSize: 15,
+                    ),
+                  ),
+                  Text(
+                    '${pointCurrentBalance} P',
+                    style: TextStyle(
+                      color: Colors.grey[600],
+                      fontSize: 15,
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
                 ],
               ),
-              Text(
-                pointCurrentBalance,
-                style: TextStyle(color: Colors.grey[600]),
-              ),
+              // Text(
+              //   '${pointCurrentBalance}P',
+              //   style: TextStyle(color: Colors.grey[600]),
+              // ),
             ],
           ),
         ),
@@ -129,7 +193,6 @@ Widget _buildPointDetail({
     ],
   );
 }
-
 
 // 로딩 위젯을 Sliver가 아닌 일반 Padding 위젯으로 변경
 Widget renderLoading() {
