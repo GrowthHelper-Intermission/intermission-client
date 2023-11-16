@@ -11,6 +11,7 @@ import 'package:intermission_project/common/view/default_layout.dart';
 import 'package:provider/provider.dart';
 
 class ParticipatedResearchScreen extends ConsumerStatefulWidget {
+  static String get routeName => 'participated';
   const ParticipatedResearchScreen({super.key});
 
   @override

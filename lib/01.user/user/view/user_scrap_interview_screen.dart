@@ -9,6 +9,7 @@ import 'package:intermission_project/common/model/cursor_pagination_model.dart';
 import 'package:intermission_project/common/view/default_layout.dart';
 
 class ScrapedResearchScreen extends ConsumerStatefulWidget {
+  static String get routeName => 'scrap';
   const ScrapedResearchScreen({super.key});
 
   @override

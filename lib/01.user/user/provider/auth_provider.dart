@@ -8,6 +8,8 @@ import 'package:intermission_project/01.user/user/model/user_model.dart';
 import 'package:intermission_project/01.user/user/provider/user_me_provider.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intermission_project/01.user/user/view/login_screen.dart';
+import 'package:intermission_project/01.user/user/view/user_partcipated_research_screen.dart';
+import 'package:intermission_project/01.user/user/view/user_scrap_interview_screen.dart';
 import 'package:intermission_project/common/view/select_screen.dart';
 import 'package:intermission_project/01.user/user/view/user_report_screen.dart';
 import 'package:intermission_project/04.research/research/view/notice_detail_screen.dart';
@@ -135,6 +137,16 @@ class AuthProvider extends ChangeNotifier {
           name: NotiReqScreen.routeName,
           builder: (_, __) => NotiReqScreen(),
         ),
+        GoRoute(
+          path: '/scrap',
+          name: ScrapedResearchScreen.routeName,
+          builder: (_, __) => ScrapedResearchScreen(),
+        ),
+        GoRoute(
+          path: '/participated',
+          name: ParticipatedResearchScreen.routeName,
+          builder: (_, __) => ParticipatedResearchScreen(),
+        ),
       ];
 
   logout() {
@@ -152,11 +164,12 @@ class AuthProvider extends ChangeNotifier {
 
     if (state.matchedLocation == '/login' && user is UserModel) return '/';
 
-    if (!state.matchedLocation.startsWith('/login') && user == null) return '/select';
+    if (!state.matchedLocation.startsWith('/login') && user == null)
+      return '/select';
 
     if (user is UserModel &&
-        (state.matchedLocation == '/select'
-            || state.matchedLocation == '/login' ||
+        (state.matchedLocation == '/select' ||
+            state.matchedLocation == '/login' ||
             state.matchedLocation == '/splash')) return '/';
 
     // if (user is UserModelError) return '/select';
