@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:intermission_project/common/const/colors.dart';
 
@@ -5,11 +7,13 @@ class LoginNextButton extends StatefulWidget {
   final String buttonName;
   final bool isButtonEnabled;
   final VoidCallback? onPressed;
+  final Color? color;
 
   const LoginNextButton({
     required this.onPressed,
     required this.buttonName,
     required this.isButtonEnabled,
+    this.color,
     super.key,
   });
 
@@ -30,8 +34,7 @@ class _LoginNextButtonState extends State<LoginNextButton> {
             child: ElevatedButton(
               onPressed: widget.isButtonEnabled ? widget.onPressed : null,
               style: ElevatedButton.styleFrom(
-                primary:
-                    widget.isButtonEnabled ? PRIMARY_COLOR : Colors.grey[200],
+                primary: widget.color ?? (widget.isButtonEnabled ? PRIMARY_COLOR : Colors.grey[200]), // Use widget.color if provided
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(10),
                 ),
@@ -40,7 +43,7 @@ class _LoginNextButtonState extends State<LoginNextButton> {
                 widget.buttonName,
                 style: TextStyle(
                   fontWeight: FontWeight.w800,
-                  fontSize: 16,
+                  fontSize: 18,
                   color: Colors.white,
                 ),
               ),
