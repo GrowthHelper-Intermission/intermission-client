@@ -20,6 +20,9 @@ const CURSOR_COLOR = Color(0xFF241E17);
 const HOME_PRIMARY_COLOR = Color(0xFF303030);
 
 const YELLOW_COLOR = Color(0xFFFEE500);
+const RED_COLOR = Color(0xFFFF6830);
+
+const TEXT_GREY_COLOR = Color(0xFFA4A7AF);
 
 
 const GREY_COLOR = Color(0xFF828282);
