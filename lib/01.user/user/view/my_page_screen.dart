@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:go_router/go_router.dart';
 import 'package:intermission_project/01.user/user/etc/friend_invite_screen.dart';
 import 'package:intermission_project/01.user/user/model/user_model.dart';
 import 'package:intermission_project/01.user/user/provider/user_me_provider.dart';
@@ -82,12 +83,7 @@ class MyPageScreen extends ConsumerWidget {
                         children: [
                           InkWell(
                             onTap: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => ParticipatedResearchScreen(),
-                                ),
-                              );
+                              context.pushNamed(ParticipatedResearchScreen.routeName);
                             },
                             child: SizedBox(
                               width: 85,
@@ -109,12 +105,7 @@ class MyPageScreen extends ConsumerWidget {
                           ),
                           InkWell(
                             onTap: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => ScrapedResearchScreen(),
-                                ),
-                              );
+                              context.pushNamed(ScrapedResearchScreen.routeName);
                             },
                             child: SizedBox(
                               width: 80,
