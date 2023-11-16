@@ -129,7 +129,7 @@ class _PaginationListViewState<T extends IModelWithId>
               return Padding(
                 padding:
                     const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                child: Center(child: CircularProgressIndicator()),
+                child: Center(child: CircularProgressIndicator(color: PRIMARY_COLOR,)),
               );
             }
           }
