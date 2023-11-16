@@ -8,11 +8,12 @@ import 'package:intermission_project/01.user/user/repository/report_req_reposito
 import 'package:intermission_project/01.user/user/view/user_point_count_screen.dart';
 import 'package:intermission_project/04.research/research/view/notice_card.dart';
 import 'package:intermission_project/common/component/custom_text_form_field.dart';
+import 'package:intermission_project/common/component/custom_text_style.dart';
 import 'package:intermission_project/common/component/login_next_button.dart';
 import 'package:intermission_project/common/component/pagination_list_view.dart';
+import 'package:intermission_project/common/const/colors.dart';
 import 'package:intermission_project/common/model/cursor_pagination_model.dart';
 import 'package:intermission_project/common/view/default_layout.dart';
-import 'package:intermission_project/common/view/root_tab.dart';
 
 class UserReportScreen extends ConsumerStatefulWidget {
   static String get routeName => 'report';
@@ -39,7 +40,7 @@ class _UserReportScreenState extends ConsumerState<UserReportScreen>
   void initState() {
     // TODO: implement initState
     super.initState();
-    _tabController = TabController(length: 2, vsync: this); // 4개의 탭
+    _tabController = TabController(length: 2, vsync: this);
   }
 
   @override
@@ -63,6 +64,8 @@ class _UserReportScreenState extends ConsumerState<UserReportScreen>
         child: Column(
           children: [
             TabBar(
+              indicatorColor: PRIMARY_COLOR,
+              labelColor: PRIMARY_COLOR,
               controller: _tabController,
               isScrollable: false,
               tabs: [
@@ -94,17 +97,43 @@ class _UserReportScreenState extends ConsumerState<UserReportScreen>
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text("문의 제목"),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 10),
+            child: Container(
+              decoration: BoxDecoration(
+                color: Colors.grey[200],
+                borderRadius: BorderRadius.circular(10), // 모서리를 둥글게 깎기 위함
+              ),
+              height: 90,
+              alignment: Alignment.center, // 텍스트를 컨테이너 중앙에 배치
+              child: Padding(
+                padding: const EdgeInsets.only(top: 20),
+                child: Text(
+                  "문의하신 날짜 기준 3일 이내에 답변드립니다!\n욕설이나 비방은 자제해주세요:)\n",
+                  textAlign: TextAlign.center, // 텍스트를 중앙 정렬
+                  style: TextStyle(fontSize: 17, fontWeight: FontWeight.bold),
+                  maxLines: 3,
+                ),
+              ),
+            ),
+          ),
+          Text(
+            "문의 제목",
+            style: TextStyle(fontWeight: FontWeight.w400, fontSize: 17),
+          ),
           SizedBox(height: 8.0),
           CustomTextFormField(
             onChanged: (String value) {
               checkButtonEnabled();
             },
             controller: titleController,
-            hintText: '제목을 입력해 주세요',
+            hintText: '제목을 입력해 주세요!',
           ),
           SizedBox(height: 16.0),
-          Text("문의 내용"),
+          Text(
+            "문의 내용",
+            style: TextStyle(fontWeight: FontWeight.w400, fontSize: 17),
+          ),
           SizedBox(height: 8.0),
           Container(
             height: MediaQuery.of(context).size.height / 4,
@@ -115,12 +144,12 @@ class _UserReportScreenState extends ConsumerState<UserReportScreen>
                 checkButtonEnabled();
               },
               controller: contentsController,
-              hintText: '문의내용을 작성해 주세요',
+              hintText: '문의내용을 작성해 주세요!',
               textAlign: TextAlign.start, // 왼쪽 정렬
               textAlignVertical: TextAlignVertical.top, // 상단 정렬
             ),
           ),
-          SizedBox(height: 50),
+          SizedBox(height: 20),
           LoginNextButton(
             onPressed: isButtonEnabled
                 ? () async {
@@ -165,7 +194,7 @@ class _UserReportScreenState extends ConsumerState<UserReportScreen>
                         });
                   }
                 : null,
-            buttonName: '등록',
+            buttonName: '문의하기',
             isButtonEnabled: isButtonEnabled,
           ),
         ],
@@ -181,6 +210,7 @@ class _UserReportScreenState extends ConsumerState<UserReportScreen>
     }
 
     return RefreshIndicator(
+      color: PRIMARY_COLOR,
       onRefresh: () async {
         await Future.delayed(
             Duration(seconds: 1)); // 임의로 1초 지연을 줍니다. 필요에 따라 조절하실 수 있습니다.
@@ -201,7 +231,7 @@ class _UserReportScreenState extends ConsumerState<UserReportScreen>
       child: PaginationListView(
         provider: provider,
         itemBuilder: <ReportModel>(BuildContext context, int index, model) {
-          return ReportCard.fromModel(model); // ReportCard 위젯도 적절하게 정의해야 합니다.
+          return ReportCard.fromModel(model);
         },
       ),
     );
@@ -211,7 +241,11 @@ class _UserReportScreenState extends ConsumerState<UserReportScreen>
     return SizedBox(
       width: MediaQuery.of(context).size.width / 2, // 4개의 탭이므로 화면 너비를 4로 나눔
       height: 50,
-      child: Center(child: Text(title)),
+      child: Center(
+        child: Text(
+          title,
+        ),
+      ),
     );
   }
 }
