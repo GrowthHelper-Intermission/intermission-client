@@ -3,8 +3,19 @@ import 'package:intermission_project/common/const/colors.dart';
 
 TextStyle customTextStyle = TextStyle(
   fontWeight: FontWeight.w500,
-  fontSize: 16.0,
+  fontSize: 14.0,
   color: Colors.black,
+);
+
+TextStyle customTextRedStyle = TextStyle(
+  fontWeight: FontWeight.w700,
+  fontSize: 17.0,
+  color: Colors.red,
+);
+TextStyle customTextGreenStyle = TextStyle(
+  fontWeight: FontWeight.w700,
+  fontSize: 20.0,
+  color: PRIMARY_COLOR,
 );
 
 TextStyle customHeaderStyle = TextStyle(
