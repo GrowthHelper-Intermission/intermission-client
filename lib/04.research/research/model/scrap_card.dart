@@ -119,7 +119,7 @@ class _ResearchCardState extends State<ScrapResearchCard> {
       child: Card(
         child: InkWell(
           onTap: () {
-            context.goNamed(ResearchDetailScreen.routeName,
+            context.pushNamed(ResearchDetailScreen.routeName,
                 pathParameters: {'id': widget.id});
           },
           child: Container(

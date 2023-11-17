@@ -305,16 +305,16 @@ class _TesterReqScreenState extends ConsumerState<TesterReqScreen> {
                                   onPressed: () {
                                     Navigator.of(context)
                                         .pop(); // Close the dialog
-                                    context.goNamed(RootTab
-                                        .routeName); // Navigate to the next screen
-                                    ref
-                                        .read(researchProvider.notifier)
-                                        .paginate(forceRefetch: true);
-                                    ref
-                                        .read(interviewProvider.notifier)
-                                        .paginate();
-                                    ref.read(surveyProvider.notifier).paginate();
-                                    ref.read(testerProvider.notifier).paginate();
+                                    // context.goNamed(RootTab
+                                    //     .routeName); // Navigate to the next screen
+                                    // ref
+                                    //     .read(researchProvider.notifier)
+                                    //     .paginate(forceRefetch: true);
+                                    // ref
+                                    //     .read(interviewProvider.notifier)
+                                    //     .paginate();
+                                    // ref.read(surveyProvider.notifier).paginate();
+                                    // ref.read(testerProvider.notifier).paginate();
                                   },
                                 ),
                               ],

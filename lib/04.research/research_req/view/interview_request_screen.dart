@@ -9,6 +9,7 @@ import 'package:intermission_project/04.research/research_req/model/research_req
 import 'package:intermission_project/04.research/research_req/provider/interview_req_provider.dart';
 import 'package:intermission_project/04.research/research_req/provider/research_req_provider.dart';
 import 'package:intermission_project/04.research/research_req/view/survey_request_screen.dart';
+import 'package:intermission_project/common/component/custom_check_box.dart';
 import 'package:intermission_project/common/component/custom_dropdown_button.dart';
 import 'package:intermission_project/common/component/custom_text_form_field.dart';
 import 'package:intermission_project/common/component/login_next_button.dart';
@@ -299,6 +300,7 @@ class _InterviewReqScreenState extends ConsumerState<InterviewReqScreen> {
                         context: context,
                         builder: (BuildContext context) {
                           return AlertDialog(
+                            backgroundColor: Colors.white,
                             title: Text("알림"),
                             content: Text("등록되었습니다!"),
                             actions: [
@@ -307,16 +309,16 @@ class _InterviewReqScreenState extends ConsumerState<InterviewReqScreen> {
                                 onPressed: () {
                                   Navigator.of(context)
                                       .pop(); // Close the dialog
-                                  context.goNamed(RootTab
-                                      .routeName); // Navigate to the next screen
-                                  ref
-                                      .read(researchProvider.notifier)
-                                      .paginate(forceRefetch: true);
-                                  ref
-                                      .read(interviewProvider.notifier)
-                                      .paginate();
-                                  ref.read(surveyProvider.notifier).paginate();
-                                  ref.read(testerProvider.notifier).paginate();
+                                  // context.goNamed(RootTab
+                                  //     .routeName); // Navigate to the next screen
+                                  // ref
+                                  //     .read(researchProvider.notifier)
+                                  //     .paginate(forceRefetch: true);
+                                  // ref
+                                  //     .read(interviewProvider.notifier)
+                                  //     .paginate();
+                                  // ref.read(surveyProvider.notifier).paginate();
+                                  // ref.read(testerProvider.notifier).paginate();
                                 },
                               ),
                             ],
