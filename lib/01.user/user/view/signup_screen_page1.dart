@@ -534,6 +534,7 @@ import 'package:intermission_project/01.user/user/provider/signup_user_provider.
 import 'package:intermission_project/01.user/user/provider/user_me_provider.dart';
 import 'package:intermission_project/01.user/user/view/signup_screen_page2.dart';
 import 'package:intermission_project/common/component/custom_appbar.dart';
+import 'package:intermission_project/common/component/custom_check_box.dart';
 import 'package:intermission_project/common/component/custom_date_picker.dart';
 import 'package:intermission_project/common/component/custom_dropdown_button.dart';
 import 'package:intermission_project/common/component/custom_text_form_field.dart';
@@ -695,16 +696,16 @@ class _SignupScreenPage1State extends ConsumerState<SignupScreenPage1> {
                           flex: 2,
                           child: ElevatedButton(
                             onPressed: sendEmailVerification,
-                            child: Text('중복 확인'),
                             style: ElevatedButton.styleFrom(
-                              backgroundColor: SUB_COLOR,
+                              backgroundColor: PRIMARY_COLOR,
                               shape: RoundedRectangleBorder(
                                 borderRadius:
-                                    BorderRadius.circular(8.0), // 모서리 깎기
+                                    BorderRadius.circular(8.0),
                               ),
                               padding: EdgeInsets.symmetric(
                                   horizontal: 20, vertical: 12),
                             ),
+                            child: Text('중복 확인',style: customGreenTextSeventeenStyle,),
                           ),
                         )
                       ],
@@ -722,23 +723,28 @@ class _SignupScreenPage1State extends ConsumerState<SignupScreenPage1> {
                     ),
                     CustomCheckBox(
                       isAgree: isAgree,
-                      title: '이용약관에 동의합니다(필수)',
+                      title: '(필수)이용약관에 동의합니다.',
                       onChanged: (value) {
                         setState(() {
                           isAgree = value!;
                           checkButtonEnabled();
                         });
                       },
+                      fontSize: 16,
+                      isDetail: true,
+                      url: 'https://docs.google.com/document/d/1R1RHsR-gfu7Wf4pXiCTXNjgWfXoH-GRmWpGHjI9RZnk/edit',
                     ),
                     CustomCheckBox(
                       isAgree: isAgree2,
-                      title: '개인정보 처리방침에 동의합니다(필수)',
+                      title: '(필수)개인정보 처리방침에 동의합니다.',
                       onChanged: (value) {
                         setState(() {
                           isAgree2 = value!;
                           checkButtonEnabled();
                         });
                       },
+                      fontSize: 16,
+                      isDetail: true,
                     ),
                     SizedBox(height: 300,),
                     LoginNextButton(
@@ -794,67 +800,6 @@ class CustomButton extends StatelessWidget {
               size: 35.0,
             )
           : Text(text),
-    );
-  }
-}
-
-class CustomCheckBox extends StatelessWidget {
-  final bool isAgree;
-  final ValueChanged<bool?> onChanged;
-  final String title;
-  final bool? isArrow;
-
-  const CustomCheckBox({
-    Key? key, // Best practice: always add a Key parameter to stateless widgets
-    required this.isAgree,
-    required this.onChanged,
-    required this.title,
-    this.isArrow = false, // Default value is false if not provided
-  }) : super(key: key); // Pass key to the super constructor
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      height: 30,
-      child: Row(
-        children: [
-          SizedBox(
-            width: 20,
-            height: 20,
-            child: Checkbox(
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(0),
-              ),
-              value: isAgree,
-              activeColor: Colors.green,
-              checkColor: Colors.white,
-              onChanged: onChanged,
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.only(left: 10),
-            child: Text(
-              title,
-              style: TextStyle(
-                fontSize: 15,
-                fontWeight: FontWeight.w600,
-              ),
-            ),
-          ),
-          Spacer(),
-          if (isArrow ?? false) // isArrow가 null이 아니고 true일 경우에만 IconButton을 표시
-            IconButton(
-              icon: Icon(Icons.arrow_forward_ios, size: 20),
-              onPressed: () {
-                // Navigator.push(
-                //   context,
-                //   MaterialPageRoute(builder: (context) => NewScreen()),
-                // );
-              },
-            ),
-          // 조건이 거짓이라면 아무것도 표시하지 않음
-        ],
-      ),
     );
   }
 }
