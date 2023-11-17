@@ -8,6 +8,7 @@ import 'package:intermission_project/01.user/user/provider/user_me_provider.dart
 import 'package:intermission_project/04.research/research/component/research_card.dart';
 import 'package:intermission_project/04.research/research/model/research_model.dart';
 import 'package:intermission_project/04.research/research/provider/research_provider.dart';
+import 'package:intermission_project/04.research/research/view/notice_screen.dart';
 import 'package:intermission_project/common/const/colors.dart';
 import 'package:intermission_project/common/model/cursor_pagination_model.dart';
 import 'package:intermission_project/common/view/setting/setting_screen.dart';
@@ -126,54 +127,63 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                       color: SUB_COLOR,
                       borderRadius: BorderRadius.circular(5.0),
                     ),
-                    child: Padding(
-                      padding: const EdgeInsets.all(12.0),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Expanded(
-                            child: Container(
-                              height: 18,
-                              child: Text(
-                                '[공지]',
-                                style: TextStyle(
-                                  fontSize: 15,
-                                  color: PRIMARY_COLOR,
-                                  fontWeight: FontWeight.w600,
+                    child: InkWell(
+                      onTap: () {
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (context) => NoticeScreen(),
+                          ),
+                        );
+                      },
+                      child: Padding(
+                        padding: const EdgeInsets.all(12.0),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Expanded(
+                              child: Container(
+                                height: 18,
+                                child: Text(
+                                  '[공지]',
+                                  style: TextStyle(
+                                    fontSize: 15,
+                                    color: PRIMARY_COLOR,
+                                    fontWeight: FontWeight.w600,
+                                  ),
                                 ),
                               ),
                             ),
-                          ),
-                          Expanded(
-                            child: Container(
-                              height: 40,
-                              child: Text(
-                                '투표 이미지 업로드 테스트를 시작해요~!',
-                                style: TextStyle(
-                                  fontSize: 16,
-                                  color: Colors.black,
-                                  fontWeight: FontWeight.w600,
+                            Expanded(
+                              child: Container(
+                                height: 40,
+                                child: Text(
+                                  '인터미션의 사용법을 알고싶다면 클릭해주세요~!',
+                                  style: TextStyle(
+                                    fontSize: 16,
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.w600,
+                                  ),
                                 ),
                               ),
                             ),
-                          ),
-                          SizedBox(
-                            height: 3,
-                          ),
-                          Expanded(
-                            child: Container(
-                              height: 14,
-                              child: Text(
-                                '이미지 업로드 가이드 라인',
-                                style: TextStyle(
-                                  fontSize: 13,
-                                  fontWeight: FontWeight.w100,
-                                  color: Colors.grey[600],
+                            SizedBox(
+                              height: 3,
+                            ),
+                            Expanded(
+                              child: Container(
+                                height: 14,
+                                child: Text(
+                                  '리서치 참여하고 포인트 받자!',
+                                  style: TextStyle(
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w500,
+                                    color: Colors.grey[600],
+                                  ),
                                 ),
                               ),
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
                     ),
                   ),

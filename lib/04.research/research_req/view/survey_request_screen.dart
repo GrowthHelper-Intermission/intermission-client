@@ -10,6 +10,7 @@ import 'package:intermission_project/04.research/research_req/model/survey_req_m
 import 'package:intermission_project/04.research/research_req/provider/interview_req_provider.dart';
 import 'package:intermission_project/04.research/research_req/provider/research_req_provider.dart';
 import 'package:intermission_project/04.research/research_req/provider/survey_req_provider.dart';
+import 'package:intermission_project/common/component/custom_check_box.dart';
 import 'package:intermission_project/common/component/custom_dropdown_button.dart';
 import 'package:intermission_project/common/component/custom_text_form_field.dart';
 import 'package:intermission_project/common/component/login_next_button.dart';
@@ -212,6 +213,7 @@ class _SurveyReqScreenState extends ConsumerState<SurveyReqScreen> {
                           context: context,
                           builder: (BuildContext context) {
                             return AlertDialog(
+                              backgroundColor: Colors.white,
                               title: Text("알림"),
                               content: Text("등록되었습니다!"),
                               actions: [
@@ -219,9 +221,7 @@ class _SurveyReqScreenState extends ConsumerState<SurveyReqScreen> {
                                   child: Text("확인"),
                                   onPressed: () {
                                     Navigator.of(context)
-                                        .pop(); // Close the dialog
-                                    context.goNamed(RootTab
-                                        .routeName); // Navigate to the next screen
+                                        .pop(); // Navigate to the next screen
                                   },
                                 ),
                               ],
