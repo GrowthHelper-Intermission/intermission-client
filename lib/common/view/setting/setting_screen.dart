@@ -11,7 +11,7 @@ import 'package:intermission_project/common/view/setting/version_info.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'alarm_setting_screen.dart';
-import 'cancel_member.dart';
+import 'delete_user_screen.dart';
 
 class SettingScreen extends StatelessWidget {
   @override
@@ -25,13 +25,16 @@ class SettingScreen extends StatelessWidget {
             title: '비밀번호 변경',
             otherScreen: PasswordChangeScreen(),
           ),
+          Divider(color: Colors.grey[400],thickness: 0.5,),
           SettingComponent(
             title: '알림 설정',
             otherScreen: AlarmSettingScreen(),
           ),
+          Divider(color: Colors.grey[400],thickness: 0.5,),
           LogoutSettingComponent(
             title: '로그 아웃',
           ),
+          Divider(color: Colors.grey[400],thickness: 0.5,),
           // SettingComponent(
           //   title: '이용 약관',
           //   otherScreen: RuleExplainScreen(),
@@ -42,12 +45,14 @@ class SettingScreen extends StatelessWidget {
           // ),
           SettingComponent(
             title: '버전 정보',
-            otherScreen: VersionInfo(),
+            otherScreen: VersionInfoScreen(),
           ),
+          Divider(color: Colors.grey[400],thickness: 0.5,),
           SettingComponent(
             title: '회원 탈퇴',
-            otherScreen: DeleteMemberScreen(),
+            otherScreen: DeleteUserScreen(),
           ),
+          Divider(color: Colors.grey[400],thickness: 0.5,),
         ],
       ),
     );
@@ -82,7 +87,7 @@ class SettingComponent extends StatelessWidget {
             fontWeight: FontWeight.w600,
           ),
         ),
-        trailing: Icon(Icons.arrow_forward_ios),
+        trailing: Icon(Icons.arrow_forward_ios,color: GREY_COLOR,),
       ),
     );
   }
@@ -202,6 +207,7 @@ class LogoutSettingComponent extends ConsumerWidget {
           ),
         ),
         trailing: Icon(Icons.arrow_forward_ios),
+        splashColor: Colors.transparent, // 그림자 효과 비활성화
       ),
     );
   }

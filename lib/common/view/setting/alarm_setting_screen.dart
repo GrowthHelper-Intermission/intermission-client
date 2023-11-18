@@ -1,8 +1,12 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:intermission_project/common/const/colors.dart';
 import 'package:intermission_project/common/view/default_layout.dart';
+import 'package:intermission_project/firebase_options.dart';
 
 class AlarmSettingScreen extends StatefulWidget {
   const AlarmSettingScreen({super.key});
@@ -152,16 +156,16 @@ class _AlarmSettingScreenState extends State<AlarmSettingScreen> {
                       fontWeight: FontWeight.w600,
                     ),
                   ),
-                  InkWell(
-                    onTap: () async {
-                      // 여기에 Firebase 테스트 알림 보내기 로직 추가 예정
-                      print('테스트 알림 보내기 요청');
-                    },
-                    child: Padding(
-                      padding: const EdgeInsets.only(right: 20),
+                  Padding(
+                    padding: const EdgeInsets.only(right: 20),
+                    child: InkWell(
+                      onTap: () async {
+                        // 여기에 Firebase 테스트 알림 보내기 로직 추가 예정
+                        print('테스트 알림 보내기 요청');
+                      },
                       child: const Icon(
-                        Icons.alarm,
-                        color: PRIMARY_COLOR,
+                        Icons.arrow_forward_ios,
+                        color: GREY_COLOR,
                       ),
                     ),
                   ),
@@ -174,4 +178,103 @@ class _AlarmSettingScreenState extends State<AlarmSettingScreen> {
       ),
     );
   }
+}
+
+
+Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
+  print("백그라운드 메시지 처리중... ${message.notification!.body!}");
+}
+
+Future<String?> initializeFirebaseMessaging() async {
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+
+  FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
+  // 메시징 서비스 기본 객체 생성
+  FirebaseMessaging messaging = FirebaseMessaging.instance;
+
+  /// Firebase 메시징 권한 요청
+  // 첫 빌드시, 권한 확인하기
+  // 아이폰은 무조건 받아야 하고, 안드로이드는 상관 없음. 따로 유저가 설정하지 않는 한,
+  // 자동 권한 확보 상태
+  NotificationSettings settings = await messaging.requestPermission(
+    alert: true,
+    announcement: false,
+    badge: true,
+    carPlay: false,
+    criticalAlert: false,
+    provisional: false,
+    sound: true,
+  );
+
+  print(settings.authorizationStatus);
+
+  print('User granted permission: ${settings.authorizationStatus}');
+
+  /// 13버전
+  FirebaseMessaging.instance.requestPermission(
+    badge: true,
+    alert: true,
+    sound: true,
+  );
+
+  // Android용 알림 채널 설정
+  const AndroidNotificationChannel channel = AndroidNotificationChannel(
+    'high_importance_channel',
+    'High Importance Notifications',
+    description: 'This channel is used for important notifications.',
+    importance: Importance.max,
+  );
+
+  final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
+  FlutterLocalNotificationsPlugin();
+
+  await flutterLocalNotificationsPlugin
+      .resolvePlatformSpecificImplementation<
+      AndroidFlutterLocalNotificationsPlugin>()
+      ?.createNotificationChannel(channel);
+
+  // 로컬 알림 초기화
+  await flutterLocalNotificationsPlugin.initialize(
+    const InitializationSettings(
+      android: AndroidInitializationSettings('@mipmap/ic_launcher'),
+      iOS: DarwinInitializationSettings(),
+    ),
+  );
+
+  // foreground 푸시 알림 핸들링
+  FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+    RemoteNotification? notification = message.notification;
+    AndroidNotification? android = message.notification?.android;
+
+    print('Got a message whilst in the foreground');
+    print('Message data: ${message.data}');
+
+    if (message.notification != null && android != null) {
+      flutterLocalNotificationsPlugin.show(
+        notification.hashCode,
+        notification?.title,
+        notification?.body,
+        NotificationDetails(
+          android: AndroidNotificationDetails(
+            channel.id,
+            channel.name,
+            channelDescription: channel.description,
+            icon: android.smallIcon,
+          ),
+        ),
+      );
+      print('Message also contained a notification: ${message.notification}');
+    }
+  });
+
+  // Firebase 토큰 발급
+  String? firebaseToken = await messaging.getToken();
+  print("FirebaseToken: $firebaseToken");
+
+  return firebaseToken;
+}
+
+Future<void> saveTokenToSecureStorage(String? token) async {
+  const storage = FlutterSecureStorage();
+  await storage.write(key: 'firebase_token', value: token);
 }

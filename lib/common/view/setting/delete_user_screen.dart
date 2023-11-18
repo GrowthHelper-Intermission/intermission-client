@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
-
-import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:intermission_project/01.user/user/model/password_change_model.dart';
 import 'package:intermission_project/01.user/user/model/user_model.dart';
 import 'package:intermission_project/01.user/user/provider/user_me_provider.dart';
 import 'package:intermission_project/01.user/user/view/signup_screen_page1.dart';
+import 'package:intermission_project/common/component/custom_check_box.dart';
 import 'package:intermission_project/common/component/custom_text_form_field.dart';
 import 'package:intermission_project/common/component/custom_text_style.dart';
 import 'package:intermission_project/common/component/login_next_button.dart';
@@ -15,15 +13,15 @@ import 'package:intermission_project/common/const/colors.dart';
 import 'package:intermission_project/common/view/default_layout.dart';
 import 'package:intermission_project/common/view/root_tab.dart';
 
-class DeleteMemberScreen extends ConsumerStatefulWidget {
-  const DeleteMemberScreen({Key? key}) : super(key: key);
+class DeleteUserScreen extends ConsumerStatefulWidget {
+  const DeleteUserScreen({Key? key}) : super(key: key);
 
   @override
-  ConsumerState<DeleteMemberScreen> createState() =>
+  ConsumerState<DeleteUserScreen> createState() =>
       _PasswordChangeScreenState();
 }
 
-class _PasswordChangeScreenState extends ConsumerState<DeleteMemberScreen> {
+class _PasswordChangeScreenState extends ConsumerState<DeleteUserScreen> {
   TextEditingController currentPasswordController = TextEditingController();
   TextEditingController newPasswordController = TextEditingController();
   TextEditingController checkPasswordController = TextEditingController();
@@ -236,7 +234,7 @@ class SignupAskLabel3 extends StatelessWidget {
       height: 30,
       child: Text(
         text,
-        style: customTextGreenStyle,
+        style: customTextGreenTwentyStyle,
         maxLines: 2,
       ),
     );
