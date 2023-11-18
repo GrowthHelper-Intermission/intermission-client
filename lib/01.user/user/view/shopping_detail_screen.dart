@@ -152,7 +152,7 @@ class _ShoppingDetailScreenState extends ConsumerState<ShoppingDetailScreen> {
                     style: blackSmallTextStyle,
                   ),
                   Text(
-                    '${widget.point}P -> ${widget.point}원',
+                    '${widget.point}P를 ${widget.point}원으로 교환받을래요!',
                     style: customCashStyle,
                   ),
                   SizedBox(
@@ -340,7 +340,7 @@ class _ShoppingDetailScreenState extends ConsumerState<ShoppingDetailScreen> {
 
 TextStyle customCashStyle = TextStyle(
   fontWeight: FontWeight.w600,
-  fontSize: 24.0,
+  fontSize: 20.0,
   color: Colors.black,
 );
 
