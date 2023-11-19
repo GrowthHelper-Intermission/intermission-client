@@ -12,7 +12,8 @@ import '../provider/firebase_token_provider.dart';
 
 final authRepositoryProvider = Provider<AuthRepository>((ref) {
   final dio = ref.watch(dioProvider);
-  return AuthRepository(ref: ref, baseUrl: 'https://$ip/api/auth', dio: dio); // Pass `ref` here
+  return AuthRepository(
+      ref: ref, baseUrl: 'https://$ip/api/auth', dio: dio); // Pass `ref` here
 });
 
 class AuthRepository {
@@ -34,7 +35,7 @@ class AuthRepository {
 
     final firebaseToken = await readTokenFromSecureStorage();
 
-    print('here');
+    print('here firebaseToken!: ');
     print(firebaseToken);
 
     final resp = await dio.post(
@@ -62,6 +63,15 @@ class AuthRepository {
     );
     return TokenResponse.fromJson(
       resp.data,
+    );
+  }
+
+  Future<void> getEmail(String email) async {
+    final resp = await dio.post(
+      'https://$ip/api/auth',
+      data: {
+        "email": email.toString().toString()
+      }
     );
   }
 }
