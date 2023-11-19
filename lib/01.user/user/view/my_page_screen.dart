@@ -15,7 +15,7 @@ import 'package:intermission_project/04.research/research/view/notice_screen.dar
 import 'package:intermission_project/04.research/research_req/view/research_req_screen.dart';
 import 'package:intermission_project/common/component/normal_appbar.dart';
 import 'package:intermission_project/common/const/colors.dart';
-
+import 'package:intermission_project/common/view/default_layout.dart';
 
 class MyPageScreen extends ConsumerWidget {
   final TabController tabController;
@@ -83,7 +83,8 @@ class MyPageScreen extends ConsumerWidget {
                         children: [
                           InkWell(
                             onTap: () {
-                              context.pushNamed(ParticipatedResearchScreen.routeName);
+                              context.pushNamed(
+                                  ParticipatedResearchScreen.routeName);
                             },
                             child: SizedBox(
                               width: 85,
@@ -105,7 +106,8 @@ class MyPageScreen extends ConsumerWidget {
                           ),
                           InkWell(
                             onTap: () {
-                              context.pushNamed(ScrapedResearchScreen.routeName);
+                              context
+                                  .pushNamed(ScrapedResearchScreen.routeName);
                             },
                             child: SizedBox(
                               width: 80,
@@ -128,7 +130,8 @@ class MyPageScreen extends ConsumerWidget {
                           ),
                           InkWell(
                             onTap: () {
-                              tabController.animateTo(1); // MatchingScreen이 있는 인덱스로 탭 이동
+                              tabController
+                                  .animateTo(1); // MatchingScreen이 있는 인덱스로 탭 이동
                             },
                             child: SizedBox(
                               width: 80,
@@ -196,6 +199,12 @@ class MyPageScreen extends ConsumerWidget {
                     //   otherScreen: AdminPage(),
                     //   icon: 'assets/tabimg/mypage/Link.svg',
                     // ),
+                    Divider(color: Colors.grey[200], thickness: 12.0),
+                    SettingComponent(
+                      title: '인터미션 정보',
+                      otherScreen: IntermissionPage(),
+                      icon: 'assets/tabimg/mypage/Link.svg',
+                    ),
                   ],
                 ),
               ),
@@ -239,36 +248,47 @@ class SettingComponent extends StatelessWidget {
             fontWeight: FontWeight.w600,
           ),
         ),
-        trailing: svgIcon('assets/img/forwardArrow.svg', color: Colors.grey[600]), // Updated to use svgIcon function
+        trailing: svgIcon('assets/img/forwardArrow.svg',
+            color: Colors.grey[600]), // Updated to use svgIcon function
       ),
     );
   }
 }
-class AdminPage extends StatelessWidget {
+// class AdminPage extends StatelessWidget {
+//   @override
+//   Widget build(BuildContext context) {
+//     return Scaffold(
+//       appBar: AppBar(title: Text('관리자 페이지')),
+//       body: Column(
+//         children: [
+//           SettingComponent(
+//             title: '리서치 게시하기',
+//             otherScreen: ResearchReqScreen(),
+//             icon: 'assets/tabimg/mypage/recommendFriend.svg',
+//           ),
+//           SettingComponent(
+//             title: '공지사항 게시하기',
+//             otherScreen: NotiReqScreen(),
+//             icon: 'assets/tabimg/mypage/alarm.svg',
+//           ),
+//         ],
+//       ),
+//     );
+//   }
+// }
+
+class IntermissionPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: Text('관리자 페이지')),
-      body: Column(
-        children: [
-          SettingComponent(
-            title: '리서치 게시하기',
-            otherScreen: ResearchReqScreen(),
-            icon: 'assets/tabimg/mypage/recommendFriend.svg',
-          ),
-          SettingComponent(
-            title: '공지사항 게시하기',
-            otherScreen: NotiReqScreen(),
-            icon: 'assets/tabimg/mypage/alarm.svg',
-          ),
-        ],
-      ),
+    return DefaultLayout(
+      title: '인터미션 정보',
+      child: Column(),
     );
   }
 }
 
-
-Widget svgIcon(String assetName, {double width = 30, double height = 30, Color? color}) {
+Widget svgIcon(String assetName,
+    {double width = 30, double height = 30, Color? color}) {
   return SvgPicture.asset(
     assetName,
     width: width,

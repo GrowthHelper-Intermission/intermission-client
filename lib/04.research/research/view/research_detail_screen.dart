@@ -128,7 +128,8 @@ class _ResearchDetailScreenState extends ConsumerState<ResearchDetailScreen> {
           FocusScope.of(context).requestFocus(FocusNode());
         },
         onHorizontalDragEnd: (details) {
-          if (details.primaryVelocity! > 0) { // 왼쪽으로 스와이프
+          if (details.primaryVelocity! > 0) {
+            // 왼쪽으로 스와이프
             context.pop();
           }
         },
@@ -137,6 +138,14 @@ class _ResearchDetailScreenState extends ConsumerState<ResearchDetailScreen> {
 
           /// AppBar
           appBar: AppBar(
+            foregroundColor: Colors.black,
+            title: Text(
+              '${state.researchType} 상세 페이지',
+              style: TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.w500,
+              ),
+            ),
             backgroundColor: Colors.white,
             elevation: 0,
             leading: IconButton(
@@ -148,15 +157,15 @@ class _ResearchDetailScreenState extends ConsumerState<ResearchDetailScreen> {
               onPressed: () => context.go('/'),
             ),
             actions: [
-              IconButton(
-                icon: Icon(
-                  Icons.share,
-                  color: Colors.black,
-                ),
-                onPressed: () {
-                  // 공유 기능 구현 부분
-                },
-              ),
+              // IconButton(
+              //   icon: Icon(
+              //     Icons.share,
+              //     color: Colors.black,
+              //   ),
+              //   onPressed: () {
+              //     /// 공유 기능 구현 부분
+              //   },
+              // ),
               PopupMenuButton<String>(
                 onSelected: (value) async {
                   switch (value) {
@@ -166,11 +175,16 @@ class _ResearchDetailScreenState extends ConsumerState<ResearchDetailScreen> {
                     case 'hide':
                       // 리서치 차단 로직
                       try {
-                        await ref.read(userMeProvider.notifier).postBlock(state.userId); // writerId는 실제 사용자 ID를 나타내는 필드여야 합니다. 이 부분을 정확한 필드명으로 수정해야 합니다.
-                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('해당 리서치가 차단되었습니다.')));
-                        ref.read(researchProvider.notifier).getDetail(id: widget.id);
+                        await ref.read(userMeProvider.notifier).postBlock(state
+                            .userId); // writerId는 실제 사용자 ID를 나타내는 필드여야 합니다. 이 부분을 정확한 필드명으로 수정해야 합니다.
+                        ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(content: Text('해당 리서치가 차단되었습니다.')));
+                        ref
+                            .read(researchProvider.notifier)
+                            .getDetail(id: widget.id);
                       } catch (error) {
-                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('리서치 차단 중 오류가 발생했습니다.')));
+                        ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(content: Text('리서치 차단 중 오류가 발생했습니다.')));
                       }
                       break;
                   }
@@ -217,7 +231,8 @@ class _ResearchDetailScreenState extends ConsumerState<ResearchDetailScreen> {
                 Divider(color: Colors.grey[200], thickness: 8.0),
                 Padding(
                   padding: const EdgeInsets.fromLTRB(20, 0, 20, 20),
-                  child: CommentComponent(state: state, ref: ref, id: widget.id),
+                  child:
+                      CommentComponent(state: state, ref: ref, id: widget.id),
                 ),
               ],
             ),
@@ -296,26 +311,27 @@ class _ResearchDetailScreenState extends ConsumerState<ResearchDetailScreen> {
                 isButtonEnabled: isButtonEnabled && state.isScreening != "N",
                 onPressed: isButtonEnabled && state.isScreening != "N"
                     ? () async {
-                  if (state.researchType == '설문조사') {
-                    await Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => GoogleFormWebView(
-                          onComplete: () async {
-                            await _handleSurveyParticipation(); // 콜백 내에서 참여 처리 함수 호출
-                          },
-                          // homeUrl: state.researchUrl!,
-                          homeUrl: 'https://docs.google.com/forms/d/e/1FAIpQLSe0PYqfFJNUNlo07evTMeWzDjPc0saRRQyYg2tBQBpPZE_CiA/viewform',
-                        ),
-                      ),
-                    );
-                  } else {
-                    // 여기서는 참여중... 상태로만 변경되며, 실제 구글 폼으로는 이동하지 않음
-                    setState(() {
-                      // 참여중... 상태로 변경하는 로직 필요 (상태 관리 코드를 추가해야 함)
-                    });
-                  }
-                }
+                        if (state.researchType == '설문조사') {
+                          await Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => GoogleFormWebView(
+                                onComplete: () async {
+                                  await _handleSurveyParticipation(); // 콜백 내에서 참여 처리 함수 호출
+                                },
+                                // homeUrl: state.researchUrl!,
+                                homeUrl:
+                                    'https://docs.google.com/forms/d/e/1FAIpQLSe0PYqfFJNUNlo07evTMeWzDjPc0saRRQyYg2tBQBpPZE_CiA/viewform',
+                              ),
+                            ),
+                          );
+                        } else {
+                          // 여기서는 참여중... 상태로만 변경되며, 실제 구글 폼으로는 이동하지 않음
+                          setState(() {
+                            // 참여중... 상태로 변경하는 로직 필요 (상태 관리 코드를 추가해야 함)
+                          });
+                        }
+                      }
                     : null, // 비활성화 상태일 때 null
                 buttonName: buttonText,
               ),
@@ -325,18 +341,4 @@ class _ResearchDetailScreenState extends ConsumerState<ResearchDetailScreen> {
       ),
     );
   }
-  Future<void> _navigateToGoogleForm() async {
-    await Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => GoogleFormWebView(
-          onComplete: () async {
-            await _handleSurveyParticipation(); // 콜백 내에서 참여 처리 함수 호출
-          },
-          homeUrl: 'https://docs.google.com/forms/d/e/1FAIpQLSe0PYqfFJNUNlo07evTMeWzDjPc0saRRQyYg2tBQBpPZE_CiA/viewform',
-        ),
-      ),
-    );
-  }
-
 }
