@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:get/get.dart';
 import 'package:intermission_project/01.user/user/model/point_change_model.dart';
 import 'package:intermission_project/01.user/user/model/point_model.dart';
 import 'package:intermission_project/01.user/user/model/user_model.dart';
@@ -79,14 +80,13 @@ class _ShoppingDetailScreenState extends ConsumerState<ShoppingDetailScreen> {
         ),
         child: BottomAppBar(
           child: SimpleButton(
-
-            onPressed: () async{
+            onPressed: () async {
               PointChangeModel pointChangeModel = PointChangeModel(
                 point: point,
               );
               try {
                 // changePoint 요청을 보내고 응답을 받습니다.
-                var response =  await ref
+                var response = await ref
                     .read(pointProvider.notifier)
                     .repository
                     .changePoint(pointChangeModel: pointChangeModel);
@@ -99,7 +99,10 @@ class _ShoppingDetailScreenState extends ConsumerState<ShoppingDetailScreen> {
                       return AlertDialog(
                         backgroundColor: PRIMARY_COLOR,
                         title: Text("성공"),
-                        content: Text("포인트 교환이 완료되었습니다. 관리자에 의해 3일 이내에 송금됩니다!",style: TextStyle(color: Colors.white),),
+                        content: Text(
+                          "포인트 교환이 완료되었습니다. 관리자에 의해 3일 이내에 송금됩니다!",
+                          style: TextStyle(color: Colors.white),
+                        ),
                         actions: <Widget>[
                           // 확인 버튼 등
                         ],
@@ -215,27 +218,34 @@ class _ShoppingDetailScreenState extends ConsumerState<ShoppingDetailScreen> {
 
   // '추가하기' 선택 시 표시될 대화상자
   void _showAddDialog() {
-    late String selectedBankType;
+    String? selectedBankType; // Change to nullable type
     TextEditingController accountNumberController = TextEditingController();
     String? accountErrorText;
-    bool accountNumberValid = false;
 
-    bool isButtonEnabled = false;
+    bool isButtonEnabled2 = false;
 
     void checkButtonEnabled() {
-      setState(() {
-        isButtonEnabled = true;
-      });
+      print(isButtonEnabled2);
+      // Check both conditions: valid account number and selected bank type
+      if (accountNumberController.text.isNotEmpty && selectedBankType != null) {
+        setState(() {
+          isButtonEnabled2 = true;
+        });
+      } else {
+        setState(() {
+          isButtonEnabled2 = false;
+        });
+      }
     }
 
     void checkAccountEnabled() {
       String accountNumber = accountNumberController.text.trim();
-      bool isAccountValid = accountNumber.length >= 9;
+      bool isAccountValid = accountNumber.isNotEmpty;
       setState(() {
-        accountNumberValid = isAccountValid;
-        accountErrorText = accountNumberValid ? null : '숫자만 입력해 주세요';
+        accountErrorText = isAccountValid ? null : '숫자만 입력해 주세요';
+        // Call checkButtonEnabled here to update the button state
+        checkButtonEnabled();
       });
-      checkButtonEnabled();
     }
 
     showModalBottomSheet(
@@ -304,6 +314,7 @@ class _ShoppingDetailScreenState extends ConsumerState<ShoppingDetailScreen> {
                     hintText: '선택',
                     onItemSelected: (value) {
                       selectedBankType = value;
+                      checkButtonEnabled();
                     },
                   ),
                 ),
@@ -316,19 +327,41 @@ class _ShoppingDetailScreenState extends ConsumerState<ShoppingDetailScreen> {
                 onChanged: (String value) {
                   checkAccountEnabled();
                 },
-                errorText: accountNumberValid ? null : accountErrorText,
                 hintText: '숫자만 입력',
                 showClearIcon: true,
               ),
               Padding(
                 padding: const EdgeInsets.only(top: 30),
                 child: LoginNextButton(
-                    onPressed: () {
-                      Navigator.of(context).pop(); // Bottom sheet 닫기
-                      /// PATCH 계좌번호 등록/변경 요청
-                    },
-                    buttonName: '변경하기',
-                    isButtonEnabled: isButtonEnabled),
+                  onPressed: () {
+                    Navigator.of(context).pop(); // Bottom sheet 닫기
+
+                    ref.read(userMeProvider.notifier).changeBank(
+                          selectedBankType!,
+                          accountNumberController.text.trim().toString(),
+                        );
+
+                    // try{
+                    //   final changeBankResp = await changeBank(selectedBankType, accountNumberController.text);
+                    // }catch(e){
+                    //
+                    // }
+
+                    AlertDialog(
+                      backgroundColor: PRIMARY_COLOR,
+                      title: Text("성공"),
+                      content: Text(
+                        "계좌정보 변동이 완료되었습니다!",
+                        style: TextStyle(color: Colors.white),
+                      ),
+                      actions: <Widget>[
+                        // 확인 버튼 등
+                      ],
+                    );
+                  },
+                  buttonName: '변경하기',
+                  isButtonEnabled: true,
+                ),
               ),
             ],
           ),
