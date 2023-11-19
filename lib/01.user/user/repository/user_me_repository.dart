@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart' hide Headers;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:intermission_project/01.user/user/model/change_bank_model.dart';
 import 'package:intermission_project/01.user/user/model/password_change_model.dart';
 import 'package:intermission_project/01.user/user/model/point_model.dart';
 import 'package:intermission_project/01.user/user/model/signup_user_model.dart';
@@ -25,6 +26,18 @@ final userMeRepositoryProvider = Provider<UserMeRepository>(
 @RestApi()
 abstract class UserMeRepository {
   factory UserMeRepository(Dio dio, {String baseUrl}) = _UserMeRepository;
+  
+  @DELETE('/delete')
+  @Headers({
+    'accessToken': 'true',
+  })
+  Future<void> deleteUser();
+
+  @PATCH('/bank')
+  @Headers({
+    'accessToken': 'true',
+  })
+  Future <void> changeBank(@Body() ChangeBankModel changeBankModel);
 
   @GET('/me')
   @Headers({
@@ -32,12 +45,14 @@ abstract class UserMeRepository {
   })
   Future<UserModel> getMe();
 
+  /// 회원 가입 하기
   @POST('/save')
   @Headers({
     'Content-Type': 'application/json;charset=utf-8',
   })
   Future<SignupResponse> postUser(@Body() SignupUserModel user);
 
+  /// 비밀 번호 변경 하기
   @PATCH('/password')
   @Headers({
     'accessToken': 'true',
@@ -46,13 +61,14 @@ abstract class UserMeRepository {
     @Body() required PasswordChangeModel passwordChangeModel,
   });
 
-  @POST('block/{id}')
+  /// 게시글, 유저 차단 하기
+  @POST('block/{userId}')
   @Headers({
     'accessToken': 'true',
   })
-  Future<InterviewTesterResponse> block({@Path() required int id});
+  Future<InterviewTesterResponse> block({@Path('userId') required String userId});
 }
-///회원가입 RESP
+///회원 가입 Response
 class SignupResponse {
   final int code;
   final String message;
