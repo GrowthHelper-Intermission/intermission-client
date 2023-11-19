@@ -10,15 +10,12 @@ import 'package:intermission_project/01.user/user/view/signup_screen_page3.dart'
 import 'package:intermission_project/common/component/custom_appbar.dart';
 import 'package:intermission_project/common/component/custom_dropdown_button.dart';
 import 'package:intermission_project/common/component/custom_text_form_field.dart';
-import 'package:intermission_project/common/component/custom_text_style.dart';
 import 'package:intermission_project/common/component/login_next_button.dart';
 import 'package:intermission_project/common/component/signup_appbar.dart';
 import 'package:intermission_project/common/component/signup_ask_label.dart';
 import 'package:intermission_project/common/component/signup_either_button.dart';
 import 'package:intermission_project/common/const/colors.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:intermission_project/common/const/type_data.dart';
-import 'package:provider/provider.dart';
 
 class SignupScreenPage2 extends ConsumerStatefulWidget {
   static String get routeName => 'signup2';
@@ -190,6 +187,7 @@ class _SignupScreenPage2State extends ConsumerState<SignupScreenPage2> {
                       SignupAskLabel(text: '개인/공공기관/기업'),
                       Center(
                         child: CustomDropdownButton(
+                          dropdownWidth: 350,
                           items: userType,
                           hintText: '선택',
                           onItemSelected: (value) {
@@ -206,6 +204,7 @@ class _SignupScreenPage2State extends ConsumerState<SignupScreenPage2> {
                       SignupAskLabel(text: '직업/학생'),
                       Center(
                         child: CustomDropdownButton(
+                          dropdownWidth: 350,
                           items: jobCdType,
                           hintText: '선택',
                           onItemSelected: (value) {
@@ -226,6 +225,7 @@ class _SignupScreenPage2State extends ConsumerState<SignupScreenPage2> {
                       if (selectedJobCdType == jobCdType[6])
                         Center(
                           child: CustomDropdownButton(
+                            dropdownWidth: 350,
                             items: asignCdType,
                             hintText: '선택',
                             onItemSelected: (value) {
@@ -321,6 +321,7 @@ class _SignupScreenPage2State extends ConsumerState<SignupScreenPage2> {
                       SignupAskLabel(text: '거주 형태'),
                       Center(
                         child: CustomDropdownButton(
+                          dropdownWidth: 350,
                           items: residenceType,
                           hintText: '선택',
                           onItemSelected: (value) {
@@ -339,6 +340,7 @@ class _SignupScreenPage2State extends ConsumerState<SignupScreenPage2> {
                       SignupAskLabel(text: '반려동물을 키우시나요?'),
                       Center(
                         child: CustomDropdownButton(
+                          dropdownWidth: 350,
                           items: petType,
                           hintText: '선택',
                           onItemSelected: (value) {
@@ -355,22 +357,23 @@ class _SignupScreenPage2State extends ConsumerState<SignupScreenPage2> {
                         SizedBox(
                           height: 20,
                         ),
-                      if (selectedPetType == petType[3])
-                        SignupAskLabel(text: '키우시는 반려동물이 있으면 자유롭게 적어주세요'),
-                      if (selectedPetType == petType[3])
-                        CustomTextFormField(
-                          controller: raisePetController,
-                          hintText: '반려동물을 입력해 주세요',
-                          onChanged: (String value) {
-                            setState(() {});
-                          },
-                          enable: raisePet,
-                        ),
+                      // if (selectedPetType == petType[4])
+                      //   SignupAskLabel(text: '키우시는 반려동물이 있으면 자유롭게 적어주세요'),
+                      // if (selectedPetType == petType[4])
+                      //   CustomTextFormField(
+                      //     controller: raisePetController,
+                      //     hintText: '반려동물을 입력해 주세요',
+                      //     onChanged: (String value) {
+                      //       setState(() {});
+                      //     },
+                      //     enable: raisePet,
+                      //   ),
                       SizedBox(
                         height: 10,
                       ),
                       SignupAskLabel(text: '거주 지역'),
                       CustomDropdownButton(
+                        dropdownWidth: 350,
                         items: mapInfo
                             .map((info) => info['name'].toString())
                             .toList(),
@@ -383,15 +386,17 @@ class _SignupScreenPage2State extends ConsumerState<SignupScreenPage2> {
                           });
                         },
                       ),
+                      if(selectedCity != null)
                       SizedBox(height: 20),
+                      if(selectedCity != null)
                       CustomDropdownButton(
                         items: (selectedCity == null
                             ? []
                             : (mapInfo.firstWhere((info) =>
-                                        info['name'] == selectedCity)['countries']
-                                    as List)
-                                .map((country) => country.toString())
-                                .toList()),
+                        info['name'] == selectedCity)['countries']
+                        as List)
+                            .map((country) => country.toString())
+                            .toList()),
                         hintText: '구/군을 선택하세요.',
                         onItemSelected: (value) {
                           setState(() {
@@ -400,11 +405,9 @@ class _SignupScreenPage2State extends ConsumerState<SignupScreenPage2> {
                           });
                         },
                         enabled: selectedCity != null, // 이 부분 추가
-                        errorText: "시/도를 먼저 선택해주세요!", // 이 부분 추가
+                        // errorText 속성이 CustomDropdownButton에 구현되어 있는지 확인하세요.
                       ),
-                      SizedBox(
-                        height: 20.0,
-                      ),
+                      SizedBox(height: 200.0),
                       LoginNextButton(
                         buttonName: '다음',
                         isButtonEnabled: isButtonEnabled,

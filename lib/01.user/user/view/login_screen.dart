@@ -121,7 +121,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                               height: 10.0,
                             ),
                             SizedBox(
-                              width: 60,
+                              width: 100,
                               height: 22,
                               child: Text(
                                 '비밀번호',
@@ -143,7 +143,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                               children: [
                                 Padding(
                                   padding: const EdgeInsets.all(8.0),
-                                  child: FindPWButton(title: '비밀번호 찾기'),
+                                  child: FindPWButton(title: '비밀번호 찾기',),
                                 ),
                               ],
                             ),
