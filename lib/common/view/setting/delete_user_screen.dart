@@ -12,6 +12,7 @@ import 'package:intermission_project/common/component/signup_ask_label.dart';
 import 'package:intermission_project/common/const/colors.dart';
 import 'package:intermission_project/common/view/default_layout.dart';
 import 'package:intermission_project/common/view/root_tab.dart';
+import 'package:intermission_project/common/view/select_screen.dart';
 
 class DeleteUserScreen extends ConsumerStatefulWidget {
   const DeleteUserScreen({Key? key}) : super(key: key);
@@ -167,7 +168,9 @@ class _PasswordChangeScreenState extends ConsumerState<DeleteUserScreen> {
             ),
             SizedBox(height: 20,),
             LoginNextButton(
-              onPressed: isButtonEnabled ? _changePassword : () {}, // 변경된 부분
+              onPressed: isButtonEnabled ? deleteUser : () {
+
+              }, // 변경된 부분
               buttonName: '완료',
               isButtonEnabled: isButtonEnabled,
               color: RED_COLOR,
@@ -192,16 +195,13 @@ class _PasswordChangeScreenState extends ConsumerState<DeleteUserScreen> {
   }
 
   // 비밀번호 변경 로직
-  void _changePassword() {
+  void deleteUser() {
     final userNotifier = ref.read(userMeProvider.notifier);
-    userNotifier.changePassword(
-      PasswordChangeModel(
-        checkPassword: currentPasswordController.text.trim(),
-        newPassword: newPasswordController.text.trim(),
-      ),
+    userNotifier.deleteUser();
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => SelectScreen()), // Navigate to LoginScreen
     );
-    Navigator.pushReplacement(
-        context, MaterialPageRoute(builder: (context) => RootTab()));
   }
 }
 
