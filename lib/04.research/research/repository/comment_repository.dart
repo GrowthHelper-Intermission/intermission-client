@@ -33,7 +33,7 @@ final commentRepositoryProvider = Provider<CommentRepository>(
 abstract class CommentRepository {
   factory CommentRepository(Dio dio, {String baseUrl}) = _CommentRepository;
 
-  //댓글 등록 하기
+  ///댓글 등록 하기
   @POST('/{researchId}')
   @Headers({
     'accessToken': 'true',
@@ -42,7 +42,8 @@ abstract class CommentRepository {
       @Path('researchId') String researchId,
       @Body() SingleComment comment,
       );
-  //댓글 수정하기
+
+  ///댓글 수정 하기
   @PATCH('/{commentId}')
   @Headers({
     'accessToken': 'true',
@@ -52,7 +53,7 @@ abstract class CommentRepository {
       @Body() SingleComment updatedComment,
       );
 
-  //댓글 삭제하기
+  ///댓글 삭제 하기
   @DELETE('/{commentId}')
   @Headers({
     'accessToken': 'true',
@@ -60,31 +61,35 @@ abstract class CommentRepository {
   Future<String> deleteComment(@Path('commentId') String commentId);
 
 
-//대댓글 작성하기
-  @POST('/{researchId}/{commentId}')
+  ///대댓글 등록 하기
+  @POST('/{researchId}/{recommentId}')
   @Headers({
     'accessToken': 'true',
   })
   Future<String> postReComment(
       @Path('researchId') String researchId,
-      @Path('commentId') String commentId,
+      @Path('recommentId') String commentId,
       @Body() SingleComment reComment,
       );
-
-  @PATCH('/{researchId}/{commentId}')
+  ///대댓글 수정 하기
+  @PATCH('/{researchId}/{recommentId}')
   Future<String> updateReComment(
       @Path('recommentId') String recommentId,
       @Body() SingleComment updatedComment,
       );
 
-  //대댓글 삭제하기
-  @DELETE('/{researchId}/{commentId}')
+  ///대댓글 삭제 하기
+  @DELETE('/{researchId}/{recommentId}')
   @Headers({
     'accessToken': 'true',
   })
-  Future<String> deleteReComment(@Path('recommentId') String recommentId);
+  Future<String> deleteReComment(
+      @Path('researchId') String researchId,
+      @Path('recommentId') String recommentId,
+      );
+  // Future<String> deleteReComment(@Path('recommentId') String recommentId);
 
-  //댓글 신고하기
+  /// 댓글 신고 하기
   @POST('/report/{commentId}')
   @Headers({
     'accessToken': 'true',

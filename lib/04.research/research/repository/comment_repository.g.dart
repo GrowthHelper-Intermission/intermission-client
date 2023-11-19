@@ -140,7 +140,7 @@ class _CommentRepository implements CommentRepository {
     )
         .compose(
           _dio.options,
-          '/{researchId}/{commentId}',
+          '/{researchId}/${recommentId}',
           queryParameters: queryParameters,
           data: _data,
         )
@@ -150,7 +150,10 @@ class _CommentRepository implements CommentRepository {
   }
 
   @override
-  Future<String> deleteReComment(recommentId) async {
+  Future<String> deleteReComment(
+    researchId,
+    recommentId,
+  ) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{r'accessToken': 'true'};
@@ -163,7 +166,7 @@ class _CommentRepository implements CommentRepository {
     )
         .compose(
           _dio.options,
-          '/{researchId}/{commentId}',
+          '/${researchId}/${recommentId}',
           queryParameters: queryParameters,
           data: _data,
         )
