@@ -17,7 +17,7 @@ class CommentNotifier extends ChangeNotifier {
 
   CommentNotifier(this._repository);
 
-  // 댓글 등록하기
+  /// 댓글 등록 하기
   Future<String> postComment(String researchId, SingleComment comment) async {
     try {
       return await _repository.postComment(researchId, comment);
@@ -27,7 +27,7 @@ class CommentNotifier extends ChangeNotifier {
     }
   }
 
-  //기존 댓글 수정하기
+  //기존 댓글 수정 하기
   Future<String> updateComment(
       String commentId, SingleComment updatedComment) async {
     try {
@@ -38,7 +38,7 @@ class CommentNotifier extends ChangeNotifier {
     }
   }
 
-  //댓글 삭제하기
+  ///(대)댓글 삭제 하기
   Future<String> deleteComment(String commentId) async {
     try {
       return await _repository.deleteComment(commentId);
@@ -48,7 +48,7 @@ class CommentNotifier extends ChangeNotifier {
     }
   }
 
-  // 대댓글 등록하기
+  /// 대댓글 등록 하기
   Future<String> postReComment(
       String researchId, String commentId, SingleComment reComment) async {
     try {
@@ -59,7 +59,7 @@ class CommentNotifier extends ChangeNotifier {
     }
   }
 
-  // 대댓글 수정하기
+  /// 대댓글 수정하기
   Future<String> updateReComment(
       String recommentId, SingleComment updatedReComment) async {
     try {
@@ -70,16 +70,7 @@ class CommentNotifier extends ChangeNotifier {
     }
   }
 
-  // 대댓글 삭제하기
-  Future<String> deleteReComment(String recommentId) async {
-    try {
-      return await _repository.deleteReComment(recommentId);
-    } catch (error) {
-      print('Error deleting re-comment: $error');
-      throw error;
-    }
-  }
-
+  /// 댓글 신고하기
   Future<String> reportComment(String commentId) async{
     try{
       return await _repository.reportComment(commentId);

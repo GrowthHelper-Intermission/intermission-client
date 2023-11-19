@@ -83,14 +83,18 @@ class _CommentComponentState extends ConsumerState<CommentComponent> {
               if (commentController.text.isNotEmpty) {
                 if (editingCommentId == null) {
                   // This is a new comment
-                  await notifier.postComment(widget.id,
-                      SingleComment(content: commentController.text));
+                  await notifier.postComment(
+                    widget.id,
+                    SingleComment(content: commentController.text),
+                  );
                 } else {
                   // This is an edit
-                  await notifier.updateComment(editingCommentId.toString()!,
-                      SingleComment(content: commentController.text));
+                  await notifier.updateComment(
+                    editingCommentId.toString()!,
+                    SingleComment(content: commentController.text),
+                  );
                   editingCommentId = null; // Reset
-                  hintText = "댓글달기"; // Reset
+                  hintText = "댓글달기"; // R기eset
                 }
                 commentController.clear();
                 ref.read(researchProvider.notifier).getDetail(id: widget.id);
@@ -156,20 +160,21 @@ class _CommentComponentState extends ConsumerState<CommentComponent> {
                       onSelected: (value) async {
                         if (value == 'delete') {
                           notifier.deleteComment(comment.commentId.toString());
-                          setState(() {
-                            ref
-                                .read(researchProvider.notifier)
-                                .getDetail(id: widget.id);
-                          });
+                          ref
+                              .read(researchProvider.notifier)
+                              .getDetail(id: widget.id);
                         } else if (value == 'report') {
                           try {
                             notifier
                                 .reportComment(comment.commentId.toString());
                             ScaffoldMessenger.of(context).showSnackBar(
                               SnackBar(
-                                content: Text('댓글이 신고되었습니다.'),
+                                content: Text('${comment.writer}님이 작성하신 댓글이 신고되었습니다.'),
                               ),
                             );
+                            ref
+                                .read(researchProvider.notifier)
+                                .getDetail(id: widget.id);
                           } catch (error) {
                             ScaffoldMessenger.of(context).showSnackBar(
                                 SnackBar(content: Text('댓글 신고 중 오류가 발생했습니다.')));
@@ -224,14 +229,16 @@ class _CommentComponentState extends ConsumerState<CommentComponent> {
                   child: Padding(
                     padding: const EdgeInsets.only(left: 40),
                     child: TextButton(
-                      child: Text("답글 달기", style: TextStyle(color: Colors.grey)),
+                      child:
+                          Text("답글 달기", style: TextStyle(color: Colors.grey)),
                       onPressed: () {
                         showModalBottomSheet(
                           context: context,
                           builder: (BuildContext context) {
                             return SingleChildScrollView(
                               padding: EdgeInsets.only(
-                                bottom: MediaQuery.of(context).viewInsets.bottom,
+                                bottom:
+                                    MediaQuery.of(context).viewInsets.bottom,
                               ),
                               child: Container(
                                 padding: EdgeInsets.all(10),
@@ -270,7 +277,8 @@ class _CommentComponentState extends ConsumerState<CommentComponent> {
                                               Navigator.of(context).pop();
                                               setState(() {});
                                               ref
-                                                  .read(researchProvider.notifier)
+                                                  .read(
+                                                      researchProvider.notifier)
                                                   .getDetail(id: widget.id);
                                             }
                                           },
@@ -330,7 +338,9 @@ class _CommentComponentState extends ConsumerState<CommentComponent> {
                                                 reComment.createdDate),
                                           ),
                                           style: TextStyle(
-                                              color: Colors.grey, fontSize: 13),
+                                            color: Colors.grey,
+                                            fontSize: 13,
+                                          ),
                                         ),
                                       ],
                                     ),
@@ -341,12 +351,18 @@ class _CommentComponentState extends ConsumerState<CommentComponent> {
                               ),
                               PopupMenuButton<String>(
                                 onSelected: (value) async {
+                                  print(value);
+                                  print(reComment.reCommentId.toString());
                                   if (value == 'delete') {
+                                    print('kiss');
                                     try {
+                                      // notifier.deleteComment(comment.commentId.toString());
                                       await ref
                                           .read(commentNotifierProvider)
-                                          .deleteComment(
-                                              reComment.reCommentId as String);
+                                          .deleteComment(reComment.reCommentId.toString());
+                                      ref
+                                          .read(researchProvider.notifier)
+                                          .getDetail(id: widget.id);
                                       ScaffoldMessenger.of(context)
                                           .showSnackBar(
                                         SnackBar(
@@ -355,10 +371,13 @@ class _CommentComponentState extends ConsumerState<CommentComponent> {
                                         ),
                                       );
                                     } catch (error) {
+                                      print('here22');
                                       ScaffoldMessenger.of(context)
-                                          .showSnackBar(SnackBar(
-                                              content: Text(
-                                                  'Error deleting comment')));
+                                          .showSnackBar(
+                                        SnackBar(
+                                            content:
+                                                Text('Error deleting comment')),
+                                      );
                                     }
                                   } else if (value == 'report') {
                                     try {
@@ -366,9 +385,12 @@ class _CommentComponentState extends ConsumerState<CommentComponent> {
                                           .read(commentNotifierProvider)
                                           .reportComment(
                                               reComment.reCommentId.toString());
+                                      ref
+                                          .read(researchProvider.notifier)
+                                          .getDetail(id: widget.id);
                                       ScaffoldMessenger.of(context)
                                           .showSnackBar(SnackBar(
-                                              content: Text('대댓글이 신고되었습니다.')));
+                                              content: Text('${reComment.writer}님이 작성하신 대댓글이 신고되었습니다.')));
                                     } catch (error) {
                                       ScaffoldMessenger.of(context)
                                           .showSnackBar(SnackBar(
@@ -381,7 +403,7 @@ class _CommentComponentState extends ConsumerState<CommentComponent> {
                                           .read(userMeProvider.notifier)
                                           .postBlock(
                                             reComment.userId,
-                                          ); // writerId는 실제 사용자 ID를 나타내는 필드여야 합니다.
+                                          );
                                       ScaffoldMessenger.of(context)
                                           .showSnackBar(
                                         SnackBar(
@@ -433,7 +455,10 @@ class _CommentComponentState extends ConsumerState<CommentComponent> {
                     }).toList(),
                   ),
                 ),
-                Divider(thickness: 1,color: Colors.grey[300],),
+                Divider(
+                  thickness: 1,
+                  color: Colors.grey[300],
+                ),
               ],
             );
           }).toList(),
