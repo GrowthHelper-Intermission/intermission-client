@@ -518,8 +518,6 @@
 // }
 
 
-
-
 import 'dart:ui';
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
@@ -714,7 +712,7 @@ class _SignupScreenPage1State extends ConsumerState<SignupScreenPage1> {
                     SignupAskLabel(text: '비밀번호'),
                     CustomTextFormField(
                       controller: passwordController,
-                      hintText: '8자 이상의 영문/숫자 조합',
+                      hintText: '8자 이상의 영문/숫자/특수문자 조합',
                       onChanged: (String value) {},
                       obscureText: true,
                     ),
