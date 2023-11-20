@@ -23,7 +23,7 @@ class ReportCard extends StatelessWidget {
 
   factory ReportCard.fromModel(ReportModel model) {
     return ReportCard(
-      date: model.postDate,
+      date: model.postDate ?? '테스트 데이터들로 날짜 정보 없음',
       title: model.mainTitle,
       id: model.id,
       isAnswer: model.isAnswer,
@@ -34,45 +34,52 @@ class ReportCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Padding(
-          padding: const EdgeInsets.all(5.0),
-          child: SizedBox(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  date,
-                  style: TextStyle(color: Colors.grey[400]),
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(title),
-                    Container(
-                      width: 70,  // Adjust the width as per your requirement
-                      height: 28,
-                      decoration: BoxDecoration(
-                        color: isAnswer == "true" ? PRIMARY_COLOR : Colors.grey[300],
-                        borderRadius: BorderRadius.circular(8),
-                        border: Border.all(
-                          color: isAnswer == "true" ? PRIMARY_COLOR : Colors.grey,
-                          width: 0.5,
+        InkWell(
+          onTap: () {
+            //goNamed -> pushNamed
+            context.pushNamed(ReportDetailScreen.routeName,
+                pathParameters: {'id': id});
+          },
+          child: Padding(
+            padding: const EdgeInsets.all(5.0),
+            child: SizedBox(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    date,
+                    style: TextStyle(color: Colors.grey[400]),
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(title),
+                      Container(
+                        width: 70,  // Adjust the width as per your requirement
+                        height: 28,
+                        decoration: BoxDecoration(
+                          color: isAnswer == "true" ? PRIMARY_COLOR : Colors.grey[300],
+                          borderRadius: BorderRadius.circular(8),
+                          border: Border.all(
+                            color: isAnswer == "true" ? PRIMARY_COLOR : Colors.grey,
+                            width: 0.5,
+                          ),
                         ),
-                      ),
-                      child: Center(
-                        child: Text(
-                          isAnswer == "true" ? '답변완료' : '답변대기',
-                          style: TextStyle(
-                            color: Colors.grey,
-                            fontSize: 13.0,
-                            fontWeight: FontWeight.w700,
+                        child: Center(
+                          child: Text(
+                            isAnswer == "true" ? '답변완료' : '답변대기',
+                            style: TextStyle(
+                              color: Colors.grey,
+                              fontSize: 13.0,
+                              fontWeight: FontWeight.w700,
+                            ),
                           ),
                         ),
                       ),
-                    ),
-                  ],
-                ),
-              ],
+                    ],
+                  ),
+                ],
+              ),
             ),
           ),
         ),

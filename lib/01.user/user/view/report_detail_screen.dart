@@ -45,7 +45,8 @@ class _ReportDetailScreenState extends ConsumerState<ReportDetailScreen> {
       title: '문의 세부 사항',
       child: Column(
         children: [
-          Text(state.detail),
+          Text(state.mainTitle),
+          Text('문의하신 세부 내용${state.detail}'),
         ],
       ),
     );
