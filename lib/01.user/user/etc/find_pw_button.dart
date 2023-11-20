@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intermission_project/01.user/user/etc/find_pw_screen.dart';
+import 'package:intermission_project/01.user/user/view/password_find_screen.dart';
 
 import 'package:intermission_project/common/const/colors.dart';
 
@@ -36,7 +37,7 @@ class FindPWButton extends StatelessWidget {
             Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) => FindPassword(),
+                builder: (context) => PasswordFindScreen(),
               ),
             );
           },
