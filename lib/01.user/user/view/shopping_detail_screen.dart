@@ -128,6 +128,8 @@ class _ShoppingDetailScreenState extends ConsumerState<ShoppingDetailScreen> {
 
               ref.read(userMeProvider.notifier).getMe();
               ref.read(pointProvider.notifier).paginate(forceRefetch: true);
+
+
             },
             isButtonEnabled: true,
             buttonName: '교환하기',
@@ -218,8 +220,15 @@ class _ShoppingDetailScreenState extends ConsumerState<ShoppingDetailScreen> {
 
   // '추가하기' 선택 시 표시될 대화상자
   void _showAddDialog() {
+    final userState = ref.watch(userMeProvider);
+    UserModel? user;
+    if (userState is UserModel) {
+      user = userState;
+      final bank = user.bank;
+      final bankAccount = user.accountNumber.toString();
+    }
     String? selectedBankType; // Change to nullable type
-    TextEditingController accountNumberController = TextEditingController();
+    TextEditingController accountNumberController = TextEditingController(text: user!.accountNumber);
     String? accountErrorText;
 
     bool isButtonEnabled2 = false;
@@ -308,10 +317,11 @@ class _ShoppingDetailScreenState extends ConsumerState<ShoppingDetailScreen> {
               SignupAskLabel(text: '사용 은행'),
               Center(
                 child: GestureDetector(
+                  ///
                   child: CustomDropdownButton(
                     dropdownWidth: 350,
                     items: bankAccountType,
-                    hintText: '선택',
+                    hintText:  user?.bank ?? '선택',
                     onItemSelected: (value) {
                       selectedBankType = value;
                       checkButtonEnabled();
@@ -321,6 +331,7 @@ class _ShoppingDetailScreenState extends ConsumerState<ShoppingDetailScreen> {
               ),
               SizedBox(height: 15),
               SignupAskLabel(text: '계좌번호'),
+              ///
               CustomTextFormField(
                 onlyNumber: true,
                 controller: accountNumberController,
