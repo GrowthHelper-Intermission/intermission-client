@@ -94,7 +94,7 @@ class CertificationResult extends ConsumerWidget {
         asignJobCd: state.asignJobCd,
         wedCd: state.wedCd,
         genderCd: state.genderCd,
-        petCd: "강아지",
+        petCd: state.petCd,
         occpSidoCd: state.occpSidoCd,
         occpSigunguCd: state.occpSigunguCd,
         houseTpCd: state.housTpCd,
@@ -106,9 +106,7 @@ class CertificationResult extends ConsumerWidget {
         userName: state.userName,
       );
       try {
-        print('hmm');
         var dio = Dio();
-        var data = newUser.toJson();
 
         /// 여기까지 정상수행
         ///

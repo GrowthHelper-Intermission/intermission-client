@@ -38,6 +38,7 @@ class CustomInterceptor extends Interceptor {
     if (options.headers['accessToken'] == 'true') {
       options.headers.remove('accessToken');
       final token = await storage.read(key: ACCESS_TOKEN_KEY);
+      print('accessToken: $token');
       //실제 토큰으로 대체
       options.headers.addAll({
         'authorization': 'Bearer $token',
