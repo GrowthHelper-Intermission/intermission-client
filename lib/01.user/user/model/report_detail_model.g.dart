@@ -10,7 +10,7 @@ ReportDetailModel _$ReportDetailModelFromJson(Map<String, dynamic> json) =>
     ReportDetailModel(
       id: json['id'] as String,
       mainTitle: json['mainTitle'] as String,
-      postDate: json['postDate'] as String,
+      postDate: json['postDate'] as String?,
       isAnswer: json['isAnswer'] as String,
       detail: json['detail'] as String,
     );

@@ -7,7 +7,7 @@ part 'report_model.g.dart';
 class ReportModel implements IModelWithId{
   final String id;          // 게시물 ID
   final String mainTitle;   // Title of the notification
-  final String postDate;    // Posting date of the notification
+  final String? postDate;    // Posting date of the notification
   final String isAnswer;
 
   ReportModel({
