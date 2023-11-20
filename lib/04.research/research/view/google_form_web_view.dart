@@ -1,7 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/src/scheduler/binding.dart';
-import 'package:intermission_project/common/component/normal_appbar.dart';
-import 'package:intermission_project/common/const/colors.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 import 'package:webview_flutter_android/webview_flutter_android.dart';
 import 'package:webview_flutter_wkwebview/webview_flutter_wkwebview.dart';
@@ -22,14 +19,6 @@ class GoogleFormWebView extends StatefulWidget {
 
 class _GoogleFormWebViewState extends State<GoogleFormWebView> {
   late WebViewController controller;
-
-  // bool isGoogleFormUrl(Uri uri) {
-  //   if (uri.host == "forms.gle") {
-  //     return true;
-  //   }
-  //   return uri.host == "docs.google.com" && uri.path.contains("forms");
-  // }
-
   void _showCompletionDialog() {
     showDialog(
       context: context,

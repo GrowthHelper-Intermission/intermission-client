@@ -2,9 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:intermission_project/common/const/colors.dart';
 
 TextStyle customTextStyle = TextStyle(
-  fontWeight: FontWeight.w500,
-  fontSize: 14.0,
+  fontWeight: FontWeight.w600,
+  fontSize: 18.0,
   color: Colors.black,
+);
+
+TextStyle customGreenTextSeventeenStyle = TextStyle(
+  fontWeight: FontWeight.w600,
+  fontSize: 15.0,
+  color: Colors.white,
 );
 
 TextStyle customTextRedStyle = TextStyle(
@@ -12,7 +18,7 @@ TextStyle customTextRedStyle = TextStyle(
   fontSize: 17.0,
   color: Colors.red,
 );
-TextStyle customTextGreenStyle = TextStyle(
+TextStyle customTextGreenTwentyStyle = TextStyle(
   fontWeight: FontWeight.w700,
   fontSize: 20.0,
   color: PRIMARY_COLOR,
@@ -50,7 +56,7 @@ TextStyle whiteWhiteSmallTextStyle = TextStyle(
 
 TextStyle blackSmallTextStyle = TextStyle(
   fontWeight: FontWeight.w500,
-  fontSize: 15.0,
+  fontSize: 17.0,
   color: Colors.black,
 );
 
