@@ -4,12 +4,14 @@ class FriendButton extends StatelessWidget {
   final String text;
   final String imageAsset;
   final Color color;
+  final VoidCallback onPressed; // 콜백 함수 추가
 
   const FriendButton({
     Key? key,
     required this.text,
     required this.imageAsset,
     required this.color,
+    required this.onPressed, // 콜백 함수 초기화
   }) : super(key: key);
 
   @override
@@ -24,9 +26,7 @@ class FriendButton extends StatelessWidget {
           borderRadius: BorderRadius.circular(5),
         ),
         child: TextButton(
-          onPressed: () {
-            // 버튼 눌림 로직 추가
-          },
+          onPressed: onPressed, // 여기에 콜백 함수 연결
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
