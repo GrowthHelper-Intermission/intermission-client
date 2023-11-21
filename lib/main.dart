@@ -10,6 +10,7 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:intermission_project/01.user/user/provider/firebase_token_provider.dart';
 import 'package:intermission_project/common/provider/go_router.dart';
 import 'package:intermission_project/common/storage/secure_storage.dart';
+import 'package:kakao_flutter_sdk/kakao_flutter_sdk.dart';
 import 'firebase_options.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:syncfusion_flutter_core/localizations.dart';
@@ -114,6 +115,17 @@ void main() async {
   await Firebase.initializeApp();
   await dotenv.load(fileName: "assets/config/.env");
 
+  KakaoSdk.init(nativeAppKey: dotenv.env['KAKAO_APP_KEY']);
+
+  bool isKakaoTalkSharingAvailable = await ShareClient.instance.isKakaoTalkSharingAvailable();
+
+  if (isKakaoTalkSharingAvailable) {
+    print('카카오톡으로 공유 가능');
+  } else {
+    print('카카오톡 미설치: 웹 공유 기능 사용 권장');
+  }
+
+
   // Firebase 초기화 및 토큰 가져오기
   final String? firebaseToken = await initializeFirebaseMessaging();
   print('FirebaseToken: $firebaseToken');
@@ -121,7 +133,6 @@ void main() async {
     print('${firebaseToken} != null');
     await saveTokenToSecureStorage(firebaseToken);
   }
-
   runApp(
     ProviderScope(
       child: MyApp(),
