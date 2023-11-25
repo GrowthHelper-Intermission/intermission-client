@@ -3,19 +3,22 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:intermission_project/01.user/user/model/alarm_model.dart';
+import 'package:intermission_project/01.user/user/provider/alarm_provider.dart';
 import 'package:intermission_project/common/const/colors.dart';
 import 'package:intermission_project/common/view/default_layout.dart';
 import 'package:intermission_project/firebase_options.dart';
 
-class AlarmSettingScreen extends StatefulWidget {
+class AlarmSettingScreen extends ConsumerStatefulWidget {
   const AlarmSettingScreen({super.key});
 
   @override
-  State<AlarmSettingScreen> createState() => _AlarmSettingScreenState();
+  ConsumerState<AlarmSettingScreen> createState() => _AlarmSettingScreenState();
 }
 
-class _AlarmSettingScreenState extends State<AlarmSettingScreen> {
+class _AlarmSettingScreenState extends ConsumerState<AlarmSettingScreen> {
   bool switchValue1 = false; // 스위치 상태를 관리하는 변수
   bool switchValue2 = false;
   bool switchValue3 = false;
@@ -161,6 +164,9 @@ class _AlarmSettingScreenState extends State<AlarmSettingScreen> {
                     child: InkWell(
                       onTap: () async {
                         // 여기에 Firebase 테스트 알림 보내기 로직 추가 예정
+                        AlarmModel alarmModel = AlarmModel(body: '테스트 알림이 도착했습니다!', title: '테스트 알림');
+                        ref
+                            .read(alarmStateNotifierProvider.notifier).repository.testAlarm(alarmModel);
                         print('테스트 알림 보내기 요청');
                       },
                       child: const Icon(
@@ -180,9 +186,20 @@ class _AlarmSettingScreenState extends State<AlarmSettingScreen> {
   }
 }
 
-
+// 백그라운드 메시지를 처리하는 프로세스는 네이티브(Android 및 Apple) 플랫폼과 웹 기반 플랫폼에서 다르다
+// Apple 플랫폼 및 Android
+// onBackgroundMessage 핸들러를 등록하여 백그라운드 메시지를 처리
+// 이를 통해 애플리케이션이 실행되지 않고 있더라도 메시지를 처리
+// 백그라운드 메시지 핸들러와 관련하여 유의해야 할 몇 가지 사항
+// 익명 함수가 아니어야함
+// 최상위 수준 함수여야 합(예: 초기화가 필요한 클래스 메서드가 아님).
+@pragma('vm:entry-point') //메시지 핸들러는 함수 선언 바로 위에 @pragma('vm:entry-point')로 주석을 달아야 합니다(그렇지 않으면 출시 모드의 경우 트리 쉐이킹 중에 삭제될 수 있음).
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
-  print("백그라운드 메시지 처리중... ${message.notification!.body!}");
+  // If you're going to use other Firebase services in the background, such as Firestore,
+  // make sure you call `initializeApp` before using other Firebase services.
+  await Firebase.initializeApp();
+
+  print("Handling a background message: ${message.messageId}");
 }
 
 Future<String?> initializeFirebaseMessaging() async {
@@ -250,6 +267,7 @@ Future<String?> initializeFirebaseMessaging() async {
     print('Message data: ${message.data}');
 
     if (message.notification != null && android != null) {
+      print('hello@@@@');
       flutterLocalNotificationsPlugin.show(
         notification.hashCode,
         notification?.title,

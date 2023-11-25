@@ -1,0 +1,30 @@
+
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:intermission_project/01.user/user/model/alarm_model.dart';
+import 'package:intermission_project/01.user/user/model/point_change_response.dart';
+import 'package:intermission_project/01.user/user/repository/alarm_repository.dart';
+
+final alarmStateNotifierProvider = StateNotifierProvider<AlarmStateNotifier, AlarmModel?>((ref) {
+  return AlarmStateNotifier(repository: ref.watch(alarmRepositoryProvider));
+});
+
+// StateNotifier 정의
+class AlarmStateNotifier extends StateNotifier<AlarmModel?> {
+  final AlarmRepository repository;
+
+  AlarmStateNotifier({
+    required this.repository,
+  }) : super(null);  // 초기 상태로 null 지정
+
+  // Future<PointChangeResponse> testAlarm(AlarmModel alarmModel) async {
+  //   try {
+  //     final testAlarmResp = await repository.testAlarm(alarmModel);
+  //     state = testAlarmResp;  // 상태 업데이트
+  //     print('알람 게시 성공');
+  //     return testAlarmResp;
+  //   } catch (e) {
+  //     print('error reason: ${e}');
+  //     throw e;  // 오류를 다시 던집니다.
+  //   }
+  // }
+}
