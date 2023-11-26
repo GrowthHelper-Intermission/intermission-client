@@ -19,7 +19,7 @@ class _AlarmRepository implements AlarmRepository {
   String? baseUrl;
 
   @override
-  Future<PointChangeResponse> testAlarm(alarmModel) async {
+  Future<PointChangeResponse> testAlarm({required alarmModel}) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{r'accessToken': 'true'};
