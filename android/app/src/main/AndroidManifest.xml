@@ -13,7 +13,7 @@
         </intent>
     </queries>
     <application
-        android:label="intermission_project"
+        android:label="인터미션"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher"
         android:requestLegacyExternalStorage="true"
