@@ -16,10 +16,12 @@ class AlarmStateNotifier extends StateNotifier<AlarmModel?> {
     required this.repository,
   }) : super(null);  // 초기 상태로 null 지정
 
-  // Future<PointChangeResponse> testAlarm(AlarmModel alarmModel) async {
+
+
+  // Future<AlarmModel> testAlarm(AlarmModel alarmModel) async {
   //   try {
-  //     final testAlarmResp = await repository.testAlarm(alarmModel);
-  //     state = testAlarmResp;  // 상태 업데이트
+  //     final testAlarmResp = await repository.testAlarm(alarmModel: alarmModel);
+  //     state = testAlarmResp as AlarmModel?;  // 상태 업데이트
   //     print('알람 게시 성공');
   //     return testAlarmResp;
   //   } catch (e) {
