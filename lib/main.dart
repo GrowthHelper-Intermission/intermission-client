@@ -17,98 +17,18 @@ import 'package:syncfusion_flutter_core/localizations.dart';
 import 'package:flutter_localizations/flutter_localizations.dart'; // 다언어 설정
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
-Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
-  print("백그라운드 메시지 처리중... ${message.notification!.body!}");
+Future<void> saveTokenToSecureStorage(String? token) async {
+  const storage = FlutterSecureStorage();
+  await storage.write(key: 'firebase_token', value: token);
 }
 
-Future<String?> initializeFirebaseMessaging() async {
-  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
 
-  FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
-  // 메시징 서비스 기본 객체 생성
-  FirebaseMessaging messaging = FirebaseMessaging.instance;
-
-  /// Firebase 메시징 권한 요청
-  // 첫 빌드시, 권한 확인하기
-  // 아이폰은 무조건 받아야 하고, 안드로이드는 상관 없음. 따로 유저가 설정하지 않는 한,
-  // 자동 권한 확보 상태
-  NotificationSettings settings = await messaging.requestPermission(
-    alert: true,
-    announcement: false,
-    badge: true,
-    carPlay: false,
-    criticalAlert: false,
-    provisional: false,
-    sound: true,
-  );
-
-  print(settings.authorizationStatus);
-
-  print('User granted permission: ${settings.authorizationStatus}');
-
-  /// 13버전
-  FirebaseMessaging.instance.requestPermission(
-    badge: true,
-    alert: true,
-    sound: true,
-  );
-
-  // Android용 알림 채널 설정
-  const AndroidNotificationChannel channel = AndroidNotificationChannel(
-    'high_importance_channel',
-    'High Importance Notifications',
-    description: 'This channel is used for important notifications.',
-    importance: Importance.max,
-  );
-
-  final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
-      FlutterLocalNotificationsPlugin();
-
-  await flutterLocalNotificationsPlugin
-      .resolvePlatformSpecificImplementation<
-          AndroidFlutterLocalNotificationsPlugin>()
-      ?.createNotificationChannel(channel);
-
-  // 로컬 알림 초기화
-  await flutterLocalNotificationsPlugin.initialize(
-    const InitializationSettings(
-      android: AndroidInitializationSettings('@mipmap/ic_launcher'),
-      iOS: DarwinInitializationSettings(),
-    ),
-  );
-
-  // foreground 푸시 알림 핸들링
-  FirebaseMessaging.onMessage.listen((RemoteMessage message) {
-    RemoteNotification? notification = message.notification;
-    AndroidNotification? android = message.notification?.android;
-
-    print('Got a message whilst in the foreground');
-    print('Message data: ${message.data}');
-
-    if (message.notification != null && android != null) {
-      flutterLocalNotificationsPlugin.show(
-        notification.hashCode,
-        notification?.title,
-        notification?.body,
-        NotificationDetails(
-          android: AndroidNotificationDetails(
-            channel.id,
-            channel.name,
-            channelDescription: channel.description,
-            icon: android.smallIcon,
-          ),
-        ),
-      );
-      print('Message also contained a notification: ${message.notification}');
-    }
-  });
-
-  // Firebase 토큰 발급
-  String? firebaseToken = await messaging.getToken();
-  print("FirebaseToken: $firebaseToken");
-
-  return firebaseToken;
+void getMyDeviceToken() async{
+  final token = await FirebaseMessaging.instance.getToken();
+  print('내 디바이스 토큰(여기가 첨이자 마지막):$token');
+  await saveTokenToSecureStorage(token);
 }
+
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -125,30 +45,32 @@ void main() async {
     print('카카오톡 미설치: 웹 공유 기능 사용 권장');
   }
 
+  getMyDeviceToken();
 
-  // Firebase 초기화 및 토큰 가져오기
-  final String? firebaseToken = await initializeFirebaseMessaging();
-  print('FirebaseToken: $firebaseToken');
-  if (firebaseToken != null) {
-    print('${firebaseToken} != null');
-    await saveTokenToSecureStorage(firebaseToken);
-  }
+  // // Firebase 초기화 및 토큰 가져오기
+  // final String? firebaseToken = await initializeFirebaseMessaging();
+  // print('FirebaseToken: $firebaseToken');
+  // if (firebaseToken != null) {
+  //   print('${firebaseToken} != null');
+  //   await saveTokenToSecureStorage(firebaseToken);
+  // }
+
+
+
   runApp(
     ProviderScope(
       child: MyApp(),
     ),
   );
 }
-Future<void> saveTokenToSecureStorage(String? token) async {
-  const storage = FlutterSecureStorage();
-  await storage.write(key: 'firebase_token', value: token);
-}
 
 class MyApp extends ConsumerWidget {
   const MyApp({super.key});
 
+
+
   Widget build(BuildContext context, WidgetRef ref) {
-    final storage = ref.watch(secureStorageProvider);
+    // final storage = ref.watch(secureStorageProvider);
     final route = ref.watch(routeProvider);
 
     SystemChrome.setSystemUIOverlayStyle(
@@ -185,6 +107,103 @@ class MyApp extends ConsumerWidget {
 final firebaseTokenProvider = StateProvider<String?>((ref) {
   return null; // 초기값은 null로 설정합니다.
 });
+
+
+
+/// 혹시 모르니 보류
+// Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
+//   print("백그라운드 메시지 처리중... ${message.notification!.body!}");
+// }
+//
+// Future<String?> initializeFirebaseMessaging() async {
+//   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+//
+//   FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
+//   // 메시징 서비스 기본 객체 생성
+//   FirebaseMessaging messaging = FirebaseMessaging.instance;
+//
+//   /// Firebase 메시징 권한 요청
+//   // 첫 빌드시, 권한 확인하기
+//   // 아이폰은 무조건 받아야 하고, 안드로이드는 상관 없음. 따로 유저가 설정하지 않는 한,
+//   // 자동 권한 확보 상태
+//   NotificationSettings settings = await messaging.requestPermission(
+//     alert: true,
+//     announcement: false,
+//     badge: true,
+//     carPlay: false,
+//     criticalAlert: false,
+//     provisional: false,
+//     sound: true,
+//   );
+//
+//   print(settings.authorizationStatus);
+//
+//   print('User granted permission: ${settings.authorizationStatus}');
+//
+//   /// 13버전
+//   FirebaseMessaging.instance.requestPermission(
+//     badge: true,
+//     alert: true,
+//     sound: true,
+//   );
+//
+//   // Android용 알림 채널 설정
+//   const AndroidNotificationChannel channel = AndroidNotificationChannel(
+//     'high_importance_channel',
+//     'High Importance Notifications',
+//     description: 'This channel is used for important notifications.',
+//     importance: Importance.max,
+//   );
+//
+//   final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
+//       FlutterLocalNotificationsPlugin();
+//
+//   await flutterLocalNotificationsPlugin
+//       .resolvePlatformSpecificImplementation<
+//           AndroidFlutterLocalNotificationsPlugin>()
+//       ?.createNotificationChannel(channel);
+//
+//   // 로컬 알림 초기화
+//   await flutterLocalNotificationsPlugin.initialize(
+//     const InitializationSettings(
+//       android: AndroidInitializationSettings('@mipmap/ic_launcher'),
+//       iOS: DarwinInitializationSettings(),
+//     ),
+//   );
+//
+//   // foreground 푸시 알림 핸들링
+//   FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+//     RemoteNotification? notification = message.notification;
+//     AndroidNotification? android = message.notification?.android;
+//
+//     print('Got a message whilst in the foreground');
+//     print('Message data: ${message.data}');
+//
+//     if (message.notification != null && android != null) {
+//       flutterLocalNotificationsPlugin.show(
+//         notification.hashCode,
+//         notification?.title,
+//         notification?.body,
+//         NotificationDetails(
+//           android: AndroidNotificationDetails(
+//             channel.id,
+//             channel.name,
+//             channelDescription: channel.description,
+//             icon: android.smallIcon,
+//           ),
+//         ),
+//       );
+//       print('Message also contained a notification: ${message.notification}');
+//     }
+//   });
+//
+//   // Firebase 토큰 발급
+//   String? firebaseToken = await messaging.getToken();
+//   print("FirebaseToken: $firebaseToken");
+//
+//   return firebaseToken;
+// }
+//
 
 
 
