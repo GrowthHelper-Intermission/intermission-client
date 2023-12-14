@@ -1,3 +1,4 @@
+import 'package:app_settings/app_settings.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
@@ -12,6 +13,41 @@ import 'package:intermission_project/common/const/colors.dart';
 import 'package:intermission_project/common/view/default_layout.dart';
 import 'package:intermission_project/firebase_options.dart';
 
+void showNotificationSettingsBottomSheet(BuildContext context) {
+  showModalBottomSheet(
+    context: context,
+    builder: (BuildContext bc) {
+      return Container(
+        height: MediaQuery.of(context).size.height * .25,
+        child: Padding(
+          padding: EdgeInsets.all(15),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              Text(
+                "전체 알림 설정은 '설정 > 알림 > 인터미션'에서 변경 가능해요!",
+                style: TextStyle(fontSize: 16),
+              ),
+              SizedBox(height: 20),
+              Center(
+                child: ElevatedButton(
+                  child: Text('설정으로 이동'),
+                  onPressed: () {
+                    // 앱 설정 화면을 연다
+                    AppSettings.openAppSettings();
+                    Navigator.pop(context);
+                  },
+                ),
+              ),
+            ],
+          ),
+        ),
+      );
+    },
+  );
+}
+
 class AlarmSettingScreen extends ConsumerStatefulWidget {
   const AlarmSettingScreen({super.key});
 
@@ -19,11 +55,94 @@ class AlarmSettingScreen extends ConsumerStatefulWidget {
   ConsumerState<AlarmSettingScreen> createState() => _AlarmSettingScreenState();
 }
 
-class _AlarmSettingScreenState extends ConsumerState<AlarmSettingScreen> {
+class _AlarmSettingScreenState extends ConsumerState<AlarmSettingScreen> with WidgetsBindingObserver {
   bool switchValue1 = false; // 스위치 상태를 관리하는 변수
   bool switchValue2 = false;
   bool switchValue3 = false;
   bool switchValue4 = false;
+
+  Future<bool> requestNotificationPermission() async {
+    NotificationSettings settings = await FirebaseMessaging.instance.requestPermission(
+      alert: true,
+      badge: true,
+      sound: true,
+    );
+    return settings.authorizationStatus == AuthorizationStatus.authorized;
+  }
+
+
+  // Future<bool> handleNotificationSwitchChange(bool value) async {
+  //   if (value) {
+  //     // Firebase 초기화 및 토큰 가져오기
+  //     final String? firebaseToken = await initializeFirebaseMessaging();
+  //     print('FirebaseToken: $firebaseToken');
+  //     if (firebaseToken != null) {
+  //       print('${firebaseToken} != null');
+  //       await saveTokenToSecureStorage(firebaseToken);
+  //     }
+  //
+  //     // 스위치가 켜질 때 권한 요청
+  //     NotificationSettings settings =
+  //         await FirebaseMessaging.instance.requestPermission(
+  //       alert: true,
+  //       badge: true,
+  //       sound: true,
+  //     );
+  //
+  //     if (settings.authorizationStatus == AuthorizationStatus.authorized) {
+  //       // 권한이 부여됨
+  //       print('알림 권한 부여됨');
+  //       return true;
+  //     } else {
+  //       // 권한 거부됨
+  //       switchValue1 = false;
+  //       print('알림 권한 거부됨');
+  //       return false;
+  //     }
+  //   } else {
+  //     // 스위치가 꺼질 때 모든 관련 스위치를 꺼뜨림
+  //     switchValue1 = false;
+  //     switchValue2 = false;
+  //     switchValue3 = false;
+  //     return false;
+  //   }
+  // }
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addObserver(this);
+    checkNotificationPermissionAndUpdateUI();
+  }
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    super.dispose();
+  }
+
+  /// 생명주기 이용해보자(WidgetsBindingObserver!)
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    super.didChangeAppLifecycleState(state);
+    if (state == AppLifecycleState.resumed) {
+      // 앱이 포그라운드로 돌아올 때 알림 권한 확인
+      checkNotificationPermissionAndUpdateUI();
+    }
+  }
+
+
+  Future<void> checkNotificationPermissionAndUpdateUI() async {
+    NotificationSettings settings = await FirebaseMessaging.instance.getNotificationSettings();
+    setState(() {
+      switchValue1 = settings.authorizationStatus == AuthorizationStatus.authorized;
+    });
+  }
+
+
+  void handleNotificationSwitchTap() {
+    showNotificationSettingsBottomSheet(context);
+  }
 
   Future<bool> handleNotificationSwitchChange(bool value) async {
     if (value) {
@@ -37,7 +156,7 @@ class _AlarmSettingScreenState extends ConsumerState<AlarmSettingScreen> {
 
       // 스위치가 켜질 때 권한 요청
       NotificationSettings settings =
-          await FirebaseMessaging.instance.requestPermission(
+      await FirebaseMessaging.instance.requestPermission(
         alert: true,
         badge: true,
         sound: true,
@@ -49,13 +168,37 @@ class _AlarmSettingScreenState extends ConsumerState<AlarmSettingScreen> {
         return true;
       } else {
         // 권한 거부됨
+        switchValue1 = false;
         print('알림 권한 거부됨');
+        showNotificationSettingsBottomSheet(context);
         return false;
       }
     } else {
-      // 스위치가 꺼질 때 권한 거부 처리 (필요한 경우)
-      // ...
+      // 스위치가 꺼질 때 모든 관련 스위치를 꺼뜨림
+      showNotificationSettingsBottomSheet(context);
       return false;
+    }
+  }
+
+
+
+  Future<void> requestPushNotificationPermission() async {
+    bool switchStatus = await handleNotificationSwitchChange(true);
+    setState(() {
+      switchValue1 = switchStatus;
+    });
+  }
+
+  Future<void> sendTestNotification() async {
+    if (!switchValue1) {
+      await requestPushNotificationPermission();
+    }
+    if (switchValue1) {
+      // 테스트 알림 보내기 로직
+      FlutterLocalNotification.init();
+      Future.delayed(const Duration(seconds: 1),
+          FlutterLocalNotification.requestNotificationPermission());
+      FlutterLocalNotification.showNotification();
     }
   }
 
@@ -84,10 +227,14 @@ class _AlarmSettingScreenState extends ConsumerState<AlarmSettingScreen> {
                     value: switchValue1,
                     activeColor: PRIMARY_COLOR,
                     onChanged: (bool value) async {
-                      bool switchStatus =
-                          await handleNotificationSwitchChange(value);
+                      bool switchStatus = await handleNotificationSwitchChange(value);
                       setState(() {
                         switchValue1 = switchStatus;
+                        if (!switchStatus) {
+                          switchValue2 = false;
+                          switchValue3 = false;
+                          // 여기에 추가적인 스위치 상태 변경 로직 추가 가능
+                        }
                       });
                     },
                   ),
@@ -116,11 +263,13 @@ class _AlarmSettingScreenState extends ConsumerState<AlarmSettingScreen> {
                   CupertinoSwitch(
                     value: switchValue2,
                     activeColor: PRIMARY_COLOR,
-                    onChanged: (bool value) {
-                      setState(() {
-                        switchValue2 = value;
-                      });
-                    },
+                    onChanged: switchValue1
+                        ? (bool value) {
+                            setState(() {
+                              switchValue2 = value;
+                            });
+                          }
+                        : null, // switchValue1이 false일 경우, 스위치 비활성화
                   ),
                 ],
               ),
@@ -148,11 +297,13 @@ class _AlarmSettingScreenState extends ConsumerState<AlarmSettingScreen> {
                   CupertinoSwitch(
                     value: switchValue3,
                     activeColor: PRIMARY_COLOR,
-                    onChanged: (bool value) {
-                      setState(() {
-                        switchValue3 = value;
-                      });
-                    },
+                    onChanged: switchValue1
+                        ? (bool value) {
+                            setState(() {
+                              switchValue3 = value;
+                            });
+                          }
+                        : null, // switchValue1이 false일 경우, 스위치 비활성화
                   ),
                 ],
               ),
@@ -177,18 +328,7 @@ class _AlarmSettingScreenState extends ConsumerState<AlarmSettingScreen> {
                   Padding(
                     padding: const EdgeInsets.only(right: 20),
                     child: InkWell(
-                      onTap: () async {
-                        // AlarmModel alarmModel = AlarmModel(body: '테스트 알림이 도착했습니다!', title: '테스트 알림');
-                        // ref
-                        //     .read(alarmStateNotifierProvider.notifier).repository.testAlarm(alarmModel: alarmModel);
-                        // print('테스트 알림 보내기 요청');
-                        FlutterLocalNotification.init();
-                        Future.delayed(
-                            const Duration(seconds: 1),
-                            FlutterLocalNotification
-                                .requestNotificationPermission());
-                        FlutterLocalNotification.showNotification();
-                      },
+                      onTap: sendTestNotification, // 테스트 알림 보내기 함수 호출
                       child: const Icon(
                         Icons.arrow_forward_ios,
                         color: GREY_COLOR,
