@@ -46,9 +46,7 @@ abstract class ResearchRepository implements
     @Queries() PaginationParams? paginationParams = const PaginationParams(),
   });
 
-  // http://34.64.77.5:8080/api/v1/test/interview
-  // 'http://$ip/restaurant/:id'
-  @GET('/{id}') //Detailrestaurant용
+  @GET('/{id}')
   @Headers({
     'accessToken': 'true',
   })
@@ -56,19 +54,19 @@ abstract class ResearchRepository implements
     @Path() required String id,
   });
 
-//설문조사 참여하기(POST!!)
+  //설문조사 참여하기
   @POST('/{id}')
   @Headers({
     'accessToken': 'true',
   })
   Future<SurveyParticipationResponse> participateSurvey({@Path() required String id});
 
-  //인터뷰, 테스터 참여 하기(패치!!)
-  @PATCH('/{id}')
-  @Headers({
-    'accessToken': 'true',
-  })
-  Future<InterviewTesterResponse> participateInterviewTester({@Path() required String id});
+
+  // @PATCH('/{id}')
+  // @Headers({
+  //   'accessToken': 'true',
+  // })
+  // Future<InterviewTesterResponse> participateInterviewTester({@Path() required String id});
 
 
   //리서치 신고하기
@@ -82,12 +80,12 @@ abstract class ResearchRepository implements
 
 ///설문 조사
 class SurveyParticipationResponse {
-  final String isJoin;
+  final int code;
 
-  SurveyParticipationResponse({required this.isJoin});
+  SurveyParticipationResponse({required this.code});
 
   factory SurveyParticipationResponse.fromJson(Map<String, dynamic> json) {
-    return SurveyParticipationResponse(isJoin: json['isJoin']);
+    return SurveyParticipationResponse(code: json['code']);
   }
 }
 
