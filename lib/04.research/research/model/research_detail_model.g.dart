@@ -8,7 +8,6 @@ part of 'research_detail_model.dart';
 
 ResearchDetailModel _$ResearchDetailModelFromJson(Map<String, dynamic> json) =>
     ResearchDetailModel(
-      isScreening: json['isScreening'] as String,
       userId: json['userId'] as int,
       id: json['id'] as String,
       mainTitle: json['mainTitle'] as String,
@@ -19,9 +18,10 @@ ResearchDetailModel _$ResearchDetailModelFromJson(Map<String, dynamic> json) =>
       researchRewdAmt: json['researchRewdAmt'] as String,
       isOnGoing: json['isOnGoing'] as String,
       isBlock: json['isBlock'] as String,
-      researchRewdPoint: json['researchRewdPoint'] as String?,
-      participationStatus: json['participationStatus'] as String?,
-      researchUrl: json['researchUrl'] as String?,
+      isScreening: json['isScreening'] as String?,
+      researchRewdPoint: json['researchRewdPoint'] as String,
+      participationStatus: json['participationStatus'] as String,
+      researchUrl: json['researchUrl'] as String,
       detail: json['detail'] as String,
       researchType: json['researchType'] as String,
       minAge: json['minAge'] as String,
@@ -45,8 +45,9 @@ Map<String, dynamic> _$ResearchDetailModelToJson(
       'researchMethTpCd': instance.researchMethTpCd,
       'researchRewdAmt': instance.researchRewdAmt,
       'isOnGoing': instance.isOnGoing,
-      'isBlock': instance.isBlock,
       'researchRewdPoint': instance.researchRewdPoint,
+      'isBlock': instance.isBlock,
+      'isScreening': instance.isScreening,
       'userId': instance.userId,
       'researchType': instance.researchType,
       'minAge': instance.minAge,
@@ -56,7 +57,6 @@ Map<String, dynamic> _$ResearchDetailModelToJson(
       'isScrap': instance.isScrap,
       'scrapCnt': instance.scrapCnt,
       'comments': instance.comments,
-      'isScreening': instance.isScreening,
       'participationStatus': instance.participationStatus,
       'researchUrl': instance.researchUrl,
     };
