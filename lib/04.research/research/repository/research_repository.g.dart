@@ -100,31 +100,6 @@ class _ResearchRepository implements ResearchRepository {
   }
 
   @override
-  Future<InterviewTesterResponse> participateInterviewTester(
-      {required id}) async {
-    const _extra = <String, dynamic>{};
-    final queryParameters = <String, dynamic>{};
-    final _headers = <String, dynamic>{r'accessToken': 'true'};
-    _headers.removeWhere((k, v) => v == null);
-    final Map<String, dynamic>? _data = null;
-    final _result = await _dio.fetch<Map<String, dynamic>>(
-        _setStreamType<InterviewTesterResponse>(Options(
-      method: 'PATCH',
-      headers: _headers,
-      extra: _extra,
-    )
-            .compose(
-              _dio.options,
-              '/${id}',
-              queryParameters: queryParameters,
-              data: _data,
-            )
-            .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
-    final value = InterviewTesterResponse.fromJson(_result.data!);
-    return value;
-  }
-
-  @override
   Future<PostResponse> reportResearch({
     required id,
     required content,

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intermission_project/01.user/user/provider/join_provider.dart';
+import 'package:intermission_project/01.user/user/provider/point_provider.dart';
 import 'package:intermission_project/01.user/user/provider/user_me_provider.dart';
 import 'package:intermission_project/04.research/research/component/research_detail_components.dart';
 import 'package:intermission_project/04.research/research/component/simple_button.dart';
@@ -68,33 +69,34 @@ class _ResearchDetailScreenState extends ConsumerState<ResearchDetailScreen> {
     super.initState();
   }
 
-  Future<void> _handleSurveyParticipation() async {
+  Future<void> _handleParticipation() async {
     var response = await ref
         .read(researchProvider.notifier)
         .participateInSurvey(id: widget.id);
-
-    if (response is SurveyParticipationResponse && response.isJoin == 'Y') {
-      setState(() {
-        ref.read(joinProvider.notifier).paginate();
-        isButtonEnabled = false;
-        print('비활');
-      });
-    }
-  }
-
-  Future<void> _handleInterviewTesterParticipationResponse() async {
-    var response = await ref
-        .read(researchProvider.notifier)
-        .participateInInterviewTester(id: widget.id);
 
     if (response is SurveyParticipationResponse && response.code == 200) {
       setState(() {
         ref.read(joinProvider.notifier).paginate();
         isButtonEnabled = false;
+
         print('비활');
       });
     }
   }
+
+  // Future<void> _handleInterviewTesterParticipationResponse() async {
+  //   var response = await ref
+  //       .read(researchProvider.notifier)
+  //       .participateInInterviewTester(id: widget.id);
+  //
+  //   if (response is SurveyParticipationResponse && response.code == 200) {
+  //     setState(() {
+  //       ref.read(joinProvider.notifier).paginate();
+  //       isButtonEnabled = false;
+  //       print('비활');
+  //     });
+  //   }
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -108,9 +110,7 @@ class _ResearchDetailScreenState extends ConsumerState<ResearchDetailScreen> {
     } else {
       isScrapped = state.isScrap == "Y" ? true : false;
 
-      if (state.participationStatus == "참여완료" ||
-          state.participationStatus == "참여진행중" ||
-          state.participationStatus == "참여불가") {
+      if (state.participationStatus != "참여가능") {
         isButtonEnabled = false;
       }
 
@@ -249,7 +249,7 @@ class _ResearchDetailScreenState extends ConsumerState<ResearchDetailScreen> {
   Widget _buildBottomButtons(ResearchDetailModel state) {
     bool isParticipationComplete = state.isOnGoing == "N";
     bool isEligibleForParticipation = state.isScreening == "N";
-
+    bool isParticipationPossible = state.participationStatus == "참여완료";
     // 버튼 텍스트 설정
     String buttonText = '참여가능';
     if (isParticipationComplete) {
@@ -258,9 +258,12 @@ class _ResearchDetailScreenState extends ConsumerState<ResearchDetailScreen> {
     } else if (isEligibleForParticipation) {
       buttonText = '참여 대상이 아닙니다!';
       isButtonEnabled = false;
-    } else if (state.researchType != '설문조사') {
-      buttonText = '참여중...';
+    } else if (isParticipationPossible) {
+      buttonText = '참여완료';
       isButtonEnabled = false;
+    } else{
+      buttonText = '참여가능'; //🥰
+      isButtonEnabled = true;
     }
 
     return Container(
@@ -311,26 +314,34 @@ class _ResearchDetailScreenState extends ConsumerState<ResearchDetailScreen> {
                 isButtonEnabled: isButtonEnabled && state.isScreening != "N",
                 onPressed: isButtonEnabled && state.isScreening != "N"
                     ? () async {
-                        if (state.researchType == '설문조사') {
-                          await Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => GoogleFormWebView(
-                                onComplete: () async {
-                                  await _handleSurveyParticipation(); // 콜백 내에서 참여 처리 함수 호출
-                                },
-                                // homeUrl: state.researchUrl!,
-                                homeUrl:
-                                    'https://docs.google.com/forms/d/e/1FAIpQLSe0PYqfFJNUNlo07evTMeWzDjPc0saRRQyYg2tBQBpPZE_CiA/viewform',
-                              ),
+                        await Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => GoogleFormWebView(
+                              onComplete: () async {
+                                var response = await ref
+                                    .read(researchProvider.notifier)
+                                    .participateInSurvey(id: widget.id);
+
+                                if (response is SurveyParticipationResponse && response.code == 200) {
+                                  setState(() {
+                                    ref.read(joinProvider.notifier).paginate();
+                                    isButtonEnabled = false;
+                                    buttonText = "참여완료";
+
+                                    print('비활성공');
+
+                                    ref.read(researchProvider.notifier).getDetail(id: widget.id);
+                                    ref.read(pointProvider);
+                                    ref.read(userMeProvider.notifier).getMe();
+                                  });
+                                }
+                              },
+                              // homeUrl: state.researchUrl!,
+                              homeUrl: state.researchUrl.toString(),
                             ),
-                          );
-                        } else {
-                          // 여기서는 참여중... 상태로만 변경되며, 실제 구글 폼으로는 이동하지 않음
-                          setState(() {
-                            // 참여중... 상태로 변경하는 로직 필요 (상태 관리 코드를 추가해야 함)
-                          });
-                        }
+                          ),
+                        );
                       }
                     : null, // 비활성화 상태일 때 null
                 buttonName: buttonText,
