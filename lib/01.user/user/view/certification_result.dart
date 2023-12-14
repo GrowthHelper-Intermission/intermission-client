@@ -80,7 +80,7 @@ class CertificationResult extends ConsumerWidget {
       // 상태 변경
       final state = ref.read(signupUserProvider.notifier);
       state.setBirthday(birthday);
-      state.setUniqueKey(certifiedAt.toString());
+      state.setUniqueKey(uniqueKey.toString());
       state.setCertifiedAt(certifiedAt.toString());
       state.setPhoneNumber(phoneNumber);
       state.setUsername(userName);
@@ -100,7 +100,7 @@ class CertificationResult extends ConsumerWidget {
         houseTpCd: state.housTpCd,
         userCd: state.userCd,
         birthday: state.birthday,
-        uniqueKey: state.certifiedAt,
+        uniqueKey: state.uniqueKey,
         certifiedAt: state.certifiedAt,
         phoneNumber: state.phoneNumber,
         userName: state.userName,
