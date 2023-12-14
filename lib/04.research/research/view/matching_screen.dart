@@ -94,42 +94,41 @@ class MatchingScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildCardButton({
-    required VoidCallback onPressed,
-    required String buttonName,
-    required String description,
-  }) {
-    return Card(
-      margin: const EdgeInsets.symmetric(vertical: 10.0),
-      elevation: 2.0,
-      child: Padding(
-        padding: const EdgeInsets.all(12.0),
-        child: Column(
-          children: [
-            CustomLoginNextButton(
-              onPressed: onPressed,
-              buttonName: buttonName,
-              isButtonEnabled: true,
-            ),
-            SizedBox(height: 6.0),
-            Text(
-              description,
-              textAlign: TextAlign.center,
-              style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  _launchURL(String url) async {
-    if (await canLaunch(url)) {
-      await launch(url);
-    } else {
-      throw 'Could not launch $url';
-    }
-  }
+  // Widget _buildCardButton({
+  //   required VoidCallback onPressed,
+  //   required String buttonName,
+  //   required String description,
+  // }) {
+  //   return Card(
+  //     margin: const EdgeInsets.symmetric(vertical: 10.0),
+  //     elevation: 2.0,
+  //     child: Padding(
+  //       padding: const EdgeInsets.all(12.0),
+  //       child: Column(
+  //         children: [
+  //           CustomLoginNextButton(
+  //             onPressed: onPressed,
+  //             buttonName: buttonName,
+  //             isButtonEnabled: true,
+  //           ),
+  //           SizedBox(height: 6.0),
+  //           Text(
+  //             description,
+  //             textAlign: TextAlign.center,
+  //             style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
+  //           ),
+  //         ],
+  //       ),
+  //     ),
+  //   );
+  // }
+  // _launchURL(String url) async {
+  //   if (await canLaunch(url)) {
+  //     await launch(url);
+  //   } else {
+  //     throw 'Could not launch $url';
+  //   }
+  // }
 }
 
 class CustomLoginNextButton extends StatefulWidget {
