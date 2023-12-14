@@ -33,8 +33,10 @@ class CertificationTest extends StatelessWidget {
       userCode: '${dotenv.env['IDENTIFICATION_MID']}',
       /* [필수입력] 본인인증 데이터 */
       data: CertificationData(
+        company: '인터미션',
+        name: '이도형',
         mRedirectUrl: 'http://localhost/sasample/PHP/success.php',
-        merchantUid: 'mid_${DateTime.now().millisecondsSinceEpoch}',         // 전화번호
+        merchantUid: 'mid_${DateTime.now().millisecondsSinceEpoch}',
       ),
       /* [필수입력] 콜백 함수 */
       callback: (Map<String, String> result) {
@@ -48,6 +50,7 @@ class CertificationTest extends StatelessWidget {
               ),
             );
           } else {
+            print(result);
             // 본인 인증 실패 또는 취소
             Navigator.pop(context); // 이전 페이지로 돌아갑니다
           }
