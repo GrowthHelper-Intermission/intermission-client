@@ -15,8 +15,9 @@ class ResearchModel implements IModelWithId {
   final String researchMethTpCd;
   final String researchRewdAmt;
   final String isOnGoing;
+  final String researchRewdPoint;
   final String isBlock;
-  final String? researchRewdPoint;
+  final String? isScreening;
 
   ResearchModel({
     required this.id,
@@ -27,8 +28,9 @@ class ResearchModel implements IModelWithId {
     required this.researchMethTpCd,
     required this.researchRewdAmt,
     required this.isOnGoing,
+    required this.researchRewdPoint,
     required this.isBlock,
-    this.researchRewdPoint,
+    required this.isScreening,
   });
 
   factory ResearchModel.fromJson(Map<String, dynamic> json)
