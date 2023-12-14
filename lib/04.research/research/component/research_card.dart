@@ -5,11 +5,6 @@ import 'package:intermission_project/04.research/research/view/research_detail_s
 import 'package:intermission_project/common/component/custom_text_style.dart';
 import 'package:intermission_project/common/const/colors.dart';
 import 'package:intermission_project/common/view/setting/setting_screen.dart';
-// enum onlineCategory {
-//   online,
-//   offline,
-//   both,
-// }
 
 class ResearchCard extends StatefulWidget {
   final String id; // PK
@@ -18,8 +13,10 @@ class ResearchCard extends StatefulWidget {
   final String dueDate; // yyyy-mm-dd
   final String exceptTime;
   final String researchMethTpCd;
+  final String researchRewdPoint;
   final String researchRewdAmt;
-
+  final String isBlock;
+  final String? isScreening;
   final String isOnGoing; // 진행 여부
 
   const ResearchCard({
@@ -31,6 +28,9 @@ class ResearchCard extends StatefulWidget {
     required this.researchMethTpCd,
     required this.dueDate,
     required this.isOnGoing,
+    required this.isBlock,
+    required this.researchRewdPoint,
+    this.isScreening,
     super.key,
   });
 
@@ -49,6 +49,9 @@ class ResearchCard extends StatefulWidget {
       researchRewdAmt: model.researchRewdAmt,
       dueDate: model.dueDate,
       isOnGoing: model.isOnGoing,
+      isBlock: model.isBlock,
+      isScreening: model.isScreening,
+      researchRewdPoint: model.researchRewdPoint,
     );
   }
 
@@ -65,7 +68,6 @@ class _ResearchCardState extends State<ResearchCard> {
     super.initState();
   }
 
-
   int _getDaysLeft() {
     DateTime now = DateTime.now();
     DateTime interviewDate = DateTime.parse(widget.dueDate);
@@ -75,7 +77,8 @@ class _ResearchCardState extends State<ResearchCard> {
 
   @override
   Widget build(BuildContext context) {
-    daysLeft = _getDaysLeft(); // Every time the widget is built, update the days left.
+    daysLeft =
+        _getDaysLeft(); // Every time the widget is built, update the days left.
 
     String displayText;
     Color borderColor;
@@ -214,4 +217,3 @@ class _ResearchCardState extends State<ResearchCard> {
     );
   }
 }
-
