@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intermission_project/common/view/splash_screen.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 import 'package:webview_flutter_android/webview_flutter_android.dart';
 import 'package:webview_flutter_wkwebview/webview_flutter_wkwebview.dart';
@@ -19,6 +20,7 @@ class GoogleFormWebView extends StatefulWidget {
 
 class _GoogleFormWebViewState extends State<GoogleFormWebView> {
   late WebViewController controller;
+  bool isLoading = false; // 로딩 상태를 관리하는 변수
   void _showCompletionDialog() {
     showDialog(
       context: context,
@@ -55,6 +57,9 @@ class _GoogleFormWebViewState extends State<GoogleFormWebView> {
             print(progress);
           },
           onPageStarted: (String url) {
+            setState(() {
+              isLoading = true;
+            });
             print(url);
           },
           onPageFinished: (String url) async {
@@ -65,6 +70,9 @@ class _GoogleFormWebViewState extends State<GoogleFormWebView> {
               _showCompletionDialog();
               widget.onComplete();
             }
+            // setState(() {
+            //   isLoading = false;
+            // });
           },
           onWebResourceError: (WebResourceError error) {
             print('Web resource error: ${error.toString()}');
@@ -80,6 +88,7 @@ class _GoogleFormWebViewState extends State<GoogleFormWebView> {
 
   @override
   Widget build(BuildContext context) {
+    if(!isLoading) return SplashScreen(message: '외부 폼으로 이동중...',);
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
