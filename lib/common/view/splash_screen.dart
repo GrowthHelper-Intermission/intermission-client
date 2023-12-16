@@ -13,6 +13,11 @@ import 'package:intermission_project/common/const/data.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class SplashScreen extends ConsumerWidget {
+  final String message; // 옵셔널 파라미터
+
+  // 생성자에서 message 파라미터에 기본값을 할당합니다.
+  SplashScreen({Key? key, this.message = '앱 정보를 가져오는중...'}) : super(key: key);
+
   static String get routeName => 'splash';
 
   @override
@@ -25,11 +30,13 @@ class SplashScreen extends ConsumerWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Image.asset(
-              // 'assets/img/whitelogo.png',
               'assets/launcher_icon/iconapp2.png',
               width: MediaQuery.of(context).size.width / 2,
             ),
-            Text('앱 정보를 가져오는중...',style: whiteWhiteSmallTextStyle),
+            Text(
+              message, // 사용된 옵셔널 파라미터
+              style: whiteWhiteSmallTextStyle,
+            ),
             const SizedBox(
               height: 16,
             ),
