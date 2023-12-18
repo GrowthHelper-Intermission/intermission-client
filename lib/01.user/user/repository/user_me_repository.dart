@@ -26,7 +26,13 @@ final userMeRepositoryProvider = Provider<UserMeRepository>(
 @RestApi()
 abstract class UserMeRepository {
   factory UserMeRepository(Dio dio, {String baseUrl}) = _UserMeRepository;
-  
+
+  @DELETE('/notification/token')
+  @Headers({
+    'accessToken': 'true',
+  })
+  Future<void> deleteToken();
+
   @DELETE('/delete')
   @Headers({
     'accessToken': 'true',
