@@ -19,6 +19,27 @@ class _UserMeRepository implements UserMeRepository {
   String? baseUrl;
 
   @override
+  Future<void> deleteToken() async {
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{};
+    final _headers = <String, dynamic>{r'accessToken': 'true'};
+    _headers.removeWhere((k, v) => v == null);
+    final Map<String, dynamic>? _data = null;
+    await _dio.fetch<void>(_setStreamType<void>(Options(
+      method: 'DELETE',
+      headers: _headers,
+      extra: _extra,
+    )
+        .compose(
+          _dio.options,
+          '/notification/token',
+          queryParameters: queryParameters,
+          data: _data,
+        )
+        .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
+  }
+
+  @override
   Future<void> deleteUser() async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};

@@ -180,9 +180,11 @@ class UserMeStateNotifier extends StateNotifier<UserModelBase?> {
 
   Future<void> logout() async {
     state = null;
+    await repository.deleteToken();
     await Future.wait([
       storage.delete(key: REFRESH_TOKEN_KEY),
       storage.delete(key: ACCESS_TOKEN_KEY),
     ]);
+
   }
 }
