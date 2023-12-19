@@ -33,6 +33,7 @@ class AuthRepository {
   }) async {
     final serialized = DataUtils.plainToBase64('$username:$password');
 
+    /// 파베토큰 추출
     final firebaseToken = await readTokenFromSecureStorage();
 
     print('here firebaseToken!: ');
@@ -45,6 +46,7 @@ class AuthRepository {
       },
       options: Options(
         headers: {
+          /// 아이디 비번
           'authorization': 'Basic $serialized',
         },
       ),

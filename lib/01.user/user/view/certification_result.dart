@@ -1,9 +1,12 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:http/http.dart' as http;
 import 'package:intermission_project/01.user/user/model/signup_user_model.dart';
 import 'package:intermission_project/01.user/user/provider/signup_user_provider.dart';
+import 'package:intermission_project/01.user/user/provider/user_me_provider.dart';
+import 'package:intermission_project/01.user/user/repository/user_me_repository.dart';
 import 'package:intermission_project/01.user/user/view/certification_result_provider.dart';
 import 'package:intermission_project/01.user/user/view/login_screen.dart';
 import 'package:intermission_project/01.user/user/view/signup_screen_page3.dart';
@@ -17,13 +20,13 @@ class CertificationResult extends ConsumerWidget {
   static const Color successColor = Color(0xff52c41a);
   static const Color failureColor = Color(0xfff5222d);
 
-  final Map<String, String> result;
+  final Map<String, String>? result;
 
   bool _isGetCertificationResultCalled = false;
 
   /// 1
 
-  CertificationResult({super.key, required this.result});
+  CertificationResult({super.key, this.result});
 
   static String get routeName => 'certification-result';
 
@@ -50,7 +53,7 @@ class CertificationResult extends ConsumerWidget {
   }
 
   Future<void> getCertificationResult(String impUid, String accessToken,
-      BuildContext context, WidgetRef ref) async {
+      BuildContext context, WidgetRef ref,FlutterSecureStorage flutterSecureStorage) async {
     var url = Uri.parse('https://api.iamport.kr/certifications/$impUid');
 
     print(impUid);
@@ -71,11 +74,14 @@ class CertificationResult extends ConsumerWidget {
       var responseData = data['response'];
 
       // 필요한 데이터 추출
-      String? birthday = responseData['birthday'];
-      String? uniqueKey = responseData['uniqueKey'];
-      int? certifiedAt = responseData['certified_at'];
-      String? phoneNumber = responseData['phone'];
-      String? userName = responseData['name'];
+      String birthday = responseData['birthday'];
+      String uniqueKey = responseData['unique_key'];
+      int certifiedAt = responseData['certified_at'];
+      String phoneNumber = responseData['phone'];
+      String userName = responseData['name'];
+
+      print('uniqueKey:');
+      print(uniqueKey);
 
       // 상태 변경
       final state = ref.read(signupUserProvider.notifier);
@@ -117,7 +123,6 @@ class CertificationResult extends ConsumerWidget {
             "email": newUser.email,
             "userName": newUser.userName,
             "password": newUser.password,
-            // 1699339688.toString() -> 중복계정 테스트할때
             "uniqueKey": newUser.uniqueKey.toString(),
             "certifiedAt": newUser.certifiedAt.toString(),
             "phoneNumber": newUser.phoneNumber,
@@ -140,9 +145,24 @@ class CertificationResult extends ConsumerWidget {
           ),
         );
         print('성공적 수행');
-        final notifier = ref.read(certificationResultProvider.notifier);
-        notifier.setLoading(false);
-        notifier.setSuccess(true);
+
+
+
+        if (response.statusCode == 201){
+          var responseData = response.data;
+          var accessToken = responseData['accessToken'];
+          var refreshToken = responseData['refreshToken'];
+          print('accessToken: ${accessToken}');
+          print('refreshToken: ${refreshToken}');
+          await flutterSecureStorage.write(key: REFRESH_TOKEN_KEY, value: refreshToken);
+          await flutterSecureStorage.write(key: ACCESS_TOKEN_KEY, value: accessToken);
+          ref.read(userMeProvider.notifier).getMe();
+          final notifier = ref.read(certificationResultProvider.notifier);
+          notifier.setLoading(false);
+          notifier.setSuccess(true);
+        }
+
+
       } catch (e) {
         print(e);
         final notifier = ref.read(certificationResultProvider.notifier);
@@ -161,11 +181,12 @@ class CertificationResult extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final certificationState = ref.watch(certificationResultProvider);
-
     String message;
     IconData icon;
     Color color;
     bool isErrorMessageRendering;
+
+    FlutterSecureStorage flutterSecureStorage = FlutterSecureStorage();
 
     if (result!['success'] == 'true') {
       message = '본인인증에 성공하였습니다';
@@ -186,6 +207,7 @@ class CertificationResult extends ConsumerWidget {
               accessToken,
               context,
               ref,
+              flutterSecureStorage,
             );
           },
         );
@@ -206,27 +228,29 @@ class CertificationResult extends ConsumerWidget {
       });
     }
 
-    if (certificationState.isLoading && !certificationState.isSuccess) {
+    if (!certificationState.isLoading && certificationState.isSuccess) {
       return SplashScreen();
     } else if (!certificationState.isSuccess && !certificationState.isLoading) {
       navigateToScreen(
         SignupScreenPage3(),
       );
       return Scaffold(
+        resizeToAvoidBottomInset: false,
         appBar: AppBar(
           title: Text('본인인증 결과'),
           centerTitle: true,
           automaticallyImplyLeading: false,
         ),
         body: AlertDialog(
+          backgroundColor: Colors.white,
           title: Text('중복 회원'),
           content: Text('중복된 회원입니다. 다시 회원가입 해주세요!'),
         ),
       );
     } else {
-      navigateToScreen(
-        LoginScreen(),
-      );
+      // navigateToScreen(
+      //   LoginScreen(),
+      // );
       return Scaffold(
         appBar: AppBar(
           title: Text('본인인증 결과'),
@@ -235,7 +259,7 @@ class CertificationResult extends ConsumerWidget {
         ),
         body: AlertDialog(
           title: Text('회원가입 완료'),
-          content: Text('로그인 해주세요!'),
+          content: Text('잠시만 기다려주세요...'),
         ),
       );
     }
