@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:intermission_project/01.user/user/view/certification_result.dart';
 import 'package:intermission_project/01.user/user/view/report_detail_screen.dart';
 import 'package:intermission_project/01.user/user/view/signup_screen_page1.dart';
 import 'package:intermission_project/01.user/user/view/signup_screen_page2.dart';
@@ -147,6 +148,11 @@ class AuthProvider extends ChangeNotifier {
           name: ParticipatedResearchScreen.routeName,
           builder: (_, __) => ParticipatedResearchScreen(),
         ),
+    GoRoute(
+      path: '/certification-result',
+      name: CertificationResult.routeName,
+      builder: (_, __) => CertificationResult(),
+    ),
       ];
 
   logout() {
@@ -156,7 +162,7 @@ class AuthProvider extends ChangeNotifier {
 
   FutureOr<String?> redirectLogic(BuildContext context, GoRouterState state) {
     final UserModelBase? user = ref.read(userMeProvider);
-
+    if (state.matchedLocation == '/certification-result' && user is UserModel) return '/';
     // 회원가입 페이지에서 회원가입 완료 후 로그인 페이지로 리다이렉트
     if (state.matchedLocation == '/signup' && user is UserModel) return '/';
 
@@ -164,8 +170,10 @@ class AuthProvider extends ChangeNotifier {
 
     if (state.matchedLocation == '/login' && user is UserModel) return '/';
 
-    if (!state.matchedLocation.startsWith('/login') && user == null)
+
+    if (!state.matchedLocation.startsWith('/login') && user == null) {
       return '/select';
+    }
 
     if (user is UserModel &&
         (state.matchedLocation == '/select' ||
