@@ -40,12 +40,13 @@ class _UserMeRepository implements UserMeRepository {
   }
 
   @override
-  Future<void> deleteUser() async {
+  Future<void> deleteUser(deleteUserModel) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{r'accessToken': 'true'};
     _headers.removeWhere((k, v) => v == null);
-    final Map<String, dynamic>? _data = null;
+    final _data = <String, dynamic>{};
+    _data.addAll(deleteUserModel.toJson());
     await _dio.fetch<void>(_setStreamType<void>(Options(
       method: 'DELETE',
       headers: _headers,
