@@ -6,7 +6,7 @@ part 'point_change_response.g.dart';
 class PointChangeResponse {
   final int code;
   final String? httpStatus;
-  final String message;
+  final String? message;
   final String? data;
 
   PointChangeResponse({

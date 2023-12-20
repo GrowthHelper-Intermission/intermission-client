@@ -1,6 +1,7 @@
 // PointRepository
 import 'package:dio/dio.dart' hide Headers;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:intermission_project/01.user/user/model/friend_code_model.dart';
 import 'package:intermission_project/01.user/user/model/point_change_model.dart';
 import 'package:intermission_project/01.user/user/model/point_change_response.dart';
 import 'package:intermission_project/01.user/user/model/point_model.dart';
@@ -41,5 +42,17 @@ abstract class PointRepository implements IBasePaginationRepository<PointModel> 
   Future<PointChangeResponse> changePoint({
     @Body() required PointChangeModel pointChangeModel,
   });
+
+  @GET('/code')
+  @Headers({
+    'accessToken':'true',
+  })
+  Future<FriendCodeModel> getCode();
+
+  @POST('/code')
+  @Headers({
+    'accessToken':'true',
+  })
+  Future<PointChangeResponse> registerCode();
 
 }
