@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intermission_project/01.user/user/model/report_detail_model.dart';
 import 'package:intermission_project/01.user/user/provider/report_provider.dart';
 import 'package:intermission_project/01.user/user/view/user_point_count_screen.dart';
+import 'package:intermission_project/common/component/custom_text_style.dart';
 import 'package:intermission_project/common/view/default_layout.dart';
 
 // static String get routeName => 'researchDetail';
@@ -33,7 +34,6 @@ class _ReportDetailScreenState extends ConsumerState<ReportDetailScreen> {
 
   @override
   Widget build(BuildContext context) {
-
     final state = ref.watch(reportDetailProvider(widget.id));
 
     // 데이터가 없거나 로딩 중인 경우
@@ -43,11 +43,33 @@ class _ReportDetailScreenState extends ConsumerState<ReportDetailScreen> {
 
     return DefaultLayout(
       title: '문의 세부 사항',
-      child: Column(
-        children: [
-          Text(state.mainTitle),
-          Text('문의하신 세부 내용${state.detail}'),
-        ],
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              '문의 제목',
+              style: customHeaderStyle,
+            ),
+            Divider(color: Colors.grey[400],thickness: 0.5,),
+            Container(
+              child: Text(
+                state.mainTitle,
+                style: customTextStyle,
+              ),
+            ),
+            Text(
+              '세부 내용',
+              style: customHeaderStyle,
+            ),
+            Divider(color: Colors.grey[400],thickness: 0.5,),
+            Text(
+              '${state.detail}',
+              style: customTextStyle,
+            ),
+          ],
+        ),
       ),
     );
   }
