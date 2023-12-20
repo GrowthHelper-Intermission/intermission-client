@@ -67,7 +67,7 @@ class ReportCard extends StatelessWidget {
                         ),
                         child: Center(
                           child: Text(
-                            isAnswer == "true" ? '답변완료' : '답변대기',
+                            isAnswer == "true" ? '확인완료' : '확인대기',
                             style: TextStyle(
                               color: Colors.grey,
                               fontSize: 13.0,
