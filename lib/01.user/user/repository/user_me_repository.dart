@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart' hide Headers;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intermission_project/01.user/user/model/change_bank_model.dart';
+import 'package:intermission_project/01.user/user/model/delete_user_model.dart';
 import 'package:intermission_project/01.user/user/model/password_change_model.dart';
 import 'package:intermission_project/01.user/user/model/point_model.dart';
 import 'package:intermission_project/01.user/user/model/signup_user_model.dart';
@@ -37,7 +38,7 @@ abstract class UserMeRepository {
   @Headers({
     'accessToken': 'true',
   })
-  Future<void> deleteUser();
+  Future<void> deleteUser(@Body() DeleteUserModel deleteUserModel);
 
   @PATCH('/bank')
   @Headers({

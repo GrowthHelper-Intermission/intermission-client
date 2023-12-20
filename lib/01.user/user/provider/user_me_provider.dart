@@ -5,6 +5,7 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get/get.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intermission_project/01.user/user/model/change_bank_model.dart';
+import 'package:intermission_project/01.user/user/model/delete_user_model.dart';
 import 'package:intermission_project/01.user/user/model/password_change_model.dart';
 import 'package:intermission_project/01.user/user/model/signup_user_model.dart';
 import 'package:intermission_project/01.user/user/model/test_user_model.dart';
@@ -48,9 +49,9 @@ class UserMeStateNotifier extends StateNotifier<UserModelBase?> {
     getMe();
   }
 
-  Future<void> deleteUser() async {
+  Future<void> deleteUser(DeleteUserModel deleteUserModel) async {
     try {
-      final resp = await repository.deleteUser();
+      final resp = await repository.deleteUser(deleteUserModel);
       return resp;
       print('성공적 탈퇴');
     } catch (e) {
