@@ -10,7 +10,7 @@ PointChangeResponse _$PointChangeResponseFromJson(Map<String, dynamic> json) =>
     PointChangeResponse(
       code: json['code'] as int,
       httpStatus: json['httpStatus'] as String?,
-      message: json['message'] as String,
+      message: json['message'] as String?,
       data: json['data'] as String?,
     );
 
