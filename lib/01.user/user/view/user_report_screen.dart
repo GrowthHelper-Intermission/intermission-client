@@ -107,11 +107,11 @@ class _UserReportScreenState extends ConsumerState<UserReportScreen>
               height: 90,
               alignment: Alignment.center, // 텍스트를 컨테이너 중앙에 배치
               child: Padding(
-                padding: const EdgeInsets.only(top: 20),
+                padding: const EdgeInsets.only(top: 5),
                 child: Text(
-                  "문의하신 날짜 기준 3일 이내에 답변드립니다!\n욕설이나 비방은 자제해주세요:)\n",
+                  "인터미션에게 바라는 점이 있다면 써주세요!",
                   textAlign: TextAlign.center, // 텍스트를 중앙 정렬
-                  style: TextStyle(fontSize: 17, fontWeight: FontWeight.bold),
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                   maxLines: 3,
                 ),
               ),
@@ -138,13 +138,14 @@ class _UserReportScreenState extends ConsumerState<UserReportScreen>
           Container(
             height: MediaQuery.of(context).size.height / 4,
             child: CustomTextFormField(
+              maxLength: 200,
               maxLines: null,
               expands: true,
               onChanged: (String value) {
                 checkButtonEnabled();
               },
               controller: contentsController,
-              hintText: '문의내용을 작성해 주세요!',
+              hintText: '욕설이나 비방은 자제해주세요!',
               textAlign: TextAlign.start, // 왼쪽 정렬
               textAlignVertical: TextAlignVertical.top, // 상단 정렬
             ),
