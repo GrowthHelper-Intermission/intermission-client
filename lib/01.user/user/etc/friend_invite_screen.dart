@@ -1,10 +1,25 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_svg/svg.dart';
+import 'package:get/get.dart';
+import 'package:intermission_project/04.research/research/model/friend_code_model.dart';
 import 'package:intermission_project/common/component/custom_appbar.dart';
+import 'package:intermission_project/common/component/custom_text_style.dart';
 import 'package:intermission_project/common/component/friend_button.dart';
 import 'package:intermission_project/common/const/colors.dart';
 import 'package:intermission_project/common/view/default_layout.dart';
 import 'package:kakao_flutter_sdk/kakao_flutter_sdk_share.dart';
 import 'package:kakao_flutter_sdk/kakao_flutter_sdk_talk.dart';
+
+import '../../../common/component/custom_text_form_field.dart';
+import '../../../common/component/login_next_button.dart';
+import '../../../common/component/signup_ask_label.dart';
+import '../provider/point_provider.dart';
+import '../provider/user_me_provider.dart';
+
+// PointProvider를 사용하여 추천인 코드를 저장하는 StateNotifierProvider를 정의합니다.
+final referralCodeProvider = StateProvider<String?>((ref) => null);
 
 final TextTemplate defaultText = TextTemplate(
   text: '회원 가입 후 추천인 코드를 입력 하면 두분 모두에게 300원의 추가 적립금을 드려요!',
@@ -14,55 +29,156 @@ final TextTemplate defaultText = TextTemplate(
   ),
 );
 
-final FeedTemplate defaultFeed = FeedTemplate(
-  content: Content(
-    title: '딸기 치즈 케익',
-    description: '#케익 #딸기 #삼평동 #카페 #분위기 #소개팅',
-    imageUrl: Uri.parse(
-        'https://mud-kage.kakao.com/dn/Q2iNx/btqgeRgV54P/VLdBs9cvyn8BJXB3o7N8UK/kakaolink40_original.png'),
-    link: Link(
-        webUrl: Uri.parse('https://developers.kakao.com'),
-        mobileWebUrl: Uri.parse('https://developers.kakao.com')),
-  ),
-  itemContent: ItemContent(
-    profileText: 'Kakao',
-    profileImageUrl: Uri.parse(
-        'https://mud-kage.kakao.com/dn/Q2iNx/btqgeRgV54P/VLdBs9cvyn8BJXB3o7N8UK/kakaolink40_original.png'),
-    titleImageUrl: Uri.parse(
-        'https://mud-kage.kakao.com/dn/Q2iNx/btqgeRgV54P/VLdBs9cvyn8BJXB3o7N8UK/kakaolink40_original.png'),
-    titleImageText: 'Cheese cake',
-    titleImageCategory: 'cake',
-    items: [
-      ItemInfo(item: 'cake1', itemOp: '1000원'),
-      ItemInfo(item: 'cake2', itemOp: '2000원'),
-      ItemInfo(item: 'cake3', itemOp: '3000원'),
-      ItemInfo(item: 'cake4', itemOp: '4000원'),
-      ItemInfo(item: 'cake5', itemOp: '5000원')
-    ],
-    sum: 'total',
-    sumOp: '15000원',
-  ),
-  social: Social(likeCount: 286, commentCount: 45, sharedCount: 845),
-  buttons: [
-    Button(
-      title: '웹으로 보기',
-      link: Link(
-        webUrl: Uri.parse('https: //developers.kakao.com'),
-        mobileWebUrl: Uri.parse('https: //developers.kakao.com'),
-      ),
-    ),
-    Button(
-      title: '앱으로보기',
-      link: Link(
-        androidExecutionParams: {'key1': 'value1', 'key2': 'value2'},
-        iosExecutionParams: {'key1': 'value1', 'key2': 'value2'},
-      ),
-    ),
-  ],
-);
-
-class FriendInviteScreen extends StatelessWidget {
+class FriendInviteScreen extends ConsumerStatefulWidget {
   FriendInviteScreen({super.key});
+
+  @override
+  ConsumerState<FriendInviteScreen> createState() => _FriendInviteScreenState();
+}
+
+class _FriendInviteScreenState extends ConsumerState<FriendInviteScreen> {
+  TextEditingController friendCodeController = TextEditingController();
+  void checkFriendCodeEnabled() {
+    String friendCode = friendCodeController.text.trim();
+    bool isfriendCodeValid = friendCode.isNotEmpty;
+    setState(() {
+      checkButtonEnabled();
+    });
+  }
+
+  bool isButtonEnabled = false;
+  void checkButtonEnabled() {
+    if (friendCodeController.text.isNotEmpty) {
+      setState(() {
+        isButtonEnabled = true;
+      });
+    } else {
+      setState(() {
+        isButtonEnabled = false;
+      });
+    }
+  }
+
+  void showAddDialog() {
+    final pointState = ref.watch(pointProvider);
+
+    showModalBottomSheet(
+      isScrollControlled: true,
+      context: context,
+      builder: (BuildContext context) {
+        return Container(
+          color: Colors.white,
+          padding: EdgeInsets.only(
+            left: 15,
+            top: 15,
+            right: 15,
+            bottom: MediaQuery.of(context).viewInsets.bottom + 50,
+          ),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  SizedBox(width: 20),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 5),
+                    child: Text(
+                      '추천인 코드 입력', // 중앙 제목
+                      style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                    ),
+                  ),
+                  IconButton(
+                    icon: Icon(Icons.close),
+                    onPressed: () {
+                      Navigator.of(context).pop(); // 닫기 아이콘 클릭 시 BottomSheet 닫힘
+                    },
+                  ),
+                ],
+              ),
+              SizedBox(height: 15),
+              SignupAskLabel(text: '추천인 코드'),
+              CustomTextFormField(
+                controller: friendCodeController,
+                onChanged: (String value) {
+                  checkFriendCodeEnabled();
+                },
+                hintText: '숫자만 입력',
+                showClearIcon: true,
+              ),
+              Padding(
+                padding: const EdgeInsets.only(top: 30),
+                child: LoginNextButton(
+                  onPressed: () async {
+                    Navigator.of(context).pop(); // Bottom sheet 닫기
+
+                    FriendRecommendCodeModel friendCodeModel = FriendRecommendCodeModel(code: friendCodeController.text.trim().toString());
+                    try {
+                      var response = await ref
+                          .read(pointProvider.notifier)
+                          .repository
+                          .registerCode(friendRecommendCodeModel: friendCodeModel);
+
+                      if (response.code == 200) {
+                        // 사용자 정보 갱신 요청
+                        ref.read(userMeProvider.notifier).getMe();
+                        ref.read(pointProvider.notifier).paginate();
+                        showDialog(
+                          context: context,
+                          builder: (context) => CupertinoAlertDialog(
+                            title: Text("알림"),
+                            content: Text("포인트가 적립되었습니다!"),
+                            actions: <Widget>[
+                              TextButton(
+                                child: Text("확인"),
+                                onPressed: () => Navigator.of(context).pop(),
+                              ),
+                            ],
+                          ),
+                        );
+                      } else if(response.code == 400) {
+                        showDialog(
+                          context: context,
+                          builder: (context) => CupertinoAlertDialog(
+                            title: Text("알림"),
+                            content: Text("등록되지 않은 추천인 코드 입니다!"),
+                            actions: <Widget>[
+                              TextButton(
+                                child: Text("확인"),
+                                onPressed: () => Navigator.of(context).pop(),
+                              ),
+                            ],
+                          ),
+                        );
+                      }
+                    } catch (error) {
+                      // 에러 처리
+                      print("에러 발생: $error");
+                      showDialog(
+                        context: context,
+                        builder: (context) => CupertinoAlertDialog(
+                          title: Text("알림"),
+                          content: Text("등록되지 않은 추천인 코드 입니다!"),
+                          actions: <Widget>[
+                            TextButton(
+                              child: Text("확인"),
+                              onPressed: () => Navigator.of(context).pop(),
+                            ),
+                          ],
+                        ),
+                      );
+                    }
+                  },
+                  buttonName: '변경하기',
+                  isButtonEnabled: true,
+                ),
+              ),
+            ],
+          ),
+        );
+      },
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -122,10 +238,42 @@ class FriendInviteScreen extends StatelessWidget {
             ),
           ),
           FriendButton(
-            text: '친구 추천 링크 복사',
+            text: '친구 추천 코드 복사',
             imageAsset: 'assets/img/link.png',
             color: SUB_COLOR2,
-            onPressed: () {},
+            onPressed: () async {
+              var response =
+                  await ref.read(pointProvider.notifier).repository.getCode();
+              showDialog(
+                context: context,
+                builder: (context) => Container(
+                  child: CupertinoAlertDialog(
+                    content: Center(
+                      child: RichText(
+                        maxLines: 1,
+                        text: TextSpan(
+                          style: TextStyle(
+                              color: Colors.black,
+                              fontSize: 18,
+                              fontWeight: FontWeight.w500), // 기본 텍스트 스타일
+                          children: <TextSpan>[
+                            TextSpan(text: '코드 '),
+                            TextSpan(
+                              text: '${response.data}',
+                              style: TextStyle(
+                                color: PRIMARY_COLOR,
+                              ), // response.data에 적용할 스타일
+                            ),
+                            TextSpan(text: ' 복사 완료!\n'),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              );
+              ref.read(referralCodeProvider.notifier).state = response.data;
+            },
           ),
           Padding(
               padding: const EdgeInsets.only(bottom: 30),
@@ -134,8 +282,24 @@ class FriendInviteScreen extends StatelessWidget {
                 imageAsset: 'assets/img/kakao.png',
                 color: YELLOW_COLOR,
                 onPressed: () async {
-                  // 카카오톡 친구 목록 가져오기 및 메시지 보내기 로직
                   try {
+                    // referralCodeProvider에서 저장된 추천인 코드를 가져옵니다.
+                    String? referralCode = ref.read(referralCodeProvider);
+
+                    // 추천인 코드를 포함한 새로운 TextTemplate를 만듭니다.
+                    // 추천인 코드가 없으면, 기본 메시지(defaultText)를 사용합니다.
+                    TextTemplate messageTemplate = referralCode != null
+                        ? TextTemplate(
+                            text:
+                                '회원 가입 후 추천인 코드 $referralCode를 입력 하면 두분 모두에게 300원의 추가 적립금을 드려요!',
+                            link: Link(
+                              webUrl: Uri.parse('https://developers.kakao.com'),
+                              mobileWebUrl:
+                                  Uri.parse('https://developers.kakao.com'),
+                            ),
+                          )
+                        : defaultText;
+
                     // 카카오톡 실행 가능 여부 확인
                     bool isKakaoTalkSharingAvailable = await ShareClient
                         .instance
@@ -144,7 +308,7 @@ class FriendInviteScreen extends StatelessWidget {
                     if (isKakaoTalkSharingAvailable) {
                       try {
                         Uri uri = await ShareClient.instance
-                            .shareDefault(template: defaultText);
+                            .shareDefault(template: messageTemplate);
                         await ShareClient.instance.launchKakaoTalk(uri);
                         print('카카오톡 공유 완료');
                       } catch (error) {
@@ -153,13 +317,12 @@ class FriendInviteScreen extends StatelessWidget {
                     } else {
                       try {
                         Uri shareUrl = await WebSharerClient.instance
-                            .makeDefaultUrl(template: defaultText);
+                            .makeDefaultUrl(template: messageTemplate);
                         await launchBrowserTab(shareUrl, popupOpen: true);
                       } catch (error) {
                         print('카카오톡 공유 실패 $error');
                       }
                     }
-                    // 이후의 로직 처리
                   } catch (error) {
                     print('카카오톡 친구 목록 가져오기 실패 $error');
                   }
@@ -172,10 +335,11 @@ class FriendInviteScreen extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.all(20.0),
                 child: Text(
-                  '친구 추천 현황',
+                  '친구 추천 현황 및 코드 입력',
                   style: TextStyle(
-                    fontSize: 16,
                     fontWeight: FontWeight.w700,
+                    fontSize: 20.0,
+                    color: Colors.black,
                   ),
                 ),
               ),
@@ -184,30 +348,50 @@ class FriendInviteScreen extends StatelessWidget {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text('가입한 친구'),
                     Text(
-                      '총 0명',
+                      '가입한 친구',
+                      style: TextStyle(
+                        fontWeight: FontWeight.w500,
+                        fontSize: 17.0,
+                        color: Colors.black,
+                      ),
+                    ),
+                    Text(
+                      '총 1명',
+                      style: TextStyle(
+                        fontWeight: FontWeight.w500,
+                        fontSize: 17.0,
+                        color: Colors.black,
+                      ),
                     ),
                   ],
                 ),
               ),
-              Center(
-                child: Container(
-                  height: 1,
-                  width: 350,
-                  color: Colors.grey[200],
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(20.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text('이번달에 가입한 친구'),
-                    Text(
-                      '0명',
+              InkWell(
+                onTap: showAddDialog,
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 20),
+                  child: SizedBox(
+                    height: 50,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          '코드 입력하고 포인트 받기',
+                          style: TextStyle(
+                            fontWeight: FontWeight.w500,
+                            fontSize: 17.0,
+                            color: Colors.black,
+                          ),
+                        ),
+                        SvgPicture.asset(
+                          'assets/img/rightArrow.svg',
+                          width: 20,
+                          height: 20,
+                        ),
+                      ],
                     ),
-                  ],
+                  ),
                 ),
               ),
             ],
