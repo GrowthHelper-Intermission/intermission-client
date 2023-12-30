@@ -37,6 +37,7 @@ void main() async {
 
   KakaoSdk.init(nativeAppKey: dotenv.env['KAKAO_APP_KEY']);
 
+  /// 친구 초대하기 카카오톡 버튼 클릭시로 변경 필요❗️
   bool isKakaoTalkSharingAvailable = await ShareClient.instance.isKakaoTalkSharingAvailable();
 
   if (isKakaoTalkSharingAvailable) {
