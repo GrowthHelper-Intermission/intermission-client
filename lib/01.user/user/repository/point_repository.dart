@@ -5,6 +5,7 @@ import 'package:intermission_project/01.user/user/model/friend_code_model.dart';
 import 'package:intermission_project/01.user/user/model/point_change_model.dart';
 import 'package:intermission_project/01.user/user/model/point_change_response.dart';
 import 'package:intermission_project/01.user/user/model/point_model.dart';
+import 'package:intermission_project/04.research/research/model/friend_code_model.dart';
 import 'package:intermission_project/common/const/data.dart';
 import 'package:intermission_project/common/dio/dio.dart';
 import 'package:intermission_project/common/model/cursor_pagination_model.dart';
@@ -53,6 +54,8 @@ abstract class PointRepository implements IBasePaginationRepository<PointModel> 
   @Headers({
     'accessToken':'true',
   })
-  Future<PointChangeResponse> registerCode();
+  Future<PointChangeResponse> registerCode({
+    @Body() required FriendRecommendCodeModel friendRecommendCodeModel,
+  });
 
 }
