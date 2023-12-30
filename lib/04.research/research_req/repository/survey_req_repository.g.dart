@@ -34,7 +34,7 @@ class _SurveyReqRepository implements SurveyReqRepository {
     )
             .compose(
               _dio.options,
-              '/',
+              '/survey',
               queryParameters: queryParameters,
               data: _data,
             )

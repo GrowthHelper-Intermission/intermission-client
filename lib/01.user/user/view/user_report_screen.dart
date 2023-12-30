@@ -137,7 +137,7 @@ class _UserReportScreenState extends ConsumerState<UserReportScreen>
           SizedBox(height: 8.0),
           Container(
             height: MediaQuery.of(context).size.height / 4,
-            child: CustomTextFormField(
+            child: CustomTextFormFieldWithMaxLength(
               maxLength: 200,
               maxLines: null,
               expands: true,
