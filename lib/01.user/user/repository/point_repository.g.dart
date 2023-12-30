@@ -101,12 +101,14 @@ class _PointRepository implements PointRepository {
   }
 
   @override
-  Future<PointChangeResponse> registerCode() async {
+  Future<PointChangeResponse> registerCode(
+      {required friendRecommendCodeModel}) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{r'accessToken': 'true'};
     _headers.removeWhere((k, v) => v == null);
-    final Map<String, dynamic>? _data = null;
+    final _data = <String, dynamic>{};
+    _data.addAll(friendRecommendCodeModel.toJson());
     final _result = await _dio.fetch<Map<String, dynamic>>(
         _setStreamType<PointChangeResponse>(Options(
       method: 'POST',
