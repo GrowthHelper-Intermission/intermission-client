@@ -16,6 +16,7 @@ import 'package:intermission_project/04.research/research_req/view/research_req_
 import 'package:intermission_project/common/component/normal_appbar.dart';
 import 'package:intermission_project/common/const/colors.dart';
 import 'package:intermission_project/common/view/default_layout.dart';
+import 'package:intermission_project/common/view/setting/intermission_screen.dart';
 
 class MyPageScreen extends ConsumerWidget {
   final TabController tabController;
@@ -200,10 +201,26 @@ class MyPageScreen extends ConsumerWidget {
                     //   icon: 'assets/tabimg/mypage/Link.svg',
                     // ),
                     Divider(color: Colors.grey[200], thickness: 12.0),
-                    SettingComponent(
-                      title: '인터미션 정보',
-                      otherScreen: IntermissionPage(),
-                      icon: 'assets/tabimg/mypage/Link.svg',
+                    ListTile(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => IntermissionScreen()),
+                        );
+                      },
+                      title: Text(
+                        '인터미션 정보',
+                        style: TextStyle(
+                          color: Colors.grey[800],
+                          fontSize: 16,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
+                      trailing: svgIcon(
+                        'assets/img/forwardArrow.svg',
+                        color: Colors.grey[600],
+                      ),
                     ),
                   ],
                 ),
