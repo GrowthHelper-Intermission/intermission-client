@@ -54,28 +54,28 @@ class ReportCard extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(title),
-                      Container(
-                        width: 70,  // Adjust the width as per your requirement
-                        height: 28,
-                        decoration: BoxDecoration(
-                          color: isAnswer == "true" ? PRIMARY_COLOR : Colors.grey[300],
-                          borderRadius: BorderRadius.circular(8),
-                          border: Border.all(
-                            color: isAnswer == "true" ? PRIMARY_COLOR : Colors.grey,
-                            width: 0.5,
-                          ),
-                        ),
-                        child: Center(
-                          child: Text(
-                            isAnswer == "true" ? '확인완료' : '확인대기',
-                            style: TextStyle(
-                              color: Colors.grey,
-                              fontSize: 13.0,
-                              fontWeight: FontWeight.w700,
-                            ),
-                          ),
-                        ),
-                      ),
+                      // Container(
+                      //   width: 70,  // Adjust the width as per your requirement
+                      //   height: 28,
+                      //   decoration: BoxDecoration(
+                      //     color: isAnswer == "true" ? PRIMARY_COLOR : Colors.grey[300],
+                      //     borderRadius: BorderRadius.circular(8),
+                      //     border: Border.all(
+                      //       color: isAnswer == "true" ? PRIMARY_COLOR : Colors.grey,
+                      //       width: 0.5,
+                      //     ),
+                      //   ),
+                      //   child: Center(
+                      //     child: Text(
+                      //       isAnswer == "true" ? '확인완료' : '확인대기',
+                      //       style: TextStyle(
+                      //         color: Colors.grey,
+                      //         fontSize: 13.0,
+                      //         fontWeight: FontWeight.w700,
+                      //       ),
+                      //     ),
+                      //   ),
+                      // ),
                     ],
                   ),
                 ],

@@ -6,6 +6,8 @@ import 'package:intermission_project/01.user/user/view/user_point_count_screen.d
 import 'package:intermission_project/common/component/custom_text_style.dart';
 import 'package:intermission_project/common/view/default_layout.dart';
 
+import '../../../common/const/colors.dart';
+
 // static String get routeName => 'researchDetail';
 // final String id;
 // const ResearchDetailScreen({
@@ -49,25 +51,42 @@ class _ReportDetailScreenState extends ConsumerState<ReportDetailScreen> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              '문의 제목',
+              state.mainTitle,
               style: customHeaderStyle,
             ),
             Divider(color: Colors.grey[400],thickness: 0.5,),
-            Container(
-              child: Text(
-                state.mainTitle,
-                style: customTextStyle,
-              ),
-            ),
             Text(
               '세부 내용',
-              style: customHeaderStyle,
+              style: greyBigTextStyle,
             ),
-            Divider(color: Colors.grey[400],thickness: 0.5,),
-            Text(
-              '${state.detail}',
-              style: customTextStyle,
+        Center(
+          child: Padding(
+            padding: const EdgeInsets.all(10.0),
+            child: Container(
+              width: 400,
+              height: 400,
+              decoration: BoxDecoration(
+                border: Border.all(
+                  color: TEXT_GREY_COLOR,
+                ),
+                color: Colors.white, // 배경색 설정
+                borderRadius: BorderRadius.circular(6), // 모서리 둥글게 설정
+              ),
+              child: Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      state.detail,
+                      style: blackSmallTextStyle,
+                    ),
+                  ],
+                ),
+              ),
             ),
+          ),
+        ),
           ],
         ),
       ),
