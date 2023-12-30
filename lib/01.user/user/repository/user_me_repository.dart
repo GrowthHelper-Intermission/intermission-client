@@ -38,7 +38,7 @@ abstract class UserMeRepository {
   @Headers({
     'accessToken': 'true',
   })
-  Future<void> deleteUser(@Body() DeleteUserModel deleteUserModel);
+  Future<SignupResponse> deleteUser(@Body() DeleteUserModel deleteUserModel);
 
   @PATCH('/bank')
   @Headers({
@@ -64,7 +64,7 @@ abstract class UserMeRepository {
   @Headers({
     'accessToken': 'true',
   })
-  Future<PasswordChangeModel> changePassword({
+  Future<SignupResponse> changePassword({
     @Body() required PasswordChangeModel passwordChangeModel,
   });
 
