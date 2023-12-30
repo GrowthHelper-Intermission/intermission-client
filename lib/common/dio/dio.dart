@@ -76,7 +76,10 @@ class CustomInterceptor extends Interceptor {
     // 다시 새로운 토큰 요청
     print('[ERR] [${err.requestOptions.method}] ${err.requestOptions.uri}');
 
+    print('here?');
+
     final refreshToken = await storage.read(key: REFRESH_TOKEN_KEY);
+    final accessToken = await storage.read(key: ACCESS_TOKEN_KEY);
 
     //refreshToken 아예 없으면 당연히 에러 던진다
     if (refreshToken == null) {
@@ -87,38 +90,43 @@ class CustomInterceptor extends Interceptor {
 
     final isStatus401 = err.response?.statusCode == 401; //401
     final isStatus403 = err.response?.statusCode == 403; //403
+    final isStatus404 = err.response?.statusCode == 404; //403
     final isPathRefresh = err.requestOptions.path == '/auth/token';
     final isStatus500 = err.response?.statusCode == 500; // 추가: 500 에러 체크
 
     print(refreshToken);
+    print(accessToken);
     //토큰을 refresh하려는 의도가 아니었는데 403에러가 났다면?
     // if ((isStatus403 && !isPathRefresh) ||(isStatus500 && !isPathRefresh)) {
-    if ((isStatus403 && !isPathRefresh)) {
+    if ((isStatus403 && !isPathRefresh) || (isStatus404 && !isPathRefresh)) {
       final dio = Dio();
       try {
         print('token refresh start');
-        final resp = await dio.post(
-          'https://$ip/api/auth/token', //수정
+        final resp = await dio.get(
+          'https://growthhelper-intermission.com/api/user/me', //수정
           options: Options(
             headers: {
-              'authorization': 'Bearer $refreshToken',
+              'Authorization-refresh': 'Bearer $refreshToken',
+              'Authorization': 'Bearer $accessToken',
             },
           ),
         );
         //refreshtoken으로 accesstoken발급 과정에서 에러가 낫다면?
 
-        final accessToken = resp.data['accessToken'];
+        // final accessToken = resp.data['accessToken'];
+        
+        final newAccessToken = resp.headers.value('Authorization');
 
-        print('please$accessToken');
+        print('NEW NEW NEW! $accessToken');
 
         final options = err.requestOptions; //요청을보낼때 필요한 모든값은 equestOptions에 잇다
 
         //토큰 변경하기
         options.headers.addAll({
-          'authorization': 'Bearer $accessToken',
+          'authorization': 'Bearer $newAccessToken',
         });
         //storage 업데이트 당연히 필요
-        await storage.write(key: ACCESS_TOKEN_KEY, value: accessToken);
+        await storage.write(key: ACCESS_TOKEN_KEY, value: newAccessToken);
 
         //요청 재전송(원래 요청을 토큰만 변경시킨채로 다시보냄)
         final response = await dio.fetch(options);
