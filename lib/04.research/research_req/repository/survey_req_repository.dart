@@ -18,7 +18,7 @@ final surveyReqRepositoryProvider = Provider<SurveyReqRepository>(
     // return UserMeRepository(dio,baseUrl: 'http://$ip/user/me');
     // 'http://localhost:8080/api/user/save'
     return SurveyReqRepository(dio,
-        baseUrl: 'https://$ip/api/survey');
+        baseUrl: 'https://$ip/api');
   },
 );
 
@@ -27,7 +27,7 @@ abstract class SurveyReqRepository {
   factory SurveyReqRepository(Dio dio, {String baseUrl}) =
   _SurveyReqRepository;
 
-  @POST('/')
+  @POST('/survey')
   @Headers({
     'accessToken': 'true',
   })

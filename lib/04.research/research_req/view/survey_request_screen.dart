@@ -198,9 +198,9 @@ class _SurveyReqScreenState extends ConsumerState<SurveyReqScreen> {
                         completeUrl: urlController.text.trim(),
                         exceptCountTime: exceptTimeMinuteController.text.trim(),
                         researchEntryCnt: cntController.text.trim(),
-                        surveyInput: surveyInputChecked ? "Ywe" : "N",
-                        surveyRes: surveyResChecked ? "test" : "N",
-                        surveyDev: surveyDevChecked ? "test" : "N",
+                        surveyInput: surveyInputChecked ? "Y" : "N",
+                        surveyRes: surveyResChecked ? "Y" : "N",
+                        surveyDev: surveyDevChecked ? "Y" : "N",
                         isAgree: "Y",
                       );
                       try {
@@ -215,7 +215,13 @@ class _SurveyReqScreenState extends ConsumerState<SurveyReqScreen> {
                             return AlertDialog(
                               backgroundColor: Colors.white,
                               title: Text("알림"),
-                              content: Text("등록되었습니다!"),
+                              content: Text(
+                                "등록되었습니다!\n관리자로부터 연락이 갈테니\n잠시만 기다려주세요!",
+                                style: TextStyle(
+                                  fontSize: 15,
+                                  fontWeight: FontWeight.w400,
+                                ),
+                              ),
                               actions: [
                                 TextButton(
                                   child: Text("확인"),

@@ -23,6 +23,7 @@ class PointCount extends ConsumerWidget {
     int totalPoints = 0; // Default value
     if (state is CursorPagination<PointModel>) {
       totalPoints = state.meta.pointAmount!; // Meta에서 totalPoint 가져오기
+      print('whywhywhy');
     }
 
     return DefaultLayout(
