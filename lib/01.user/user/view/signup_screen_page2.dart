@@ -17,6 +17,8 @@ import 'package:intermission_project/common/component/signup_either_button.dart'
 import 'package:intermission_project/common/const/colors.dart';
 import 'package:intermission_project/common/const/type_data.dart';
 
+import 'certification_test.dart';
+
 class SignupScreenPage2 extends ConsumerStatefulWidget {
   static String get routeName => 'signup2';
   const SignupScreenPage2({super.key});
@@ -85,6 +87,22 @@ class _SignupScreenPage2State extends ConsumerState<SignupScreenPage2> {
   bool isFemaleSelected = false;
 
   bool isButtonEnabled = true;
+
+  // String? selectedBankType; // Change to nullable type
+  // TextEditingController accountNumberController = TextEditingController();
+  // String? accountErrorText;
+  //
+  // void checkAccountEnabled() {
+  //   String accountNumber = accountNumberController.text.trim();
+  //   bool isAccountValid = accountNumber.isNotEmpty;
+  //   setState(() {
+  //     accountErrorText = isAccountValid ? null : '숫자만 입력해 주세요';
+  //     // Call checkButtonEnabled here to update the button state
+  //     checkButtonEnabled();
+  //   });
+  // }
+
+
 
   void checkButtonEnabled() {
     // bool isMarriedSelected = marriedSelected || unMarriedSelected; //결혼 여부
@@ -200,6 +218,7 @@ class _SignupScreenPage2State extends ConsumerState<SignupScreenPage2> {
                           },
                         ),
                       ),
+
                       SizedBox(height: 10,),
                       SignupAskLabel(text: '직업/학생'),
                       Center(
@@ -357,17 +376,6 @@ class _SignupScreenPage2State extends ConsumerState<SignupScreenPage2> {
                         SizedBox(
                           height: 20,
                         ),
-                      // if (selectedPetType == petType[4])
-                      //   SignupAskLabel(text: '키우시는 반려동물이 있으면 자유롭게 적어주세요'),
-                      // if (selectedPetType == petType[4])
-                      //   CustomTextFormField(
-                      //     controller: raisePetController,
-                      //     hintText: '반려동물을 입력해 주세요',
-                      //     onChanged: (String value) {
-                      //       setState(() {});
-                      //     },
-                      //     enable: raisePet,
-                      //   ),
                       SizedBox(
                         height: 10,
                       ),
@@ -408,8 +416,9 @@ class _SignupScreenPage2State extends ConsumerState<SignupScreenPage2> {
                         // errorText 속성이 CustomDropdownButton에 구현되어 있는지 확인하세요.
                       ),
                       SizedBox(height: 200.0),
+
                       LoginNextButton(
-                        buttonName: '다음',
+                        buttonName: '본인인증 실행하기',
                         isButtonEnabled: isButtonEnabled,
                         onPressed: () {
                           final state = ref.read(signupUserProvider.notifier);
@@ -425,9 +434,33 @@ class _SignupScreenPage2State extends ConsumerState<SignupScreenPage2> {
                           state.setOccpSidoCd(selectedCity);
                           state.setOccpSigunguCd(selectedCountry);
                           state.setUserCd(selectedUserType);
-                          context.pushNamed(SignupScreenPage3.routeName);
+                          Navigator.of(context).push(
+                            MaterialPageRoute(
+                              builder: (context) => CertificationTest(),
+                            ),
+                          );
                         },
                       ),
+                      // LoginNextButton(
+                      //   buttonName: '다음',
+                      //   isButtonEnabled: isButtonEnabled,
+                      //   onPressed: () {
+                      //     final state = ref.read(signupUserProvider.notifier);
+                      //     state.setGenderCd(isMaleSelected == true ? "남성" : "여성");
+                      //     state.setWedCd(marriedSelected == true ? "기혼" : "미혼");
+                      //     state.setHouseCd(selectedResidenceType);
+                      //     state.setPetCd(
+                      //         selectedPetType == '선택' ? "없음" : selectedPetType);
+                      //     state.setAsignJobCd(selectedAsignCdType == '선택'
+                      //         ? "없음"
+                      //         : selectedAsignCdType);
+                      //     state.setJobCd(selectedJobCdType);
+                      //     state.setOccpSidoCd(selectedCity);
+                      //     state.setOccpSigunguCd(selectedCountry);
+                      //     state.setUserCd(selectedUserType);
+                      //     context.pushNamed(SignupScreenPage3.routeName);
+                      //   },
+                      // ),
                     ],
                   ),
                 ),
