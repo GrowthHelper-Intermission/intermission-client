@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -43,6 +44,28 @@ class _PasswordChangeScreenState extends ConsumerState<PasswordChangeScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            Padding(
+              padding:
+              const EdgeInsets.symmetric(horizontal: 5, vertical: 10),
+              child: Container(
+                decoration: BoxDecoration(
+                  color: Colors.grey[200],
+                  borderRadius: BorderRadius.circular(10), // 모서리를 둥글게 깎기 위함
+                ),
+                height: 90,
+                alignment: Alignment.center, // 텍스트를 컨테이너 중앙에 배치
+                child: Padding(
+                  padding: const EdgeInsets.only(top: 20),
+                  child: Text(
+                    "현재 비밀번호를 정확히 입력해주세요!\n8자 이상의 영문/숫자/특수문자 조합입니다.\n",
+                    textAlign: TextAlign.center, // 텍스트를 중앙 정렬
+                    style:
+                    TextStyle(fontSize: 17, fontWeight: FontWeight.bold),
+                    maxLines: 3,
+                  ),
+                ),
+              ),
+            ),
             SignupAskLabel(text: '현재 비밀번호'),
             CustomTextFormField(
               controller: currentPasswordController,
@@ -99,15 +122,49 @@ class _PasswordChangeScreenState extends ConsumerState<PasswordChangeScreen> {
   }
 
   // 비밀번호 변경 로직
-  void _changePassword() {
+  void _changePassword() async {
     final userNotifier = ref.read(userMeProvider.notifier);
-    userNotifier.changePassword(
-      PasswordChangeModel(
-        checkPassword: currentPasswordController.text.trim(),
-        newPassword: newPasswordController.text.trim(),
-      ),
-    );
-    Navigator.pushReplacement(
-        context, MaterialPageRoute(builder: (context) => RootTab()));
+
+    final resp = await userNotifier.changePassword(PasswordChangeModel(
+      checkPassword: currentPasswordController.text.trim(),
+      newPassword: newPasswordController.text.trim(),
+    ));
+
+    if (resp == 200) {
+      // Success dialog
+      showDialog(
+        context: context,
+        builder: (context) => CupertinoAlertDialog(
+          title: Text("알림"),
+          content: Text(
+            "비밀번호가 변경되었습니다!",
+            style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
+          ),
+          actions: <Widget>[
+            TextButton(
+              child: Text("확인"),
+              onPressed: () => Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(builder: (context) => RootTab()),
+              ),
+            ),
+          ],
+        ),
+      );
+    } else {
+      showDialog(
+        context: context,
+        builder: (context) => CupertinoAlertDialog(
+          title: Text("알림"),
+          content: Text("현재 비밀번호를 정확히 입력해주세요!"),
+          actions: <Widget>[
+            TextButton(
+              child: Text("확인"),
+              onPressed: () => Navigator.of(context).pop(),
+            ),
+          ],
+        ),
+      );
+    }
   }
 }
