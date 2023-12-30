@@ -102,6 +102,7 @@ class _ResearchDetailScreenState extends ConsumerState<ResearchDetailScreen> {
   Widget build(BuildContext context) {
     final state = ref.watch(researchDetailProvider(widget.id));
 
+
     // 데이터가 없거나 로딩 중인 경우
     if (state is! ResearchDetailModel) {
       print('걸린다');
