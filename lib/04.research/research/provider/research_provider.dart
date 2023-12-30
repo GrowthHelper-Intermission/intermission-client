@@ -145,9 +145,5 @@ class ResearchStateNotifier
             .toList(),
       );
     }
-    // [RestaurantModel(1), RestaurantModel(2), RestaurantModel(3)]
-    // id : 2인 친구를 Detail모델을 가져와라
-    // getDetail(id: 2);
-    // [RestaurantModel(1), RestaurantDetailModel(2), RestaurantModel(3)]
   }
 }

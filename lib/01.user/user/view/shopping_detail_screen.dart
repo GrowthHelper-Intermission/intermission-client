@@ -227,6 +227,8 @@ class _ShoppingDetailScreenState extends ConsumerState<ShoppingDetailScreen> {
       final bank = user.bank;
       final bankAccount = user.accountNumber.toString();
     }
+
+
     String? selectedBankType; // Change to nullable type
     TextEditingController accountNumberController = TextEditingController(text: user!.accountNumber);
     String? accountErrorText;
@@ -252,7 +254,6 @@ class _ShoppingDetailScreenState extends ConsumerState<ShoppingDetailScreen> {
       bool isAccountValid = accountNumber.isNotEmpty;
       setState(() {
         accountErrorText = isAccountValid ? null : '숫자만 입력해 주세요';
-        // Call checkButtonEnabled here to update the button state
         checkButtonEnabled();
       });
     }
@@ -344,13 +345,22 @@ class _ShoppingDetailScreenState extends ConsumerState<ShoppingDetailScreen> {
               Padding(
                 padding: const EdgeInsets.only(top: 30),
                 child: LoginNextButton(
-                  onPressed: () {
+                  onPressed: () async{
                     Navigator.of(context).pop(); // Bottom sheet 닫기
 
-                    ref.read(userMeProvider.notifier).changeBank(
-                          selectedBankType!,
-                          accountNumberController.text.trim().toString(),
-                        );
+                    try {
+                      // 은행 정보 변경 요청
+                      await ref.read(userMeProvider.notifier).changeBank(
+                        selectedBankType!,
+                        accountNumberController.text.trim().toString(),
+                      );
+
+                      // 사용자 정보 갱신 요청
+                      ref.read(userMeProvider.notifier).getMe();
+                    } catch (error) {
+                      // 에러 처리
+                      print("에러 발생: $error");
+                    }
 
                     // try{
                     //   final changeBankResp = await changeBank(selectedBankType, accountNumberController.text);

@@ -39,11 +39,11 @@ class _ResearchScreenState extends ConsumerState<ResearchScreen>
 
   @override
   Widget build(BuildContext context) {
-    final userState = ref.watch(userMeProvider); // 상태를 읽어옴
-    UserModel? user; // UserModel을 nullable로 선언
+    final userState = ref.watch(userMeProvider);
+    UserModel? user; // UserModel을 nullable
 
     if (userState is UserModel) {
-      user = userState; // UserModel로 캐스팅
+      user = userState;
     }
 
     if (user == null) {
