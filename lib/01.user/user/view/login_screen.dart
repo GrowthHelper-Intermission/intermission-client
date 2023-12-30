@@ -130,7 +130,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                             ),
                             CustomTextFormField(
                               controller: _passwordController,
-                              hintText: '6자 이상의 영문/숫자 조합',
+                              hintText: '8자 이상의 영문/숫자/특수문자 조합',
                               onChanged: (String value) {},
                               obscureText: true,
                             ),

@@ -42,21 +42,25 @@ class ShoppingScreen extends StatelessWidget {
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Container(
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(10),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 10),
+            child: Container(
+              decoration: BoxDecoration(
+                color: Colors.grey[200],
+                borderRadius: BorderRadius.circular(10), // 모서리를 둥글게 깎기 위함
+              ),
+              height: 70,
+              alignment: Alignment.center, // 텍스트를 컨테이너 중앙에 배치
+              child: Padding(
+                padding: const EdgeInsets.only(top: 20),
+                child: Text(
+                  "적립한 포인트를 현금으로 교환해 보세요!\n",
+                  textAlign: TextAlign.center, // 텍스트를 중앙 정렬
+                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                  maxLines: 2,
+                ),
+              ),
             ),
-            alignment: Alignment.center,
-            child: Text(
-              '적립한 포인트를 현금으로\n교환해 보세요!',
-              textAlign: TextAlign.center,
-              style: TextStyle(fontSize: 17, fontWeight: FontWeight.bold,color: PRIMARY_COLOR),
-              maxLines: 3,
-            ),
-          ),
-          Divider(
-            color: Colors.grey[200],
-            height: 1,
           ),
           Expanded(
             child: GridView.builder(
@@ -81,7 +85,10 @@ class ShoppingScreen extends StatelessWidget {
     return GestureDetector(
       onTap: () {
         Navigator.of(context).push(
-          MaterialPageRoute(builder: (context) => ShoppingDetailScreen(point: product.point,)),
+          MaterialPageRoute(
+              builder: (context) => ShoppingDetailScreen(
+                    point: product.point,
+                  )),
         );
       },
       child: Container(
