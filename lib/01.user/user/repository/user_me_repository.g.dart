@@ -40,25 +40,28 @@ class _UserMeRepository implements UserMeRepository {
   }
 
   @override
-  Future<void> deleteUser(deleteUserModel) async {
+  Future<SignupResponse> deleteUser(deleteUserModel) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{r'accessToken': 'true'};
     _headers.removeWhere((k, v) => v == null);
     final _data = <String, dynamic>{};
     _data.addAll(deleteUserModel.toJson());
-    await _dio.fetch<void>(_setStreamType<void>(Options(
+    final _result = await _dio
+        .fetch<Map<String, dynamic>>(_setStreamType<SignupResponse>(Options(
       method: 'DELETE',
       headers: _headers,
       extra: _extra,
     )
-        .compose(
-          _dio.options,
-          '/delete',
-          queryParameters: queryParameters,
-          data: _data,
-        )
-        .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
+            .compose(
+              _dio.options,
+              '/delete',
+              queryParameters: queryParameters,
+              data: _data,
+            )
+            .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
+    final value = SignupResponse.fromJson(_result.data!);
+    return value;
   }
 
   @override
@@ -136,16 +139,15 @@ class _UserMeRepository implements UserMeRepository {
   }
 
   @override
-  Future<PasswordChangeModel> changePassword(
-      {required passwordChangeModel}) async {
+  Future<SignupResponse> changePassword({required passwordChangeModel}) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{r'accessToken': 'true'};
     _headers.removeWhere((k, v) => v == null);
     final _data = <String, dynamic>{};
     _data.addAll(passwordChangeModel.toJson());
-    final _result = await _dio.fetch<Map<String, dynamic>>(
-        _setStreamType<PasswordChangeModel>(Options(
+    final _result = await _dio
+        .fetch<Map<String, dynamic>>(_setStreamType<SignupResponse>(Options(
       method: 'PATCH',
       headers: _headers,
       extra: _extra,
@@ -157,7 +159,7 @@ class _UserMeRepository implements UserMeRepository {
               data: _data,
             )
             .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
-    final value = PasswordChangeModel.fromJson(_result.data!);
+    final value = SignupResponse.fromJson(_result.data!);
     return value;
   }
 

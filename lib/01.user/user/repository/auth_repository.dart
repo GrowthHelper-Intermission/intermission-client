@@ -13,7 +13,7 @@ import '../provider/firebase_token_provider.dart';
 final authRepositoryProvider = Provider<AuthRepository>((ref) {
   final dio = ref.watch(dioProvider);
   return AuthRepository(
-      ref: ref, baseUrl: 'https://$ip/api/auth', dio: dio); // Pass `ref` here
+      ref: ref, baseUrl: 'https://$ip/api', dio: dio); // Pass `ref` here
 });
 
 class AuthRepository {
@@ -27,20 +27,15 @@ class AuthRepository {
     required this.ref,
   });
 
-  Future<LoginResponse> login({
+  Future<void> login({
     required String username,
     required String password,
   }) async {
     final serialized = DataUtils.plainToBase64('$username:$password');
-
-    /// 파베토큰 추출
     final firebaseToken = await readTokenFromSecureStorage();
 
-    print('here firebaseToken!: ');
-    print(firebaseToken);
-
     final resp = await dio.post(
-      '$baseUrl/login',
+      '$baseUrl/auth/login',
       data: {
         "firebaseToken": firebaseToken.toString(),
       },
@@ -51,12 +46,38 @@ class AuthRepository {
         },
       ),
     );
-    return LoginResponse.fromJson(resp.data);
+    // return LoginResponse.fromJson(resp.data);
+    // 응답 헤더에서 AccessToken과 RefreshToken 추출
+    final accessToken = resp.headers.value('Authorization');
+    final refreshToken = resp.headers.value('Authorization-refresh');
+
+    // 토큰을 Secure Storage에 저장
+    const storage = FlutterSecureStorage();
+    if (accessToken != null) {
+      await storage.write(key: ACCESS_TOKEN_KEY, value: accessToken);
+    }
+    if (refreshToken != null) {
+      await storage.write(key: REFRESH_TOKEN_KEY, value: refreshToken);
+    }
+  }
+
+  Future<void> logout() async {
+    final refreshToken = await FlutterSecureStorage().read(key: REFRESH_TOKEN_KEY);
+    final accessToken = await FlutterSecureStorage().read(key: ACCESS_TOKEN_KEY);
+    final resp = await dio.post(
+      '$baseUrl/logout',
+      options: Options(
+        headers: {
+          'Authorization': 'Bearer $accessToken',
+          'Authorization-refresh': 'Bearer $refreshToken',
+        },
+      ),
+    );
   }
 
   Future<TokenResponse> token() async {
     final resp = await dio.post(
-      '$baseUrl/token',
+      '$baseUrl/auth/token',
       options: Options(
         headers: {
           'refreshToken': 'true',

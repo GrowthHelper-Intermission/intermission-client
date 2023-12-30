@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
@@ -49,10 +50,10 @@ class UserMeStateNotifier extends StateNotifier<UserModelBase?> {
     getMe();
   }
 
-  Future<void> deleteUser(DeleteUserModel deleteUserModel) async {
+  Future<int?> deleteUser(DeleteUserModel deleteUserModel) async {
     try {
       final resp = await repository.deleteUser(deleteUserModel);
-      return resp;
+      return resp.code;
       print('성공적 탈퇴');
     } catch (e) {
       print('deleteError?');
@@ -60,24 +61,18 @@ class UserMeStateNotifier extends StateNotifier<UserModelBase?> {
   }
 
   // UserMeStateNotifier 클래스 내부에 추가
-  Future<void> changePassword(PasswordChangeModel passwordChangeModel) async {
+  Future<int?> changePassword(PasswordChangeModel passwordChangeModel) async {
     try {
-      // 저장된 액세스 토큰을 가져옵니다.
-      final accessToken = await storage.read(key: ACCESS_TOKEN_KEY);
-
-      if (accessToken == null) {
-        print('잘못된 접근입니다.');
-        return;
-      }
 
       final changeResp = await repository.changePassword(
           passwordChangeModel: passwordChangeModel);
 
-      print(changeResp);
 
       getMe();
+
+      return changeResp.code;
     } catch (e) {
-      // 비밀번호 변경에 실패한 경우의 로직 (예: 에러 메시지 표시 등)
+
     }
   }
 
@@ -110,13 +105,13 @@ class UserMeStateNotifier extends StateNotifier<UserModelBase?> {
     try {
       state = UserModelLoading();
 
-      final resp = await authRepository.login(
+      await authRepository.login(
         username: username,
         password: password,
       );
-      //응답받은 refresh, accesstoken을 storage에 그대로 넣어준다
-      await storage.write(key: REFRESH_TOKEN_KEY, value: resp.refreshToken);
-      await storage.write(key: ACCESS_TOKEN_KEY, value: resp.accessToken);
+      // //응답받은 refresh, accesstoken을 storage에 그대로 넣어준다
+      // await storage.write(key: REFRESH_TOKEN_KEY, value: resp.refreshToken);
+      // await storage.write(key: ACCESS_TOKEN_KEY, value: resp.accessToken);
       //storage에 넣은 토큰이 유효한지 판단하기 위해서(서버에서 내 유저정보를 가져올 수 있다면?) getMe()
       // 유효한 토큰임을 인증
       final userResp = await repository.getMe();
@@ -168,12 +163,12 @@ class UserMeStateNotifier extends StateNotifier<UserModelBase?> {
     }
   }
 
-  Future<void>changeBank(String bank, String bankAccount) async{
+  Future<void> changeBank(String bank, String bankAccount) async {
     try {
-      final changeBankResp = await repository.changeBank(
-          ChangeBankModel(bankAccount: bankAccount, bank: bank));
+      final changeBankResp = await repository
+          .changeBank(ChangeBankModel(bankAccount: bankAccount, bank: bank));
       return changeBankResp;
-    }catch(e){
+    } catch (e) {
       state = UserModelError(message: '계좌 변경에 실패했습니다');
       return Future.error(UserModelError(message: '계좌변경에 실패했습니다'));
     }
@@ -181,11 +176,10 @@ class UserMeStateNotifier extends StateNotifier<UserModelBase?> {
 
   Future<void> logout() async {
     state = null;
-    await repository.deleteToken();
+    await authRepository.logout();
     await Future.wait([
       storage.delete(key: REFRESH_TOKEN_KEY),
       storage.delete(key: ACCESS_TOKEN_KEY),
     ]);
-
   }
 }
