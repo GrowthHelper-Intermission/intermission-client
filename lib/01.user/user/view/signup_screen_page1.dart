@@ -721,7 +721,7 @@ class _SignupScreenPage1State extends ConsumerState<SignupScreenPage1> {
                     ),
                     CustomCheckBox(
                       isAgree: isAgree,
-                      title: '(필수)이용약관에 동의합니다.',
+                      title: '[필수]이용약관에 동의합니다.',
                       onChanged: (value) {
                         setState(() {
                           isAgree = value!;
@@ -730,11 +730,11 @@ class _SignupScreenPage1State extends ConsumerState<SignupScreenPage1> {
                       },
                       fontSize: 16,
                       isDetail: true,
-                      url: 'https://docs.google.com/document/d/1R1RHsR-gfu7Wf4pXiCTXNjgWfXoH-GRmWpGHjI9RZnk/edit',
+                      url: 'https://docs.google.com/document/d/e/2PACX-1vTNbqTr-co8U-S9KnXI3ruFGz1FEnv5GymdwX7hvRrFI4ewsOWVQGlTgsc7nIIpXrtz-gVLJfLjzAXd/pub',
                     ),
                     CustomCheckBox(
                       isAgree: isAgree2,
-                      title: '(필수)개인정보 처리방침에 동의합니다.',
+                      title: '[필수]개인정보 처리방침에 동의합니다.',
                       onChanged: (value) {
                         setState(() {
                           isAgree2 = value!;
@@ -743,6 +743,7 @@ class _SignupScreenPage1State extends ConsumerState<SignupScreenPage1> {
                       },
                       fontSize: 16,
                       isDetail: true,
+                      url: 'https://docs.google.com/document/d/e/2PACX-1vSi6kk5dKbu2mQuWPrYEj7FR0Xe6xgjOkKVSNEWT7Bkp4XfzirQaegXbM2Frtp3cC5-S0RnJp2VqeTx/pub',
                     ),
                     SizedBox(height: 300,),
                     LoginNextButton(
