@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:intermission_project/01.user/user/model/alarm_model.dart';
 import 'package:intermission_project/01.user/user/model/notification.dart';
 import 'package:intermission_project/01.user/user/provider/alarm_provider.dart';
@@ -18,28 +19,88 @@ void showNotificationSettingsBottomSheet(BuildContext context) {
     context: context,
     builder: (BuildContext bc) {
       return Container(
-        height: MediaQuery.of(context).size.height * .25,
+        color: Colors.white,
+        height: MediaQuery.of(context).size.height * .30,
         child: Padding(
-          padding: EdgeInsets.all(15),
+          padding: EdgeInsets.fromLTRB(15, 15, 15, 50),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              Text(
-                "전체 알림 설정은 '설정 > 알림 > 인터미션'에서 변경 가능해요!",
-                style: TextStyle(fontSize: 16),
-              ),
-              SizedBox(height: 20),
               Center(
-                child: ElevatedButton(
-                  child: Text('설정으로 이동'),
-                  onPressed: () {
-                    // 앱 설정 화면을 연다
-                    AppSettings.openAppSettings();
-                    Navigator.pop(context);
-                  },
+                  child: SvgPicture.asset(
+                'assets/img/alarm_setting.svg',
+                height: 50,
+                width: 50,
+              )),
+              Center(
+                child: Text(
+                  "알림 설정은 '설정 > 알림 > 인터미션'에서\n변경 가능해요!",
+                  style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.w500,
+                    color: Colors.grey[700]
+                  ),
                 ),
               ),
+              SizedBox(height: 20),
+              Row(
+                children: [
+                  Container(
+                    width: 160,
+                    height: 60,
+                    decoration: BoxDecoration(
+                      border: Border.all(
+                        color: PRIMARY_COLOR,
+                        width: 1.5,
+                      ),
+                      color: Colors.white, // White background for the '닫기' button
+                      borderRadius: BorderRadius.circular(10), // Rounded corners
+                    ),
+                    child: TextButton(
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                      style: TextButton.styleFrom(
+                        primary: PRIMARY_COLOR, // PRIMARY_COLOR text
+                      ),
+                      child: Text(
+                        '닫기',
+                        style: TextStyle(
+                          fontWeight: FontWeight.w500,
+                          fontSize: 18,
+                        ),
+                      ),
+                    ),
+                  ),
+                  SizedBox(width: 10),
+                  Container(
+                    width: 160,
+                    height: 60,
+                    decoration: BoxDecoration(
+                      color: PRIMARY_COLOR, // PRIMARY_COLOR background for the '설정하기' button
+                      borderRadius: BorderRadius.circular(10), // Rounded corners
+                    ),
+                    child: TextButton(
+                      onPressed: () {
+                        AppSettings.openAppSettings();
+                        Navigator.pop(context);
+                      },
+                      style: TextButton.styleFrom(
+                        primary: Colors.white, // White text
+                      ),
+                      child: Text(
+                        '설정하기',
+                        style: TextStyle(
+                          fontWeight: FontWeight.w500,
+                          fontSize: 18,
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+
             ],
           ),
         ),
@@ -55,21 +116,22 @@ class AlarmSettingScreen extends ConsumerStatefulWidget {
   ConsumerState<AlarmSettingScreen> createState() => _AlarmSettingScreenState();
 }
 
-class _AlarmSettingScreenState extends ConsumerState<AlarmSettingScreen> with WidgetsBindingObserver {
+class _AlarmSettingScreenState extends ConsumerState<AlarmSettingScreen>
+    with WidgetsBindingObserver {
   bool switchValue1 = false; // 스위치 상태를 관리하는 변수
   bool switchValue2 = false;
   bool switchValue3 = false;
   bool switchValue4 = false;
 
   Future<bool> requestNotificationPermission() async {
-    NotificationSettings settings = await FirebaseMessaging.instance.requestPermission(
+    NotificationSettings settings =
+        await FirebaseMessaging.instance.requestPermission(
       alert: true,
       badge: true,
       sound: true,
     );
     return settings.authorizationStatus == AuthorizationStatus.authorized;
   }
-
 
   // Future<bool> handleNotificationSwitchChange(bool value) async {
   //   if (value) {
@@ -131,14 +193,14 @@ class _AlarmSettingScreenState extends ConsumerState<AlarmSettingScreen> with Wi
     }
   }
 
-
   Future<void> checkNotificationPermissionAndUpdateUI() async {
-    NotificationSettings settings = await FirebaseMessaging.instance.getNotificationSettings();
+    NotificationSettings settings =
+        await FirebaseMessaging.instance.getNotificationSettings();
     setState(() {
-      switchValue1 = settings.authorizationStatus == AuthorizationStatus.authorized;
+      switchValue1 =
+          settings.authorizationStatus == AuthorizationStatus.authorized;
     });
   }
-
 
   void handleNotificationSwitchTap() {
     showNotificationSettingsBottomSheet(context);
@@ -156,7 +218,7 @@ class _AlarmSettingScreenState extends ConsumerState<AlarmSettingScreen> with Wi
 
       // 스위치가 켜질 때 권한 요청
       NotificationSettings settings =
-      await FirebaseMessaging.instance.requestPermission(
+          await FirebaseMessaging.instance.requestPermission(
         alert: true,
         badge: true,
         sound: true,
@@ -179,8 +241,6 @@ class _AlarmSettingScreenState extends ConsumerState<AlarmSettingScreen> with Wi
       return false;
     }
   }
-
-
 
   Future<void> requestPushNotificationPermission() async {
     bool switchStatus = await handleNotificationSwitchChange(true);
@@ -227,7 +287,8 @@ class _AlarmSettingScreenState extends ConsumerState<AlarmSettingScreen> with Wi
                     value: switchValue1,
                     activeColor: PRIMARY_COLOR,
                     onChanged: (bool value) async {
-                      bool switchStatus = await handleNotificationSwitchChange(value);
+                      bool switchStatus =
+                          await handleNotificationSwitchChange(value);
                       setState(() {
                         switchValue1 = switchStatus;
                         if (!switchStatus) {
