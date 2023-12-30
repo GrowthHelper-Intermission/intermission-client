@@ -41,6 +41,17 @@ TextStyle greySmallTextStyle = TextStyle(
   color: Colors.grey,
 );
 
+TextStyle greyMiddleTextStyle = TextStyle(
+  fontWeight: FontWeight.w500,
+  fontSize: 18.0,
+  color: Colors.grey[500],
+);
+
+TextStyle greyBigTextStyle = TextStyle(
+  fontWeight: FontWeight.w500,
+  fontSize: 24.0,
+  color: Colors.grey[500],
+);
 
 TextStyle whiteSmallTextStyle = TextStyle(
   fontWeight: FontWeight.w700,
@@ -54,10 +65,17 @@ TextStyle whiteWhiteSmallTextStyle = TextStyle(
   color: Colors.white,
 );
 
+
 TextStyle blackSmallTextStyle = TextStyle(
   fontWeight: FontWeight.w500,
+  fontSize: 18.0,
+  color: Colors.grey[800],
+);
+
+TextStyle primarySmallTextStyle = TextStyle(
+  fontWeight: FontWeight.w500,
   fontSize: 17.0,
-  color: Colors.black,
+  color: PRIMARY_COLOR,
 );
 
 TextStyle whiteBlueTextStyle = TextStyle(
