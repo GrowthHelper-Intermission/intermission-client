@@ -63,7 +63,7 @@ class CustomCheckBox extends StatelessWidget {
                       await Navigator.of(context).push(
                         MaterialPageRoute(
                           builder: (context) => SignupTermWebView(
-                            homeUrl: 'https://docs.google.com/document/d/1R1RHsR-gfu7Wf4pXiCTXNjgWfXoH-GRmWpGHjI9RZnk/edit',
+                            homeUrl: url ?? 'https://docs.google.com/document/d/e/2PACX-1vTNbqTr-co8U-S9KnXI3ruFGz1FEnv5GymdwX7hvRrFI4ewsOWVQGlTgsc7nIIpXrtz-gVLJfLjzAXd/pub',
                           ),
                         ),
                       );
