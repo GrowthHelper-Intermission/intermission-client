@@ -20,7 +20,7 @@ class GoogleFormWebView extends StatefulWidget {
 
 class _GoogleFormWebViewState extends State<GoogleFormWebView> {
   late WebViewController controller;
-  bool isLoading = false; // 로딩 상태를 관리하는 변수
+  bool isLoading = true; // 로딩 상태를 관리하는 변수
   void _showCompletionDialog() {
     showDialog(
       context: context,
@@ -64,15 +64,15 @@ class _GoogleFormWebViewState extends State<GoogleFormWebView> {
           },
           onPageFinished: (String url) async {
             print(url);
+            setState(() {
+              isLoading = false;
+            });
             bool isFormFilled = await checkFormFilledStatus(controller);
             print(isFormFilled);
             if (isFormFilled) {
               _showCompletionDialog();
               widget.onComplete();
             }
-            // setState(() {
-            //   isLoading = false;
-            // });
           },
           onWebResourceError: (WebResourceError error) {
             print('Web resource error: ${error.toString()}');
@@ -88,7 +88,7 @@ class _GoogleFormWebViewState extends State<GoogleFormWebView> {
 
   @override
   Widget build(BuildContext context) {
-    if(!isLoading) return SplashScreen(message: '외부 폼으로 이동중...',);
+    if(isLoading) return SplashScreen(message: '외부 폼으로 이동중...',);
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(

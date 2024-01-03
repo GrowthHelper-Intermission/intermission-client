@@ -15,7 +15,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 class SplashScreen extends ConsumerWidget {
   final String message; // 옵셔널 파라미터
 
-  // 생성자에서 message 파라미터에 기본값을 할당합니다.
   SplashScreen({Key? key, this.message = '앱 정보를 가져오는중...'}) : super(key: key);
 
   static String get routeName => 'splash';
