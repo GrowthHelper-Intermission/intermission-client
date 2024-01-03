@@ -88,41 +88,8 @@ class _SignupScreenPage2State extends ConsumerState<SignupScreenPage2> {
 
   bool isButtonEnabled = true;
 
-  // String? selectedBankType; // Change to nullable type
-  // TextEditingController accountNumberController = TextEditingController();
-  // String? accountErrorText;
-  //
-  // void checkAccountEnabled() {
-  //   String accountNumber = accountNumberController.text.trim();
-  //   bool isAccountValid = accountNumber.isNotEmpty;
-  //   setState(() {
-  //     accountErrorText = isAccountValid ? null : '숫자만 입력해 주세요';
-  //     // Call checkButtonEnabled here to update the button state
-  //     checkButtonEnabled();
-  //   });
-  // }
-
-
 
   void checkButtonEnabled() {
-    // bool isMarriedSelected = marriedSelected || unMarriedSelected; //결혼 여부
-    // bool isRaisingPetSelected = (raisePet && selectedPetType != petType[0]) ||
-    //     raiseNoPet; //반려동물을 키우는지, 키운다면 어떤 종류인지 기입했는가까지,
-    // // bool isRaisingPetSelected = selectedPetType != petType[0];
-    //
-    // bool isResidenceTypeSelected =
-    //     selectedResidenceType != residenceType[0]; //거주 형태
-    // bool isJobSelected = selectedJobCdType != jobCdType[0];
-    // bool isSelectedCity = selectedCity != null;
-    // bool isSelectedCountry = selectedCountry != null;
-    //
-    // bool isFieldsValid = isMarriedSelected &&
-    //     isRaisingPetSelected &&
-    //     isResidenceTypeSelected &&
-    //     isJobSelected;
-    // setState(() {
-    //   isButtonEnabled = isFieldsValid && isSelectedCity && isSelectedCountry;
-    // });
   }
 
   void checkJobEnabled() {
@@ -201,7 +168,7 @@ class _SignupScreenPage2State extends ConsumerState<SignupScreenPage2> {
                     mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      SignupAppBar(currentPage: '2/3'),
+                      SignupAppBar(currentPage: '2/2'),
                       SignupAskLabel(text: '개인/공공기관/기업'),
                       Center(
                         child: CustomDropdownButton(
@@ -398,6 +365,7 @@ class _SignupScreenPage2State extends ConsumerState<SignupScreenPage2> {
                       SizedBox(height: 20),
                       if(selectedCity != null)
                       CustomDropdownButton(
+                        dropdownWidth: 350,
                         items: (selectedCity == null
                             ? []
                             : (mapInfo.firstWhere((info) =>
