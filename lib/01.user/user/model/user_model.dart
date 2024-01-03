@@ -37,6 +37,7 @@ class UserModel extends UserModelBase {
   final String? isTermsAgreed;
   final String? isPrivacyAgreed;
   final String? pointAmount;
+  final String? friendCount;
 
   UserModel({
     this.userTpCd,
@@ -58,6 +59,7 @@ class UserModel extends UserModelBase {
     this.isTermsAgreed,
     this.isPrivacyAgreed,
     this.pointAmount,
+    this.friendCount,
   });
 
   factory UserModel.fromJson(Map<String, dynamic> json) => _$UserModelFromJson(json);

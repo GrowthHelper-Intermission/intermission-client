@@ -26,6 +26,7 @@ UserModel _$UserModelFromJson(Map<String, dynamic> json) => UserModel(
       isTermsAgreed: json['isTermsAgreed'] as String?,
       isPrivacyAgreed: json['isPrivacyAgreed'] as String?,
       pointAmount: json['pointAmount'] as String?,
+      friendCount: json['friendCount'] as String?,
     );
 
 Map<String, dynamic> _$UserModelToJson(UserModel instance) => <String, dynamic>{
@@ -48,4 +49,5 @@ Map<String, dynamic> _$UserModelToJson(UserModel instance) => <String, dynamic>{
       'isTermsAgreed': instance.isTermsAgreed,
       'isPrivacyAgreed': instance.isPrivacyAgreed,
       'pointAmount': instance.pointAmount,
+      'friendCount': instance.friendCount,
     };
