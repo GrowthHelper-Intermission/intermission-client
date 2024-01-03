@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:intermission_project/common/component/custom_text_style.dart';
+import 'package:intermission_project/common/component/signup_term_web_view.dart';
 import 'package:intermission_project/common/const/colors.dart';
+import 'package:intermission_project/common/const/data.dart';
 
 import '../../layout/default_layout.dart';
 
@@ -51,34 +53,56 @@ class IntermissionScreen extends StatelessWidget {
                       SizedBox(
                         height: 15,
                       ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            '서비스 이용약관',
-                            style: blackSmallTextStyle,
-                          ),
-                          Icon(
-                            Icons.arrow_forward_ios,
-                            color: GREY_COLOR,
-                          ),
-                        ],
+                      InkWell(
+                        onTap: () async{
+                          await Navigator.of(context).push(
+                            MaterialPageRoute(
+                              builder: (context) => SignupTermWebView(
+                                homeUrl: serviceUrl,
+                              ),
+                            ),
+                          );
+                        },
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              '서비스 이용약관',
+                              style: blackSmallTextStyle,
+                            ),
+                            Icon(
+                              Icons.arrow_forward_ios,
+                              color: GREY_COLOR,
+                            ),
+                          ],
+                        ),
                       ),
                       SizedBox(
                         height: 15,
                       ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            '개인정보 처리방침',
-                            style: blackSmallTextStyle,
-                          ),
-                          Icon(
-                            Icons.arrow_forward_ios,
-                            color: GREY_COLOR,
-                          ),
-                        ],
+                      InkWell(
+                        onTap: () async{
+                          await Navigator.of(context).push(
+                            MaterialPageRoute(
+                              builder: (context) => SignupTermWebView(
+                                homeUrl: privateUrl,
+                              ),
+                            ),
+                          );
+                        },
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              '개인정보 처리방침',
+                              style: blackSmallTextStyle,
+                            ),
+                            Icon(
+                              Icons.arrow_forward_ios,
+                              color: GREY_COLOR,
+                            ),
+                          ],
+                        ),
                       ),
                     ],
                   ),
