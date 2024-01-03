@@ -69,6 +69,7 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
             showErrorText = false;
           });
         },
+
         controller: widget.controller,
         cursorColor: CURSOR_COLOR,
         obscureText: widget.obscureText,

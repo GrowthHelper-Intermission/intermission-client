@@ -8,31 +8,19 @@ class FindPWButton extends StatelessWidget {
   final String title;
   const FindPWButton({required this.title, super.key});
 
-  // style: ElevatedButton.styleFrom(
-  // primary: Colors.white,
-  // shape: RoundedRectangleBorder(
-  // borderRadius: BorderRadius.circular(10),
-  // side: BorderSide(
-  // width: 1,
-  // color: PRIMARY_COLOR,
-  // ),
-  // ),
-
   @override
   Widget build(BuildContext context) {
     return Center(
       child: SizedBox(
         child: TextButton(
           style: TextButton.styleFrom(
-            primary: SUB_BLUE_COLOR,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(1),
-              side: BorderSide(
-                width: 1,
-                color: Colors.black38,
-              )
-            )
-          ),
+              primary: SUB_BLUE_COLOR,
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(1),
+                  side: BorderSide(
+                    width: 1,
+                    color: Colors.black,
+                  ))),
           onPressed: () {
             Navigator.push(
               context,
@@ -44,9 +32,9 @@ class FindPWButton extends StatelessWidget {
           child: Text(
             title,
             style: TextStyle(
-              fontSize: 14.0,
+              fontSize: 15.0,
               color: Colors.grey[700],
-              fontWeight: FontWeight.w300,
+              fontWeight: FontWeight.w500,
             ),
           ),
         ),

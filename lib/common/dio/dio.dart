@@ -2,6 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:intermission_project/01.user/user/provider/auth_provider.dart';
+import 'package:intermission_project/01.user/user/provider/user_me_provider.dart';
 import 'package:intermission_project/common/const/data.dart';
 import 'package:intermission_project/common/storage/secure_storage.dart';
 
@@ -94,6 +95,8 @@ class CustomInterceptor extends Interceptor {
     final isPathRefresh = err.requestOptions.path == '/auth/token';
     final isStatus500 = err.response?.statusCode == 500; // 추가: 500 에러 체크
 
+
+
     print(refreshToken);
     print(accessToken);
     //토큰을 refresh하려는 의도가 아니었는데 403에러가 났다면?
@@ -134,6 +137,7 @@ class CustomInterceptor extends Interceptor {
         return handler.resolve(response); //외부에서는 이 과정만보임 (요청이 잘 끝났음 의미)
       } on DioError catch (e) {
         print('DioError Occurred: ${e.message}');
+        ref.read(userMeProvider.notifier).logout();
         // ref.read(authProvider.notifier).logout();
         return handler.reject(e);
       }
