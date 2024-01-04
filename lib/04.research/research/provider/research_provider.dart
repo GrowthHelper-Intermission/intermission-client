@@ -77,7 +77,7 @@ class ResearchStateNotifier
   //   return await repository.participateInterviewTester(id: id);
   // }
 
-  Future<PostResponse>reportResearchNow({required String id, required String content}) async{
+  Future<PostResponse> reportResearchNow({required String id, required String content}) async{
     return await repository.reportResearch(id: id, content: ContentModel(content: content).toJson());
   }
 

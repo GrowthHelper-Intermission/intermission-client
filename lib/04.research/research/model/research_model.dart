@@ -17,7 +17,7 @@ class ResearchModel implements IModelWithId {
   final String isOnGoing;
   final String researchRewdPoint;
   final String isBlock;
-  final String? isScreening;
+  final String isScreening;
 
   ResearchModel({
     required this.id,

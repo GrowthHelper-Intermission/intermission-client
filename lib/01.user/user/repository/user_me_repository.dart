@@ -38,7 +38,7 @@ abstract class UserMeRepository {
   @Headers({
     'accessToken': 'true',
   })
-  Future<SignupResponse> deleteUser(@Body() DeleteUserModel deleteUserModel);
+  Future<ScrapResponse> deleteUser(@Body() DeleteUserModel deleteUserModel);
 
   @PATCH('/bank')
   @Headers({
@@ -83,6 +83,13 @@ class SignupResponse {
   SignupResponse({required this.code, required this.message});
 
   factory SignupResponse.fromJson(Map<String, dynamic> json) {
+    return SignupResponse(
+      code: json['code'],
+      message: json['message'],
+    );
+  }
+
+  factory SignupResponse.toJson(Map<String, dynamic> json) {
     return SignupResponse(
       code: json['code'],
       message: json['message'],
