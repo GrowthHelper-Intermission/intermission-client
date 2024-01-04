@@ -298,7 +298,13 @@ class _TesterReqScreenState extends ConsumerState<TesterReqScreen> {
                           builder: (BuildContext context) {
                             return AlertDialog(
                               title: Text("알림"),
-                              content: Text("FGI 등록되었습니다!"),
+                              content: Text(
+                                "등록되었습니다!\n관리자로부터 연락이 갈테니\n잠시만 기다려주세요!",
+                                style: TextStyle(
+                                  fontSize: 15,
+                                  fontWeight: FontWeight.w400,
+                                ),
+                              ),
                               actions: [
                                 TextButton(
                                   child: Text("확인"),

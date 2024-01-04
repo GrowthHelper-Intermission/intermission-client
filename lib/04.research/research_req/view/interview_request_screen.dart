@@ -293,7 +293,9 @@ class _InterviewReqScreenState extends ConsumerState<InterviewReqScreen> {
                           .postInterview(newInterview);
                       print('Research posted successfully');
 
-                      ref.read(researchProvider.notifier).getTopThreeResearches();
+                      ref
+                          .read(researchProvider.notifier)
+                          .getTopThreeResearches();
 
                       // Show the confirmation dialog
                       await showDialog(
@@ -302,7 +304,13 @@ class _InterviewReqScreenState extends ConsumerState<InterviewReqScreen> {
                           return AlertDialog(
                             backgroundColor: Colors.white,
                             title: Text("알림"),
-                            content: Text("등록되었습니다!"),
+                            content: Text(
+                              "등록되었습니다!\n관리자로부터 연락이 갈테니\n잠시만 기다려주세요!",
+                              style: TextStyle(
+                                fontSize: 15,
+                                fontWeight: FontWeight.w400,
+                              ),
+                            ),
                             actions: [
                               TextButton(
                                 child: Text("확인"),
