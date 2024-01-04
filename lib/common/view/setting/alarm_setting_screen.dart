@@ -13,6 +13,7 @@ import 'package:intermission_project/01.user/user/provider/alarm_provider.dart';
 import 'package:intermission_project/common/const/colors.dart';
 import 'package:intermission_project/common/view/default_layout.dart';
 import 'package:intermission_project/firebase_options.dart';
+import 'package:flutter_app_badger/flutter_app_badger.dart';
 
 void showNotificationSettingsBottomSheet(BuildContext context) {
   showModalBottomSheet(
@@ -37,10 +38,9 @@ void showNotificationSettingsBottomSheet(BuildContext context) {
                 child: Text(
                   "알림 설정은 '설정 > 알림 > 인터미션'에서\n변경 가능해요!",
                   style: TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.w500,
-                    color: Colors.grey[700]
-                  ),
+                      fontSize: 18,
+                      fontWeight: FontWeight.w500,
+                      color: Colors.grey[700]),
                 ),
               ),
               SizedBox(height: 20),
@@ -54,8 +54,10 @@ void showNotificationSettingsBottomSheet(BuildContext context) {
                         color: PRIMARY_COLOR,
                         width: 1.5,
                       ),
-                      color: Colors.white, // White background for the '닫기' button
-                      borderRadius: BorderRadius.circular(10), // Rounded corners
+                      color:
+                          Colors.white, // White background for the '닫기' button
+                      borderRadius:
+                          BorderRadius.circular(10), // Rounded corners
                     ),
                     child: TextButton(
                       onPressed: () {
@@ -78,8 +80,10 @@ void showNotificationSettingsBottomSheet(BuildContext context) {
                     width: 160,
                     height: 60,
                     decoration: BoxDecoration(
-                      color: PRIMARY_COLOR, // PRIMARY_COLOR background for the '설정하기' button
-                      borderRadius: BorderRadius.circular(10), // Rounded corners
+                      color:
+                          PRIMARY_COLOR, // PRIMARY_COLOR background for the '설정하기' button
+                      borderRadius:
+                          BorderRadius.circular(10), // Rounded corners
                     ),
                     child: TextButton(
                       onPressed: () {
@@ -100,7 +104,6 @@ void showNotificationSettingsBottomSheet(BuildContext context) {
                   ),
                 ],
               ),
-
             ],
           ),
         ),
@@ -133,43 +136,6 @@ class _AlarmSettingScreenState extends ConsumerState<AlarmSettingScreen>
     return settings.authorizationStatus == AuthorizationStatus.authorized;
   }
 
-  // Future<bool> handleNotificationSwitchChange(bool value) async {
-  //   if (value) {
-  //     // Firebase 초기화 및 토큰 가져오기
-  //     final String? firebaseToken = await initializeFirebaseMessaging();
-  //     print('FirebaseToken: $firebaseToken');
-  //     if (firebaseToken != null) {
-  //       print('${firebaseToken} != null');
-  //       await saveTokenToSecureStorage(firebaseToken);
-  //     }
-  //
-  //     // 스위치가 켜질 때 권한 요청
-  //     NotificationSettings settings =
-  //         await FirebaseMessaging.instance.requestPermission(
-  //       alert: true,
-  //       badge: true,
-  //       sound: true,
-  //     );
-  //
-  //     if (settings.authorizationStatus == AuthorizationStatus.authorized) {
-  //       // 권한이 부여됨
-  //       print('알림 권한 부여됨');
-  //       return true;
-  //     } else {
-  //       // 권한 거부됨
-  //       switchValue1 = false;
-  //       print('알림 권한 거부됨');
-  //       return false;
-  //     }
-  //   } else {
-  //     // 스위치가 꺼질 때 모든 관련 스위치를 꺼뜨림
-  //     switchValue1 = false;
-  //     switchValue2 = false;
-  //     switchValue3 = false;
-  //     return false;
-  //   }
-  // }
-
   @override
   void initState() {
     super.initState();
@@ -200,10 +166,6 @@ class _AlarmSettingScreenState extends ConsumerState<AlarmSettingScreen>
       switchValue1 =
           settings.authorizationStatus == AuthorizationStatus.authorized;
     });
-  }
-
-  void handleNotificationSwitchTap() {
-    showNotificationSettingsBottomSheet(context);
   }
 
   Future<bool> handleNotificationSwitchChange(bool value) async {
@@ -242,16 +204,12 @@ class _AlarmSettingScreenState extends ConsumerState<AlarmSettingScreen>
     }
   }
 
-  Future<void> requestPushNotificationPermission() async {
-    bool switchStatus = await handleNotificationSwitchChange(true);
-    setState(() {
-      switchValue1 = switchStatus;
-    });
-  }
-
   Future<void> sendTestNotification() async {
     if (!switchValue1) {
-      await requestPushNotificationPermission();
+      bool switchStatus = await handleNotificationSwitchChange(true);
+      setState(() {
+        switchValue1 = switchStatus;
+      });
     }
     if (switchValue1) {
       // 테스트 알림 보내기 로직
@@ -373,30 +331,33 @@ class _AlarmSettingScreenState extends ConsumerState<AlarmSettingScreen>
           Divider(color: Colors.grey[200], thickness: 10.0),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 20),
-            child: SizedBox(
-              height: 50,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  const Text(
-                    '테스트 알림 보내기',
-                    style: TextStyle(
-                      color: BORDER_COLOR,
-                      fontSize: 16,
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(right: 20),
-                    child: InkWell(
-                      onTap: sendTestNotification, // 테스트 알림 보내기 함수 호출
-                      child: const Icon(
-                        Icons.arrow_forward_ios,
-                        color: GREY_COLOR,
+            child: InkWell(
+              onTap: sendTestNotification,
+              child: SizedBox(
+                height: 50,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    const Text(
+                      '테스트 알림 보내기',
+                      style: TextStyle(
+                        color: BORDER_COLOR,
+                        fontSize: 16,
+                        fontWeight: FontWeight.w600,
                       ),
                     ),
-                  ),
-                ],
+                    Padding(
+                      padding: const EdgeInsets.only(right: 20),
+                      child: InkWell(
+                        onTap: sendTestNotification, // 테스트 알림 보내기 함수 호출
+                        child: const Icon(
+                          Icons.arrow_forward_ios,
+                          color: GREY_COLOR,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
           ),
@@ -437,11 +398,7 @@ Future<String?> initializeFirebaseMessaging() async {
   // 자동 권한 확보 상태
   NotificationSettings settings = await messaging.requestPermission(
     alert: true,
-    announcement: false,
     badge: true,
-    carPlay: false,
-    criticalAlert: false,
-    provisional: false,
     sound: true,
   );
 
@@ -450,7 +407,7 @@ Future<String?> initializeFirebaseMessaging() async {
   print('User granted permission: ${settings.authorizationStatus}');
 
   /// 13버전
-  FirebaseMessaging.instance.requestPermission(
+  await FirebaseMessaging.instance.requestPermission(
     badge: true,
     alert: true,
     sound: true,
@@ -462,6 +419,7 @@ Future<String?> initializeFirebaseMessaging() async {
     'High Importance Notifications',
     description: 'This channel is used for important notifications.',
     importance: Importance.max,
+    showBadge: false,
   );
 
   final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
@@ -476,7 +434,7 @@ Future<String?> initializeFirebaseMessaging() async {
   await flutterLocalNotificationsPlugin.initialize(
     const InitializationSettings(
       android: AndroidInitializationSettings('@mipmap/ic_launcher'),
-      iOS: DarwinInitializationSettings(),
+      iOS: DarwinInitializationSettings(defaultPresentBadge: false),
     ),
   );
 
@@ -485,6 +443,7 @@ Future<String?> initializeFirebaseMessaging() async {
     badge: true,
     alert: true,
   );
+  FlutterAppBadger.removeBadge();
 
   // foreground 푸시 알림 핸들링
   FirebaseMessaging.onMessage.listen((RemoteMessage message) {
