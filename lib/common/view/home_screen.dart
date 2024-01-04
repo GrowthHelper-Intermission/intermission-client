@@ -28,6 +28,9 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final screenWidth = MediaQuery.of(context).size.width;
+    final screenHeight = MediaQuery.of(context).size.height;
+
     final researchNotifier = ref.watch(researchProvider);
     List<ResearchModel> ongoingResearches = [];
 
@@ -109,15 +112,15 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
             ],
           ),
         ),
-        body: Padding(
-          padding: const EdgeInsets.only(top: 10),
-          child: Container(
-            color: Colors.white12,
-            child: Center(
-              child: Column(
-                children: [
-                  Container(
-                    width: 350,
+        body: Container(
+          color: Colors.white12,
+          child: Center(
+            child: Column(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(11, 11, 11, 0),
+                  child: Container(
+                    width: screenWidth,
                     height: 84,
                     decoration: BoxDecoration(
                       border: Border.all(
@@ -136,7 +139,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                         );
                       },
                       child: Padding(
-                        padding: const EdgeInsets.all(12.0),
+                        padding: const EdgeInsets.fromLTRB(11, 11, 11, 5),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
@@ -187,85 +190,85 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                       ),
                     ),
                   ),
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(20, 8, 10, 0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          '진행 중인 리서치',
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 13),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        '진행 중인 리서치',
+                        style: TextStyle(
+                            fontSize: 16, fontWeight: FontWeight.w600),
+                      ),
+                      TextButton(
+                        onPressed: () {
+                          widget.tabController?.animateTo(3);
+                        },
+                        child: Text(
+                          'More',
                           style: TextStyle(
-                              fontSize: 16, fontWeight: FontWeight.w600),
+                            color: PRIMARY_COLOR,
+                            fontSize: 16,
+                            fontWeight: FontWeight.w600,
+                          ),
                         ),
-                        TextButton(
-                          onPressed: () {
-                            widget.tabController?.animateTo(3);
-                          },
+                      ),
+                    ],
+                  ),
+                ),
+                Expanded(
+                  child: ListView.builder(
+                    itemCount: ongoingResearches.length,
+                    itemBuilder: (context, index) {
+                      if (ongoingResearches.isNotEmpty) {
+                        final interview = ongoingResearches[index];
+                        return ResearchCard.fromModel(model: interview);
+                      } else {
+                        return Text("No interviews available");
+                      }
+                    },
+                  ),
+                ),
+                Align(
+                  alignment: Alignment.center,
+                  child: GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => FriendInviteScreen(),
+                        ),
+                      );
+                    },
+                    child: Padding(
+                      padding: const EdgeInsets.all(11),
+                      child: Container(
+                        width: screenWidth,
+                        height: 48,
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(8),
+                          border: Border.all(
+                            color: PRIMARY_COLOR,
+                            width: 1.0,
+                          ),
+                        ),
+                        child: Center(
                           child: Text(
-                            'More',
+                            '친구초대하고 300P받기',
                             style: TextStyle(
-                              color: PRIMARY_COLOR,
-                              fontSize: 15.0,
+                              fontSize: 13,
                               fontWeight: FontWeight.w600,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  Expanded(
-                    child: ListView.builder(
-                      itemCount: ongoingResearches.length,
-                      itemBuilder: (context, index) {
-                        if (ongoingResearches.isNotEmpty) {
-                          final interview = ongoingResearches[index];
-                          return ResearchCard.fromModel(model: interview);
-                        } else {
-                          return Text("No interviews available");
-                        }
-                      },
-                    ),
-                  ),
-                  Align(
-                    alignment: Alignment.center,
-                    child: GestureDetector(
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => FriendInviteScreen(),
-                          ),
-                        );
-                      },
-                      child: Padding(
-                        padding: const EdgeInsets.fromLTRB(0, 10, 0, 3),
-                        child: Container(
-                          width: 335,
-                          height: 48,
-                          decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(8),
-                            border: Border.all(
                               color: PRIMARY_COLOR,
-                              width: 1.0,
-                            ),
-                          ),
-                          child: Center(
-                            child: Text(
-                              '친구초대하고 300P받기',
-                              style: TextStyle(
-                                fontSize: 13,
-                                fontWeight: FontWeight.w600,
-                                color: PRIMARY_COLOR,
-                              ),
                             ),
                           ),
                         ),
                       ),
                     ),
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
           ),
         ),
