@@ -14,6 +14,7 @@ import 'package:intermission_project/01.user/user/model/user_model.dart';
 import 'package:intermission_project/01.user/user/repository/auth_repository.dart';
 import 'package:intermission_project/01.user/user/repository/user_me_repository.dart';
 import 'package:intermission_project/04.research/research/repository/research_repository.dart';
+import 'package:intermission_project/04.research/research/repository/scrap_repository.dart';
 import 'package:intermission_project/common/const/data.dart';
 import 'package:intermission_project/common/dio/dio.dart';
 import 'package:intermission_project/common/storage/secure_storage.dart';
@@ -50,30 +51,28 @@ class UserMeStateNotifier extends StateNotifier<UserModelBase?> {
     getMe();
   }
 
-  Future<int?> deleteUser(DeleteUserModel deleteUserModel) async {
+  Future<ScrapResponse> deleteUser(DeleteUserModel deleteUserModel) async {
     try {
       final resp = await repository.deleteUser(deleteUserModel);
-      return resp.code;
       print('성공적 탈퇴');
+      return resp;
     } catch (e) {
       print('deleteError?');
+      throw e;
     }
   }
+
 
   // UserMeStateNotifier 클래스 내부에 추가
   Future<int?> changePassword(PasswordChangeModel passwordChangeModel) async {
     try {
-
       final changeResp = await repository.changePassword(
           passwordChangeModel: passwordChangeModel);
-
 
       getMe();
 
       return changeResp.code;
-    } catch (e) {
-
-    }
+    } catch (e) {}
   }
 
   Future<void> getMe() async {

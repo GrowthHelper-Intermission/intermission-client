@@ -61,15 +61,21 @@ abstract class ScrapRepository implements
   })
   Future<ScrapResponse> scrapResearch({@Path() required String id});
 
+  @DELETE('/{id}')
+  @Headers({
+    'accessToken': 'true',
+  })
+  Future<ScrapResponse> scrapDeleteResearch({@Path() required String id});
+
 }
 
 class ScrapResponse {
-  final String isJoin;
+  final int? code;
 
-  ScrapResponse({required this.isJoin});
+  ScrapResponse({required this.code});
 
   factory ScrapResponse.fromJson(Map<String, dynamic> json) {
-    return ScrapResponse(isJoin: json['isJoin']);
+    return ScrapResponse(code: json['code']);
   }
 }
 
