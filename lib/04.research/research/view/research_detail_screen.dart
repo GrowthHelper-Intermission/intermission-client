@@ -42,24 +42,35 @@ class _ResearchDetailScreenState extends ConsumerState<ResearchDetailScreen> {
 
   Future<void> _handleScrap(ResearchDetailModel state) async {
     setState(() {
-      isScrapped = !isScrapped; // 상태 반전
       isScraping = true; // 네트워크 요청 시작
     });
 
-    var response =
-        await ref.watch(scrapProvider.notifier).scrapResearch(id: widget.id);
+    var response;
+    if (isScrapped) {
+      // 이미 스크랩되었으면 스크랩 취소 요청
+      response = await ref
+          .watch(scrapProvider.notifier)
+          .scrapDeleteResearch(id: widget.id);
+    } else {
+      // 스크랩되지 않았으면 스크랩 신청 요청
+      response =
+          await ref.watch(scrapProvider.notifier).scrapResearch(id: widget.id);
+    }
 
-    setState(() {
-      isScraping = false; // 네트워크 요청 종료
-    });
-
-    if (response is ScrapResponse && response.isJoin == 'Y') {
+    if (response.code == 200) {
+      print('스크랩 상태변환 완료');
       setState(() {
-        print('스크랩 완료');
-        isScrapped = true;
-        ref.read(researchProvider.notifier).getDetail(id: widget.id);
-        ref.read(scrapProvider.notifier).paginate(forceRefetch: true);
+        isScrapped = !isScrapped; // 스크랩 상태 반전
+        isScraping = false;
       });
+
+      ref.read(researchProvider.notifier).getDetail(id: widget.id);
+      ref.read(scrapProvider.notifier).paginate(forceRefetch: true);
+    } else {
+      setState(() {
+        isScraping = false; // 네트워크 요청 종료
+      });
+      // 여기에 스크랩 실패 처리 로직을 추가할 수 있습니다.
     }
   }
 
@@ -84,24 +95,9 @@ class _ResearchDetailScreenState extends ConsumerState<ResearchDetailScreen> {
     }
   }
 
-  // Future<void> _handleInterviewTesterParticipationResponse() async {
-  //   var response = await ref
-  //       .read(researchProvider.notifier)
-  //       .participateInInterviewTester(id: widget.id);
-  //
-  //   if (response is SurveyParticipationResponse && response.code == 200) {
-  //     setState(() {
-  //       ref.read(joinProvider.notifier).paginate();
-  //       isButtonEnabled = false;
-  //       print('비활');
-  //     });
-  //   }
-  // }
-
   @override
   Widget build(BuildContext context) {
     final state = ref.watch(researchDetailProvider(widget.id));
-
 
     // 데이터가 없거나 로딩 중인 경우
     if (state is! ResearchDetailModel) {
@@ -172,6 +168,16 @@ class _ResearchDetailScreenState extends ConsumerState<ResearchDetailScreen> {
                   switch (value) {
                     case 'report':
                       // 신고하기 로직
+                      final resp = await ref
+                          .read(researchProvider.notifier)
+                          .reportResearchNow(id: widget.id, content: 'test');
+                      if (resp.code == 200) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: Text('해당 리서치가 신고되었습니다.'),
+                          ),
+                        );
+                      }
                       break;
                     case 'hide':
                       // 리서치 차단 로직
@@ -262,7 +268,7 @@ class _ResearchDetailScreenState extends ConsumerState<ResearchDetailScreen> {
     } else if (isParticipationPossible) {
       buttonText = '참여완료';
       isButtonEnabled = false;
-    } else{
+    } else {
       buttonText = '참여가능'; //🥰
       isButtonEnabled = true;
     }
@@ -324,7 +330,8 @@ class _ResearchDetailScreenState extends ConsumerState<ResearchDetailScreen> {
                                     .read(researchProvider.notifier)
                                     .participateInSurvey(id: widget.id);
 
-                                if (response is SurveyParticipationResponse && response.code == 200) {
+                                if (response is SurveyParticipationResponse &&
+                                    response.code == 200) {
                                   setState(() {
                                     ref.read(joinProvider.notifier).paginate();
                                     isButtonEnabled = false;
@@ -332,7 +339,9 @@ class _ResearchDetailScreenState extends ConsumerState<ResearchDetailScreen> {
 
                                     print('비활성공');
 
-                                    ref.read(researchProvider.notifier).getDetail(id: widget.id);
+                                    ref
+                                        .read(researchProvider.notifier)
+                                        .getDetail(id: widget.id);
                                     ref.read(pointProvider);
                                     ref.read(userMeProvider.notifier).getMe();
                                   });
