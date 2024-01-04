@@ -40,6 +40,10 @@ class ScrapStateNotifier
     return await repository.scrapResearch(id: id);
   }
 
+  Future<ScrapResponse> scrapDeleteResearch({required String id}) async {
+    return await repository.scrapDeleteResearch(id: id);
+  }
+
   getDetail({
     required String id,
   }) async {

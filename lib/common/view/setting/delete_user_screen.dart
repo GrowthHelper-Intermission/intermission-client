@@ -237,20 +237,20 @@ class _PasswordChangeScreenState extends ConsumerState<DeleteUserScreen> {
     }
   }
 
-  // 비밀번호 변경 로직
-  void deleteUser() {
-    final userNotifier = ref.read(userMeProvider.notifier);
-    userNotifier.deleteUser(new DeleteUserModel(
-      deleteDescription: "인터미션 사랑해",
-      password: "8829705x@",
-    ));
-    userNotifier.logout();
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-          builder: (context) => SelectScreen()), // Navigate to LoginScreen
-    );
-  }
+  // // 비밀번호 변경 로직
+  // void deleteUser() {
+  //   final userNotifier = ref.read(userMeProvider.notifier);
+  //   userNotifier.deleteUser(new DeleteUserModel(
+  //     deleteDescription: "인터미션 사랑해",
+  //     password: "8829705x@",
+  //   ));
+  //   userNotifier.logout();
+  //   Navigator.push(
+  //     context,
+  //     MaterialPageRoute(
+  //         builder: (context) => SelectScreen()), // Navigate to LoginScreen
+  //   );
+  // }
 }
 
 class SignupAskLabel2 extends StatelessWidget {

@@ -97,7 +97,7 @@ class _DeleteUserScreen2State extends ConsumerState<DeleteUserScreen2> {
       });
     }
 
-    void deleteUser() {
+    void deleteUser() async {
       String deleteDescription = '';
       if (isDifficult) {
         deleteDescription = '앱이 이용하기 어려워요';
@@ -113,15 +113,15 @@ class _DeleteUserScreen2State extends ConsumerState<DeleteUserScreen2> {
         deleteDescription = otherReasonController.text.trim();
       }
 
-      final userNotifier = ref.read(userMeProvider.notifier);
-      final resp = userNotifier.deleteUser(
+      final resp = await ref.watch(userMeProvider.notifier).deleteUser(
         DeleteUserModel(
           deleteDescription: deleteDescription,
           password: currentPasswordController.text.trim(),
         ),
       );
 
-      if (resp == 200) {
+
+      if (resp.code == 200) {
         // Success dialog
         showDialog(
           context: context,
@@ -135,13 +135,7 @@ class _DeleteUserScreen2State extends ConsumerState<DeleteUserScreen2> {
               TextButton(
                   child: Text("확인"),
                   onPressed: () {
-                    userNotifier.logout();
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => SelectScreen(),
-                      ), // Navigate to LoginScreen
-                    );
+                    ref.read(userMeProvider.notifier).logout();
                   }),
             ],
           ),

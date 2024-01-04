@@ -7,7 +7,7 @@ part of 'post_response.dart';
 // **************************************************************************
 
 PostResponse _$PostResponseFromJson(Map<String, dynamic> json) => PostResponse(
-      code: json['code'] as String,
+      code: json['code'] as int,
       message: json['message'] as String,
       data: json['data'] as String?,
     );
