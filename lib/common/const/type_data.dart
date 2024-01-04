@@ -8,6 +8,14 @@ const List<String> residenceTypes = [
   '6인 이상 가구',
 ];
 
+const List<String> emailTypes = [
+  '직접입력',
+  'gmail.com',
+  'naver.com',
+  'daum.net',
+  'kakao.com',
+];
+
 final bankAccountType = [
   '선택',
   '하나은행',
@@ -57,6 +65,7 @@ const List<String> petTypes = [
   '강아지',
   '고양이',
   '강아지+고양이',
+  '없음',
   '기타',
 ];
 
