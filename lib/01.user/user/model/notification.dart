@@ -46,7 +46,7 @@ class FlutterLocalNotification {
 
     const NotificationDetails notificationDetails = NotificationDetails(
         android: androidNotificationDetails,
-        iOS: DarwinNotificationDetails(badgeNumber: 1));
+        iOS: DarwinNotificationDetails(badgeNumber: 0));
 
     await flutterLocalNotificationsPlugin.show(
         0, '테스트 알림', '테스트 알림이 도착했습니다!', notificationDetails);
