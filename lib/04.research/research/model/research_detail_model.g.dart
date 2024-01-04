@@ -18,7 +18,7 @@ ResearchDetailModel _$ResearchDetailModelFromJson(Map<String, dynamic> json) =>
       researchRewdAmt: json['researchRewdAmt'] as String,
       isOnGoing: json['isOnGoing'] as String,
       isBlock: json['isBlock'] as String,
-      isScreening: json['isScreening'] as String?,
+      isScreening: json['isScreening'] as String,
       researchRewdPoint: json['researchRewdPoint'] as String,
       participationStatus: json['participationStatus'] as String,
       researchUrl: json['researchUrl'] as String,
