@@ -16,7 +16,7 @@ class ResearchCard extends StatefulWidget {
   final String researchRewdPoint;
   final String researchRewdAmt;
   final String isBlock;
-  final String? isScreening;
+  final String isScreening;
   final String isOnGoing; // 진행 여부
 
   const ResearchCard({
@@ -30,7 +30,7 @@ class ResearchCard extends StatefulWidget {
     required this.isOnGoing,
     required this.isBlock,
     required this.researchRewdPoint,
-    this.isScreening,
+    required this.isScreening,
     super.key,
   });
 
@@ -42,8 +42,6 @@ class ResearchCard extends StatefulWidget {
       id: model.id,
       mainTitle: model.mainTitle,
       subTitle: model.subTitle,
-      // isOnline: onlineCategory.values.firstWhere((e) =>
-      // e.name.toString() == model.isOnline.toString()),
       researchMethTpCd: model.researchMethTpCd,
       exceptTime: model.exceptTime,
       researchRewdAmt: model.researchRewdAmt,
@@ -85,6 +83,11 @@ class _ResearchCardState extends State<ResearchCard> {
     Color textColor;
     Color backgroundColor;
 
+    Color screeningTextColor;
+    Color screeningBackgroundColor;
+    Color screeningBorderColor;
+    String screeningDisplayText;
+
     TextStyle titleStyle = TextStyle(
       color: widget.isOnGoing == "Y" ? Colors.black : Colors.grey,
       fontWeight: FontWeight.w700,
@@ -95,6 +98,17 @@ class _ResearchCardState extends State<ResearchCard> {
       color: widget.isOnGoing == "Y" ? Colors.black : Colors.grey,
       fontSize: 13,
     );
+    if(widget.isScreening == "Y"){
+      screeningDisplayText = "참여가능";
+      screeningBorderColor = SUB_BLUE_COLOR;
+      screeningTextColor = SUB_BLUE_COLOR;
+      screeningBackgroundColor = Colors.white;
+    }else{
+      screeningDisplayText = "참여불가";
+      screeningBorderColor = GREY_COLOR;
+      screeningTextColor = GREY_COLOR;
+      screeningBackgroundColor = Colors.white;
+    }
 
     if (daysLeft > 3) {
       displayText = 'D-$daysLeft';
@@ -119,7 +133,7 @@ class _ResearchCardState extends State<ResearchCard> {
     }
 
     return Padding(
-      padding: const EdgeInsets.fromLTRB(11, 0, 21, 0),
+      padding: const EdgeInsets.symmetric(horizontal: 11),
       child: Card(
         child: InkWell(
           onTap: () {
@@ -169,7 +183,12 @@ class _ResearchCardState extends State<ResearchCard> {
                       ),
                       SizedBox(width: 10),
                       Expanded(
-                        child: Text(widget.mainTitle, style: titleStyle),
+                        child: Text(
+                          widget.mainTitle,
+                          style: titleStyle,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                        ),
                       ),
                       SizedBox(width: 20),
                     ],
@@ -189,6 +208,7 @@ class _ResearchCardState extends State<ResearchCard> {
                     child: Container(), // This takes up the remaining space
                   ),
                   Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
                     children: [
                       Text(
                         widget.researchMethTpCd,
@@ -205,6 +225,32 @@ class _ResearchCardState extends State<ResearchCard> {
                       Text(
                         widget.researchRewdAmt,
                         style: blueSmallTextStyle,
+                      ),
+                      Text(
+                        ' | ',
+                        style: whiteSmallTextStyle,
+                      ),
+                      Container(
+                        width: 65,
+                        height: 21,
+                        decoration: BoxDecoration(
+                          color: screeningBackgroundColor,
+                          borderRadius: BorderRadius.circular(5),
+                          border: Border.all(
+                            color: screeningBorderColor,
+                            width: 1,
+                          ),
+                        ),
+                        child: Center(
+                          child: Text(
+                            screeningDisplayText,
+                            style: TextStyle(
+                              color: screeningTextColor,
+                              fontSize: 13.0,
+                              fontWeight: FontWeight.w700,
+                            ),
+                          ),
+                        ),
                       ),
                     ],
                   ),
