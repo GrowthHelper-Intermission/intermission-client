@@ -40,7 +40,7 @@ class _UserMeRepository implements UserMeRepository {
   }
 
   @override
-  Future<SignupResponse> deleteUser(deleteUserModel) async {
+  Future<ScrapResponse> deleteUser(deleteUserModel) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{r'accessToken': 'true'};
@@ -48,7 +48,7 @@ class _UserMeRepository implements UserMeRepository {
     final _data = <String, dynamic>{};
     _data.addAll(deleteUserModel.toJson());
     final _result = await _dio
-        .fetch<Map<String, dynamic>>(_setStreamType<SignupResponse>(Options(
+        .fetch<Map<String, dynamic>>(_setStreamType<ScrapResponse>(Options(
       method: 'DELETE',
       headers: _headers,
       extra: _extra,
@@ -60,7 +60,7 @@ class _UserMeRepository implements UserMeRepository {
               data: _data,
             )
             .copyWith(baseUrl: baseUrl ?? _dio.options.baseUrl)));
-    final value = SignupResponse.fromJson(_result.data!);
+    final value = ScrapResponse.fromJson(_result.data!);
     return value;
   }
 

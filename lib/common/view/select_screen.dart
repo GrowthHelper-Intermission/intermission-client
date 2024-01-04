@@ -33,7 +33,7 @@ class SelectScreen extends StatelessWidget {
                       );
                     },
                     style: ElevatedButton.styleFrom(
-                      primary: PRIMARY_COLOR,
+                     primary: PRIMARY_COLOR,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10),
                         side: BorderSide(
