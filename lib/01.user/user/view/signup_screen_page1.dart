@@ -185,6 +185,8 @@ class _SignupScreenPage1State extends ConsumerState<SignupScreenPage1> {
 
   @override
   Widget build(BuildContext context) {
+    final screenWidth = MediaQuery.of(context).size.width;
+    final screenHeight = MediaQuery.of(context).size.height;
     return WillPopScope(
       onWillPop: () async{
         return true;
@@ -296,7 +298,7 @@ class _SignupScreenPage1State extends ConsumerState<SignupScreenPage1> {
                       isDetail: true,
                       url: 'https://docs.google.com/document/d/e/2PACX-1vSi6kk5dKbu2mQuWPrYEj7FR0Xe6xgjOkKVSNEWT7Bkp4XfzirQaegXbM2Frtp3cC5-S0RnJp2VqeTx/pub',
                     ),
-                    SizedBox(height: 300,),
+                    SizedBox(height: screenHeight*0.4,),
                     LoginNextButton(
                       buttonName: '다음',
                       // isButtonEnabled: isButtonEnabled,

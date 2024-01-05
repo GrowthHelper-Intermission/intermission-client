@@ -180,6 +180,8 @@ class _SignupScreenPage2State extends ConsumerState<SignupScreenPage2> {
 
   @override
   Widget build(BuildContext context) {
+    final screenWidth = MediaQuery.of(context).size.width;
+    final screenHeight = MediaQuery.of(context).size.height;
     // Function to close the dropdown when tapping outside
     void closeDropdown() {
       FocusScope.of(context).requestFocus(FocusNode());
@@ -309,7 +311,9 @@ class _SignupScreenPage2State extends ConsumerState<SignupScreenPage2> {
                           height: 20,
                         ),
                       SignupAskLabel(text: '성별'),
-                      Row(
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 4),
+                        child: Row(
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [
                             SignupEitherButton(
@@ -335,35 +339,40 @@ class _SignupScreenPage2State extends ConsumerState<SignupScreenPage2> {
                                 checkButtonEnabled();
                               },
                             ),
-                          ]),
+                          ],
+                        ),
+                      ),
                       SizedBox(
                         height: 20,
                       ),
                       SignupAskLabel(text: '결혼 여부'),
-                      Row(
-                        children: [
-                          SignupEitherButton(
-                              text: '미혼',
-                              isSelected: unMarriedSelected,
-                              onPressed: () {
-                                setState(() {
-                                  unMarriedSelected = true;
-                                  marriedSelected = false;
-                                  checkButtonEnabled();
-                                });
-                              }),
-                          SizedBox(width: 10),
-                          SignupEitherButton(
-                              text: '기혼',
-                              isSelected: marriedSelected,
-                              onPressed: () {
-                                setState(() {
-                                  marriedSelected = true;
-                                  unMarriedSelected = false;
-                                  checkButtonEnabled();
-                                });
-                              }),
-                        ],
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 4),
+                        child: Row(
+                          children: [
+                            SignupEitherButton(
+                                text: '미혼',
+                                isSelected: unMarriedSelected,
+                                onPressed: () {
+                                  setState(() {
+                                    unMarriedSelected = true;
+                                    marriedSelected = false;
+                                    checkButtonEnabled();
+                                  });
+                                }),
+                            SizedBox(width: 10),
+                            SignupEitherButton(
+                                text: '기혼',
+                                isSelected: marriedSelected,
+                                onPressed: () {
+                                  setState(() {
+                                    marriedSelected = true;
+                                    unMarriedSelected = false;
+                                    checkButtonEnabled();
+                                  });
+                                }),
+                          ],
+                        ),
                       ),
                       SizedBox(
                         height: 20,
@@ -408,58 +417,50 @@ class _SignupScreenPage2State extends ConsumerState<SignupScreenPage2> {
                           },
                         ),
                       ),
-                      if (raisePet)
-                        Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 5),
-                          child: SignupAskLabel(text: '키우시는 반려동물 이름을 적어주세요!'),
-                        ),
-                      if (raisePet)
-                        CustomTextFormField(
-                          onChanged: (value) {
-                            checkButtonEnabled();
-                          },
-                          controller: raisePetController,
-                        ),
                       SizedBox(
                         height: 10,
                       ),
                       SignupAskLabel(text: '거주 지역'),
-                      CustomDropdownButton(
-                        dropdownWidth: 350,
-                        items: mapInfo
-                            .map((info) => info['name'].toString())
-                            .toList(),
-                        hintText: '시/도를 선택하세요.',
-                        onItemSelected: (value) {
-                          setState(() {
-                            selectedCity = value;
-                            selectedCountry = null;
-                            checkButtonEnabled();
-                          });
-                        },
-                      ),
-                      if (selectedCity != null) SizedBox(height: 20),
-                      if (selectedCity != null)
-                        CustomDropdownButton(
+                      Center(
+                        child: CustomDropdownButton(
                           dropdownWidth: 350,
-                          items: (selectedCity == null
-                              ? []
-                              : (mapInfo.firstWhere((info) =>
-                                      info['name'] ==
-                                      selectedCity)['countries'] as List)
-                                  .map((country) => country.toString())
-                                  .toList()),
-                          hintText: '구/군을 선택하세요.',
+                          items: mapInfo
+                              .map((info) => info['name'].toString())
+                              .toList(),
+                          hintText: '시/도를 선택하세요.',
                           onItemSelected: (value) {
                             setState(() {
-                              selectedCountry = value;
+                              selectedCity = value;
+                              selectedCountry = null;
                               checkButtonEnabled();
                             });
                           },
-                          enabled: selectedCity != null, // 이 부분 추가
-                          // errorText 속성이 CustomDropdownButton에 구현되어 있는지 확인하세요.
                         ),
-                      SizedBox(height: 200.0),
+                      ),
+                      if (selectedCity != null) SizedBox(height: 20),
+                      if (selectedCity != null)
+                        Center(
+                          child: CustomDropdownButton(
+                            dropdownWidth: 350,
+                            items: (selectedCity == null
+                                ? []
+                                : (mapInfo.firstWhere((info) =>
+                                        info['name'] ==
+                                        selectedCity)['countries'] as List)
+                                    .map((country) => country.toString())
+                                    .toList()),
+                            hintText: '구/군을 선택하세요.',
+                            onItemSelected: (value) {
+                              setState(() {
+                                selectedCountry = value;
+                                checkButtonEnabled();
+                              });
+                            },
+                            enabled: selectedCity != null, // 이 부분 추가
+                            // errorText 속성이 CustomDropdownButton에 구현되어 있는지 확인하세요.
+                          ),
+                        ),
+                      SizedBox(height: screenHeight * 0.2),
                       LoginNextButton(
                         buttonName: '본인인증 실행하기',
                         isButtonEnabled: isButtonEnabled,

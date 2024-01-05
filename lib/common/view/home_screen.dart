@@ -61,8 +61,11 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Expanded(
-                child: Image.asset('assets/launcher_icon/iconapp2.png',
-                    width: 60, height: 38),
+                child: Image.asset(
+                  'assets/launcher_icon/iconapp2.png',
+                  width: 60,
+                  height: 38,
+                ),
               ),
               SizedBox(width: 100),
               Expanded(
@@ -81,9 +84,9 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                       ),
                     ),
                     Padding(
-                      padding: const EdgeInsets.only(left: 15),
+                      padding: const EdgeInsets.only(left: 10),
                       child: Text(
-                        user.pointAmount ?? "50",
+                        user.pointAmount ?? "50P",
                         style: TextStyle(
                           fontWeight: FontWeight.w600,
                           fontSize: 16.0,
@@ -192,14 +195,14 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                   ),
                 ),
                 Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 13),
+                  padding: const EdgeInsets.symmetric(horizontal: 13,vertical: 2),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
                         '진행 중인 리서치',
                         style: TextStyle(
-                            fontSize: 16, fontWeight: FontWeight.w600),
+                            fontSize: 18, fontWeight: FontWeight.w600),
                       ),
                       TextButton(
                         onPressed: () {
@@ -209,7 +212,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                           'More',
                           style: TextStyle(
                             color: PRIMARY_COLOR,
-                            fontSize: 16,
+                            fontSize: 17,
                             fontWeight: FontWeight.w600,
                           ),
                         ),
