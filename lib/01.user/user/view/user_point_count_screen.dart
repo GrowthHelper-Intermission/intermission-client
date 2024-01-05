@@ -112,32 +112,20 @@ Widget _buildPointDetail({
       break;
   }
 
-  String displayStatus = '';
-  Color statusColor = Colors.black; // Default color
-
-  switch (pointStatus) {
-    case 'ACCUMULATED':
-      displayStatus = '+$pointChangeBalance';
-      statusColor = PRIMARY_COLOR;
-      break;
-    case 'USED':
-      displayStatus = '$pointChangeBalance P';
-      statusColor = Colors.red;
-      break;
-    case 'EXPIRED':
-      displayStatus = '포인트 기한 만료';
-      statusColor = SUB_BLUE_COLOR;
-      break;
-  }
-
   Widget? eventNameWidget;
   if (pointEventType == 'RESEARCH_PARTICIPATION' && pointEventName != null) {
     eventNameWidget = Text(
       pointEventName,
       style: TextStyle(
-          color: Colors.black, fontWeight: FontWeight.w500, fontSize: 15),
+        color: Colors.black,
+        fontWeight: FontWeight.w500,
+        fontSize: 15,
+      ),
+      maxLines: 2,
     );
   }
+
+
 
   return Column(
     children: [
@@ -164,18 +152,28 @@ Widget _buildPointDetail({
                       fontSize: 14,
                     ),
                   ),
+                  if (pointChangeBalance != "0")
                   Text(
-                    displayStatus,
+                    '+$pointPreviousBalance P',
                     style: TextStyle(
-                      color: statusColor,
+                      color: SUB_BLUE_COLOR,
                       fontWeight: FontWeight.w500,
                       fontSize: 15,
                     ),
                   ),
+                  if (pointChangeBalance != "0")
+                    Text(
+                      '${pointChangeBalance} P',
+                      style: TextStyle(
+                        color: RED_COLOR,
+                        fontWeight: FontWeight.w500,
+                        fontSize: 15,
+                      ),
+                    ),
                   Text(
-                    '${pointCurrentBalance} P',
+                    '+$pointCurrentBalance P',
                     style: TextStyle(
-                      color: Colors.grey[600],
+                      color: PRIMARY_COLOR,
                       fontSize: 15,
                       fontWeight: FontWeight.w500,
                     ),
