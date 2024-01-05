@@ -38,6 +38,9 @@ class _ReportDetailScreenState extends ConsumerState<ReportDetailScreen> {
   Widget build(BuildContext context) {
     final state = ref.watch(reportDetailProvider(widget.id));
 
+    final screenWidth = MediaQuery.of(context).size.width;
+    final screenHeight = MediaQuery.of(context).size.height;
+
     // 데이터가 없거나 로딩 중인 경우
     if (state == null || state is! ReportDetailModel) {
       return Scaffold(body: renderLoading());

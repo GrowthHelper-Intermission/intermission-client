@@ -269,7 +269,7 @@ class _TesterReqScreenState extends ConsumerState<TesterReqScreen> {
                     },
                   ),
                   SizedBox(
-                    height: 20,
+                    height: 180,
                   ),
                   LoginNextButton(
                     buttonName: 'FGI 의뢰하기',

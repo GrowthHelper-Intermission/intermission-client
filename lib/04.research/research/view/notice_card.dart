@@ -19,37 +19,44 @@ class NoticeCard extends StatelessWidget {
   factory NoticeCard.fromModel(NotiModel model) {
     return NoticeCard(
       date: model.postDate,
-      title: model.mainTitle,
+      title: model.title,
       id: model.id,
     );
   }
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: SizedBox(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  date,
-                  style: TextStyle(color: Colors.grey[400]),
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Expanded(child: Text(title,maxLines: 2,overflow: TextOverflow.ellipsis,)),
-                  ],
-                ),
-              ],
+    return InkWell(
+      onTap:() {
+        //goNamed -> pushNamed
+        context.pushNamed(NoticeDetailScreen.routeName,
+            pathParameters: {'id': id});
+      },
+      child: Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: SizedBox(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    date,
+                    style: TextStyle(color: Colors.grey[400]),
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Expanded(child: Text(title,maxLines: 2,overflow: TextOverflow.ellipsis,)),
+                    ],
+                  ),
+                ],
+              ),
             ),
           ),
-        ),
-        Divider(color: Colors.grey[300], thickness: 0.5), // 구분선 추가
-      ],
+          Divider(color: Colors.grey[300], thickness: 0.5), // 구분선 추가
+        ],
+      ),
     );
   }
 }

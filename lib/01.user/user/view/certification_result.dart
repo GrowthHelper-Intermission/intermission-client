@@ -116,7 +116,7 @@ class CertificationResult extends ConsumerWidget {
             "email": newUser.email,
             "userName": newUser.userName,
             "password": newUser.password,
-            "uniqueKey": "test3",
+            "uniqueKey": newUser.uniqueKey,
             "certifiedAt": newUser.certifiedAt,
             "phoneNumber": newUser.phoneNumber,
             "jobCd": newUser.jobCd,
@@ -156,6 +156,7 @@ class CertificationResult extends ConsumerWidget {
           );
         }
       } catch (e) {
+        print('jotdam');
         showCupertinoDialog(
           context: context,
           builder: (BuildContext context) {
@@ -202,7 +203,7 @@ class CertificationResult extends ConsumerWidget {
               accessToken, context, ref, flutterSecureStorage));
     }
     return SplashScreen(
-      message: '이전화면으로 이동중...',
+      message: '잠시만 기다려주세요...',
     );
   }
 }

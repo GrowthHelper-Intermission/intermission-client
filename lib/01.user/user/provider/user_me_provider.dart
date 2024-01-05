@@ -17,6 +17,7 @@ import 'package:intermission_project/04.research/research/repository/research_re
 import 'package:intermission_project/04.research/research/repository/scrap_repository.dart';
 import 'package:intermission_project/common/const/data.dart';
 import 'package:intermission_project/common/dio/dio.dart';
+import 'package:intermission_project/common/model/post_response.dart';
 import 'package:intermission_project/common/storage/secure_storage.dart';
 
 final userMeProvider =
@@ -152,7 +153,7 @@ class UserMeStateNotifier extends StateNotifier<UserModelBase?> {
     }
   }
 
-  Future<InterviewTesterResponse> postBlock(int userId) async {
+  Future<PostResponse> postBlock(int userId) async {
     try {
       final blockResp = await repository.block(userId: userId.toString());
       return blockResp;
