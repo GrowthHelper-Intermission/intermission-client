@@ -97,10 +97,10 @@ class _ShoppingDetailScreenState extends ConsumerState<ShoppingDetailScreen> {
                     context: context,
                     builder: (BuildContext context) {
                       return AlertDialog(
-                        backgroundColor: PRIMARY_COLOR,
-                        title: Text("성공"),
+                        backgroundColor: Colors.white,
+                        title: Text("성공!"),
                         content: Text(
-                          "포인트 교환이 완료되었습니다. 관리자에 의해 3일 이내에 송금됩니다!",
+                          "포인트 교환이 완료되었습니다.\n관리자에 의해 3일 이내에 송금됩니다!",
                           style: TextStyle(color: Colors.white),
                         ),
                         actions: <Widget>[
@@ -320,7 +320,7 @@ class _ShoppingDetailScreenState extends ConsumerState<ShoppingDetailScreen> {
                 child: GestureDetector(
                   ///
                   child: CustomDropdownButton(
-                    dropdownWidth: 350,
+                    dropdownWidth: 340,
                     items: bankAccountType,
                     hintText:  user?.bank ?? '선택',
                     onItemSelected: (value) {
@@ -333,14 +333,17 @@ class _ShoppingDetailScreenState extends ConsumerState<ShoppingDetailScreen> {
               SizedBox(height: 15),
               SignupAskLabel(text: '계좌번호'),
               ///
-              CustomTextFormField(
-                onlyNumber: true,
-                controller: accountNumberController,
-                onChanged: (String value) {
-                  checkAccountEnabled();
-                },
-                hintText: '숫자만 입력',
-                showClearIcon: true,
+              Padding(
+                padding: const EdgeInsets.only(right: 13),
+                child: CustomTextFormField(
+                  onlyNumber: true,
+                  controller: accountNumberController,
+                  onChanged: (String value) {
+                    checkAccountEnabled();
+                  },
+                  hintText: '숫자만 입력',
+                  showClearIcon: true,
+                ),
               ),
               Padding(
                 padding: const EdgeInsets.only(top: 30),

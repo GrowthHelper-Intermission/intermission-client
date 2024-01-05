@@ -66,7 +66,6 @@ const List<String> petTypes = [
   '고양이',
   '강아지+고양이',
   '없음',
-  '기타',
 ];
 
 const List<String> asignCdTypes = [

@@ -13,6 +13,8 @@ import 'package:intermission_project/common/const/data.dart';
 import 'package:intermission_project/common/dio/dio.dart';
 import 'package:retrofit/retrofit.dart';
 
+import '../../../common/model/post_response.dart';
+
 part 'user_me_repository.g.dart';
 
 final userMeRepositoryProvider = Provider<UserMeRepository>(
@@ -73,7 +75,7 @@ abstract class UserMeRepository {
   @Headers({
     'accessToken': 'true',
   })
-  Future<InterviewTesterResponse> block({@Path('userId') required String userId});
+  Future<PostResponse> block({@Path('userId') required String userId});
 }
 ///회원 가입 Response
 class SignupResponse {
