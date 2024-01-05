@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../view/setting/setting_screen.dart';
+
 class NormalAppbar extends StatelessWidget implements PreferredSizeWidget{
   final Color? color;
   final String? title;
@@ -14,16 +16,35 @@ class NormalAppbar extends StatelessWidget implements PreferredSizeWidget{
     return AppBar(
       backgroundColor: color ?? Colors.white,
       automaticallyImplyLeading: automaticallyImplyLeading ?? false,
-      title: Align(
-        alignment: Alignment.centerLeft,
-        child: Text(
-          title!,
-          style: TextStyle(
-            fontSize: 18,
-            fontWeight: FontWeight.w700,
-            color: Colors.white,
+      title: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Align(
+            alignment: Alignment.centerLeft,
+            child: Text(
+              '포인트 교환',
+              style: TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.w700,
+                color: Colors.white,
+              ),
+            ),
           ),
-        ),
+          IconButton(
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => SettingScreen()),
+              );
+            },
+            icon: Image.asset(
+              'assets/img/Setting.png',
+              width: 45,
+              height: 45,
+              color: Colors.white,
+            ),
+          ),
+        ],
       ),
       foregroundColor: Colors.black,
     );

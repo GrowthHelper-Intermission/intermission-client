@@ -6,6 +6,8 @@ import 'package:intermission_project/common/component/normal_appbar.dart';
 import 'package:intermission_project/common/const/colors.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import '../../../common/view/setting/setting_screen.dart';
+
 class Product {
   final String imagePath;
   final String title;
@@ -35,9 +37,40 @@ class ShoppingScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: NormalAppbar(
-        title: '포인트 교환',
-        color: PRIMARY_COLOR,
+      appBar: AppBar(
+        backgroundColor: PRIMARY_COLOR,
+        automaticallyImplyLeading: false,
+        title: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Align(
+              alignment: Alignment.centerLeft,
+              child: Text(
+                '포인트 교환',
+                style: TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.w700,
+                  color: Colors.white,
+                ),
+              ),
+            ),
+            IconButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => SettingScreen()),
+                );
+              },
+              icon: Image.asset(
+                'assets/img/Setting.png',
+                width: 45,
+                height: 45,
+                color: Colors.white,
+              ),
+            ),
+          ],
+        ),
+        foregroundColor: Colors.black,
       ),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
