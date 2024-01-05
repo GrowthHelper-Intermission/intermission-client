@@ -6,12 +6,14 @@ part 'noti_model.g.dart';
 @JsonSerializable()
 class NotiModel implements IModelWithId {
   final String id;          // 게시물 ID
-  final String mainTitle;   // Title of the notification
+  final String title;   // Title of the notification
+  final String content;
   final String postDate;    // Posting date of the notification
 
   NotiModel({
     required this.id,
-    required this.mainTitle,
+    required this.title,
+    required this.content,
     required this.postDate,
   });
 

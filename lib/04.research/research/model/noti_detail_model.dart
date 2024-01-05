@@ -5,13 +5,12 @@ part 'noti_detail_model.g.dart';
 
 @JsonSerializable()
 class NotiDetailModel extends NotiModel {
-  final String detail;
 
   NotiDetailModel({
     required super.id,
-    required super.mainTitle,
+    required super.title,
     required super.postDate,
-    required this.detail,
+    required super.content,
   });
 
   factory NotiDetailModel.fromJson(Map<String, dynamic> json) => _$NotiDetailModelFromJson(json);
