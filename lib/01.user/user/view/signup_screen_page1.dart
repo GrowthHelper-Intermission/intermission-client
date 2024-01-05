@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intermission_project/01.user/user/provider/signup_user_provider.dart';
 import 'package:intermission_project/01.user/user/view/signup_screen_page2.dart';
@@ -17,7 +18,10 @@ import 'package:intermission_project/common/component/signup_appbar.dart';
 import 'package:intermission_project/common/component/signup_ask_label.dart';
 import 'package:intermission_project/common/const/colors.dart';
 import 'package:intermission_project/common/const/data.dart';
+import 'package:intermission_project/common/const/type_data.dart';
 import 'package:intl/intl.dart';
+
+import '../../../common/component/custom_dropdown_button.dart';
 
 class SignupScreenPage1 extends ConsumerStatefulWidget {
   static String get routeName => 'signup1';
@@ -29,20 +33,66 @@ class SignupScreenPage1 extends ConsumerStatefulWidget {
 
 class _SignupScreenPage1State extends ConsumerState<SignupScreenPage1> {
   TextEditingController emailController = TextEditingController();
+  TextEditingController emailTypeController = TextEditingController();
+
   TextEditingController passwordController = TextEditingController();
-  bool isEmailValid = false;
-  String? selectedBankType;
+  String selectedEmailType = "naver.com";
   bool isAgree = false;
   bool isAgree2 = false;
+  bool isPasswordValid = false;
+  bool isEmailVerified = false;
+  bool isButtonEnabled = false;
 
   bool? serverCode;  // String? 대신 bool? 타입으로 변경
 
+  late String fixedEmail;
+
+  late String realFixedEmail;
+
+
+
+  // 비밀번호 유효성 검사 함수
+  void validatePassword(String password) {
+    if (password.length >= 8 &&
+        RegExp(r'[A-Za-z]').hasMatch(password) &&
+        RegExp(r'\d').hasMatch(password) &&
+        RegExp(r'[^A-Za-z0-9]').hasMatch(password)) {
+      setState(() {
+        isPasswordValid = true;
+      });
+    } else {
+      setState(() {
+        isPasswordValid = false;
+      });
+    }
+    checkButtonEnabled();
+  }
+
   void sendEmailVerification() async {
     try {
-      String email = emailController.text.trim();
+      if(emailController.text.isEmpty){
+        showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return CupertinoAlertDialog(
+              title: Text('알림'),
+              content: Text('이메일을 입력해주세요!'),
+              actions: <Widget>[
+                TextButton(
+                  child: Text('확인'),
+                  onPressed: () {
+                    Navigator.of(context).pop(); // 대화 상자를 닫음
+                  },
+                ),
+              ],
+            );
+          },
+        );
+      }
+      fixedEmail = '${emailController.text.trim()}@$selectedEmailType';
       var dio = Dio();
       var data = {
-        "email": email,
+        "email": fixedEmail,
       };
       var response = await dio.post(
         'https://$ip/api/auth/email/check',
@@ -75,6 +125,9 @@ class _SignupScreenPage1State extends ConsumerState<SignupScreenPage1> {
           );
         } else {
           // 사용 가능한 이메일인 경우
+          isEmailVerified = true;
+          realFixedEmail = fixedEmail;
+          checkButtonEnabled();
           showDialog(
             context: context,
             builder: (BuildContext context) {
@@ -108,15 +161,17 @@ class _SignupScreenPage1State extends ConsumerState<SignupScreenPage1> {
     super.initState();
   }
 
+  // 버튼 활성화 상태 업데이트 함수
   void checkButtonEnabled() {
-    // bool isGenderSelected = isMaleSelected || isFemaleSelected;
-    // setState(() {
-    //   isButtonEnabled = isGenderSelected &&
-    //       isFieldsValid &
-    //           isEmailVerified &
-    //           bankAccountSelected &
-    //           accountNumberValid;
-    // });
+    if (isEmailVerified && isPasswordValid && isAgree && isAgree2) {
+      setState(() {
+        isButtonEnabled = true;
+      });
+    } else {
+      setState(() {
+        isButtonEnabled = false;
+      });
+    }
   }
 
   @override
@@ -124,10 +179,12 @@ class _SignupScreenPage1State extends ConsumerState<SignupScreenPage1> {
     super.dispose();
   }
 
+  void closeDropdown() {
+    FocusScope.of(context).requestFocus(FocusNode());
+  }
+
   @override
   Widget build(BuildContext context) {
-    // final state = ref.watch(userMeProvider);
-
     return WillPopScope(
       onWillPop: () async{
         return true;
@@ -136,13 +193,14 @@ class _SignupScreenPage1State extends ConsumerState<SignupScreenPage1> {
         backgroundColor: Colors.white,
         appBar: CustomAppBar(),
         body: SafeArea(
-          child: SingleChildScrollView(
-            keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
-            child: Padding(
-              padding: EdgeInsets.only(
-                  left: ScreenUtil().setWidth(12),
-                  right: ScreenUtil().setWidth(12)),
-              child: Form(
+          child: GestureDetector(
+            onTap: closeDropdown,
+            child: SingleChildScrollView(
+              keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
+              child: Padding(
+                padding: EdgeInsets.only(
+                    left: ScreenUtil().setWidth(12),
+                    right: ScreenUtil().setWidth(12)),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -153,41 +211,60 @@ class _SignupScreenPage1State extends ConsumerState<SignupScreenPage1> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Expanded(
-                          flex: 5, // 비율을 사용하여 width를 조절
+                          flex: 2, // 비율을 사용하여 width를 조절
                           child: CustomTextFormField(
                             controller: emailController,
-                            hintText: 'email@email.com',
+                            hintText: 'email',
                             onChanged: (String value) {
                               // checkEmailEnabled();
                             },
                             // errorText: emailErrorText,
                           ),
                         ),
-                        SizedBox(width: 10), // 텍스트 필드와 버튼 사이의 간격
+                        Text('@'),
                         Expanded(
                           flex: 2,
+                          child: selectedEmailType == '직접입력'
+                              ? CustomTextFormField(
+                            controller: emailTypeController,
+                            hintText: 'domain.com',
+                            onChanged: (String value) {
+                              selectedEmailType = value;
+                            },
+                          )
+                              : CustomDropdownButton(
+                            dropdownWidth: 130,
+                            items: emailTypes,
+                            hintText: 'naver.com',
+                            onItemSelected: (value) {
+                              setState(() {
+                                selectedEmailType = value;
+                              });
+                            },
+                          ),
+                        ),
+                        Expanded(
+                          flex: 1,
                           child: ElevatedButton(
                             onPressed: sendEmailVerification,
                             style: ElevatedButton.styleFrom(
                               primary: PRIMARY_COLOR,
                               shape: RoundedRectangleBorder(
                                 borderRadius:
-                                    BorderRadius.circular(8.0),
+                                BorderRadius.circular(8.0),
                               ),
-                              padding: EdgeInsets.symmetric(
-                                  horizontal: 20, vertical: 12),
+                              padding: EdgeInsets.symmetric(vertical: 4),
                             ),
-                            child: Text('중복 확인',style: customGreenTextSeventeenStyle,),
+                            child: Text('중복\n확인',style: customGreenTextSeventeenStyle,),
                           ),
                         )
                       ],
                     ),
-                    SizedBox(height: 10),
                     SignupAskLabel(text: '비밀번호'),
                     CustomTextFormField(
                       controller: passwordController,
                       hintText: '8자 이상의 영문/숫자/특수문자 조합',
-                      onChanged: (String value) {},
+                      onChanged: validatePassword,
                       obscureText: true,
                     ),
                     SizedBox(
@@ -223,11 +300,11 @@ class _SignupScreenPage1State extends ConsumerState<SignupScreenPage1> {
                     LoginNextButton(
                       buttonName: '다음',
                       // isButtonEnabled: isButtonEnabled,
-                      isButtonEnabled: true,
+                      isButtonEnabled: isButtonEnabled,
                       onPressed: () {
                         final state = ref.read(signupUserProvider.notifier);
                         // //10개
-                        state.setEmail(emailController.text.trim());
+                        state.setEmail(realFixedEmail);
                         state.setPassword(passwordController.text.trim());
                         state.setIsPrivacyAgreed(isAgree == true ? "Y" : "N");
                         state.setIsTermsAgreed(isAgree2 == true ? "Y" : "N");
