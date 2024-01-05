@@ -32,6 +32,14 @@ class _CommentComponentState extends ConsumerState<CommentComponent> {
   int? editingCommentId;
   String hintText = "댓글달기";
 
+  final baseBorder = OutlineInputBorder(
+    borderSide: BorderSide(
+      color: BORDER_COLOR,
+      width: 1.0,
+    ),
+    borderRadius: BorderRadius.circular(6.0),
+  );
+
   @override
   Widget build(BuildContext context) {
     return _buildComment(widget.state);
@@ -89,10 +97,10 @@ class _CommentComponentState extends ConsumerState<CommentComponent> {
                   );
                 } else {
                   // This is an edit
-                  await notifier.updateComment(
-                    editingCommentId.toString()!,
-                    SingleComment(content: commentController.text),
-                  );
+                  // await notifier.updateComment(
+                  //   editingCommentId.toString()!,
+                  //   SingleComment(content: commentController.text),
+                  // );
                   editingCommentId = null; // Reset
                   hintText = "댓글달기"; // R기eset
                 }
@@ -156,72 +164,86 @@ class _CommentComponentState extends ConsumerState<CommentComponent> {
                         ],
                       ),
                     ),
-                    PopupMenuButton<String>(
-                      onSelected: (value) async {
-                        if (value == 'delete') {
-                          notifier.deleteComment(comment.commentId.toString());
-                          ref
-                              .read(researchProvider.notifier)
-                              .getDetail(id: widget.id);
-                        } else if (value == 'report') {
-                          try {
-                            notifier
-                                .reportComment(comment.commentId.toString());
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(
-                                content: Text('${comment.writer}님이 작성하신 댓글이 신고되었습니다.'),
+                    if (comment.content.toString() != "차단된 사용자의 댓글입니다")
+                      PopupMenuButton<String>(
+                        onSelected: (value) async {
+                          if (value == 'delete') {
+                            final resp = await notifier
+                                .deleteComment(comment.commentId.toString());
+
+                            print('you');
+
+                            if (resp.code == 200) {
+                              ref
+                                  .read(researchProvider.notifier)
+                                  .getDetail(id: widget.id);
+                            }
+                          } else if (value == 'report') {
+                            try {
+                              final resp = await notifier
+                                  .reportComment(comment.commentId.toString());
+
+                              if (resp.code == 200) {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                    content: Text(
+                                        '${comment.writer}님이 작성하신 댓글이 신고되었습니다.'),
+                                  ),
+                                );
+                              }
+                            } catch (error) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                      content: Text('댓글 신고 중 오류가 발생했습니다.')));
+                            }
+                          } else if (value == 'block') {
+                            try {
+                              final resp = await ref
+                                  .read(userMeProvider.notifier)
+                                  .postBlock(comment
+                                      .userId); // writerId는 실제 사용자 ID를 나타내는 필드여야 합니다.
+
+                              if (resp.code == 200) {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(
+                                        content: Text('해당 사용자가 차단되었습니다.')));
+                                ref
+                                    .read(researchProvider.notifier)
+                                    .getDetail(id: widget.id);
+                              }
+                            } catch (error) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(content: Text('이미 차단되었습니다.')));
+                            }
+                          }
+                        },
+                        itemBuilder: (BuildContext context) {
+                          if (comment.isMyComment == 'Y') {
+                            return <PopupMenuEntry<String>>[
+                              const PopupMenuItem<String>(
+                                value: 'delete',
+                                child: Text('삭제하기'),
                               ),
-                            );
-                            ref
-                                .read(researchProvider.notifier)
-                                .getDetail(id: widget.id);
-                          } catch (error) {
-                            ScaffoldMessenger.of(context).showSnackBar(
-                                SnackBar(content: Text('댓글 신고 중 오류가 발생했습니다.')));
+                            ];
+                          } else {
+                            return <PopupMenuEntry<String>>[
+                              const PopupMenuItem<String>(
+                                value: 'report',
+                                child: Text('신고하기'),
+                              ),
+                              const PopupMenuItem<String>(
+                                value: 'block',
+                                child: Text('이 사용자의 글 보지 않기'),
+                              ),
+                            ];
                           }
-                        } else if (value == 'block') {
-                          try {
-                            await ref.read(userMeProvider.notifier).postBlock(
-                                comment
-                                    .userId); // writerId는 실제 사용자 ID를 나타내는 필드여야 합니다.
-                            ScaffoldMessenger.of(context).showSnackBar(
-                                SnackBar(content: Text('해당 사용자가 차단되었습니다.')));
-                            ref
-                                .read(researchProvider.notifier)
-                                .getDetail(id: widget.id);
-                          } catch (error) {
-                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                                content: Text('사용자 차단 중 오류가 발생했습니다.')));
-                          }
-                        }
-                      },
-                      itemBuilder: (BuildContext context) {
-                        if (comment.isMyComment == 'Y') {
-                          return <PopupMenuEntry<String>>[
-                            const PopupMenuItem<String>(
-                              value: 'delete',
-                              child: Text('삭제하기'),
-                            ),
-                          ];
-                        } else {
-                          return <PopupMenuEntry<String>>[
-                            const PopupMenuItem<String>(
-                              value: 'report',
-                              child: Text('신고하기'),
-                            ),
-                            const PopupMenuItem<String>(
-                              value: 'block',
-                              child: Text('이 사용자의 글 보지 않기'),
-                            ),
-                          ];
-                        }
-                      },
-                      icon: Icon(
-                        Icons.more_vert,
-                        color: Colors.grey[500],
-                        size: 20.0,
+                        },
+                        icon: Icon(
+                          Icons.more_vert,
+                          color: Colors.grey[500],
+                          size: 20.0,
+                        ),
                       ),
-                    ),
                   ],
                 ),
                 Align(
@@ -229,8 +251,10 @@ class _CommentComponentState extends ConsumerState<CommentComponent> {
                   child: Padding(
                     padding: const EdgeInsets.only(left: 40),
                     child: TextButton(
-                      child:
-                          Text("답글 달기", style: TextStyle(color: Colors.grey)),
+                      child: Text(
+                        "답글 달기",
+                        style: TextStyle(color: Colors.grey),
+                      ),
                       onPressed: () {
                         showModalBottomSheet(
                           context: context,
@@ -241,31 +265,46 @@ class _CommentComponentState extends ConsumerState<CommentComponent> {
                                     MediaQuery.of(context).viewInsets.bottom,
                               ),
                               child: Container(
+                                color: Colors.white,
                                 padding: EdgeInsets.all(10),
                                 child: Column(
-                                  mainAxisSize: MainAxisSize.min,
+                                  mainAxisSize: MainAxisSize.max,
                                   children: [
                                     TextFormField(
                                       decoration: InputDecoration(
+                                        border: baseBorder,
+                                        focusedBorder: baseBorder.copyWith(
+                                          borderSide:
+                                              baseBorder.borderSide.copyWith(
+                                            color: PRIMARY_COLOR,
+                                          ),
+                                        ),
+                                        enabledBorder: baseBorder,
                                         fillColor: PRIMARY_COLOR2,
                                         hintText: "답글 내용을 입력하세요.",
-                                        border: OutlineInputBorder(),
                                       ),
                                       controller: reCommentController,
                                       onChanged: (text) {
                                         // 필요한 경우에 사용할 수 있는 부분
                                       },
+                                      cursorColor: Colors.black,
                                     ),
                                     SizedBox(height: 10),
                                     Row(
                                       children: [
                                         Spacer(),
                                         TextButton(
-                                          child: Text("완료"),
+                                          child: Text(
+                                            "완료",
+                                            style: TextStyle(
+                                              color: PRIMARY_COLOR,
+                                            ),
+                                          ),
                                           onPressed: () async {
                                             if (reCommentController
                                                 .text.isNotEmpty) {
-                                              await notifier.postReComment(
+                                              final resp =
+                                                  await notifier.postReComment(
                                                 widget.id,
                                                 comment.commentId.toString(),
                                                 SingleComment(
@@ -273,18 +312,24 @@ class _CommentComponentState extends ConsumerState<CommentComponent> {
                                                       reCommentController.text,
                                                 ),
                                               );
-                                              reCommentController.clear();
-                                              Navigator.of(context).pop();
-                                              setState(() {});
-                                              ref
-                                                  .read(
-                                                      researchProvider.notifier)
-                                                  .getDetail(id: widget.id);
+                                              if (resp.code == 200) {
+                                                reCommentController.clear();
+                                                Navigator.of(context).pop();
+                                                ref
+                                                    .read(researchProvider
+                                                        .notifier)
+                                                    .getDetail(id: widget.id);
+                                              }
                                             }
                                           },
                                         ),
                                         TextButton(
-                                          child: Text("취소"),
+                                          child: Text(
+                                            "취소",
+                                            style: TextStyle(
+                                              color: BORDER_COLOR,
+                                            ),
+                                          ),
                                           onPressed: () {
                                             Navigator.of(context).pop();
                                           },
@@ -305,152 +350,158 @@ class _CommentComponentState extends ConsumerState<CommentComponent> {
                   padding: const EdgeInsets.only(left: 30.0),
                   child: Column(
                     children: comment.reComments.map((reComment) {
-                      return Column(
-                        children: [
-                          Row(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              SvgPicture.asset(
-                                'assets/img/circle/blueColor.svg',
-                                width: 40,
-                                height: 40,
-                              ),
-                              SizedBox(
-                                width: 5,
-                              ),
-                              Expanded(
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Row(
-                                      children: [
-                                        Text("${reComment.writer}"),
-                                        SizedBox(width: 5),
-                                        Text(
-                                          "·",
-                                          style: TextStyle(
-                                              color: Colors.grey, fontSize: 13),
-                                        ),
-                                        SizedBox(width: 5),
-                                        Text(
-                                          _timeAgo(
-                                            DateTime.parse(
-                                                reComment.createdDate),
-                                          ),
-                                          style: TextStyle(
-                                            color: Colors.grey,
-                                            fontSize: 13,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                    SizedBox(height: 1),
-                                    Text("${reComment.content}"),
-                                  ],
+                      return Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 10),
+                        child: Column(
+                          children: [
+                            Row(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                SvgPicture.asset(
+                                  'assets/img/circle/blueColor.svg',
+                                  width: 40,
+                                  height: 40,
                                 ),
-                              ),
-                              PopupMenuButton<String>(
-                                onSelected: (value) async {
-                                  print(value);
-                                  print(reComment.reCommentId.toString());
-                                  if (value == 'delete') {
-                                    print('kiss');
-                                    try {
-                                      // notifier.deleteComment(comment.commentId.toString());
-                                      await ref
-                                          .read(commentNotifierProvider)
-                                          .deleteComment(reComment.reCommentId.toString());
-                                      ref
-                                          .read(researchProvider.notifier)
-                                          .getDetail(id: widget.id);
-                                      ScaffoldMessenger.of(context)
-                                          .showSnackBar(
-                                        SnackBar(
-                                          content: Text(
-                                              'Comment deleted successfully'),
-                                        ),
-                                      );
-                                    } catch (error) {
-                                      print('here22');
-                                      ScaffoldMessenger.of(context)
-                                          .showSnackBar(
-                                        SnackBar(
-                                            content:
-                                                Text('Error deleting comment')),
-                                      );
-                                    }
-                                  } else if (value == 'report') {
-                                    try {
-                                      await ref
-                                          .read(commentNotifierProvider)
-                                          .reportComment(
-                                              reComment.reCommentId.toString());
-                                      ref
-                                          .read(researchProvider.notifier)
-                                          .getDetail(id: widget.id);
-                                      ScaffoldMessenger.of(context)
-                                          .showSnackBar(SnackBar(
-                                              content: Text('${reComment.writer}님이 작성하신 대댓글이 신고되었습니다.')));
-                                    } catch (error) {
-                                      ScaffoldMessenger.of(context)
-                                          .showSnackBar(SnackBar(
-                                              content: Text(
-                                                  '대댓글 신고 중 오류가 발생했습니다.')));
-                                    }
-                                  } else if (value == 'block') {
-                                    try {
-                                      await ref
-                                          .read(userMeProvider.notifier)
-                                          .postBlock(
-                                            reComment.userId,
+                                SizedBox(
+                                  width: 5,
+                                ),
+                                Expanded(
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Row(
+                                        children: [
+                                          Text("${reComment.writer}"),
+                                          SizedBox(width: 5),
+                                          Text(
+                                            "·",
+                                            style: TextStyle(
+                                                color: Colors.grey, fontSize: 13),
+                                          ),
+                                          SizedBox(width: 5),
+                                          Text(
+                                            _timeAgo(
+                                              DateTime.parse(
+                                                  reComment.createdDate),
+                                            ),
+                                            style: TextStyle(
+                                              color: Colors.grey,
+                                              fontSize: 13,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                      SizedBox(height: 1),
+                                      Text("${reComment.content}"),
+                                    ],
+                                  ),
+                                ),
+                                if (reComment.content.toString() !=
+                                    "차단된 사용자의 댓글입니다")
+                                  PopupMenuButton<String>(
+                                    onSelected: (value) async {
+                                      print(value);
+                                      print(reComment.reCommentId.toString());
+                                      if (value == 'delete') {
+                                        try {
+                                          final resp = await ref
+                                              .read(commentNotifierProvider)
+                                              .deleteComment(reComment.reCommentId
+                                                  .toString());
+
+                                          if (resp.code == 200) {
+                                            print('delete success, refresh');
+                                            ref
+                                                .read(researchProvider.notifier)
+                                                .getDetail(id: widget.id);
+                                          }
+                                        } catch (error) {
+                                          ScaffoldMessenger.of(context)
+                                              .showSnackBar(
+                                            SnackBar(
+                                                content: Text(
+                                                    '댓글을 삭제하는데 에러가 발생했습니다.')),
                                           );
-                                      ScaffoldMessenger.of(context)
-                                          .showSnackBar(
-                                        SnackBar(
-                                          content: Text('해당 사용자가 차단되었습니다.'),
-                                        ),
-                                      );
-                                      ref
-                                          .read(researchProvider.notifier)
-                                          .getDetail(id: widget.id);
-                                    } catch (error) {
-                                      ScaffoldMessenger.of(context)
-                                          .showSnackBar(SnackBar(
-                                              content: Text(
-                                                  '대댓글 신고 중 오류가 발생했습니다.')));
-                                    }
-                                  }
-                                },
-                                itemBuilder: (BuildContext context) {
-                                  if (reComment.isMyComment == 'Y') {
-                                    return <PopupMenuEntry<String>>[
-                                      const PopupMenuItem<String>(
-                                        value: 'delete',
-                                        child: Text('삭제하기'),
-                                      ),
-                                    ];
-                                  } else {
-                                    return <PopupMenuEntry<String>>[
-                                      const PopupMenuItem<String>(
-                                        value: 'report',
-                                        child: Text('신고하기'),
-                                      ),
-                                      const PopupMenuItem<String>(
-                                        value: 'block',
-                                        child: Text('이 사용자의 글 보지 않기'),
-                                      ),
-                                    ];
-                                  }
-                                },
-                                icon: Icon(
-                                  Icons.more_vert,
-                                  color: Colors.grey[500],
-                                  size: 20.0,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ],
+                                        }
+                                      } else if (value == 'report') {
+                                        try {
+                                          await ref
+                                              .read(commentNotifierProvider)
+                                              .reportComment(reComment.reCommentId
+                                                  .toString());
+                                          ref
+                                              .read(researchProvider.notifier)
+                                              .getDetail(id: widget.id);
+                                          ScaffoldMessenger.of(context)
+                                              .showSnackBar(
+                                            SnackBar(
+                                                content: Text(
+                                                    '${reComment.writer}님이 작성하신 대댓글이 신고되었습니다.')),
+                                          );
+                                        } catch (error) {
+                                          ScaffoldMessenger.of(context)
+                                              .showSnackBar(
+                                            SnackBar(
+                                              content:
+                                                  Text('대댓글 신고 중 오류가 발생했습니다.'),
+                                            ),
+                                          );
+                                        }
+                                      } else if (value == 'block') {
+                                        try {
+                                          await ref
+                                              .read(userMeProvider.notifier)
+                                              .postBlock(
+                                                reComment.userId,
+                                              );
+                                          ScaffoldMessenger.of(context)
+                                              .showSnackBar(
+                                            SnackBar(
+                                              content: Text('해당 사용자가 차단되었습니다.'),
+                                            ),
+                                          );
+                                          ref
+                                              .read(researchProvider.notifier)
+                                              .getDetail(id: widget.id);
+                                        } catch (error) {
+                                          ScaffoldMessenger.of(context)
+                                              .showSnackBar(SnackBar(
+                                                  content: Text(
+                                                      '대댓글 신고 중 오류가 발생했습니다.')));
+                                        }
+                                      }
+                                    },
+                                    itemBuilder: (BuildContext context) {
+                                      if (reComment.isMyComment == 'Y') {
+                                        return <PopupMenuEntry<String>>[
+                                          const PopupMenuItem<String>(
+                                            value: 'delete',
+                                            child: Text('삭제하기'),
+                                          ),
+                                        ];
+                                      } else {
+                                        return <PopupMenuEntry<String>>[
+                                          const PopupMenuItem<String>(
+                                            value: 'report',
+                                            child: Text('신고하기'),
+                                          ),
+                                          const PopupMenuItem<String>(
+                                            value: 'block',
+                                            child: Text('이 사용자의 글 보지 않기'),
+                                          ),
+                                        ];
+                                      }
+                                    },
+                                    icon: Icon(
+                                      Icons.more_vert,
+                                      color: Colors.grey[500],
+                                      size: 20.0,
+                                    ),
+                                  ),
+                              ],
+                            ),
+                          ],
+                        ),
                       );
                     }).toList(),
                   ),
