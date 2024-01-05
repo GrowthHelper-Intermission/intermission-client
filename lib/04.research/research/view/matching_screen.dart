@@ -14,6 +14,8 @@ class MatchingScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final screenWidth = MediaQuery.of(context).size.width;
+    final screenHeight = MediaQuery.of(context).size.height;
     return Scaffold(
       appBar: NormalAppbar(
         title: '리서치 의뢰',
@@ -48,6 +50,7 @@ class MatchingScreen extends StatelessWidget {
                 ),
               ),
               _buildClickableContainer(
+                height: (screenHeight * 0.19),
                 onTap: () {
                   Navigator.push(
                     context,
@@ -61,6 +64,7 @@ class MatchingScreen extends StatelessWidget {
                 svgAssetPath: 'assets/request/request1.svg',
               ),
               _buildClickableContainer(
+                height: (screenHeight * 0.19),
                 onTap: () {
                   Navigator.push(
                     context,
@@ -74,6 +78,7 @@ class MatchingScreen extends StatelessWidget {
                 svgAssetPath: 'assets/request/request2.svg',
               ),
               _buildClickableContainer(
+                height: (screenHeight * 0.19),
                 onTap: () {
                   Navigator.push(
                     context,
@@ -151,11 +156,12 @@ Widget _buildClickableContainer({
   required String title,
   required String description,
   required String svgAssetPath, // SVG 파일 경로를 위한 새로운 파라미터
+  required double height,
 }) {
   return GestureDetector(
     onTap: onTap,
     child: Container(
-      height: 150,
+      height: height,
       margin: const EdgeInsets.symmetric(vertical: 10.0),
       padding: const EdgeInsets.all(12.0),
       decoration: BoxDecoration(

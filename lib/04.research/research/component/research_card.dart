@@ -75,6 +75,8 @@ class _ResearchCardState extends State<ResearchCard> {
 
   @override
   Widget build(BuildContext context) {
+    final screenWidth = MediaQuery.of(context).size.width;
+    final screenHeight = MediaQuery.of(context).size.height;
     daysLeft =
         _getDaysLeft(); // Every time the widget is built, update the days left.
 
@@ -96,9 +98,9 @@ class _ResearchCardState extends State<ResearchCard> {
 
     TextStyle subTitleStyle = TextStyle(
       color: widget.isOnGoing == "Y" ? Colors.black : Colors.grey,
-      fontSize: 13,
+      fontSize: 14,
     );
-    if(widget.isScreening == "Y"){
+    if(widget.isScreening == "N"){
       screeningDisplayText = "참여가능";
       screeningBorderColor = RED_COLOR;
       screeningTextColor = RED_COLOR;
@@ -143,7 +145,7 @@ class _ResearchCardState extends State<ResearchCard> {
           },
           child: Container(
             width: 335,
-            height: 138,
+            height: screenHeight * 0.17,
             decoration: BoxDecoration(
               border: Border.all(
                 width: 1.0,
@@ -175,7 +177,7 @@ class _ResearchCardState extends State<ResearchCard> {
                             displayText,
                             style: TextStyle(
                               color: textColor,
-                              fontSize: 13.0,
+                              fontSize: 12.0,
                               fontWeight: FontWeight.w700,
                             ),
                           ),
@@ -200,12 +202,9 @@ class _ResearchCardState extends State<ResearchCard> {
                     child: Text(
                       widget.subTitle,
                       style: subTitleStyle,
-                      maxLines: 2,
+                      maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                     ),
-                  ),
-                  Flexible(
-                    child: Container(), // This takes up the remaining space
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.start,

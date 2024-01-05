@@ -32,7 +32,6 @@ Widget researchBuildMainContent(ResearchDetailModel state) {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Text(state.subTitle, style: whiteSmallTextStyle),
-          Text(state.researchRewdPoint!, style: blueSmallTextStyle,),
         ],
       ),
       SizedBox(height: 5),
@@ -56,7 +55,7 @@ Widget _buildInfoContainer(ResearchDetailModel state) {
   return Center(
     child: Container(
       width: 355,
-      height: 130,
+      height: 160,
       decoration: BoxDecoration(
         border: Border.all(
           width: 1.0,
@@ -72,6 +71,7 @@ Widget _buildInfoContainer(ResearchDetailModel state) {
           _buildRowInfo('마감일', state.dueDate),
           _buildRowInfo('대상', state.minAge),
           _buildRowInfo('모집 인원', state.researchEntryCnt),
+          _buildRowInfo('지급 포인트', state.researchRewdPoint),
         ],
       ),
     ),
