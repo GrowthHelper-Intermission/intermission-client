@@ -8,12 +8,14 @@ part of 'noti_model.dart';
 
 NotiModel _$NotiModelFromJson(Map<String, dynamic> json) => NotiModel(
       id: json['id'] as String,
-      mainTitle: json['mainTitle'] as String,
+      title: json['title'] as String,
+      content: json['content'] as String,
       postDate: json['postDate'] as String,
     );
 
 Map<String, dynamic> _$NotiModelToJson(NotiModel instance) => <String, dynamic>{
       'id': instance.id,
-      'mainTitle': instance.mainTitle,
+      'title': instance.title,
+      'content': instance.content,
       'postDate': instance.postDate,
     };

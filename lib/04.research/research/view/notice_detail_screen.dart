@@ -6,6 +6,9 @@ import 'package:intermission_project/04.research/research/provider/notice_provid
 import 'package:intermission_project/04.research/research/view/notice_screen.dart';
 import 'package:intermission_project/common/view/default_layout.dart';
 
+import '../../../common/component/custom_text_style.dart';
+import '../../../common/const/colors.dart';
+
 // static String get routeName => 'researchDetail';
 // final String id;
 // const ResearchDetailScreen({
@@ -34,7 +37,6 @@ class _NoticeDetailScreenState extends ConsumerState<NoticeDetailScreen> {
 
   @override
   Widget build(BuildContext context) {
-
     final state = ref.watch(noticeDetailProvider(widget.id));
 
     // 데이터가 없거나 로딩 중인 경우
@@ -43,11 +45,51 @@ class _NoticeDetailScreenState extends ConsumerState<NoticeDetailScreen> {
     }
 
     return DefaultLayout(
-      title: '공지 세부 사항',
-      child: Column(
-        children: [
-          Text(state.detail),
-        ],
+      title: '문의 세부 사항',
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              state.title,
+              style: customHeaderStyle,
+            ),
+            Divider(color: Colors.grey[400],thickness: 0.5,),
+            Text(
+              '세부 내용',
+              style: greyBigTextStyle,
+            ),
+            Center(
+              child: Padding(
+                padding: const EdgeInsets.all(10.0),
+                child: Container(
+                  width: 400,
+                  height: 400,
+                  decoration: BoxDecoration(
+                    border: Border.all(
+                      color: TEXT_GREY_COLOR,
+                    ),
+                    color: Colors.white, // 배경색 설정
+                    borderRadius: BorderRadius.circular(6), // 모서리 둥글게 설정
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          state.content,
+                          style: blackSmallTextStyle,
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
