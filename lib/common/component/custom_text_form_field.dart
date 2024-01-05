@@ -57,7 +57,7 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
     );
 
     return Padding(
-      padding: const EdgeInsets.fromLTRB(0, 4, 14, 6),
+      padding: const EdgeInsets.fromLTRB(0, 4, 4, 6),
       child: TextFormField(
         // maxLength: widget.maxLength ?? 50,
         keyboardType: widget.onlyNumber! ? TextInputType.number : null, // 숫자 키보드만 표시
