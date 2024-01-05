@@ -100,8 +100,8 @@ class _ResearchCardState extends State<ResearchCard> {
     );
     if(widget.isScreening == "Y"){
       screeningDisplayText = "참여가능";
-      screeningBorderColor = SUB_BLUE_COLOR;
-      screeningTextColor = SUB_BLUE_COLOR;
+      screeningBorderColor = RED_COLOR;
+      screeningTextColor = RED_COLOR;
       screeningBackgroundColor = Colors.white;
     }else{
       screeningDisplayText = "참여불가";
