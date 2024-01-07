@@ -15,10 +15,12 @@ class ParticipatedResearchScreen extends ConsumerStatefulWidget {
   const ParticipatedResearchScreen({super.key});
 
   @override
-  _ParticipatedResearchScreenState createState() => _ParticipatedResearchScreenState();
+  _ParticipatedResearchScreenState createState() =>
+      _ParticipatedResearchScreenState();
 }
 
-class _ParticipatedResearchScreenState extends ConsumerState<ParticipatedResearchScreen>
+class _ParticipatedResearchScreenState
+    extends ConsumerState<ParticipatedResearchScreen>
     with SingleTickerProviderStateMixin {
   TabController? _tabController;
 
@@ -78,14 +80,19 @@ class _ParticipatedResearchScreenState extends ConsumerState<ParticipatedResearc
     // 데이터의 상태를 확인합니다.
     final state = ref.watch(joinProvider);
 
-    if (state == null || state is! CursorPagination) {
-      return Center(child: CircularProgressIndicator());
+    if (state is! CursorPagination) {
+      return Center(child: CircularProgressIndicator(color: PRIMARY_COLOR,));
     } else {
-      return _buildResearchPage(joinProvider,title);
+      return _buildResearchPage(
+        joinProvider,
+        title,
+      );
     }
   }
 
-  Widget _buildResearchPage(StateNotifierProvider<JoinStateNotifier, CursorPaginationBase> provider, String title) {
+  Widget _buildResearchPage(
+      StateNotifierProvider<JoinStateNotifier, CursorPaginationBase> provider,
+      String title) {
     return PaginationListView(
       provider: provider,
       itemBuilder: <ResearchModel>(BuildContext context, int index, model) {

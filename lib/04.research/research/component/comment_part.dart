@@ -96,11 +96,6 @@ class _CommentComponentState extends ConsumerState<CommentComponent> {
                     SingleComment(content: commentController.text),
                   );
                 } else {
-                  // This is an edit
-                  // await notifier.updateComment(
-                  //   editingCommentId.toString()!,
-                  //   SingleComment(content: commentController.text),
-                  // );
                   editingCommentId = null; // Reset
                   hintText = "댓글달기"; // R기eset
                 }
