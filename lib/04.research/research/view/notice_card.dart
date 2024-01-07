@@ -24,6 +24,10 @@ class NoticeCard extends StatelessWidget {
     );
   }
 
+  String formatDate(String dateTime) {
+    return dateTime.substring(0, 10);
+  }
+
   @override
   Widget build(BuildContext context) {
     return InkWell(
@@ -41,7 +45,7 @@ class NoticeCard extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    date,
+                    formatDate(date),
                     style: TextStyle(color: Colors.grey[400]),
                   ),
                   Row(

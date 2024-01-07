@@ -44,8 +44,12 @@ class _NoticeDetailScreenState extends ConsumerState<NoticeDetailScreen> {
       return Scaffold(body: renderLoading());
     }
 
+    String formatDate(String dateTime) {
+      return dateTime.substring(0, 10);
+    }
+
     return DefaultLayout(
-      title: '문의 세부 사항',
+      title: '공지 세부 사항',
       child: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Column(
@@ -53,39 +57,27 @@ class _NoticeDetailScreenState extends ConsumerState<NoticeDetailScreen> {
           children: [
             Text(
               state.title,
-              style: customHeaderStyle,
+              style: customNoticeHeaderStyle,
+              maxLines: 2,
             ),
-            Divider(color: Colors.grey[400],thickness: 0.5,),
             Text(
-              '세부 내용',
-              style: greyBigTextStyle,
+              formatDate(state.postDate),
+              style: customNoticeDateStyle,
             ),
-            Center(
-              child: Padding(
-                padding: const EdgeInsets.all(10.0),
-                child: Container(
-                  width: 400,
-                  height: 400,
-                  decoration: BoxDecoration(
-                    border: Border.all(
-                      color: TEXT_GREY_COLOR,
-                    ),
-                    color: Colors.white, // 배경색 설정
-                    borderRadius: BorderRadius.circular(6), // 모서리 둥글게 설정
+            Divider(
+              color: Colors.grey[400],
+              thickness: 0.5,
+            ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    state.content,
+                    style: blackSmallTextStyle,
                   ),
-                  child: Padding(
-                    padding: const EdgeInsets.all(16.0),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          state.content,
-                          style: blackSmallTextStyle,
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
+                ],
               ),
             ),
           ],

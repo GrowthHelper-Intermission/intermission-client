@@ -28,6 +28,11 @@ class _NoticeScreenState extends ConsumerState<NoticeScreen> {
     super.initState();
   }
 
+  String formatDate(String dateTime) {
+    return dateTime.substring(0, 10);
+  }
+
+
   @override
   Widget build(BuildContext context) {
     final state = ref.watch(noticeProvider);
@@ -52,9 +57,11 @@ class _NoticeScreenState extends ConsumerState<NoticeScreen> {
     required String title,
     required VoidCallback onTap,
   }) {
+    String formattedDate = formatDate(date);
+
     return ListTile(
       title: Text(title),
-      subtitle: Text(date, style: TextStyle(color: Colors.grey[400])),
+      subtitle: Text(formatDate(date), style: TextStyle(color: Colors.grey[400])),
       onTap: onTap,
     );
   }
@@ -69,13 +76,4 @@ class _NoticeScreenState extends ConsumerState<NoticeScreen> {
       ),
     );
   }
-
-  // Widget _buildInterviewPage(StateNotifierProvider<ResearchStateNotifier, CursorPaginationBase> provider) {
-  //   return PaginationListView(
-  //     provider: provider,
-  //     itemBuilder: <ResearchModel>(BuildContext context, int index, model) {
-  //       return ResearchCard.fromModel(model: model);
-  //     },
-  //   );
-  // }
 }
