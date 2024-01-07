@@ -51,11 +51,8 @@ class _ShoppingDetailScreenState extends ConsumerState<ShoppingDetailScreen> {
   @override
   Widget build(BuildContext context) {
     final state = ref.watch(pointProvider);
-
-    // // 데이터가 없거나 로딩 중인 경우
-    // if (state is CursorPaginationLoading || state == null) {
-    //   return Scaffold(body: renderLoading());
-    // }
+    final screenHeight = MediaQuery.of(context).size.height;
+    final screenWidth = MediaQuery.of(context).size.width;
 
     int totalPoints = 0; // Default value
     if (state is CursorPagination<PointModel>) {
@@ -67,7 +64,7 @@ class _ShoppingDetailScreenState extends ConsumerState<ShoppingDetailScreen> {
       isResize: true,
       title: '',
       bottomNavigationBar: Container(
-        height: 120,
+        height: screenHeight*0.13,
         decoration: BoxDecoration(
           boxShadow: [
             BoxShadow(
@@ -262,132 +259,133 @@ class _ShoppingDetailScreenState extends ConsumerState<ShoppingDetailScreen> {
       isScrollControlled: true,
       context: context,
       builder: (BuildContext context) {
-        return Container(
-          color: Colors.white,
-          padding: EdgeInsets.only(
-            left: 15,
-            top: 15,
-            right: 15,
-            bottom: MediaQuery.of(context).viewInsets.bottom + 50,
-          ),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: <Widget>[
-              Center(
-                child: SvgPicture.asset(
-                  'assets/img/shopping/bottomSheet.svg',
-                  // width: 400,
-                ),
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  SizedBox(
-                    width: 20,
+        return SingleChildScrollView(
+          child: Container(
+            color: Colors.white,
+            padding: EdgeInsets.only(
+              left: 15,
+              top: 15,
+              right: 15,
+              bottom: MediaQuery.of(context).viewInsets.bottom,
+            ),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: <Widget>[
+                Center(
+                  child: SvgPicture.asset(
+                    'assets/img/shopping/bottomSheet.svg',
+                    // width: 400,
                   ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 5),
-                    child: Text(
-                      '계좌번호 등록/변경', // 중앙 제목
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    SizedBox(
+                      width: 20,
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 5),
+                      child: Text(
+                        '계좌번호 등록/변경', // 중앙 제목
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
                     ),
-                  ),
-                  IconButton(
-                    icon: Icon(Icons.close),
-                    onPressed: () {
-                      Navigator.of(context).pop(); // 닫기 아이콘 클릭 시 BottomSheet 닫힘
-                    },
-                  ),
-                ],
-              ),
-              Row(
-                children: [
-                  Text(
-                    '포인트 교환 시 사용되며, 본인 명의의 계좌만 등록할 수 있습\n니다. 입력하신 개인 정보는 안전하게 보관됩니다.',
-                    style: greySmallTextStyle,
-                  ),
-                ],
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 10),
-                child: SignupAskLabel(text: '현재 등록된 계좌정보'),
-              ),
-              SignupAskLabel(text: '사용 은행'),
-              Center(
-                child: GestureDetector(
-                  ///
-                  child: CustomDropdownButton(
-                    dropdownWidth: 340,
-                    items: bankAccountType,
-                    hintText:  user?.bank ?? '선택',
-                    onItemSelected: (value) {
-                      selectedBankType = value;
-                      checkButtonEnabled();
-                    },
+                    IconButton(
+                      icon: Icon(Icons.close),
+                      onPressed: () {
+                        Navigator.of(context).pop(); // 닫기 아이콘 클릭 시 BottomSheet 닫힘
+                      },
+                    ),
+                  ],
+                ),
+                Row(
+                  children: [
+                    Text(
+                      '포인트 교환 시 사용되며, 본인 명의의 계좌만 등록할 수 있습\n니다. 입력하신 개인 정보는 안전하게 보관됩니다.',
+                      style: greySmallTextStyle,
+                    ),
+                  ],
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 10),
+                  child: SignupAskLabel(text: '현재 등록된 계좌정보'),
+                ),
+                SignupAskLabel(text: '사용 은행'),
+                Center(
+                  child: GestureDetector(
+                    child: CustomDropdownButton(
+                      dropdownWidth: MediaQuery.of(context).size.width* 0.9,
+                      items: bankAccountType,
+                      hintText:  user?.bank ?? '선택',
+                      onItemSelected: (value) {
+                        selectedBankType = value;
+                        checkButtonEnabled();
+                      },
+                    ),
                   ),
                 ),
-              ),
-              SizedBox(height: 15),
-              SignupAskLabel(text: '계좌번호'),
-              ///
-              Padding(
-                padding: const EdgeInsets.only(right: 13),
-                child: CustomTextFormField(
-                  onlyNumber: true,
-                  controller: accountNumberController,
-                  onChanged: (String value) {
-                    checkAccountEnabled();
-                  },
-                  hintText: '숫자만 입력',
-                  showClearIcon: true,
+                SizedBox(height: 15),
+                SignupAskLabel(text: '계좌번호'),
+                ///
+                Padding(
+                  padding: const EdgeInsets.only(right: 13),
+                  child: CustomTextFormField(
+                    onlyNumber: true,
+                    controller: accountNumberController,
+                    onChanged: (String value) {
+                      checkAccountEnabled();
+                    },
+                    hintText: '숫자만 입력',
+                    showClearIcon: true,
+                  ),
                 ),
-              ),
-              Padding(
-                padding: const EdgeInsets.only(top: 30),
-                child: LoginNextButton(
-                  onPressed: () async{
-                    Navigator.of(context).pop(); // Bottom sheet 닫기
+                Padding(
+                  padding: const EdgeInsets.only(top: 10),
+                  child: LoginNextButton(
+                    onPressed: () async{
+                      Navigator.of(context).pop(); // Bottom sheet 닫기
 
-                    try {
-                      // 은행 정보 변경 요청
-                      await ref.read(userMeProvider.notifier).changeBank(
-                        selectedBankType!,
-                        accountNumberController.text.trim().toString(),
+                      try {
+                        // 은행 정보 변경 요청
+                        await ref.read(userMeProvider.notifier).changeBank(
+                          selectedBankType!,
+                          accountNumberController.text.trim().toString(),
+                        );
+
+                        // 사용자 정보 갱신 요청
+                        ref.read(userMeProvider.notifier).getMe();
+                      } catch (error) {
+                        // 에러 처리
+                        print("에러 발생: $error");
+                      }
+
+                      // try{
+                      //   final changeBankResp = await changeBank(selectedBankType, accountNumberController.text);
+                      // }catch(e){
+                      //
+                      // }
+
+                      AlertDialog(
+                        backgroundColor: PRIMARY_COLOR,
+                        title: Text("성공"),
+                        content: Text(
+                          "계좌정보 변동이 완료되었습니다!",
+                          style: TextStyle(color: Colors.white),
+                        ),
+                        actions: <Widget>[
+                          // 확인 버튼 등
+                        ],
                       );
-
-                      // 사용자 정보 갱신 요청
-                      ref.read(userMeProvider.notifier).getMe();
-                    } catch (error) {
-                      // 에러 처리
-                      print("에러 발생: $error");
-                    }
-
-                    // try{
-                    //   final changeBankResp = await changeBank(selectedBankType, accountNumberController.text);
-                    // }catch(e){
-                    //
-                    // }
-
-                    AlertDialog(
-                      backgroundColor: PRIMARY_COLOR,
-                      title: Text("성공"),
-                      content: Text(
-                        "계좌정보 변동이 완료되었습니다!",
-                        style: TextStyle(color: Colors.white),
-                      ),
-                      actions: <Widget>[
-                        // 확인 버튼 등
-                      ],
-                    );
-                  },
-                  buttonName: '변경하기',
-                  isButtonEnabled: true,
+                    },
+                    buttonName: '변경하기',
+                    isButtonEnabled: true,
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         );
       },
