@@ -50,7 +50,7 @@ class MatchingScreen extends StatelessWidget {
                 ),
               ),
               _buildClickableContainer(
-                height: (screenHeight * 0.19),
+                height: (screenHeight * 0.22),
                 onTap: () {
                   Navigator.push(
                     context,
@@ -64,7 +64,7 @@ class MatchingScreen extends StatelessWidget {
                 svgAssetPath: 'assets/request/request1.svg',
               ),
               _buildClickableContainer(
-                height: (screenHeight * 0.19),
+                height: (screenHeight * 0.22),
                 onTap: () {
                   Navigator.push(
                     context,
@@ -78,7 +78,7 @@ class MatchingScreen extends StatelessWidget {
                 svgAssetPath: 'assets/request/request2.svg',
               ),
               _buildClickableContainer(
-                height: (screenHeight * 0.19),
+                height: (screenHeight * 0.22),
                 onTap: () {
                   Navigator.push(
                     context,
@@ -215,7 +215,7 @@ Widget _buildClickableContainer({
             description,
             textAlign: TextAlign.start,
             style: TextStyle(
-              fontSize: 17,
+              fontSize: 16,
               fontWeight: FontWeight.w500,
             ),
           ),
