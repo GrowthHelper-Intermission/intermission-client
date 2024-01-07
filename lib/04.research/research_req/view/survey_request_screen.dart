@@ -65,11 +65,15 @@ class _SurveyReqScreenState extends ConsumerState<SurveyReqScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final screenWidth = MediaQuery.of(context).size.width;
+    final screenHeight = MediaQuery.of(context).size.height;
+    final double keyboardPadding = MediaQuery.of(context).viewInsets.bottom;
     return WillPopScope(
       onWillPop: () async {
         return true;
       },
       child: DefaultLayout(
+        isResize: true,
         title: '설문 의뢰',
         child: GestureDetector(
           onTap: closeDropdown,
@@ -93,6 +97,7 @@ class _SurveyReqScreenState extends ConsumerState<SurveyReqScreen> {
                       );
                       checkButtonEnabled();
                     },
+                    dropdownWidth: screenWidth*0.9,
                   ),
                   SizedBox(
                     height: 20,

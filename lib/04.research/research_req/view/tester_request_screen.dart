@@ -155,11 +155,15 @@ class _TesterReqScreenState extends ConsumerState<TesterReqScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final screenWidth = MediaQuery.of(context).size.width;
+    final screenHeight = MediaQuery.of(context).size.height;
+
     return WillPopScope(
       onWillPop: () async{
         return true;
       },
       child: DefaultLayout(
+        isResize: true,
         title: '제품/서비스 FGI 모집 및 대행 의뢰',
         child: GestureDetector(
           onTap: closeDropdown,
@@ -183,6 +187,25 @@ class _TesterReqScreenState extends ConsumerState<TesterReqScreen> {
                       );
                       checkButtonEnabled();
                     },
+                    dropdownWidth: screenWidth*0.9,
+                  ),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  SignupAskLabel(text: '선호하시는 진행 시간대'),
+                  CustomDropdownButton(
+                    items: timeTypes,
+                    hintText: '선택',
+                    onItemSelected: (value) {
+                      setState(
+                            () {
+                          selectedTimeTp = value;
+                          checkButtonEnabled();
+                        },
+                      );
+                      checkButtonEnabled();
+                    },
+                    dropdownWidth: screenWidth*0.9,
                   ),
                   SizedBox(
                     height: 20,
@@ -253,23 +276,6 @@ class _TesterReqScreenState extends ConsumerState<TesterReqScreen> {
                   ),
                   SizedBox(
                     height: 20,
-                  ),
-                  SignupAskLabel(text: '선호하시는 진행 시간대'),
-                  CustomDropdownButton(
-                    items: timeTypes,
-                    hintText: '선택',
-                    onItemSelected: (value) {
-                      setState(
-                        () {
-                          selectedTimeTp = value;
-                          checkButtonEnabled();
-                        },
-                      );
-                      checkButtonEnabled();
-                    },
-                  ),
-                  SizedBox(
-                    height: 180,
                   ),
                   LoginNextButton(
                     buttonName: 'FGI 의뢰하기',
