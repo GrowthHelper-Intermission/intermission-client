@@ -145,7 +145,7 @@ class _ResearchCardState extends State<ResearchCard> {
           },
           child: Container(
             width: 335,
-            height: screenHeight * 0.17,
+            height: screenHeight * 0.21,
             decoration: BoxDecoration(
               border: Border.all(
                 width: 1.0,
@@ -162,6 +162,7 @@ class _ResearchCardState extends State<ResearchCard> {
                   Row(
                     children: [
                       Container(
+
                         width: 45,
                         height: 21,
                         decoration: BoxDecoration(
@@ -197,7 +198,7 @@ class _ResearchCardState extends State<ResearchCard> {
                   ),
                   SizedBox(height: 1),
                   Divider(color: Colors.grey[300]),
-                  SizedBox(height: 12),
+                  SizedBox(height: screenHeight*0.02),
                   Expanded(
                     child: Text(
                       widget.subTitle,
