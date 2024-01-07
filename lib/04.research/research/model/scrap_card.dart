@@ -20,6 +20,7 @@ class ScrapResearchCard extends StatefulWidget {
   final String exceptTime;
   final String researchMethTpCd;
   final String researchRewdAmt;
+  final String isScreening;
 
   final String isOnGoing; // 진행 여부
 
@@ -32,6 +33,7 @@ class ScrapResearchCard extends StatefulWidget {
     required this.researchMethTpCd,
     required this.dueDate,
     required this.isOnGoing,
+    required this.isScreening,
     super.key,
   });
 
@@ -48,6 +50,7 @@ class ScrapResearchCard extends StatefulWidget {
       researchRewdAmt: model.researchRewdAmt,
       dueDate: model.dueDate,
       isOnGoing: model.isOnGoing,
+      isScreening: model.isScreening,
     );
   }
 
@@ -64,7 +67,6 @@ class _ResearchCardState extends State<ScrapResearchCard> {
     super.initState();
   }
 
-
   int _getDaysLeft() {
     DateTime now = DateTime.now();
     DateTime interviewDate = DateTime.parse(widget.dueDate);
@@ -74,12 +76,34 @@ class _ResearchCardState extends State<ScrapResearchCard> {
 
   @override
   Widget build(BuildContext context) {
-    daysLeft = _getDaysLeft(); // Every time the widget is built, update the days left.
+    final screenHeight = MediaQuery.of(context).size.height;
+
+    daysLeft =
+        _getDaysLeft(); // Every time the widget is built, update the days left.
 
     String displayText;
     Color borderColor;
     Color textColor;
     Color backgroundColor;
+
+    Color screeningTextColor;
+    Color screeningBackgroundColor;
+    Color screeningBorderColor;
+    String screeningDisplayText;
+
+    if(widget.isScreening == "N"){
+      print('fuck!');
+      screeningDisplayText = "참여가능";
+      screeningBorderColor = RED_COLOR;
+      screeningTextColor = RED_COLOR;
+      screeningBackgroundColor = Colors.white;
+    }else{
+      print('fuck222!');
+      screeningDisplayText = "참여불가";
+      screeningBorderColor = GREY_COLOR;
+      screeningTextColor = GREY_COLOR;
+      screeningBackgroundColor = Colors.white;
+    }
 
     TextStyle titleStyle = TextStyle(
       color: widget.isOnGoing == "Y" ? Colors.black : Colors.grey,
@@ -124,7 +148,7 @@ class _ResearchCardState extends State<ScrapResearchCard> {
           },
           child: Container(
             width: 335,
-            height: 138,
+            height: screenHeight * 0.17,
             decoration: BoxDecoration(
               border: Border.all(
                 width: 1.0,
@@ -164,19 +188,24 @@ class _ResearchCardState extends State<ScrapResearchCard> {
                       ),
                       SizedBox(width: 10),
                       Expanded(
-                        child: Text(widget.mainTitle, style: titleStyle),
+                        child: Text(
+                          widget.mainTitle,
+                          style: titleStyle,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                        ),
                       ),
                       SizedBox(width: 20),
                     ],
                   ),
                   SizedBox(height: 1),
                   Divider(color: Colors.grey[300]),
-                  SizedBox(height: 12),
+                  SizedBox(height: screenHeight*0.02),
                   Expanded(
                     child: Text(
                       widget.subTitle,
                       style: subTitleStyle,
-                      maxLines: 2,
+                      maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                     ),
                   ),
@@ -200,6 +229,32 @@ class _ResearchCardState extends State<ScrapResearchCard> {
                       Text(
                         widget.researchRewdAmt,
                         style: blueSmallTextStyle,
+                      ),
+                      Text(
+                        ' | ',
+                        style: whiteSmallTextStyle,
+                      ),
+                      Container(
+                        width: 65,
+                        height: 21,
+                        decoration: BoxDecoration(
+                          color: screeningBackgroundColor,
+                          borderRadius: BorderRadius.circular(5),
+                          border: Border.all(
+                            color: screeningBorderColor,
+                            width: 1,
+                          ),
+                        ),
+                        child: Center(
+                          child: Text(
+                            screeningDisplayText,
+                            style: TextStyle(
+                              color: screeningTextColor,
+                              fontSize: 13.0,
+                              fontWeight: FontWeight.w700,
+                            ),
+                          ),
+                        ),
                       ),
                     ],
                   ),
