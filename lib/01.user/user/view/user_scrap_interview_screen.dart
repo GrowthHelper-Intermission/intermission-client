@@ -25,7 +25,7 @@ class _ScrapedResearchScreenState extends ConsumerState<ScrapedResearchScreen>
     // TODO: implement initState
     super.initState();
     ref.read(scrapProvider.notifier).paginate();
-    _tabController = TabController(length: 3, vsync: this);
+    _tabController = TabController(length: 2, vsync: this);
   }
 
   @override
@@ -49,7 +49,7 @@ class _ScrapedResearchScreenState extends ConsumerState<ScrapedResearchScreen>
             tabs: [
               _buildTabItem("전체"),
               _buildTabItem("진행중"),
-              _buildTabItem("마감"),
+              // _buildTabItem("마감"),
             ],
           ),
           Expanded(
@@ -58,7 +58,7 @@ class _ScrapedResearchScreenState extends ConsumerState<ScrapedResearchScreen>
               children: [
                 _buildTabContent("전체"),
                 _buildTabContent("진행중"),
-                _buildTabContent("마감"),
+                // _buildTabContent("마감"),
               ],
             ),
           ),
@@ -85,7 +85,7 @@ class _ScrapedResearchScreenState extends ConsumerState<ScrapedResearchScreen>
     // 데이터의 상태를 확인합니다.
     final state = ref.watch(scrapProvider);
 
-    if (state == null || state is! CursorPagination) {
+    if (state is! CursorPagination) {
       return Center(
         child: CircularProgressIndicator(
           color: PRIMARY_COLOR,
@@ -107,7 +107,6 @@ class _ScrapedResearchScreenState extends ConsumerState<ScrapedResearchScreen>
       itemBuilder:
           <ScrapResearchModel>(BuildContext context, int index, model) {
         if (title == "진행중" && model.isOnGoing != 'Y') return SizedBox.shrink();
-        if (title == "마감" && model.isOnGoing != 'N') return SizedBox.shrink();
         return ScrapResearchCard.fromModel(model: model);
       },
     );
@@ -115,7 +114,7 @@ class _ScrapedResearchScreenState extends ConsumerState<ScrapedResearchScreen>
 
   Widget _buildTabItem(String title) {
     return SizedBox(
-      width: MediaQuery.of(context).size.width / 3, // 3개의 탭이므로 화면 너비를 3로 나눔
+      width: MediaQuery.of(context).size.width / 2, // 3개의 탭이므로 화면 너비를 3로 나눔
       height: 50,
       child: Center(child: Text(title)),
     );
