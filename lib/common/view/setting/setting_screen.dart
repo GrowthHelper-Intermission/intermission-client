@@ -116,6 +116,8 @@ class LogoutSettingComponent extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final screenWidth = MediaQuery.of(context).size.width;
+    final screenHeight = MediaQuery.of(context).size.height;
     return Container(
       height: 50,
       child: ListTile(
@@ -126,7 +128,7 @@ class LogoutSettingComponent extends ConsumerWidget {
               return AlertDialog(
                 backgroundColor: Colors.white,
                 content: SizedBox(
-                  height: 65, // Increase the height of the AlertDialog
+                  height: 35, // Increase the height of the AlertDialog
                   child: Center(
                     child: Text(
                       '로그아웃 하시겠습니까?',
@@ -141,7 +143,7 @@ class LogoutSettingComponent extends ConsumerWidget {
                   Row(
                     children: [
                       Container(
-                        width: 125,
+                        width: screenWidth*0.27,
                         decoration: BoxDecoration(
                           color:
                               PRIMARY_COLOR, // Background color for the '아니오' button
@@ -171,10 +173,10 @@ class LogoutSettingComponent extends ConsumerWidget {
                         ),
                       ),
                       SizedBox(
-                        width: 10,
+                        width: 11,
                       ),
                       Container(
-                        width: 125,
+                        width: screenWidth*0.27,
                         decoration: BoxDecoration(
                           color: Colors.grey[400],
                           borderRadius: BorderRadius.circular(
