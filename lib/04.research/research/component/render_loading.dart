@@ -8,15 +8,17 @@ Widget renderLoading() {
       vertical: 20.0,
       horizontal: 20.0,
     ),
-    child: Column(
-      children: List.generate(
-        5,
-            (index) => Padding(
-          padding: const EdgeInsets.only(bottom: 32.0),
-          child: SkeletonParagraph(
-            style: SkeletonParagraphStyle(
-              lines: 4,
-              padding: EdgeInsets.zero,
+    child: SingleChildScrollView(
+      child: Column(
+        children: List.generate(
+          5,
+              (index) => Padding(
+            padding: const EdgeInsets.only(bottom: 32.0),
+            child: SkeletonParagraph(
+              style: SkeletonParagraphStyle(
+                lines: 4,
+                padding: EdgeInsets.zero,
+              ),
             ),
           ),
         ),
