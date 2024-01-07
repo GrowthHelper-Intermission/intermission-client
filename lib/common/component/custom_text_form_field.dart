@@ -18,6 +18,7 @@ class CustomTextFormField extends StatefulWidget {
   final bool? showClearIcon;
   final bool? onlyNumber;
   final int? maxLength;
+  final Function? scrollAnimate;
 
   const CustomTextFormField({
     this.onlyNumber = false,
@@ -36,6 +37,7 @@ class CustomTextFormField extends StatefulWidget {
     this.maxLines, // 추가
     this.expands, // 추가
     this.maxLength,
+    this.scrollAnimate,
     super.key,
   });
 
@@ -66,6 +68,9 @@ class _CustomTextFormFieldState extends State<CustomTextFormField> {
         enabled: widget.enable ?? true,
         onTap: () {
           setState(() {
+            if (widget.scrollAnimate != null) {
+              widget.scrollAnimate!();
+            }
             showErrorText = false;
           });
         },
