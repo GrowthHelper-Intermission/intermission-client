@@ -142,6 +142,9 @@ class CustomDropdownButtonState extends State<CustomDropdownButton> {
 
   @override
   Widget build(BuildContext context) {
+    final screenWidth = MediaQuery.of(context).size.width;
+    final screenHeight = MediaQuery.of(context).size.height;
+
     return GestureDetector(
       onTap: () => _removeOverlay(),
       child: InkWell(
@@ -151,7 +154,7 @@ class CustomDropdownButtonState extends State<CustomDropdownButton> {
           child: Padding(
             padding: widget.padding,
             child: Container(
-              width: _dropdownWidth,
+              width: screenWidth * 0.9,
               height: _dropdownHeight,
               padding: EdgeInsets.only(left: 6),
               decoration: BoxDecoration(
