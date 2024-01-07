@@ -22,7 +22,7 @@ class NormalAppbar extends StatelessWidget implements PreferredSizeWidget{
           Align(
             alignment: Alignment.centerLeft,
             child: Text(
-              '포인트 교환',
+              title!,
               style: TextStyle(
                 fontSize: 18,
                 fontWeight: FontWeight.w700,

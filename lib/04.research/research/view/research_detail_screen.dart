@@ -350,7 +350,7 @@ class _ResearchDetailScreenState extends ConsumerState<ResearchDetailScreen> {
                   child: SizedBox(
                     height: 20,
                     child: Text(
-                      isScraping ? "스크랩 중..." : state.scrapCnt.toString(),
+                      isScraping ? "로딩 중..." : state.scrapCnt.toString(),
                       style: TextStyle(fontSize: 13),
                     ),
                   ),
@@ -383,7 +383,7 @@ class _ResearchDetailScreenState extends ConsumerState<ResearchDetailScreen> {
                                     ref
                                         .read(researchProvider.notifier)
                                         .getDetail(id: widget.id);
-                                    ref.read(pointProvider.notifier).paginate();
+                                    ref.read(pointProvider.notifier).paginate(forceRefetch: true);
                                     ref.read(userMeProvider.notifier).getMe();
                                   });
                                 }
