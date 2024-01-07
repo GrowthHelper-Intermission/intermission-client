@@ -68,11 +68,11 @@ class _ResearchScreenState extends ConsumerState<ResearchScreen>
                 children: [
                   Text(
                     "안녕하세요 ${user.userName}님:)\n리서치 참여하고 포인트 받아가세요!",
-                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                    style: TextStyle(fontSize: 17, fontWeight: FontWeight.bold),
                   ),
                   SizedBox(
-                    width: 80,
-                    height: 80,
+                    width: 70,
+                    height: 70,
                     child: SvgPicture.asset(
                       'assets/img/circle/userColor.svg',
                     ),
