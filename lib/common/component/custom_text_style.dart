@@ -13,6 +13,8 @@ TextStyle customGreenTextSeventeenStyle = TextStyle(
   color: Colors.white,
 );
 
+
+
 TextStyle customTextRedStyle = TextStyle(
   fontWeight: FontWeight.w700,
   fontSize: 17.0,
@@ -27,6 +29,23 @@ TextStyle customTextGreenTwentyStyle = TextStyle(
 TextStyle customHeaderStyle = TextStyle(
   fontWeight: FontWeight.w600,
   fontSize: 28.0,
+);
+
+TextStyle customNoticeHeaderStyle = TextStyle(
+  fontWeight: FontWeight.w600,
+  fontSize: 18.0,
+);
+
+TextStyle customNoticeDateStyle = TextStyle(
+  fontWeight: FontWeight.w700,
+  fontSize: 13.0,
+  color: Colors.grey,
+);
+
+TextStyle customNoticeSubHeaderStyle = TextStyle(
+  fontWeight: FontWeight.w500,
+  fontSize: 20.0,
+  color: Colors.grey[800],
 );
 
 TextStyle InterviewTitleStyle = TextStyle(
