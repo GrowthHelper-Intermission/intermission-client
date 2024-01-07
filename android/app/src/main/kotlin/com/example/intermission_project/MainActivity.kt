@@ -1,4 +1,4 @@
-package com.example.intermission_project
+package com.growth_helper.intermission
 
 import io.flutter.embedding.android.FlutterActivity
 
