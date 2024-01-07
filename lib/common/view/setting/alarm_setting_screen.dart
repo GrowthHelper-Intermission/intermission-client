@@ -433,7 +433,7 @@ Future<String?> initializeFirebaseMessaging() async {
   // 로컬 알림 초기화
   await flutterLocalNotificationsPlugin.initialize(
     const InitializationSettings(
-      android: AndroidInitializationSettings('@mipmap/ic_launcher'),
+      android: AndroidInitializationSettings('@mipmap/launcher_icon'),
       iOS: DarwinInitializationSettings(defaultPresentBadge: false),
     ),
   );
