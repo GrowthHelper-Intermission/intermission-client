@@ -17,6 +17,7 @@ class ScrapResearchModel implements IModelWithId  {
   final String researchMethTpCd;
   final String researchRewdAmt;
   final String isOnGoing;
+  final String isScreening;
 
   ScrapResearchModel({
     required this.scrapId,
@@ -28,6 +29,7 @@ class ScrapResearchModel implements IModelWithId  {
     required this.researchMethTpCd,
     required this.researchRewdAmt,
     required this.isOnGoing,
+    required this.isScreening,
   });
 
   factory ScrapResearchModel.fromJson(Map<String, dynamic> json)

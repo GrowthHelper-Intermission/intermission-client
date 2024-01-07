@@ -17,6 +17,7 @@ ScrapResearchModel _$ScrapResearchModelFromJson(Map<String, dynamic> json) =>
       researchMethTpCd: json['researchMethTpCd'] as String,
       researchRewdAmt: json['researchRewdAmt'] as String,
       isOnGoing: json['isOnGoing'] as String,
+      isScreening: json['isScreening'] as String,
     );
 
 Map<String, dynamic> _$ScrapResearchModelToJson(ScrapResearchModel instance) =>
@@ -30,4 +31,5 @@ Map<String, dynamic> _$ScrapResearchModelToJson(ScrapResearchModel instance) =>
       'researchMethTpCd': instance.researchMethTpCd,
       'researchRewdAmt': instance.researchRewdAmt,
       'isOnGoing': instance.isOnGoing,
+      'isScreening': instance.isScreening,
     };
