@@ -14,7 +14,6 @@ class CustomEmailDropdown {
   }) {
     const List<String> _emailList = [
       '@gmail.com',
-      '@hotmail.com',
       '@naver.com',
       '@kakao.com',
       '@daum.net',
