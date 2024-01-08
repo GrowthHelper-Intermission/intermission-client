@@ -19,13 +19,13 @@ import 'package:intermission_project/common/view/splash_screen.dart';
 
 import '../../../common/view/select_screen.dart';
 
+
+
 class CertificationResult extends ConsumerWidget {
   static const Color successColor = Color(0xff52c41a);
   static const Color failureColor = Color(0xfff5222d);
 
   final Map<String, String>? result;
-
-  bool _isGetCertificationResultCalled = false;
 
   /// 1
 
@@ -61,142 +61,148 @@ class CertificationResult extends ConsumerWidget {
       BuildContext context,
       WidgetRef ref,
       FlutterSecureStorage flutterSecureStorage) async {
-    var url = Uri.parse('https://api.iamport.kr/certifications/$impUid');
-    var response = await http.get(url, headers: {'Authorization': accessToken});
 
-    /// Iamport에서 성공적으로 데이터 받아 왓다면
-    if (response.statusCode == 200) {
-      print('Response data: ${response.body}');
-      var responseData = json.decode(response.body)['response'];
+    if(ref.read(signupUserProvider.notifier).isSignup == true){
+      return;
+    }
 
-      // 필요한 데이터 추출
-      final birthday = responseData['birthday'].toString();
-      final uniqueKey = responseData['unique_key'].toString();
-      final certifiedAt = responseData['certified_at'].toString();
-      final phoneNumber = responseData['phone'].toString();
-      final userName = responseData['name'].toString();
+    print('nuya Second');
 
-      print('uniqueKey:');
-      print(uniqueKey);
+      var url = Uri.parse('https://api.iamport.kr/certifications/$impUid');
+      var response = await http.get(url, headers: {'Authorization': accessToken});
 
-      // 상태 변경
-      final state = ref.read(signupUserProvider.notifier);
-      state.setBirthday(birthday);
-      state.setUniqueKey(uniqueKey);
-      state.setCertifiedAt(certifiedAt);
-      state.setPhoneNumber(phoneNumber);
-      state.setUsername(userName);
+      /// Iamport에서 성공적으로 데이터 받아 왓다면
+      if (response.statusCode == 200) {
+        print('Response data: ${response.body}');
+        var responseData = json.decode(response.body)['response'];
 
-      final SignupUserModel newUser = SignupUserModel(
-        email: state.email,
-        password: state.password,
-        isTermsAgreed: state.isTermsAgreed,
-        isPrivacyAgreed: state.isPrivacyAgreed,
-        jobCd: state.jobCd,
-        asignJobCd: state.asignJobCd,
-        wedCd: state.wedCd,
-        genderCd: state.genderCd,
-        petCd: state.petCd,
-        occpSidoCd: state.occpSidoCd,
-        occpSigunguCd: state.occpSigunguCd,
-        houseTpCd: state.housTpCd,
-        userCd: state.userCd,
-        birthday: state.birthday,
-        uniqueKey: state.uniqueKey,
-        certifiedAt: state.certifiedAt,
-        phoneNumber: state.phoneNumber,
-        userName: state.userName,
-      );
-      try {
-        var dio = Dio();
-        var response = await dio.post(
-          'https://$ip/api/user/save',
-          data: {
-            "birthday": newUser.birthday,
-            "email": newUser.email,
-            "userName": newUser.userName,
-            "password": newUser.password,
-            "uniqueKey": newUser.uniqueKey,
-            "certifiedAt": newUser.certifiedAt,
-            "phoneNumber": newUser.phoneNumber,
-            "jobCd": newUser.jobCd,
-            "asignJobCd": newUser.asignJobCd,
-            "wedCd": newUser.wedCd,
-            "genderCd": newUser.genderCd,
-            "petCd": newUser.petCd,
-            "occpSidoCd": newUser.occpSidoCd,
-            "occpSigunguCd": newUser.occpSigunguCd,
-            "housTpCd": newUser.houseTpCd,
-            "userCd": newUser.userCd,
-            "isTermsAgreed": newUser.isTermsAgreed,
-            "isPrivacyAgreed": newUser.isPrivacyAgreed,
-          },
-          options: Options(
-            headers: {
-              'Content-Type': 'application/json;charset=utf-8',
+        // 필요한 데이터 추출
+        final birthday = responseData['birthday'].toString();
+        final uniqueKey = responseData['unique_key'].toString();
+        final certifiedAt = responseData['certified_at'].toString();
+        final phoneNumber = responseData['phone'].toString();
+        final userName = responseData['name'].toString();
+
+        print('uniqueKey:');
+        print(uniqueKey);
+
+        // 상태 변경
+        final state = ref.read(signupUserProvider.notifier);
+        state.setBirthday(birthday);
+        state.setUniqueKey(uniqueKey);
+        state.setCertifiedAt(certifiedAt);
+        state.setPhoneNumber(phoneNumber);
+        state.setUsername(userName);
+
+        final SignupUserModel newUser = SignupUserModel(
+          email: state.email,
+          password: state.password,
+          isTermsAgreed: state.isTermsAgreed,
+          isPrivacyAgreed: state.isPrivacyAgreed,
+          jobCd: state.jobCd,
+          asignJobCd: state.asignJobCd,
+          wedCd: state.wedCd,
+          genderCd: state.genderCd,
+          petCd: state.petCd,
+          occpSidoCd: state.occpSidoCd,
+          occpSigunguCd: state.occpSigunguCd,
+          houseTpCd: state.housTpCd,
+          userCd: state.userCd,
+          birthday: state.birthday,
+          uniqueKey: state.uniqueKey,
+          certifiedAt: state.certifiedAt,
+          phoneNumber: state.phoneNumber,
+          userName: state.userName,
+        );
+        try {
+          var dio = Dio();
+          var response = await dio.post(
+            'https://$ip/api/user/save',
+            data: {
+              "birthday": newUser.birthday,
+              "email": newUser.email,
+              "userName": newUser.userName,
+              "password": newUser.password,
+              "uniqueKey": newUser.uniqueKey,
+              "certifiedAt": newUser.certifiedAt,
+              "phoneNumber": newUser.phoneNumber,
+              "jobCd": newUser.jobCd,
+              "asignJobCd": newUser.asignJobCd,
+              "wedCd": newUser.wedCd,
+              "genderCd": newUser.genderCd,
+              "petCd": newUser.petCd,
+              "occpSidoCd": newUser.occpSidoCd,
+              "occpSigunguCd": newUser.occpSigunguCd,
+              "housTpCd": newUser.houseTpCd,
+              "userCd": newUser.userCd,
+              "isTermsAgreed": newUser.isTermsAgreed,
+              "isPrivacyAgreed": newUser.isPrivacyAgreed,
             },
-          ),
-        );
-        print('성공적 수행');
-        if (response.statusCode == 201) {
-          var accessToken = response.headers.value('Authorization');
-          var refreshToken = response.headers.value('Authorization-refresh');
-          print('accessToken: $accessToken');
-          print('refreshToken: $refreshToken');
-
-          await flutterSecureStorage.write(
-              key: REFRESH_TOKEN_KEY, value: refreshToken);
-          await flutterSecureStorage.write(
-              key: ACCESS_TOKEN_KEY, value: accessToken);
-          ref.read(userMeProvider.notifier).getMe();
-        } else {
-          Navigator.pushReplacement(
-            context,
-            MaterialPageRoute(builder: (context) => SignupScreenPage1()),
+            options: Options(
+              headers: {
+                'Content-Type': 'application/json;charset=utf-8',
+              },
+            ),
           );
+          print('성공적 수행');
+          if (response.statusCode == 201 || response.statusCode == 200) {
+            print('nugi${response.statusCode}');
+            var accessToken = response.headers.value('Authorization');
+            var refreshToken = response.headers.value('Authorization-refresh');
+            print('accessToken: $accessToken');
+            print('refreshToken: $refreshToken');
+
+            await flutterSecureStorage.write(
+                key: REFRESH_TOKEN_KEY, value: refreshToken);
+            await flutterSecureStorage.write(
+                key: ACCESS_TOKEN_KEY, value: accessToken);
+            ref.read(userMeProvider.notifier).getMe();
+            ref.read(signupUserProvider.notifier).setIsSignupAction(true);
+          }
+        } catch (e) {
+          print('jotdam2');
+          ref.read(signupUserProvider.notifier).setIsSignupAction(true);
+          showCupertinoDialog(
+            context: context,
+            builder: (BuildContext context) {
+              return CupertinoAlertDialog(
+                title: Text('알림!'),
+                content: Text('중복된 계정입니다!'),
+                actions: <Widget>[
+                  CupertinoDialogAction(
+                    child: Text('확인'),
+                    onPressed: () {
+                      Navigator.of(context).pop(); // 다이얼로그 닫기
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => SignupScreenPage2()),
+                      );
+                    },
+                  ),
+                ],
+              );
+            },
+          );
+          print(e);
         }
-      } catch (e) {
-        print('jotdam');
-        showCupertinoDialog(
-          context: context,
-          builder: (BuildContext context) {
-            return CupertinoAlertDialog(
-              title: Text('알림!'),
-              content: Text('중복된 계정입니다!'),
-              actions: <Widget>[
-                CupertinoDialogAction(
-                  child: Text('확인'),
-                  onPressed: () {
-                    Navigator.of(context).pop(); // 다이얼로그 닫기
-                    Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => SignupScreenPage2()),
-                    );
-                  },
-                ),
-              ],
-            );
-          },
-        );
-        print(e);
+      }
+
+      /// 아임포트에서 문제가 생겼을때
+      else {
+        print('아임포트 쪽 에러');
+        print('Request failed with status: ${response.statusCode}.');
       }
     }
 
-    /// 아임포트에서 문제가 생겼을때
-    else {
-      print('아임포트 쪽 에러');
-      print('Request failed with status: ${response.statusCode}.');
-    }
-  }
-
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final certificationState = ref.watch(certificationResultProvider);
     FlutterSecureStorage flutterSecureStorage = FlutterSecureStorage();
 
-    if (result!['success'] == 'true' && !_isGetCertificationResultCalled) {
-      _isGetCertificationResultCalled = true;
+    print('buildTime');
+
+    if (result!['success'] == 'true' && ref.read(signupUserProvider.notifier).isSignup == false) {
+      print('herePoint${ref.read(signupUserProvider.notifier).isSignup}');
       getAccessToken('1188833256121578',
               'WqgqCGlYJPB9e5j7bpTsPPMDhZP7mdncthivWfKYDrcDRpXYbCCphRqkEwqfcLXZMJ0TVl2h2E6XXJhk')
           .then((accessToken) => getCertificationResult(result!['imp_uid']!,

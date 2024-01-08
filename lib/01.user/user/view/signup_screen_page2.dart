@@ -476,6 +476,7 @@ class _SignupScreenPage2State extends ConsumerState<SignupScreenPage2> {
                           state.setOccpSidoCd(selectedCity);
                           state.setOccpSigunguCd(selectedCountry);
                           state.setUserCd(selectedUserType);
+                          state.setIsSignupAction(false);
                           Navigator.of(context).push(
                             MaterialPageRoute(
                               builder: (context) => CertificationTest(),
