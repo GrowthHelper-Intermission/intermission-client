@@ -26,7 +26,6 @@ class CustomCheckBox extends StatelessWidget {
     this.isArrow = false, // Default value is false if not provided
   }) : super(key: key); // Pass key to the super constructor
 
-
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -59,11 +58,12 @@ class CustomCheckBox extends StatelessWidget {
                 ),
                 if (isDetail ?? false)
                   InkWell(
-                    onTap: () async{
+                    onTap: () async {
                       await Navigator.of(context).push(
                         MaterialPageRoute(
                           builder: (context) => SignupTermWebView(
-                            homeUrl: url ?? 'https://docs.google.com/document/d/e/2PACX-1vTNbqTr-co8U-S9KnXI3ruFGz1FEnv5GymdwX7hvRrFI4ewsOWVQGlTgsc7nIIpXrtz-gVLJfLjzAXd/pub',
+                            homeUrl: url ??
+                                'https://docs.google.com/document/d/e/2PACX-1vTNbqTr-co8U-S9KnXI3ruFGz1FEnv5GymdwX7hvRrFI4ewsOWVQGlTgsc7nIIpXrtz-gVLJfLjzAXd/pub',
                           ),
                         ),
                       );
@@ -71,16 +71,14 @@ class CustomCheckBox extends StatelessWidget {
                     child: Text(
                       '[내용보기]',
                       style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w500,
-                        color: GREY_COLOR
-                      ),
+                          fontSize: 13,
+                          fontWeight: FontWeight.w500,
+                          color: GREY_COLOR),
                     ),
                   )
               ],
             ),
           ),
-          Spacer(),
           if (isArrow ?? false) // isArrow가 null이 아니고 true일 경우에만 IconButton을 표시
             IconButton(
               icon: Icon(Icons.arrow_forward_ios, size: 20),
@@ -96,14 +94,4 @@ class CustomCheckBox extends StatelessWidget {
       ),
     );
   }
-
-  _launchURL(String url) async {
-    if (await canLaunch(url)) {
-      await launch(url);
-    } else {
-      throw 'Could not launch $url';
-    }
-  }
 }
-
-

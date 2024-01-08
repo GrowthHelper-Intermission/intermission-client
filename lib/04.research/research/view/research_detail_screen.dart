@@ -329,33 +329,36 @@ class _ResearchDetailScreenState extends ConsumerState<ResearchDetailScreen> {
       child: BottomAppBar(
         child: Row(
           children: [
-            Column(
-              children: [
-                IconButton(
-                  icon: Transform.scale(
-                    scale: 1.5,
-                    child: Icon(
-                      isScrapped ? Icons.bookmark : Icons.bookmark_border,
-                      color: Colors.grey[400],
+            SizedBox(
+              height: 65,
+              child: Column(
+                children: [
+                  IconButton(
+                    icon: Transform.scale(
+                      scale: 1.5,
+                      child: Icon(
+                        isScrapped ? Icons.bookmark : Icons.bookmark_border,
+                        color: Colors.grey[400],
+                      ),
+                    ),
+                    iconSize: 30,
+                    onPressed: () {
+                      setState(() {
+                        _handleScrap(state);
+                      });
+                    },
+                  ),
+                  Flexible(
+                    child: SizedBox(
+                      height: 20,
+                      child: Text(
+                        isScraping ? "로딩 중..." : state.scrapCnt.toString(),
+                        style: TextStyle(fontSize: 13),
+                      ),
                     ),
                   ),
-                  iconSize: 30,
-                  onPressed: () {
-                    setState(() {
-                      _handleScrap(state);
-                    });
-                  },
-                ),
-                Flexible(
-                  child: SizedBox(
-                    height: 20,
-                    child: Text(
-                      isScraping ? "로딩 중..." : state.scrapCnt.toString(),
-                      style: TextStyle(fontSize: 13),
-                    ),
-                  ),
-                ),
-              ],
+                ],
+              ),
             ),
             Expanded(
               child: SimpleButton(

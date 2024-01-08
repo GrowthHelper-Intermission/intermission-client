@@ -73,10 +73,6 @@ dependencies:
   app_settings: ^5.1.1
   flutter_app_badger: ^1.5.0
 
-
-
-
-
 dev_dependencies:
   flutter_test:
     sdk: flutter

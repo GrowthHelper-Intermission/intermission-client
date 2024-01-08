@@ -16,12 +16,15 @@ import 'package:intermission_project/firebase_options.dart';
 import 'package:flutter_app_badger/flutter_app_badger.dart';
 
 void showNotificationSettingsBottomSheet(BuildContext context) {
+  final screenWidth = MediaQuery.of(context).size.width;
+  final screenHeight = MediaQuery.of(context).size.height;
+
   showModalBottomSheet(
     context: context,
     builder: (BuildContext bc) {
       return Container(
         color: Colors.white,
-        height: MediaQuery.of(context).size.height * .30,
+        height: screenHeight * .35,
         child: Padding(
           padding: EdgeInsets.fromLTRB(15, 15, 15, 50),
           child: Column(
@@ -43,12 +46,13 @@ void showNotificationSettingsBottomSheet(BuildContext context) {
                       color: Colors.grey[700]),
                 ),
               ),
-              SizedBox(height: 20),
+              SizedBox(height: 10),
               Row(
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Container(
-                    width: 160,
-                    height: 60,
+                    width: screenWidth*0.4,
+                    height: 55,
                     decoration: BoxDecoration(
                       border: Border.all(
                         color: PRIMARY_COLOR,
@@ -77,8 +81,8 @@ void showNotificationSettingsBottomSheet(BuildContext context) {
                   ),
                   SizedBox(width: 10),
                   Container(
-                    width: 160,
-                    height: 60,
+                    width: screenWidth*0.4,
+                    height: 55,
                     decoration: BoxDecoration(
                       color:
                           PRIMARY_COLOR, // PRIMARY_COLOR background for the '설정하기' button

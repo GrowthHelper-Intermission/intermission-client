@@ -14,11 +14,15 @@ class SignupEitherButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+    final screenWidth = MediaQuery.of(context).size.width;
+    final screenHeight = MediaQuery.of(context).size.height;
+
     return ElevatedButton(
       onPressed: onPressed,
       style: ElevatedButton.styleFrom(
         primary: isSelected ? SUB_COLOR : Colors.white,
-        minimumSize: Size(170, 50),
+        minimumSize: Size(screenWidth*0.4, 50),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(6.0),
           side: BorderSide(

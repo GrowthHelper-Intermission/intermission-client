@@ -11,6 +11,7 @@ import 'package:intermission_project/common/const/data.dart';
 import 'package:intermission_project/common/layout/default_layout.dart';
 
 import '../../../common/component/custom_text_style.dart';
+import '../../../common/view/default_layout.dart';
 
 class PasswordFindScreen extends StatefulWidget {
   const PasswordFindScreen({super.key});
@@ -200,6 +201,7 @@ class _PasswordFindScreenState extends State<PasswordFindScreen> {
     double screenHeight = MediaQuery.of(context).size.height;
 
     return DefaultLayout(
+      isResize: true,
       title: '비밀번호 찾기',
       child: GestureDetector(
         onTap: () {

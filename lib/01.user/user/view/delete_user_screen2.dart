@@ -9,6 +9,7 @@ import '../../../common/component/login_next_button.dart';
 import '../../../common/component/signup_ask_label.dart';
 import '../../../common/const/colors.dart';
 import '../../../common/layout/default_layout.dart';
+import '../../../common/view/default_layout.dart';
 import '../../../common/view/select_screen.dart';
 import '../model/delete_user_model.dart';
 import '../model/user_model.dart';

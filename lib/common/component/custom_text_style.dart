@@ -28,7 +28,7 @@ TextStyle customTextGreenTwentyStyle = TextStyle(
 
 TextStyle customHeaderStyle = TextStyle(
   fontWeight: FontWeight.w600,
-  fontSize: 28.0,
+  fontSize: 24.0,
 );
 
 TextStyle customNoticeHeaderStyle = TextStyle(

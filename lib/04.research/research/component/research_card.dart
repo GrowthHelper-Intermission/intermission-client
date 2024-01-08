@@ -100,12 +100,12 @@ class _ResearchCardState extends State<ResearchCard> {
       color: widget.isOnGoing == "Y" ? Colors.black : Colors.grey,
       fontSize: 14,
     );
-    if(widget.isScreening == "N"){
+    if (widget.isScreening == "N") {
       screeningDisplayText = "참여가능";
       screeningBorderColor = RED_COLOR;
       screeningTextColor = RED_COLOR;
       screeningBackgroundColor = Colors.white;
-    }else{
+    } else {
       screeningDisplayText = "참여불가";
       screeningBorderColor = GREY_COLOR;
       screeningTextColor = GREY_COLOR;
@@ -162,7 +162,6 @@ class _ResearchCardState extends State<ResearchCard> {
                   Row(
                     children: [
                       Container(
-
                         width: 45,
                         height: 21,
                         decoration: BoxDecoration(
@@ -198,7 +197,7 @@ class _ResearchCardState extends State<ResearchCard> {
                   ),
                   SizedBox(height: 1),
                   Divider(color: Colors.grey[300]),
-                  SizedBox(height: screenHeight*0.02),
+                  SizedBox(height: screenHeight * 0.02),
                   Expanded(
                     child: Text(
                       widget.subTitle,
