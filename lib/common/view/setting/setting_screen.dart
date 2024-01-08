@@ -10,6 +10,7 @@ import 'package:intermission_project/common/view/setting/rule_exlpain_screen.dar
 import 'package:intermission_project/common/view/setting/version_info.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../default_layout.dart';
 import 'alarm_setting_screen.dart';
 import 'delete_user_screen.dart';
 

@@ -58,33 +58,39 @@ class _UserReportScreenState extends ConsumerState<UserReportScreen>
 
   @override
   Widget build(BuildContext context) {
-    return DefaultLayout(
-      title: '문의하기',
-      child: SingleChildScrollView(
-        child: Column(
-          children: [
-            TabBar(
-              indicatorColor: PRIMARY_COLOR,
-              labelColor: PRIMARY_COLOR,
-              controller: _tabController,
-              isScrollable: false,
-              tabs: [
-                _buildTabItem("문의하기"),
-                _buildTabItem("문의내역"),
-              ],
-            ),
-            Container(
-              //전체 높이 - appbar + tabbar
-              height: MediaQuery.of(context).size.height - kToolbarHeight - 50,
-              child: TabBarView(
+    return WillPopScope(
+      onWillPop: () async {
+        return true;
+      },
+      child: DefaultLayout(
+        isResize: true,
+        title: '문의하기',
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              TabBar(
+                indicatorColor: PRIMARY_COLOR,
+                labelColor: PRIMARY_COLOR,
                 controller: _tabController,
-                children: [
-                  _buildTabContentForReport(),
-                  _buildTabContentForHistory(),
+                isScrollable: false,
+                tabs: [
+                  _buildTabItem("문의하기"),
+                  _buildTabItem("문의내역"),
                 ],
               ),
-            ),
-          ],
+              Container(
+                //전체 높이 - appbar + tabbar
+                height: MediaQuery.of(context).size.height - kToolbarHeight - 50,
+                child: TabBarView(
+                  controller: _tabController,
+                  children: [
+                    _buildTabContentForReport(),
+                    _buildTabContentForHistory(),
+                  ],
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );

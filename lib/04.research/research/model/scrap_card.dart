@@ -139,7 +139,7 @@ class _ResearchCardState extends State<ScrapResearchCard> {
     }
 
     return Padding(
-      padding: const EdgeInsets.fromLTRB(11, 0, 21, 10),
+      padding: const EdgeInsets.symmetric(horizontal: 11),
       child: Card(
         child: InkWell(
           onTap: () {
@@ -148,7 +148,7 @@ class _ResearchCardState extends State<ScrapResearchCard> {
           },
           child: Container(
             width: 335,
-            height: screenHeight * 0.17,
+            height: screenHeight * 0.21,
             decoration: BoxDecoration(
               border: Border.all(
                 width: 1.0,

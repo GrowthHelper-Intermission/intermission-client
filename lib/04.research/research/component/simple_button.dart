@@ -16,7 +16,7 @@ class SimpleButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 60,
+      height: 65,
       width: double.infinity,
       child: ElevatedButton(
         onPressed: isButtonEnabled ? onPressed : null,

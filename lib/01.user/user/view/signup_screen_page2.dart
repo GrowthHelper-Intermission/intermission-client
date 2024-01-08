@@ -192,6 +192,7 @@ class _SignupScreenPage2State extends ConsumerState<SignupScreenPage2> {
         return true;
       },
       child: Scaffold(
+        resizeToAvoidBottomInset: true,
         backgroundColor: Colors.white,
         appBar: CustomAppBar(),
         body: SafeArea(
@@ -200,9 +201,7 @@ class _SignupScreenPage2State extends ConsumerState<SignupScreenPage2> {
             child: SingleChildScrollView(
               keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
               child: Padding(
-                padding: EdgeInsets.only(
-                    left: ScreenUtil().setWidth(12),
-                    right: ScreenUtil().setWidth(12)),
+                padding: EdgeInsets.symmetric(horizontal: 12),
                 child: Form(
                   key: globalKey,
                   child: Column(
@@ -236,7 +235,7 @@ class _SignupScreenPage2State extends ConsumerState<SignupScreenPage2> {
                       SignupAskLabel(text: '개인/공공기관/기업'),
                       Center(
                         child: CustomDropdownButton(
-                          dropdownWidth: 350,
+                          dropdownWidth: screenWidth*0.9,
                           items: userType,
                           hintText: '선택',
                           onItemSelected: (value) {
@@ -257,7 +256,7 @@ class _SignupScreenPage2State extends ConsumerState<SignupScreenPage2> {
                       SignupAskLabel(text: '직업/학생'),
                       Center(
                         child: CustomDropdownButton(
-                          dropdownWidth: 350,
+                          dropdownWidth: screenWidth*0.9,
                           items: jobCdType,
                           hintText: '선택',
                           onItemSelected: (value) {
@@ -278,7 +277,7 @@ class _SignupScreenPage2State extends ConsumerState<SignupScreenPage2> {
                       if (selectedJobCdType == jobCdType[6])
                         Center(
                           child: CustomDropdownButton(
-                            dropdownWidth: 350,
+                            dropdownWidth: screenWidth*0.9,
                             items: asignCdType,
                             hintText: '선택',
                             onItemSelected: (value) {
@@ -310,6 +309,90 @@ class _SignupScreenPage2State extends ConsumerState<SignupScreenPage2> {
                         SizedBox(
                           height: 20,
                         ),
+                      SignupAskLabel(text: '거주 형태'),
+                      Center(
+                        child: CustomDropdownButton(
+                          dropdownWidth: screenWidth*0.9,
+                          items: residenceType,
+                          hintText: '선택',
+                          onItemSelected: (value) {
+                            setState(
+                                  () {
+                                selectedResidenceType = value;
+                              },
+                            );
+                            checkButtonEnabled();
+                          },
+                        ),
+                      ),
+                      SizedBox(
+                        height: 20,
+                      ),
+                      SignupAskLabel(text: '반려동물을 키우시나요?'),
+                      Center(
+                        child: CustomDropdownButton(
+                          dropdownWidth: screenWidth*0.9,
+                          items: petType,
+                          hintText: '선택',
+                          onItemSelected: (value) {
+                            setState(
+                                  () {
+                                selectedPetType = value;
+                                if (selectedPetType == '기타') {
+                                  raisePet = true;
+                                } else {
+                                  raisePet = false;
+                                }
+                              },
+                            );
+                            checkButtonEnabled();
+                          },
+                        ),
+                      ),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      SignupAskLabel(text: '거주 지역'),
+                      Center(
+                        child: CustomDropdownButton(
+                          dropdownWidth: screenWidth*0.9,
+                          items: mapInfo
+                              .map((info) => info['name'].toString())
+                              .toList(),
+                          hintText: '시/도를 선택하세요.',
+                          onItemSelected: (value) {
+                            setState(() {
+                              selectedCity = value;
+                              selectedCountry = null;
+                              checkButtonEnabled();
+                            });
+                          },
+                        ),
+                      ),
+                      if (selectedCity != null) SizedBox(height: 20),
+                      if (selectedCity != null)
+                        Center(
+                          child: CustomDropdownButton(
+                            dropdownWidth: screenWidth*0.9,
+                            items: (selectedCity == null
+                                ? []
+                                : (mapInfo.firstWhere((info) =>
+                            info['name'] ==
+                                selectedCity)['countries'] as List)
+                                .map((country) => country.toString())
+                                .toList()),
+                            hintText: '구/군을 선택하세요.',
+                            onItemSelected: (value) {
+                              setState(() {
+                                selectedCountry = value;
+                                checkButtonEnabled();
+                              });
+                            },
+                            enabled: selectedCity != null, // 이 부분 추가
+                            // errorText 속성이 CustomDropdownButton에 구현되어 있는지 확인하세요.
+                          ),
+                        ),
+                      SizedBox(height: 20,),
                       SignupAskLabel(text: '성별'),
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 4),
@@ -374,92 +457,6 @@ class _SignupScreenPage2State extends ConsumerState<SignupScreenPage2> {
                           ],
                         ),
                       ),
-                      SizedBox(
-                        height: 20,
-                      ),
-                      SignupAskLabel(text: '거주 형태'),
-                      Center(
-                        child: CustomDropdownButton(
-                          dropdownWidth: 350,
-                          items: residenceType,
-                          hintText: '선택',
-                          onItemSelected: (value) {
-                            setState(
-                              () {
-                                selectedResidenceType = value;
-                              },
-                            );
-                            checkButtonEnabled();
-                          },
-                        ),
-                      ),
-                      SizedBox(
-                        height: 20,
-                      ),
-                      SignupAskLabel(text: '반려동물을 키우시나요?'),
-                      Center(
-                        child: CustomDropdownButton(
-                          dropdownWidth: 350,
-                          items: petType,
-                          hintText: '선택',
-                          onItemSelected: (value) {
-                            setState(
-                              () {
-                                selectedPetType = value;
-                                if (selectedPetType == '기타') {
-                                  raisePet = true;
-                                } else {
-                                  raisePet = false;
-                                }
-                              },
-                            );
-                            checkButtonEnabled();
-                          },
-                        ),
-                      ),
-                      SizedBox(
-                        height: 10,
-                      ),
-                      SignupAskLabel(text: '거주 지역'),
-                      Center(
-                        child: CustomDropdownButton(
-                          dropdownWidth: 350,
-                          items: mapInfo
-                              .map((info) => info['name'].toString())
-                              .toList(),
-                          hintText: '시/도를 선택하세요.',
-                          onItemSelected: (value) {
-                            setState(() {
-                              selectedCity = value;
-                              selectedCountry = null;
-                              checkButtonEnabled();
-                            });
-                          },
-                        ),
-                      ),
-                      if (selectedCity != null) SizedBox(height: 20),
-                      if (selectedCity != null)
-                        Center(
-                          child: CustomDropdownButton(
-                            dropdownWidth: 350,
-                            items: (selectedCity == null
-                                ? []
-                                : (mapInfo.firstWhere((info) =>
-                                        info['name'] ==
-                                        selectedCity)['countries'] as List)
-                                    .map((country) => country.toString())
-                                    .toList()),
-                            hintText: '구/군을 선택하세요.',
-                            onItemSelected: (value) {
-                              setState(() {
-                                selectedCountry = value;
-                                checkButtonEnabled();
-                              });
-                            },
-                            enabled: selectedCity != null, // 이 부분 추가
-                            // errorText 속성이 CustomDropdownButton에 구현되어 있는지 확인하세요.
-                          ),
-                        ),
                       SizedBox(height: screenHeight * 0.2),
                       LoginNextButton(
                         buttonName: '본인인증 실행하기',

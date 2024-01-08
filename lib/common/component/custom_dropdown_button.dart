@@ -33,7 +33,7 @@ class CustomDropdownButtonState extends State<CustomDropdownButton> {
   String? selectedItem;
   OverlayEntry? _overlayEntry;
   final LayerLink _layerLink = LayerLink();
-  late double _dropdownWidth;
+   double? _dropdownWidth;
   static const double _dropdownHeight = 48;
 
   @override
@@ -142,7 +142,7 @@ class CustomDropdownButtonState extends State<CustomDropdownButton> {
 
   @override
   Widget build(BuildContext context) {
-    final screenWidth = MediaQuery.of(context).size.width;
+    final screenWidth = widget.dropdownWidth;
     final screenHeight = MediaQuery.of(context).size.height;
 
     return GestureDetector(
@@ -154,7 +154,7 @@ class CustomDropdownButtonState extends State<CustomDropdownButton> {
           child: Padding(
             padding: widget.padding,
             child: Container(
-              width: screenWidth * 0.9,
+              width: screenWidth,
               height: _dropdownHeight,
               padding: EdgeInsets.only(left: 6),
               decoration: BoxDecoration(

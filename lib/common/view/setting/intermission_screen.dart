@@ -5,6 +5,7 @@ import 'package:intermission_project/common/const/colors.dart';
 import 'package:intermission_project/common/const/data.dart';
 
 import '../../layout/default_layout.dart';
+import '../default_layout.dart';
 
 class IntermissionScreen extends StatelessWidget {
   @override
