@@ -27,6 +27,9 @@ class SignupUserModel extends UserModelBase {
   final String? phoneNumber;
   final String? userName;
 
+  /// 회원가입시 중복 API 요청 방지용 isSignup
+  final bool? isSignup;
+
   SignupUserModel({
     this.email,
     this.password,
@@ -46,6 +49,7 @@ class SignupUserModel extends UserModelBase {
     this.certifiedAt,
     this.phoneNumber,
     this.userName,
+    this.isSignup,
   });
 
 

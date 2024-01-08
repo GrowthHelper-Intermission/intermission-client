@@ -12,6 +12,8 @@ import 'package:intermission_project/common/const/colors.dart';
 import 'package:intermission_project/common/const/data.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import 'default_layout.dart';
+
 class SplashScreen extends ConsumerWidget {
   final String message; // 옵셔널 파라미터
 

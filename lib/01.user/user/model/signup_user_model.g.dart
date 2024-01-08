@@ -26,6 +26,7 @@ SignupUserModel _$SignupUserModelFromJson(Map<String, dynamic> json) =>
       certifiedAt: json['certifiedAt'] as String?,
       phoneNumber: json['phoneNumber'] as String?,
       userName: json['userName'] as String?,
+      isSignup: json['isSignup'] as bool?,
     );
 
 Map<String, dynamic> _$SignupUserModelToJson(SignupUserModel instance) =>
@@ -48,4 +49,5 @@ Map<String, dynamic> _$SignupUserModelToJson(SignupUserModel instance) =>
       'certifiedAt': instance.certifiedAt,
       'phoneNumber': instance.phoneNumber,
       'userName': instance.userName,
+      'isSignup': instance.isSignup,
     };

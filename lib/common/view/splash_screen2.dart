@@ -12,6 +12,8 @@ import 'package:intermission_project/common/const/colors.dart';
 import 'package:intermission_project/common/const/data.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import 'default_layout.dart';
+
 class SplashScreen2 extends ConsumerWidget {
   const SplashScreen2({super.key});
 

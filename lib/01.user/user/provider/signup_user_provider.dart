@@ -26,6 +26,13 @@ class SignupUserNotifier extends ChangeNotifier {
   String? certifiedAt;
   String? phoneNumber;
   String? userName;
+  bool? isSignup;
+
+  /// 회원가입시 중복 API 요청 방지용 isSignup
+  void setIsSignupAction(bool value){
+    isSignup = value;
+    notifyListeners();
+  }
 
   void setEmail(String? value) {
     email = value;
