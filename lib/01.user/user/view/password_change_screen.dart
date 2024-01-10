@@ -28,6 +28,24 @@ class _PasswordChangeScreenState extends ConsumerState<PasswordChangeScreen> {
 
   bool isButtonEnabled = false;
 
+  bool isPasswordValid = true;
+
+  bool isPasswordSameValid = false;
+
+  void isValidPassword(String password) {
+    final newPassword = newPasswordController.text.trim();
+    bool isLengthValid = newPassword.length >= 8;
+    bool hasLetter = RegExp(r'[A-Za-z]').hasMatch(newPassword);
+    bool hasDigit = RegExp(r'\d').hasMatch(newPassword);
+    bool hasSpecialCharacter = RegExp(r'[^A-Za-z0-9]').hasMatch(newPassword);
+
+    setState(() {
+      isPasswordValid = isLengthValid && hasLetter && hasDigit && hasSpecialCharacter;
+    });
+
+    validateButton();
+  }
+
   @override
   Widget build(BuildContext context) {
     final userState = ref.watch(userMeProvider); // 상태를 읽어옴
@@ -45,8 +63,7 @@ class _PasswordChangeScreenState extends ConsumerState<PasswordChangeScreen> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Padding(
-              padding:
-              const EdgeInsets.symmetric(horizontal: 5, vertical: 10),
+              padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 10),
               child: Container(
                 decoration: BoxDecoration(
                   color: Colors.grey[200],
@@ -59,8 +76,7 @@ class _PasswordChangeScreenState extends ConsumerState<PasswordChangeScreen> {
                   child: Text(
                     "현재 비밀번호를 정확히 입력해주세요!\n8자 이상의 영문/숫자/특수문자 조합입니다.\n",
                     textAlign: TextAlign.center, // 텍스트를 중앙 정렬
-                    style:
-                    TextStyle(fontSize: 17, fontWeight: FontWeight.bold),
+                    style: TextStyle(fontSize: 17, fontWeight: FontWeight.bold),
                     maxLines: 3,
                   ),
                 ),
@@ -78,10 +94,11 @@ class _PasswordChangeScreenState extends ConsumerState<PasswordChangeScreen> {
             SignupAskLabel(text: '새로운 비밀번호'),
             CustomTextFormField(
               controller: newPasswordController,
-              onChanged: (String value) {
-                _validatePasswords();
-              },
+              hintText: '8자 이상의 영문/숫자/특수문자 조합',
+              onChanged: isValidPassword,
               obscureText: true,
+              errorText:
+                  isPasswordValid == false ? '8자 이상의 영문/숫자/특수문자 조합' : null,
             ),
             SizedBox(
               height: 10,
@@ -89,10 +106,10 @@ class _PasswordChangeScreenState extends ConsumerState<PasswordChangeScreen> {
             SignupAskLabel(text: '새로운 비밀번호 확인'),
             CustomTextFormField(
               controller: checkPasswordController,
-              onChanged: (String value) {
-                _validatePasswords();
-              },
+              onChanged: _validatePasswords,
               obscureText: true,
+              errorText:
+                  isPasswordSameValid == false ? '새로운 비밀번호와 똑같이 입력해주세요!' : null,
             ),
             SizedBox(
               height: 10,
@@ -109,17 +126,20 @@ class _PasswordChangeScreenState extends ConsumerState<PasswordChangeScreen> {
   }
 
   // 비밀번호 검증 함수
-  void _validatePasswords() {
-    if (newPasswordController.text == checkPasswordController.text) {
-      setState(() {
-        isButtonEnabled = true;
-      });
-    } else {
-      setState(() {
-        isButtonEnabled = false;
-      });
-    }
+  void _validatePasswords(String value) {
+    setState(() {
+      isPasswordSameValid = newPasswordController.text == checkPasswordController.text;
+    });
+
+    validateButton();
   }
+
+  void validateButton() {
+    setState(() {
+      isButtonEnabled = isPasswordValid && isPasswordSameValid;
+    });
+  }
+
 
   // 비밀번호 변경 로직
   void _changePassword() async {
