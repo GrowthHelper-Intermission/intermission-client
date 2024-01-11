@@ -47,7 +47,7 @@ class IntermissionScreen extends StatelessWidget {
                               style: blackSmallTextStyle,
                             ),
                             Text(
-                              '1.1.0',
+                              '1.0.1',
                               style: primarySmallTextStyle,
                             ),
                           ],
