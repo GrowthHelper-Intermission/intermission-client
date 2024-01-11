@@ -26,8 +26,11 @@ final referralCodeProvider = StateProvider<String?>((ref) => null);
 final TextTemplate defaultText = TextTemplate(
   text: '회원 가입 후 추천인 코드를 입력 하면 두분 모두에게 300원의 추가 적립금을 드려요!',
   link: Link(
-    webUrl: Uri.parse('https: //developers.kakao.com'),
-    mobileWebUrl: Uri.parse('https: //developers.kakao.com'),
+    webUrl: Uri.parse(
+        'https://apps.apple.com/us/app/인터미션-intermission/id6471970116'),
+    iosExecutionParams: {
+      'url': 'https://apps.apple.com/us/app/인터미션-intermission/id6471970116'
+    },
   ),
 );
 
@@ -40,29 +43,26 @@ class FriendInviteScreen extends ConsumerStatefulWidget {
 
 class _FriendInviteScreenState extends ConsumerState<FriendInviteScreen> {
   TextEditingController friendCodeController = TextEditingController();
-  void checkFriendCodeEnabled() {
+  bool isfriendCodeValid = false;
+  void checkFriendCodeEnabled(String value) {
     String friendCode = friendCodeController.text.trim();
-    bool isfriendCodeValid = friendCode.isNotEmpty;
     setState(() {
-      checkButtonEnabled();
+      print('wk');
+      isfriendCodeValid = friendCode.length >= 5; // 길이가 5자 이상인지 확인
+      print(isfriendCodeValid);
     });
-  }
-
-  bool isButtonEnabled = false;
-  void checkButtonEnabled() {
-    if (friendCodeController.text.isNotEmpty) {
-      setState(() {
-        isButtonEnabled = true;
-      });
-    } else {
-      setState(() {
-        isButtonEnabled = false;
-      });
-    }
   }
 
   void showAddDialog() {
     final pointState = ref.watch(pointProvider);
+    void checkFriendCodeEnabled(String value) {
+      String friendCode = friendCodeController.text.trim();
+      setState(() {
+        print('wk');
+        isfriendCodeValid = friendCode.length >= 5; // 길이가 5자 이상인지 확인
+        print(isfriendCodeValid);
+      });
+    }
 
     showModalBottomSheet(
       isScrollControlled: true,
@@ -103,37 +103,19 @@ class _FriendInviteScreenState extends ConsumerState<FriendInviteScreen> {
               SignupAskLabel(text: '추천인 코드'),
               CustomTextFormField(
                 controller: friendCodeController,
-                onChanged: (String value) {
-                  checkFriendCodeEnabled();
-                },
-                hintText: '숫자만 입력',
+                onChanged: checkFriendCodeEnabled,
                 showClearIcon: true,
               ),
               Padding(
                 padding: const EdgeInsets.only(top: 30),
                 child: LoginNextButton(
-                  onPressed: () async {
-                    Navigator.of(context).pop(); // Bottom sheet 닫기
-
-                    FriendRecommendCodeModel friendCodeModel =
-                        FriendRecommendCodeModel(
-                            code: friendCodeController.text.trim().toString());
-                    try {
-                      var response = await ref
-                          .read(pointProvider.notifier)
-                          .repository
-                          .registerCode(
-                              friendRecommendCodeModel: friendCodeModel);
-
-                      if (response.code == 200) {
-                        // 사용자 정보 갱신 요청
-                        ref.read(userMeProvider.notifier).getMe();
-                        ref.read(pointProvider.notifier).paginate();
+                    onPressed: () async {
+                      if (friendCodeController.text.trim().length < 5) {
                         showDialog(
                           context: context,
                           builder: (context) => CupertinoAlertDialog(
                             title: Text("알림"),
-                            content: Text("포인트가 적립되었습니다!"),
+                            content: Text("유효한 코드가 아닙니다!"),
                             actions: <Widget>[
                               TextButton(
                                 child: Text("확인"),
@@ -142,7 +124,54 @@ class _FriendInviteScreenState extends ConsumerState<FriendInviteScreen> {
                             ],
                           ),
                         );
-                      } else if (response.code == 400) {
+                      }
+                      Navigator.of(context).pop(); // Bottom sheet 닫기
+                      FriendRecommendCodeModel friendCodeModel =
+                          FriendRecommendCodeModel(
+                              code:
+                                  friendCodeController.text.trim().toString());
+                      try {
+                        var response = await ref
+                            .read(pointProvider.notifier)
+                            .repository
+                            .registerCode(
+                                friendRecommendCodeModel: friendCodeModel);
+
+                        if (response.code == 200) {
+                          // 사용자 정보 갱신 요청
+                          ref.read(userMeProvider.notifier).getMe();
+                          ref.read(pointProvider.notifier).paginate();
+                          showDialog(
+                            context: context,
+                            builder: (context) => CupertinoAlertDialog(
+                              title: Text("알림"),
+                              content: Text("포인트가 적립되었습니다!"),
+                              actions: <Widget>[
+                                TextButton(
+                                  child: Text("확인"),
+                                  onPressed: () => Navigator.of(context).pop(),
+                                ),
+                              ],
+                            ),
+                          );
+                        } else if (response.code == 400) {
+                          showDialog(
+                            context: context,
+                            builder: (context) => CupertinoAlertDialog(
+                              title: Text("알림"),
+                              content: Text("등록되지 않은 추천인 코드 입니다!"),
+                              actions: <Widget>[
+                                TextButton(
+                                  child: Text("확인"),
+                                  onPressed: () => Navigator.of(context).pop(),
+                                ),
+                              ],
+                            ),
+                          );
+                        }
+                      } catch (error) {
+                        // 에러 처리
+                        print("에러 발생: $error");
                         showDialog(
                           context: context,
                           builder: (context) => CupertinoAlertDialog(
@@ -157,27 +186,9 @@ class _FriendInviteScreenState extends ConsumerState<FriendInviteScreen> {
                           ),
                         );
                       }
-                    } catch (error) {
-                      // 에러 처리
-                      print("에러 발생: $error");
-                      showDialog(
-                        context: context,
-                        builder: (context) => CupertinoAlertDialog(
-                          title: Text("알림"),
-                          content: Text("등록되지 않은 추천인 코드 입니다!"),
-                          actions: <Widget>[
-                            TextButton(
-                              child: Text("확인"),
-                              onPressed: () => Navigator.of(context).pop(),
-                            ),
-                          ],
-                        ),
-                      );
-                    }
-                  },
-                  buttonName: '변경하기',
-                  isButtonEnabled: true,
-                ),
+                    },
+                    buttonName: '입력하기',
+                    isButtonEnabled: true),
               ),
             ],
           ),
@@ -265,7 +276,9 @@ class _FriendInviteScreenState extends ConsumerState<FriendInviteScreen> {
                   builder: (context) => Container(
                     child: CupertinoAlertDialog(
                       title: Text('코드 복사 완료'),
-                      content: Text('친구 초대 버튼으로 코드를 전달해 주세요!',),
+                      content: Text(
+                        '친구 초대 버튼으로 코드를 전달해 주세요!',
+                      ),
                       actions: <Widget>[
                         CupertinoButton(
                           child: Text('확인'),
@@ -319,10 +332,12 @@ class _FriendInviteScreenState extends ConsumerState<FriendInviteScreen> {
                               text:
                                   '회원 가입 후 추천인 코드 $referralCode를 입력 하면 두분 모두에게 300원의 추가 적립금을 드려요!',
                               link: Link(
-                                webUrl:
-                                    Uri.parse('https://developers.kakao.com'),
-                                mobileWebUrl:
-                                    Uri.parse('https://developers.kakao.com'),
+                                webUrl: Uri.parse(
+                                    'https://apps.apple.com/us/app/인터미션-intermission/id6471970116'),
+                                iosExecutionParams: {
+                                  'url':
+                                      'https://apps.apple.com/us/app/인터미션-intermission/id6471970116'
+                                },
                               ),
                             )
                           : defaultText;
