@@ -527,6 +527,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Runner/Runner.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Distribution: Dohyeong Lee (KSL7J6B67H)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				CURRENT_PROJECT_VERSION = "$(FLUTTER_BUILD_NUMBER)";
 				DEVELOPMENT_TEAM = KSL7J6B67H;
@@ -559,7 +560,7 @@
 			baseConfigurationReference = DED40C7756C52FDCC41F01D0 /* Pods-RunnerTests.debug.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
-				CODE_SIGN_IDENTITY = "Apple Distribution: Dohyeong Lee (KSL7J6B67H)";
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = KSL7J6B67H;
@@ -580,8 +581,8 @@
 			baseConfigurationReference = 26A1B864BE2AE5425837E6EE /* Pods-RunnerTests.release.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
-				CODE_SIGN_IDENTITY = "Apple Distribution: Dohyeong Lee (KSL7J6B67H)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "Apple Distribution: Dohyeong Lee (KSL7J6B67H)";
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = "";
@@ -601,8 +602,8 @@
 			baseConfigurationReference = D85503B549F89008B1E9F7B7 /* Pods-RunnerTests.profile.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
-				CODE_SIGN_IDENTITY = "Apple Distribution: Dohyeong Lee (KSL7J6B67H)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "Apple Distribution: Dohyeong Lee (KSL7J6B67H)";
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = "";
@@ -1008,6 +1009,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Runner/RunnerDebug.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Distribution: Dohyeong Lee (KSL7J6B67H)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				CURRENT_PROJECT_VERSION = "$(FLUTTER_BUILD_NUMBER)";
 				DEVELOPMENT_TEAM = KSL7J6B67H;
@@ -1043,7 +1045,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = Runner/Runner.entitlements;
-				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_IDENTITY = "Apple Distribution: Dohyeong Lee (KSL7J6B67H)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = "$(FLUTTER_BUILD_NUMBER)";
@@ -1222,6 +1224,7 @@
 		B74B85802B57ADD100F27518 /* Debug-dev */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "Apple Distribution: Dohyeong Lee (KSL7J6B67H)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = KSL7J6B67H;
 				PRODUCT_NAME = Runner;
@@ -1232,6 +1235,7 @@
 		B74B85812B57ADD100F27518 /* Profile-dev */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "Apple Distribution: Dohyeong Lee (KSL7J6B67H)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = KSL7J6B67H;
 				PRODUCT_NAME = Runner;
@@ -1242,6 +1246,7 @@
 		B74B85822B57ADD100F27518 /* Release-dev */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "Apple Distribution: Dohyeong Lee (KSL7J6B67H)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = KSL7J6B67H;
 				PRODUCT_NAME = Runner;
@@ -1252,6 +1257,7 @@
 		B74B85832B57ADD100F27518 /* Debug-prod */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "Apple Distribution: Dohyeong Lee (KSL7J6B67H)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = KSL7J6B67H;
 				PRODUCT_NAME = Runner;
@@ -1262,6 +1268,7 @@
 		B74B85842B57ADD100F27518 /* Profile-prod */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "Apple Distribution: Dohyeong Lee (KSL7J6B67H)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = KSL7J6B67H;
 				PRODUCT_NAME = Runner;
@@ -1272,6 +1279,7 @@
 		B74B85852B57ADD100F27518 /* Release-prod */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "Apple Distribution: Dohyeong Lee (KSL7J6B67H)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = KSL7J6B67H;
 				PRODUCT_NAME = Runner;
@@ -1282,7 +1290,7 @@
 		B74B85862B57ADD100F27518 /* Debug-dev */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "Apple Distribution: Dohyeong Lee (KSL7J6B67H)";
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				DEVELOPMENT_TEAM = KSL7J6B67H;
 				PRODUCT_NAME = RunnerTests;
 			};
@@ -1291,7 +1299,7 @@
 		B74B85872B57ADD100F27518 /* Profile-dev */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "Apple Distribution: Dohyeong Lee (KSL7J6B67H)";
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				DEVELOPMENT_TEAM = KSL7J6B67H;
 				PRODUCT_NAME = RunnerTests;
 			};
@@ -1300,7 +1308,7 @@
 		B74B85882B57ADD100F27518 /* Release-dev */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "Apple Distribution: Dohyeong Lee (KSL7J6B67H)";
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				DEVELOPMENT_TEAM = KSL7J6B67H;
 				PRODUCT_NAME = RunnerTests;
 			};
@@ -1309,7 +1317,7 @@
 		B74B85892B57ADD100F27518 /* Debug-prod */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "Apple Distribution: Dohyeong Lee (KSL7J6B67H)";
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				DEVELOPMENT_TEAM = KSL7J6B67H;
 				PRODUCT_NAME = RunnerTests;
 			};
@@ -1318,7 +1326,7 @@
 		B74B858A2B57ADD100F27518 /* Profile-prod */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "Apple Distribution: Dohyeong Lee (KSL7J6B67H)";
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				DEVELOPMENT_TEAM = KSL7J6B67H;
 				PRODUCT_NAME = RunnerTests;
 			};
@@ -1327,7 +1335,7 @@
 		B74B858B2B57ADD100F27518 /* Release-prod */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "Apple Distribution: Dohyeong Lee (KSL7J6B67H)";
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				DEVELOPMENT_TEAM = KSL7J6B67H;
 				PRODUCT_NAME = RunnerTests;
 			};
