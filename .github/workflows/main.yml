@@ -1,0 +1,86 @@
+name: iOS App Store Deployment
+
+on:
+  push:
+    branches: [ "main" ]
+
+jobs:
+  build-and-deploy:
+    runs-on: macos-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: 현재 빌드 번호 추출하여 +1을 한 후 $GITHUB_ENV 환경변수로 등록
+        run: |
+          version=$(grep 'version:' pubspec.yaml | awk '{print $2}')
+          echo "Current version: $version"
+          IFS='+' read -r base_version build_number <<< "$version"
+          build_number=$((build_number + 1))
+          new_version="${base_version}+${build_number}"
+          echo "New version: $new_version"
+          echo "NEW_VERSION=$new_version" >> $GITHUB_ENV
+
+      - name: 🔐 ios 빌드 관련 파일 설치
+        env:
+          P12_DISTRIBUTION_CERTIFICATE_BASE64: ${{ secrets.IOS_P12_DISTRIBUTION_CERTIFICATE_BASE64 }}
+          P12_DISTRIBUTION_CERTIFICATE_PASSWORD: ${{ secrets.IOS_P12_DISTRIBUTION_CERTIFICATE_PASSWORD }}
+          DISTRIBUTION_PROVISIONING_PROFILE_BASE64: ${{ secrets.IOS_DISTRIBUTION_PROVISIONING_PROFILE_BASE64 }}
+          KEYCHAIN_PASSWORD: ${{ secrets.IOS_RUNNER_LOCAL_KEYCHAIN_PASSWORD }}
+          EXPORT_OPTIONS_BASE64: ${{ secrets.IOS_EXPORT_OPTIONS_BASE64 }}
+        run: |
+          # [iOS 빌드 관련 파일 설치 및 설정 스크립트]
+
+      - name: 🔐 android 빌드 관련 파일 설치
+        run: |
+          # [Android 빌드 관련 파일 설치 및 설정 스크립트]
+
+      - uses: actions/setup-java@v3
+        with:
+          java-version: '11'
+          distribution: 'adopt'
+
+      - uses: subosito/flutter-action@v2.3.0
+        with:
+          flutter-version: '3.16.5'
+
+      - name: Install packages
+        run: flutter pub get
+
+      - name: Build ipa
+        run: |
+          flutter build ipa \
+            --release \
+            --flavor dev \
+            --export-options-plist=ios/Runner/ExportOptions.plist
+
+      - name: 사용할 app store connect api 키 가져오기
+        env:
+          PRIVATE_API_KEY_BASE64: ${{ secrets.APP_STORE_CONNECT_API_PRIVATE_KEY_BASE64 }}
+          API_KEY: ${{ secrets.APP_STORE_CONNECT_API_KEY_ID }}
+        run: | 
+          mkdir -p ~/private_keys
+          echo -n "$PRIVATE_API_KEY_BASE64" | base64 --decode --output ~/private_keys/AuthKey_$API_KEY.p8
+
+      - name: TestFlight에 업로드
+        env:
+          API_KEY: ${{ secrets.APP_STORE_CONNECT_API_KEY_ID }}
+          API_ISSUER: ${{ secrets.APP_STORE_CONNECT_ISSUER_ID  }}
+        run: xcrun altool --output-format xml --upload-app -f ${{ github.workspace }}/build/ios/ipa/pjname.ipa -t ios --apiKey $API_KEY --apiIssuer $API_ISSUER
+
+      - name: Build apk
+        run: |
+          flutter build apk \
+            --release \
+            --flavor dev
+
+      - name: 오늘 날짜에 따라 apk 파일명 설정
+        run: echo "TODAYS_DATE=$(date +%y%m%d)" >> $GITHUB_ENV
+
+      - name: Google Drive에 apk 파일 업로드
+        uses: willo32/google-drive-upload-action@v1
+        with:
+          credentials: ${{ secrets.GOOGLE_SERVICE_ACCOUNT_CREDENTIALS }}
+          target: ${{ github.workspace }}/build/app/outputs/flutter-apk/app-dev-release.apk
+          parent_folder_id: ${{ secrets.GOOGLE_DRIVE_DEV_FOLDER_ID }}
+          name: dev_${{ env.TODAYS_DATE }}.apk
