@@ -39,12 +39,12 @@ android {
         dev {
             dimension "flavor-type"
             applicationId "com.growth_helper.intermission"
-            resValue "string", "app_name", "sample1"
+            resValue "string", "인터미션", "sample1"
         }
         prod {
             dimension "flavor-type"
             applicationId "com.growth_helper.intermission"
-            resValue "string", "app_name", "sample2"
+            resValue "string", "인터미션", "sample2"
         }
     }
 
