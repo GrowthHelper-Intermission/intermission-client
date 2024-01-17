@@ -35,15 +35,15 @@ class SignupUserModel extends UserModelBase {
     this.password,
     this.isTermsAgreed,
     this.isPrivacyAgreed,
-    this.jobCd,
-    this.asignJobCd,
-    this.wedCd,
-    this.genderCd,
-    this.occpSidoCd,
-    this.occpSigunguCd,
-    this.houseTpCd,
-    this.petCd,
-    this.userCd,
+    this.jobCd,///학생/직업
+    this.asignJobCd, ///jobCd == 직장인 일때
+    this.wedCd, ///결혼
+    this.genderCd, ///성별
+    this.occpSidoCd, ///시, 도
+    this.occpSigunguCd,///시군구
+    this.houseTpCd, ///거주형태
+    this.petCd, ///애완동물
+    this.userCd, ///개인/공공기관/기업
     this.birthday,
     this.uniqueKey,
     this.certifiedAt,

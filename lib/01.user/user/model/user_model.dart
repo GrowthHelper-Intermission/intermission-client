@@ -29,9 +29,9 @@ class UserModel extends UserModelBase {
   final String? email;
   final String? jobCd;
   final String? asignJobCd;
-  final String? wedCd;
-  final String? housTpCd;
-  final String? petCd;
+  final String? wedCd; ///결혼여부
+  final String? housTpCd; ///거주유형
+  final String? petCd; ///애완동물
   final String? address;
   final String? referralCode;
   final String? isTermsAgreed;
