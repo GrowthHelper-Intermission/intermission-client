@@ -41,6 +41,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "5.1.1"
+  archive:
+    dependency: transitive
+    description:
+      name: archive
+      sha256: "22600aa1e926be775fa5fe7e6894e7fb3df9efda8891c73f70fb3262399a432d"
+      url: "https://pub.dev"
+    source: hosted
+    version: "3.4.10"
   args:
     dependency: transitive
     description:
@@ -438,6 +446,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "5.1.0"
+  flutter_flavorizr:
+    dependency: "direct dev"
+    description:
+      name: flutter_flavorizr
+      sha256: "54c799a467d2d5102d3e2ec9c999377ca11e30590b8d0ddd929ee9e69e26c0a0"
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.2.1"
   flutter_lints:
     dependency: "direct dev"
     description:
@@ -701,6 +717,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.0.6"
+  image:
+    dependency: transitive
+    description:
+      name: image
+      sha256: "004a2e90ce080f8627b5a04aecb4cdfac87d2c3f3b520aa291260be5a32c033d"
+      url: "https://pub.dev"
+    source: hosted
+    version: "4.1.4"
   intl:
     dependency: transitive
     description:
@@ -1226,6 +1250,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.10.0"
+  sprintf:
+    dependency: transitive
+    description:
+      name: sprintf
+      sha256: "1fc9ffe69d4df602376b52949af107d8f5703b77cda567c4d7d86a0693120f23"
+      url: "https://pub.dev"
+    source: hosted
+    version: "7.0.0"
   stack_trace:
     dependency: transitive
     description:

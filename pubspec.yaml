@@ -83,6 +83,7 @@ dev_dependencies:
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.
   flutter_lints: ^2.0.0
+  flutter_flavorizr: ^2.2.1
   build_runner: ^2.4.6
   json_serializable: ^6.6.0
   retrofit_generator: '>=5.0.0 <6.0.0'
@@ -164,3 +165,32 @@ flutter:
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages
+
+flavorizr:
+  flavors:
+    dev:
+      app:
+        name: "sample1"
+      android:
+        applicationId: "com.growth_helper.intermission"
+        icon: "assets/icon/iconapp.png"
+        firebase:
+          config: "./android/app/google-services.json"
+      ios:
+        bundleId: "com.example.intermissionProject"
+        icon: "assets/icon/iconapp.png"
+        firebase:
+          config: "./ios/Runner/GoogleService-Info.plist"
+    prod:
+      app:
+        name: "sample2"
+      android:
+        applicationId: "com.growth_helper.intermission"
+        icon: "assets/icon/iconapp.png"
+        firebase:
+          config: "./android/app/google-services.json"
+      ios:
+        bundleId: "com.example.intermissionProject"
+        icon: "assets/icon/iconapp.png"
+        firebase:
+          config: "./ios/Runner/GoogleService-Info.plist"
