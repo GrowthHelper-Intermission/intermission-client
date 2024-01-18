@@ -82,7 +82,7 @@ class _SignupScreenPage2State extends ConsumerState<SignupScreenPage2> {
   /// 10(초등학생), 11(중학생), 12(고등학생), 13(대학생), 14(대학원생),
   /// 15(직장인), 16(유학생), 17(공무원), 18(군인), 99(기타)
   ///
-  ///
+  ///타
 
   List<Map<String, dynamic>> mapInfo = mapInfos;
 
@@ -97,7 +97,40 @@ class _SignupScreenPage2State extends ConsumerState<SignupScreenPage2> {
   bool isArea1Selected = false;
   bool isArea2Selected = false;
 
+  late String initialSelectCity = "";
+
   void checkButtonEnabled() {
+
+    if((initialSelectCity == "") & (selectedCity != null)){
+      initialSelectCity = selectedCity!;
+    }
+
+    // selectedCity가 변경되었을 경우 selectedCountry와 isArea2Selected 업데이트
+    if ((selectedCity != null) & (selectedCity != initialSelectCity)) {
+      initialSelectCity = selectedCity!;
+      selectedCountry = null;
+      isArea2Selected = false;
+    }
+
+    if (selectedJobCdType != jobCdType[6]) {
+      // 직장인이 아닐 경우 관련 UI 초기화
+      selectedAsignCdType = asignCdType[0];
+    }
+
+    if (selectedCity == null) {
+      // 시/도가 선택되지 않았을 경우 구/군 선택 초기화
+      selectedCountry = null;
+    }
+
+    if(selectedCity == null){
+      isArea1Selected = false;
+      isArea2Selected = false;
+    }
+
+    if(selectedCountry == null){
+      isArea2Selected = false;
+    }
+
     /// 개인/기업
     if (selectedUserType != userType[0]) isUserTypeSelected = true;
 
@@ -134,9 +167,11 @@ class _SignupScreenPage2State extends ConsumerState<SignupScreenPage2> {
           isMarriedSelected &&
           isArea1Selected &&
           isArea2Selected;
+
+      print(isArea2Selected);
     });
     print(selectedCity);
-    print(selectedCountry);
+    print("${selectedCountry}qwe");
   }
 
   void checkJobEnabled(String job) {
@@ -235,7 +270,7 @@ class _SignupScreenPage2State extends ConsumerState<SignupScreenPage2> {
                       SignupAskLabel(text: '개인/공공기관/기업'),
                       Center(
                         child: CustomDropdownButton(
-                          dropdownWidth: screenWidth*0.9,
+                          dropdownWidth: screenWidth * 0.9,
                           items: userType,
                           hintText: '선택',
                           onItemSelected: (value) {
@@ -256,7 +291,7 @@ class _SignupScreenPage2State extends ConsumerState<SignupScreenPage2> {
                       SignupAskLabel(text: '직업/학생'),
                       Center(
                         child: CustomDropdownButton(
-                          dropdownWidth: screenWidth*0.9,
+                          dropdownWidth: screenWidth * 0.9,
                           items: jobCdType,
                           hintText: '선택',
                           onItemSelected: (value) {
@@ -273,26 +308,28 @@ class _SignupScreenPage2State extends ConsumerState<SignupScreenPage2> {
                         height: 20,
                       ),
                       if (selectedJobCdType == jobCdType[6])
-                        SignupAskLabel(text: '담당 업무'),
-                      if (selectedJobCdType == jobCdType[6])
-                        Center(
-                          child: CustomDropdownButton(
-                            dropdownWidth: screenWidth*0.9,
-                            items: asignCdType,
-                            hintText: '선택',
-                            onItemSelected: (value) {
-                              setState(
-                                () {
-                                  selectedAsignCdType = value;
+                        Column(
+                          children: [
+                            SignupAskLabel(text: '담당 업무'),
+                            Center(
+                              child: CustomDropdownButton(
+                                dropdownWidth: screenWidth * 0.9,
+                                items: asignCdType,
+                                hintText: '선택',
+                                onItemSelected: (value) {
+                                  setState(
+                                    () {
+                                      selectedAsignCdType = value;
+                                    },
+                                  );
+                                  checkButtonEnabled();
                                 },
-                              );
-                              checkButtonEnabled();
-                            },
-                          ),
-                        ),
-                      if (selectedJobCdType == jobCdType[6])
-                        SizedBox(
-                          height: 20,
+                              ),
+                            ),
+                            SizedBox(
+                              height: 20,
+                            ),
+                          ],
                         ),
 
                       ///직업/학생 -> 기타
@@ -312,12 +349,12 @@ class _SignupScreenPage2State extends ConsumerState<SignupScreenPage2> {
                       SignupAskLabel(text: '거주 형태'),
                       Center(
                         child: CustomDropdownButton(
-                          dropdownWidth: screenWidth*0.9,
+                          dropdownWidth: screenWidth * 0.9,
                           items: residenceType,
                           hintText: '선택',
                           onItemSelected: (value) {
                             setState(
-                                  () {
+                              () {
                                 selectedResidenceType = value;
                               },
                             );
@@ -331,12 +368,12 @@ class _SignupScreenPage2State extends ConsumerState<SignupScreenPage2> {
                       SignupAskLabel(text: '반려동물을 키우시나요?'),
                       Center(
                         child: CustomDropdownButton(
-                          dropdownWidth: screenWidth*0.9,
+                          dropdownWidth: screenWidth * 0.9,
                           items: petType,
                           hintText: '선택',
                           onItemSelected: (value) {
                             setState(
-                                  () {
+                              () {
                                 selectedPetType = value;
                                 if (selectedPetType == '기타') {
                                   raisePet = true;
@@ -353,46 +390,61 @@ class _SignupScreenPage2State extends ConsumerState<SignupScreenPage2> {
                         height: 10,
                       ),
                       SignupAskLabel(text: '거주 지역'),
+                      // '시/도' 선택에 대한 처리
+                      // '시/도' 선택에 대한 처리
                       Center(
                         child: CustomDropdownButton(
-                          dropdownWidth: screenWidth*0.9,
+                          dropdownWidth: screenWidth * 0.9,
                           items: mapInfo
                               .map((info) => info['name'].toString())
                               .toList(),
                           hintText: '시/도를 선택하세요.',
                           onItemSelected: (value) {
                             setState(() {
+                              if (initialSelectCity != value) {
+
+                                selectedCountry = mapInfo.firstWhere((info) =>
+                                        info['name'] == value)['countries']
+                                    [0]; // 구/군 초기화
+
+
+                              }
                               selectedCity = value;
-                              selectedCountry = null;
                               checkButtonEnabled();
                             });
                           },
                         ),
                       ),
-                      if (selectedCity != null) SizedBox(height: 20),
+
+                      // '구/군' 선택에 대한 처리
                       if (selectedCity != null)
-                        Center(
-                          child: CustomDropdownButton(
-                            dropdownWidth: screenWidth*0.9,
-                            items: (selectedCity == null
-                                ? []
-                                : (mapInfo.firstWhere((info) =>
-                            info['name'] ==
-                                selectedCity)['countries'] as List)
-                                .map((country) => country.toString())
-                                .toList()),
-                            hintText: '구/군을 선택하세요.',
-                            onItemSelected: (value) {
-                              setState(() {
-                                selectedCountry = value;
-                                checkButtonEnabled();
-                              });
-                            },
-                            enabled: selectedCity != null, // 이 부분 추가
-                            // errorText 속성이 CustomDropdownButton에 구현되어 있는지 확인하세요.
+                        Padding(
+                          padding: const EdgeInsets.only(top: 20),
+                          child: Center(
+                            child: CustomDropdownButton(
+                              key: ValueKey(selectedCity), // selectedCity가 변경될 때마다 새로운 Key 할당
+                              dropdownWidth: screenWidth * 0.9,
+                              items: (selectedCity == null
+                                  ? []
+                                  : (mapInfo.firstWhere((info) =>
+                                          info['name'] ==
+                                          selectedCity)['countries'] as List)
+                                      .map((country) => country.toString())
+                                      .toList()),
+                              hintText: '구/군을 선택하세요.',
+                              onItemSelected: (value) {
+                                setState(() {
+                                  selectedCountry = value;
+                                  checkButtonEnabled();
+                                });
+                              },
+                              enabled: selectedCity != null,
+                            ),
                           ),
                         ),
-                      SizedBox(height: 20,),
+                      SizedBox(
+                        height: 20,
+                      ),
                       SignupAskLabel(text: '성별'),
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 4),
