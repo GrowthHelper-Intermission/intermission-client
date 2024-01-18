@@ -55,17 +55,22 @@ class _UserReportScreenState extends ConsumerState<UserReportScreen>
           contentsController.text.trim().isNotEmpty;
     });
   }
-
+  void closeDropdown() {
+    final _currentFocus = FocusScope.of(context);
+    if (!_currentFocus.hasPrimaryFocus) {
+      _currentFocus.unfocus();
+    }
+    FocusScope.of(context).requestFocus(FocusNode());
+  }
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
-      onWillPop: () async {
-        return true;
-      },
-      child: DefaultLayout(
-        isResize: true,
-        title: '문의하기',
+    return DefaultLayout(
+      isResize: true,
+      title: '문의하기',
+      child: GestureDetector(
+        onTap: closeDropdown,
         child: SingleChildScrollView(
+          keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
           child: Column(
             children: [
               TabBar(
