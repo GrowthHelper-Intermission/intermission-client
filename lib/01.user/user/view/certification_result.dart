@@ -159,8 +159,30 @@ class CertificationResult extends ConsumerWidget {
             ref.read(userMeProvider.notifier).getMe();
             ref.read(signupUserProvider.notifier).setIsSignupAction(true);
           }
+          else if(response.statusCode == 500){
+            showDialog(
+              context: context,
+              builder: (BuildContext context) {
+                return CupertinoAlertDialog(
+                  title: Text('알림'),
+                  content: Text('네트워크 에러입니다. 다시 인증해 주세요!'),
+                  actions: <Widget>[
+                    CupertinoButton(
+                      child: Text('확인'),
+                      onPressed: () {
+                        Navigator.of(context).pop(); // 다이얼로그 닫기
+                        Navigator.of(context).pop(); // 다이얼로그 닫기
+                        Navigator.of(context).pop(); // 다이얼로그 닫기
+                      },
+                    ),
+                  ],
+                );
+              },
+            );
+          }
+
         } catch (e) {
-          print('jotdam2');
+          print('debg22');
           ref.read(signupUserProvider.notifier).setIsSignupAction(true);
           showCupertinoDialog(
             context: context,
@@ -173,11 +195,8 @@ class CertificationResult extends ConsumerWidget {
                     child: Text('확인'),
                     onPressed: () {
                       Navigator.of(context).pop(); // 다이얼로그 닫기
-                      Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => SignupScreenPage2()),
-                      );
+                      Navigator.of(context).pop(); // 다이얼로그 닫기
+                      Navigator.of(context).pop(); // 다이얼로그 닫기
                     },
                   ),
                 ],
@@ -190,6 +209,25 @@ class CertificationResult extends ConsumerWidget {
 
       /// 아임포트에서 문제가 생겼을때
       else {
+          showDialog(
+            context: context,
+            builder: (BuildContext context) {
+              return CupertinoAlertDialog(
+                title: Text('알림'),
+                content: Text('네트워크 에러입니다. 다시 인증해 주세요!'),
+                actions: <Widget>[
+                  CupertinoButton(
+                    child: Text('확인'),
+                    onPressed: () {
+                      Navigator.of(context).pop(); // 다이얼로그 닫기
+                      Navigator.of(context).pop(); // 다이얼로그 닫기
+                      Navigator.of(context).pop(); // 다이얼로그 닫기
+                    },
+                  ),
+                ],
+              );
+            },
+          );
         print('아임포트 쪽 에러');
         print('Request failed with status: ${response.statusCode}.');
       }
@@ -197,6 +235,8 @@ class CertificationResult extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    // AlertDialog를 표시하는 공통 함수
+
     FlutterSecureStorage flutterSecureStorage = FlutterSecureStorage();
 
     print('buildTime');
