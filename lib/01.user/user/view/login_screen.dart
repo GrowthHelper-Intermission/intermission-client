@@ -32,6 +32,9 @@ class LoginScreen extends ConsumerStatefulWidget {
 }
 
 class _LoginScreenState extends ConsumerState<LoginScreen> {
+  String initEmail = '';
+  late SharedPreferences _prefs;
+
   bool _isLoading = false; // 로딩 중 상태를 나타내는 변수
 
   bool isLoginError = false;
@@ -67,6 +70,15 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
     _overlayEntry = null;
   }
 
+  void loadEmail() async{
+    _prefs = await SharedPreferences.getInstance();
+    setState(() {
+      initEmail = (_prefs.getString('email') ?? '');
+      _emailController.text = initEmail;
+      print(initEmail);
+    });
+  }
+
   @override
   void initState() {
     _emailController.addListener(_checkButtonEnabled);
@@ -79,6 +91,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
         }
       });
     super.initState();
+    loadEmail();
   }
 
   @override
@@ -104,11 +117,12 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
 // 이메일 자동 입력창
   OverlayEntry _emailListOverlayEntry() {
     return customDropdown.emailRecommendation(
-      width: MediaQuery.of(context).size.width,
+      width: MediaQuery.of(context).size.width * 0.95,
       margin: const EdgeInsets.symmetric(horizontal: 20),
       layerLink: _layerLink,
       controller: _emailController,
       onPressed: (String selectedValue) {
+        print('keke');
         setState(() {
           _emailController.text = selectedValue;
           _removeEmailOverlay();
@@ -144,6 +158,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                     !_emailController.text.contains('@')) {
                   // 기존 오버레이가 있다면 제거
                   if (_overlayEntry != null) {
+                    print("here");
                     _removeEmailOverlay();
                   }
                   print(value);
@@ -155,6 +170,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                     onPressed: (value) {
                       // 선택된 값을 emailController의 텍스트로 설정
                       setState(() {
+                        closeDropdown();
                         _emailController.text = value;
                         print(value);
                         _emailFocusNode.unfocus();
@@ -305,6 +321,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                                         password:
                                             _passwordController.text.trim(),
                                       );
+
                                   if (result is UserModelError) {
                                     ScaffoldMessenger.of(context).showSnackBar(
                                       SnackBar(
@@ -316,6 +333,11 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                                         duration: Duration(seconds: 1),
                                       ),
                                     );
+                                  }else{
+                                    print('like this');
+                                    // 로그인 성공 시, 이메일 저장
+                                    SharedPreferences prefs = await SharedPreferences.getInstance();
+                                    await prefs.setString('email', _emailController.text.trim());
                                   }
                                 } catch (e) {
                                   // 로그인 실패 시 스낵바를 표시
