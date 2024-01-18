@@ -17,6 +17,8 @@ import 'package:syncfusion_flutter_core/localizations.dart';
 import 'package:flutter_localizations/flutter_localizations.dart'; // 다언어 설정
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
+import 'flavors.dart';
+
 Future<void> saveTokenToSecureStorage(String? token) async {
   const storage = FlutterSecureStorage();
   await storage.write(key: 'firebase_token', value: token);
@@ -30,7 +32,7 @@ void getMyDeviceToken() async{
 }
 
 
-void main() async {
+Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   await dotenv.load(fileName: "assets/config/.env");
@@ -58,8 +60,7 @@ void main() async {
 class MyApp extends ConsumerWidget {
   const MyApp({super.key});
 
-
-
+  @override
   Widget build(BuildContext context, WidgetRef ref) {
     // final storage = ref.watch(secureStorageProvider);
     final route = ref.watch(routeProvider);
