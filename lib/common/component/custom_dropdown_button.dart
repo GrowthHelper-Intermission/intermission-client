@@ -22,7 +22,7 @@ class CustomDropdownButton extends StatefulWidget {
     required this.items,
     required this.hintText,
     required this.onItemSelected,
-    this.padding = const EdgeInsets.only(top: 2, right: 14),
+    this.padding = const EdgeInsets.only(top: 2,),
   }) : super(key: key);
 
   @override
@@ -147,7 +147,7 @@ class CustomDropdownButtonState extends State<CustomDropdownButton> {
 
     return GestureDetector(
       onTap: () => _removeOverlay(),
-      child: InkWell(
+      child: GestureDetector(
         onTap: () => _createOverlay(),
         child: CompositedTransformTarget(
           link: _layerLink,
