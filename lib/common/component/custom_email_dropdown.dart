@@ -10,7 +10,7 @@ class CustomEmailDropdown {
     required EdgeInsets margin,
     required LayerLink layerLink,
     required TextEditingController controller,
-    required Function onPressed,
+    required Function(String) onPressed,
   }) {
     const List<String> _emailList = [
       '@gmail.com',
@@ -27,7 +27,7 @@ class CustomEmailDropdown {
         child: CompositedTransformFollower(
           link: layerLink,
           showWhenUnlinked: false,
-          offset: const Offset(0, 48),
+          offset: const Offset(-15, 48),
           child: Material(
             color: Colors.white,
             child: Container(
@@ -47,10 +47,12 @@ class CustomEmailDropdown {
                     pressedOpacity: 1,
                     minSize: 0,
                     onPressed: () {
-                      // 이메일 입력값 변경.
-                      controller.text += _emailList.elementAt(index);
+                      // 완전한 이메일 주소 생성
+                      String fullEmail = '${controller.text}${_emailList.elementAt(index)}';
 
-                      onPressed();
+                      // 이메일 주소를 TextField에 설정하고 콜백 호출
+                      controller.text = fullEmail;
+                      onPressed(fullEmail); // 수정된 부분: 이메일 주소를 인자로 전달
                     },
                     child: Align(
                       alignment: Alignment.centerLeft,
