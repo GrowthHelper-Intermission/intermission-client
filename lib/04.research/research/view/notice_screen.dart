@@ -52,19 +52,19 @@ class _NoticeScreenState extends ConsumerState<NoticeScreen> {
     );
   }
 
-  Widget _buildNoticeDetail({
-    required String date,
-    required String title,
-    required VoidCallback onTap,
-  }) {
-    String formattedDate = formatDate(date);
-
-    return ListTile(
-      title: Text(title),
-      subtitle: Text(formatDate(date), style: TextStyle(color: Colors.grey[400])),
-      onTap: onTap,
-    );
-  }
+  // Widget _buildNoticeDetail({
+  //   required String date,
+  //   required String title,
+  //   required VoidCallback onTap,
+  // }) {
+  //   String formattedDate = formatDate(date);
+  //
+  //   return ListTile(
+  //     title: Text(title),
+  //     subtitle: Text(formatDate(date), style: TextStyle(color: Colors.grey[400])),
+  //     onTap: onTap,
+  //   );
+  // }
 
   Widget _buildNoticePage(StateNotifierProvider<NotiStateNotifier, CursorPaginationBase> provider) {
     return Expanded(
