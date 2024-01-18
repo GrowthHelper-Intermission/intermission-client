@@ -40,7 +40,7 @@ class _SignupScreenPage1State extends ConsumerState<SignupScreenPage1> {
   String selectedEmailType = "naver.com";
   bool isAgree = false;
   bool isAgree2 = false;
-  bool isPasswordValid = true;
+  bool isPasswordValid = false;
   bool isEmailVerified = false;
   bool isButtonEnabled = false;
 
@@ -54,11 +54,7 @@ class _SignupScreenPage1State extends ConsumerState<SignupScreenPage1> {
   OverlayEntry? _overlayEntry; // 이메일 자동 추천 드롭 박스.
   final LayerLink _layerLink = LayerLink();
 
-  // 이메일 드롭박스 해제.
-  void _removeEmailOverlay() {
-    _overlayEntry?.remove();
-    _overlayEntry = null;
-  }
+
 
   @override
   void initState() {
@@ -136,51 +132,20 @@ class _SignupScreenPage1State extends ConsumerState<SignupScreenPage1> {
         // 중복 검사 결과에 따라 대화 상자를 띄움
         if (serverCode == true) {
           // 중복된 이메일인 경우
-          showDialog(
-            context: context,
-            builder: (BuildContext context) {
-              return AlertDialog(
-                title: Text('알림'),
-                content: Text('이미 사용중인 아이디입니다.'),
-                actions: <Widget>[
-                  TextButton(
-                    child: Text('확인'),
-                    onPressed: () {
-                      Navigator.of(context).pop(); // 대화 상자를 닫음
-                    },
-                  ),
-                ],
-              );
-            },
-          );
+          _showAlert('알림', '이미 사용중인 아이디입니다!');
         } else {
-          // 사용 가능한 이메일인 경우
+          // 사용 가능한 이메일인 경우s
           isEmailVerified = true;
           realFixedEmail = fixedEmail;
           checkButtonEnabled();
-          showDialog(
-            context: context,
-            builder: (BuildContext context) {
-              return AlertDialog(
-                title: Text('알림'),
-                content: Text('사용 가능한 아이디입니다!'),
-                actions: <Widget>[
-                  TextButton(
-                    child: Text('확인'),
-                    onPressed: () {
-                      Navigator.of(context).pop(); // 대화 상자를 닫음
-                    },
-                  ),
-                ],
-              );
-            },
-          );
+          _showAlert('알림', '사용 가능한 아이디입니다!');
         }
       } else {
         print(
             'Failed to send verification email or unexpected response format.');
       }
     } catch (e) {
+      _showAlert("알림", "유효하지 않은 이메일입니다.");
       print(e);
     }
   }
@@ -211,11 +176,17 @@ class _SignupScreenPage1State extends ConsumerState<SignupScreenPage1> {
   }
 
 
+  // 이메일 드롭박스 해제.
+  void _removeEmailOverlay() {
+    _overlayEntry?.remove();
+    _overlayEntry = null;
+  }
+
 // 이메일 자동 입력창
   OverlayEntry _emailListOverlayEntry() {
     return customDropdown.emailRecommendation(
-      width: MediaQuery.of(context).size.width,
-      margin: const EdgeInsets.symmetric(horizontal: 20),
+      width: MediaQuery.of(context).size.width * 0.78,
+      margin: const EdgeInsets.fromLTRB(20, 0, 20, 0),
       layerLink: _layerLink,
       controller: emailController,
       onPressed: (String selectedValue) {
@@ -223,6 +194,28 @@ class _SignupScreenPage1State extends ConsumerState<SignupScreenPage1> {
           emailController.text = selectedValue;
           _removeEmailOverlay();
         });
+      },
+    );
+  }
+
+
+  // AlertDialog를 표시하는 공통 함수
+  void _showAlert(String title, String content) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return CupertinoAlertDialog(
+          title: Text(title),
+          content: Text(content),
+          actions: <Widget>[
+            CupertinoButton(
+              child: Text('확인'),
+              onPressed: () {
+                Navigator.of(context).pop(); // 대화상자 닫기
+              },
+            ),
+          ],
+        );
       },
     );
   }
@@ -237,79 +230,84 @@ class _SignupScreenPage1State extends ConsumerState<SignupScreenPage1> {
       borderRadius: BorderRadius.circular(5),
     );
 
-    return WillPopScope(
-      onWillPop: () async {
-        if (FocusScope.of(context).hasFocus) {
-          FocusScope.of(context).unfocus(); // 키보드가 올라와 있으면 포커스 해제
-          return false; // 뒤로 가기 이벤트 중지
-        }
-        return true;
-      },
-      child: CompositedTransformTarget(
-        link: _layerLink,
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 4),
-          child: SizedBox(
-            height: 48,
-            child: TextFormField(
-              controller: emailController,
-              focusNode: _emailFocusNode,
-              onChanged: (value) {
+    return CompositedTransformTarget(
+      link: _layerLink,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 4),
+        child: SizedBox(
+          height: 48,
+          child: TextFormField(
+            controller: emailController,
+            focusNode: _emailFocusNode,
+            onChanged: (value) {
+              if(value.contains('@')){
                 setState(() {
-                  // 이메일 입력 시 오버레이 업데이트!
-                  if (_emailFocusNode.hasFocus &&
-                      emailController.text.isNotEmpty &&
-                      !emailController.text.contains('@')) {
-                    // 기존 오버레이가 있다면 제거
-                    if (_overlayEntry != null) {
-                      _removeEmailOverlay();
-                    }
-                    print(value);
-                    _overlayEntry = customDropdown.emailRecommendation(
-                      width: MediaQuery.of(context).size.width,
-                      margin: const EdgeInsets.symmetric(horizontal: 20),
-                      layerLink: _layerLink,
-                      controller: emailController,
-                      onPressed: (value) {
-                        // 선택된 값을 emailController의 텍스트로 설정
-                        setState(() {
-                          emailController.text = value;
-                          print(value);
-                          _emailFocusNode.unfocus();
-                          _removeEmailOverlay();
-                        });
-                      },
-                    );
-                    _overlayEntry = _emailListOverlayEntry();
-                    Overlay.of(context).insert(_overlayEntry!);
-                  } else {
+                  _removeEmailOverlay();
+                  return;
+                });
+              }
+              setState(() {
+                if (isEmailVerified) {
+                  setState(() {
+                    isEmailVerified = false;
+                    checkButtonEnabled(); // 버튼 활성화 상태도 업데이트
+                  });
+                }
+                // 이메일 입력 시 오버레이 업데이트!
+                if (_emailFocusNode.hasFocus &&
+                    emailController.text.isNotEmpty &&
+                    !emailController.text.contains('@')) {
+                  // 기존 오버레이가 있다면 제거
+                  if (_overlayEntry != null) {
                     _removeEmailOverlay();
                   }
-                });
-              },
-              decoration: InputDecoration(
-                // 여백.
-                contentPadding: const EdgeInsets.symmetric(horizontal: 14),
+                  print(value);
+                  _overlayEntry = customDropdown.emailRecommendation(
+                    width: MediaQuery.of(context).size.width,
+                    margin: const EdgeInsets.symmetric(horizontal: 20),
+                    layerLink: _layerLink,
+                    controller: emailController,
+                    onPressed: (value) {
+                      // 선택된 값을 emailController의 텍스트로 설정
+                      setState(() {
+                        emailController.text = value;
+                        print(value);
+                        _emailFocusNode.unfocus();
+                        _removeEmailOverlay();
+                      });
+                    },
+                  );
+                  _overlayEntry = _emailListOverlayEntry();
 
-                // 테두리.
-                border: _border,
-                disabledBorder: _border,
-                enabledBorder: _border,
-                errorBorder: _border,
-                focusedBorder: _border,
-                focusedErrorBorder: _border,
+                  Overlay.of(context).insert(_overlayEntry!);
+                  checkButtonEnabled();
+                } else {
+                  _removeEmailOverlay();
+                }
+              });
+            },
+            decoration: InputDecoration(
+              // 여백.
+              contentPadding: const EdgeInsets.symmetric(horizontal: 14),
 
-                // 카운터.
-                counter: null,
-                counterText: '',
+              // 테두리.
+              border: _border,
+              disabledBorder: _border,
+              enabledBorder: _border,
+              errorBorder: _border,
+              focusedBorder: _border,
+              focusedErrorBorder: _border,
 
-                // 힌트 메세지.
-                hintText: 'email@email.com',
-                hintStyle: const TextStyle(
-                  fontSize: 16,
-                  height: 22 / 16,
-                  color: Colors.grey,
-                ),
+              // 카운터.
+              counter: null,
+              counterText: '',
+
+              // 힌트 메세지.
+              hintText: 'email@email.com',
+              hintStyle: const TextStyle(
+                fontSize: 16,
+                height: 22 / 16,
+                color: Colors.grey,
               ),
             ),
           ),
@@ -359,6 +357,7 @@ class _SignupScreenPage1State extends ConsumerState<SignupScreenPage1> {
                             ),
                             padding: EdgeInsets.symmetric(vertical: 4),
                           ),
+
                           child: Text(
                             '중복\n확인',
                             style: customGreenTextSeventeenStyle,
