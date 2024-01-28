@@ -20,7 +20,6 @@ class SignupUserModel extends UserModelBase {
   final String? occpSidoCd;
   final String? occpSigunguCd;
   final String? houseTpCd;
-  final String? petCd;
 
   final String? birthday;
   final String? uniqueKey;
@@ -47,7 +46,6 @@ class SignupUserModel extends UserModelBase {
     this.occpSidoCd, ///시, 도
     this.occpSigunguCd,///시군구
     this.houseTpCd, ///거주형태
-    this.petCd, ///애완동물
     this.birthday,
     this.uniqueKey,
     this.certifiedAt,
