@@ -44,24 +44,21 @@ class _SignupScreenPage2State extends ConsumerState<SignupScreenPage2> {
   bool isJobValid = false;
 
   String? selectedUserType;
-  String? selectedAsignCdType;
   String? selectedCity;
   String? selectedCountry;
-  String? intvSelectedCity;
-  String? intvSelectedCountry;
 
   String? selectedJobCdType;
   String? selectedPetType;
+
+  String? selectedIndustry;
+  String? selectedIndustryDetailType;
+  String? selectedTaskType;
 
   bool isAreaValid = false;
 
   final jobCdType = jobCdTypes;
 
   final petType = petTypes;
-
-  final asignCdType = asignCdTypes;
-
-  final userType = ['선택', '개인', '공공기관', '기업'];
 
   final residenceType = [
     '선택',
@@ -86,92 +83,98 @@ class _SignupScreenPage2State extends ConsumerState<SignupScreenPage2> {
 
   List<Map<String, dynamic>> mapInfo = mapInfos;
 
-  bool isButtonEnabled = false;
+  List<Map<String, dynamic>> industryInfo = industryInfos;
 
-  bool isUserTypeSelected = false;
-  bool isJobStudentSelected = false;
+  bool isButtonEnabled = false;
   bool isGenderSelected = false;
   bool isMarriedSelected = false;
   bool isResidenceSelected = false;
   bool isPetSelected = false;
   bool isArea1Selected = false;
   bool isArea2Selected = false;
+  bool isJobSelected = false;
+  bool isTaskSelected = false;
+  bool isIndustrySelected = false;
+  bool isIndustryDetailSelected = false;
 
   late String initialSelectCity = "";
 
-  void checkButtonEnabled() {
+  late String initialIndustry = "";
 
-    if((initialSelectCity == "") & (selectedCity != null)){
-      initialSelectCity = selectedCity!;
+  void checkButtonEnabled() {
+    // selectedJobCdType이 '직장인'이 아니면 관련 상태 초기화
+
+    if(selectedJobCdType == jobCdType[10] && selectedIndustry == null){
+      isIndustrySelected = false;
+      isIndustryDetailSelected = false;
+    }
+
+    if(selectedIndustry != null && selectedIndustryDetailType == null){
+      isIndustryDetailSelected = false;
+    }
+
+    if(selectedJobCdType == jobCdType[8] && selectedTaskType == null){
+      isTaskSelected = false;
+    }
+
+    // 직장
+    if (selectedJobCdType != jobCdType[8]) {
+      isTaskSelected = true;
+    }
+
+    if (selectedJobCdType != jobCdType[10]) {
+      isIndustrySelected = true;
+      isIndustryDetailSelected = true;
+    }
+
+    if (selectedJobCdType != jobCdType[8]) {
+      selectedTaskType = null;
+    }
+
+    // selectedJobCdType이 '기타'가 아니면 관련 상태 초기화
+    if (selectedJobCdType != jobCdType[10]) {
+      selectedIndustry = null;
+      selectedIndustryDetailType = null;
     }
 
     // selectedCity가 변경되었을 경우 selectedCountry와 isArea2Selected 업데이트
-    if ((selectedCity != null) & (selectedCity != initialSelectCity)) {
+    if ((selectedCity != null) && (selectedCity != initialSelectCity)) {
       initialSelectCity = selectedCity!;
       selectedCountry = null;
       isArea2Selected = false;
     }
 
-    if (selectedJobCdType != jobCdType[6]) {
-      // 직장인이 아닐 경우 관련 UI 초기화
-      selectedAsignCdType = asignCdType[0];
-    }
-
+    // 시/도가 선택되지 않았을 경우 구/군 선택 초기화
     if (selectedCity == null) {
-      // 시/도가 선택되지 않았을 경우 구/군 선택 초기화
       selectedCountry = null;
-    }
-
-    if(selectedCity == null){
       isArea1Selected = false;
       isArea2Selected = false;
     }
 
-    if(selectedCountry == null){
-      isArea2Selected = false;
-    }
-
-    /// 개인/기업
-    if (selectedUserType != userType[0]) isUserTypeSelected = true;
-
-    /// 직업/학생/직무명/기타
-    if (selectedJobCdType != jobCdType[0]) isJobStudentSelected = true;
-    if (selectedJobCdType != jobCdType[0] &&
-        selectedAsignCdType != jobCdType[6] &&
-        selectedAsignCdType != jobCdType[9]) isJobStudentSelected = true;
-    if (selectedJobCdType == jobCdType[6] &&
-        selectedAsignCdType == asignCdType[0]) isJobStudentSelected = false;
-    if (selectedJobCdType == jobCdType[6] &&
-        selectedAsignCdType != asignCdType[0]) isJobStudentSelected = true;
-
-    /// 거주 형태
-    if (selectedResidenceType != residenceType[0]) isResidenceSelected = true;
-
-    /// 반려 동물
-    if (selectedPetType != petType[0]) isPetSelected = true;
-
-    /// 성별과 결혼 여부
+    // 기타 상태 업데이트
+    isJobSelected = selectedJobCdType != jobCdType[0];
+    isResidenceSelected = selectedResidenceType != residenceType[0];
+    isPetSelected = selectedPetType != petType[0];
     isGenderSelected = isMaleSelected || isFemaleSelected;
     isMarriedSelected = marriedSelected || unMarriedSelected;
+    isArea1Selected = selectedCity != null;
+    isArea2Selected = selectedCountry != null;
 
-    /// 거주 지역 여부
-    if (selectedCity != null) isArea1Selected = true;
-    if (selectedCountry != null) isArea2Selected = true;
+    // 버튼 활성화 상태 결정
+    isButtonEnabled =
+        isResidenceSelected &&
+        isPetSelected &&
+        isGenderSelected &&
+        isMarriedSelected &&
+        isArea1Selected &&
+        isArea2Selected &&
+        isJobSelected &&
+            isTaskSelected &&
+        isIndustrySelected &&
+        isIndustryDetailSelected;
 
-    setState(() {
-      isButtonEnabled = isUserTypeSelected &&
-          isJobStudentSelected &&
-          isResidenceSelected &&
-          isPetSelected &&
-          isGenderSelected &&
-          isMarriedSelected &&
-          isArea1Selected &&
-          isArea2Selected;
-
-      print(isArea2Selected);
-    });
-    print(selectedCity);
-    print("${selectedCountry}qwe");
+    // 상태 업데이트 반영
+    setState(() {});
   }
 
   void checkJobEnabled(String job) {
@@ -202,9 +205,7 @@ class _SignupScreenPage2State extends ConsumerState<SignupScreenPage2> {
     super.initState();
     setState(
       () {
-        selectedUserType = userType[0];
         selectedResidenceType = residenceType[0];
-        selectedAsignCdType = asignCdType[0];
         selectedJobCdType = jobCdType[0];
         selectedPetType = petType[0];
       },
@@ -267,85 +268,8 @@ class _SignupScreenPage2State extends ConsumerState<SignupScreenPage2> {
                           ),
                         ),
                       ),
-                      SignupAskLabel(text: '개인/공공기관/기업'),
-                      Center(
-                        child: CustomDropdownButton(
-                          dropdownWidth: screenWidth * 0.9,
-                          items: userType,
-                          hintText: '선택',
-                          onItemSelected: (value) {
-                            setState(
-                              () {
-                                selectedUserType = value;
-                              },
-                            );
-                            checkButtonEnabled();
-                          },
-                        ),
-                      ),
-                      SizedBox(
-                        height: 10,
-                      ),
 
-                      /// 직업/학생 -> 직장인
-                      SignupAskLabel(text: '직업/학생'),
-                      Center(
-                        child: CustomDropdownButton(
-                          dropdownWidth: screenWidth * 0.9,
-                          items: jobCdType,
-                          hintText: '선택',
-                          onItemSelected: (value) {
-                            setState(
-                              () {
-                                selectedJobCdType = value;
-                              },
-                            );
-                            checkButtonEnabled();
-                          },
-                        ),
-                      ),
-                      SizedBox(
-                        height: 20,
-                      ),
-                      if (selectedJobCdType == jobCdType[6])
-                        Column(
-                          children: [
-                            SignupAskLabel(text: '담당 업무'),
-                            Center(
-                              child: CustomDropdownButton(
-                                dropdownWidth: screenWidth * 0.9,
-                                items: asignCdType,
-                                hintText: '선택',
-                                onItemSelected: (value) {
-                                  setState(
-                                    () {
-                                      selectedAsignCdType = value;
-                                    },
-                                  );
-                                  checkButtonEnabled();
-                                },
-                              ),
-                            ),
-                            SizedBox(
-                              height: 20,
-                            ),
-                          ],
-                        ),
 
-                      ///직업/학생 -> 기타
-                      if (selectedJobCdType == jobCdType[9])
-                        SignupAskLabel(text: '직장(기타를 고른 경우)'),
-                      if (selectedJobCdType == jobCdType[9])
-                        CustomTextFormField(
-                          controller: jobController,
-                          hintText: '학생(학교명), 직장인(직무) 형식으로 입력해 주세요',
-                          onChanged: checkJobEnabled,
-                          errorText: isJobValid ? null : jobErrorText,
-                        ),
-                      if (selectedJobCdType == jobCdType[9])
-                        SizedBox(
-                          height: 20,
-                        ),
                       SignupAskLabel(text: '거주 형태'),
                       Center(
                         child: CustomDropdownButton(
@@ -353,15 +277,14 @@ class _SignupScreenPage2State extends ConsumerState<SignupScreenPage2> {
                           items: residenceType,
                           hintText: '선택',
                           onItemSelected: (value) {
-                            setState(
-                              () {
-                                selectedResidenceType = value;
-                              },
-                            );
+                            setState(() {
+                              selectedResidenceType = value;
+                            });
                             checkButtonEnabled();
                           },
                         ),
                       ),
+
                       SizedBox(
                         height: 20,
                       ),
@@ -390,8 +313,6 @@ class _SignupScreenPage2State extends ConsumerState<SignupScreenPage2> {
                         height: 10,
                       ),
                       SignupAskLabel(text: '거주 지역'),
-                      // '시/도' 선택에 대한 처리
-                      // '시/도' 선택에 대한 처리
                       Center(
                         child: CustomDropdownButton(
                           dropdownWidth: screenWidth * 0.9,
@@ -402,12 +323,9 @@ class _SignupScreenPage2State extends ConsumerState<SignupScreenPage2> {
                           onItemSelected: (value) {
                             setState(() {
                               if (initialSelectCity != value) {
-
                                 selectedCountry = mapInfo.firstWhere((info) =>
                                         info['name'] == value)['countries']
                                     [0]; // 구/군 초기화
-
-
                               }
                               selectedCity = value;
                               checkButtonEnabled();
@@ -415,14 +333,14 @@ class _SignupScreenPage2State extends ConsumerState<SignupScreenPage2> {
                           },
                         ),
                       ),
-
                       // '구/군' 선택에 대한 처리
                       if (selectedCity != null)
                         Padding(
                           padding: const EdgeInsets.only(top: 20),
                           child: Center(
                             child: CustomDropdownButton(
-                              key: ValueKey(selectedCity), // selectedCity가 변경될 때마다 새로운 Key 할당
+                              key: ValueKey(
+                                  selectedCity), // selectedCity가 변경될 때마다 새로운 Key 할당
                               dropdownWidth: screenWidth * 0.9,
                               items: (selectedCity == null
                                   ? []
@@ -509,7 +427,119 @@ class _SignupScreenPage2State extends ConsumerState<SignupScreenPage2> {
                           ],
                         ),
                       ),
-                      SizedBox(height: screenHeight * 0.2),
+                      SizedBox(height: 20,),
+                      /// 직업/학생 -> 직장인
+                      SignupAskLabel(text: '직업/학생'),
+                      Center(
+                        child: CustomDropdownButton(
+                          dropdownWidth: screenWidth * 0.9,
+                          items: jobCdType,
+                          hintText: '선택',
+                          onItemSelected: (value) {
+                            setState(
+                                  () {
+                                selectedJobCdType = value;
+                              },
+                            );
+                            checkButtonEnabled();
+                            isJobSelected = true;
+                          },
+                        ),
+                      ),
+                      SizedBox(
+                        height: 20,
+                      ),
+                      if (selectedJobCdType == jobCdType[8])
+                        Column(
+                          children: [
+                            SignupAskLabel(text: '상세 직업 분야'),
+                            Center(
+                              child: CustomDropdownButton(
+                                dropdownWidth: screenWidth * 0.9,
+                                items: taskTypes,
+                                hintText: '선택',
+                                onItemSelected: (value) {
+                                  setState(
+                                        () {
+                                      selectedTaskType = value;
+                                    },
+                                  );
+                                  isTaskSelected = true;
+                                  checkButtonEnabled();
+                                },
+                              ),
+                            ),
+                            SizedBox(
+                              height: 20,
+                            ),
+                          ],
+                        ),
+
+                      ///직업/학생 -> 기타
+                      if (selectedJobCdType == jobCdType[10])
+                        SignupAskLabel(text: '사업 종사 분야'),
+                      if (selectedJobCdType == jobCdType[10])
+                        Center(
+                          child: CustomDropdownButton(
+                            dropdownWidth: screenWidth * 0.9,
+                            items: industryInfos
+                                .map((info) => info['industry'].toString())
+                                .toList(),
+                            hintText: '종사 분야를 선택해 주세요!',
+                            onItemSelected: (value) {
+                              setState(() {
+                                print('ss');
+                                if (initialIndustry != value) {
+                                  print('kk');
+                                  selectedIndustryDetailType =
+                                  industryInfos.firstWhere((info) =>
+                                  info['industry'] ==
+                                      value)['detailIndustry'][0];
+                                }
+                                print(selectedIndustry);
+                                selectedIndustry = value;
+                                isIndustrySelected = true;
+                                checkButtonEnabled();
+                              });
+                            },
+                          ),
+                        ),
+                      if (selectedJobCdType == jobCdType[10])
+                        SizedBox(
+                          height: 20,
+                        ),
+                      if (selectedIndustry != null)
+                        SignupAskLabel(text: '상세 사업 종사 분야'),
+                      if (selectedIndustry != null)
+                        Center(
+                          child: CustomDropdownButton(
+                            key: ValueKey(
+                                selectedIndustry), // selectedCity가 변경될 때마다 새로운 Key 할당
+                            dropdownWidth: screenWidth * 0.9,
+                            items: (selectedIndustry == null
+                                ? []
+                                : (industryInfo.firstWhere((info) =>
+                            info['industry'] ==
+                                selectedIndustry)['detailIndustry']
+                            as List)
+                                .map((industry) => industry.toString())
+                                .toList()),
+                            hintText: '상세 종사 분야를 선택해 주세요!',
+                            onItemSelected: (value) {
+                              setState(() {
+                                selectedIndustryDetailType = value;
+                                isIndustryDetailSelected = true;
+                                checkButtonEnabled();
+                              });
+                            },
+                            enabled: selectedIndustryDetailType != null,
+                          ),
+                        ),
+                      if (selectedIndustry != null)
+                        SizedBox(
+                          height: 20,
+                        ),
+                      SizedBox(height: screenHeight * 0.3),
                       LoginNextButton(
                         buttonName: '본인인증 실행하기',
                         isButtonEnabled: isButtonEnabled,
@@ -521,13 +551,13 @@ class _SignupScreenPage2State extends ConsumerState<SignupScreenPage2> {
                           state.setHouseCd(selectedResidenceType);
                           state.setPetCd(
                               selectedPetType == '선택' ? "없음" : selectedPetType);
-                          state.setAsignJobCd(selectedAsignCdType == '선택'
-                              ? "없음"
-                              : selectedAsignCdType);
                           state.setJobCd(selectedJobCdType);
                           state.setOccpSidoCd(selectedCity);
                           state.setOccpSigunguCd(selectedCountry);
                           state.setUserCd(selectedUserType);
+                          state.setTaskCd(selectedTaskType ?? '없음');
+                          state.setIndustryCd(selectedIndustry ?? '없음');
+                          state.setIndustryDetail(selectedIndustryDetailType ?? '없음');
                           state.setIsSignupAction(false);
                           Navigator.of(context).push(
                             MaterialPageRoute(
