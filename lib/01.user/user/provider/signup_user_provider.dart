@@ -27,6 +27,24 @@ class SignupUserNotifier extends ChangeNotifier {
   String? phoneNumber;
   String? userName;
   bool? isSignup;
+  String? taskCd; /// 직업명
+  String? industryCd;/// 사업
+  String? industryDetailCd; /// 사업상세
+
+  void setTaskCd(String value) {
+    taskCd = value;
+    notifyListeners();
+  }
+
+  void setIndustryCd(String value){
+    industryCd = value;
+    notifyListeners();
+  }
+
+  void setIndustryDetail(String value){
+    industryDetailCd = value;
+    notifyListeners();
+  }
 
   /// 회원가입시 중복 API 요청 방지용 isSignup
   void setIsSignupAction(bool value){
