@@ -33,7 +33,6 @@ class UserModel extends UserModelBase {
   final String? industryDetailCd; /// 사업상세
   final String? wedCd; ///결혼여부
   final String? housTpCd; ///거주유형
-  final String? petCd; ///애완동물
   final String? address;
   final String? referralCode;
   final String? isTermsAgreed;
@@ -57,7 +56,6 @@ class UserModel extends UserModelBase {
     this.industryDetailCd,
     this.wedCd,
     this.housTpCd,
-    this.petCd,
     this.address,
     this.referralCode,
     this.isTermsAgreed,

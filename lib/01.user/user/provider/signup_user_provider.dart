@@ -15,7 +15,6 @@ class SignupUserNotifier extends ChangeNotifier {
   String? occpSidoCd;
   String? occpSigunguCd;
   String? housTpCd;
-  String? petCd;
   String? userCd;
   String? userNm;
   String? bankAccount;
@@ -104,11 +103,6 @@ class SignupUserNotifier extends ChangeNotifier {
 
   void setHouseCd(String? value) {
     housTpCd = value;
-    notifyListeners();
-  }
-
-  void setPetCd(String? value) {
-    petCd = value;
     notifyListeners();
   }
 

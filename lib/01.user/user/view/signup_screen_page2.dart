@@ -29,7 +29,6 @@ class SignupScreenPage2 extends ConsumerStatefulWidget {
 
 class _SignupScreenPage2State extends ConsumerState<SignupScreenPage2> {
   final globalKey = GlobalKey<FormState>();
-  TextEditingController raisePetController = TextEditingController();
   TextEditingController residenceAreaController = TextEditingController();
   TextEditingController possibleAreaController = TextEditingController();
   TextEditingController jobController = TextEditingController();
@@ -39,8 +38,6 @@ class _SignupScreenPage2State extends ConsumerState<SignupScreenPage2> {
   bool isMaleSelected = false;
   bool isFemaleSelected = false;
 
-  bool raisePet = false;
-  bool raiseNoPet = false;
   bool isJobValid = false;
 
   String? selectedUserType;
@@ -48,7 +45,6 @@ class _SignupScreenPage2State extends ConsumerState<SignupScreenPage2> {
   String? selectedCountry;
 
   String? selectedJobCdType;
-  String? selectedPetType;
 
   String? selectedIndustry;
   String? selectedIndustryDetailType;
@@ -58,7 +54,6 @@ class _SignupScreenPage2State extends ConsumerState<SignupScreenPage2> {
 
   final jobCdType = jobCdTypes;
 
-  final petType = petTypes;
 
   final residenceType = [
     '선택',
@@ -73,7 +68,6 @@ class _SignupScreenPage2State extends ConsumerState<SignupScreenPage2> {
 
   String? residenceTypeErrorText;
   String? residenceAreaErrorText;
-  String? kindOfPetErrorText;
   String? jobErrorText;
 
   /// 10(초등학생), 11(중학생), 12(고등학생), 13(대학생), 14(대학원생),
@@ -89,7 +83,6 @@ class _SignupScreenPage2State extends ConsumerState<SignupScreenPage2> {
   bool isGenderSelected = false;
   bool isMarriedSelected = false;
   bool isResidenceSelected = false;
-  bool isPetSelected = false;
   bool isArea1Selected = false;
   bool isArea2Selected = false;
   bool isJobSelected = false;
@@ -104,16 +97,16 @@ class _SignupScreenPage2State extends ConsumerState<SignupScreenPage2> {
   void checkButtonEnabled() {
     // selectedJobCdType이 '직장인'이 아니면 관련 상태 초기화
 
-    if(selectedJobCdType == jobCdType[10] && selectedIndustry == null){
+    if (selectedJobCdType == jobCdType[10] && selectedIndustry == null) {
       isIndustrySelected = false;
       isIndustryDetailSelected = false;
     }
 
-    if(selectedIndustry != null && selectedIndustryDetailType == null){
+    if (selectedIndustry != null && selectedIndustryDetailType == null) {
       isIndustryDetailSelected = false;
     }
 
-    if(selectedJobCdType == jobCdType[8] && selectedTaskType == null){
+    if (selectedJobCdType == jobCdType[8] && selectedTaskType == null) {
       isTaskSelected = false;
     }
 
@@ -154,22 +147,19 @@ class _SignupScreenPage2State extends ConsumerState<SignupScreenPage2> {
     // 기타 상태 업데이트
     isJobSelected = selectedJobCdType != jobCdType[0];
     isResidenceSelected = selectedResidenceType != residenceType[0];
-    isPetSelected = selectedPetType != petType[0];
     isGenderSelected = isMaleSelected || isFemaleSelected;
     isMarriedSelected = marriedSelected || unMarriedSelected;
     isArea1Selected = selectedCity != null;
     isArea2Selected = selectedCountry != null;
 
     // 버튼 활성화 상태 결정
-    isButtonEnabled =
-        isResidenceSelected &&
-        isPetSelected &&
+    isButtonEnabled = isResidenceSelected &&
         isGenderSelected &&
         isMarriedSelected &&
         isArea1Selected &&
         isArea2Selected &&
         isJobSelected &&
-            isTaskSelected &&
+        isTaskSelected &&
         isIndustrySelected &&
         isIndustryDetailSelected;
 
@@ -207,7 +197,6 @@ class _SignupScreenPage2State extends ConsumerState<SignupScreenPage2> {
       () {
         selectedResidenceType = residenceType[0];
         selectedJobCdType = jobCdType[0];
-        selectedPetType = petType[0];
       },
     );
     print(selectedCity);
@@ -269,7 +258,6 @@ class _SignupScreenPage2State extends ConsumerState<SignupScreenPage2> {
                         ),
                       ),
 
-
                       SignupAskLabel(text: '거주 형태'),
                       Center(
                         child: CustomDropdownButton(
@@ -288,30 +276,7 @@ class _SignupScreenPage2State extends ConsumerState<SignupScreenPage2> {
                       SizedBox(
                         height: 20,
                       ),
-                      SignupAskLabel(text: '반려동물을 키우시나요?'),
-                      Center(
-                        child: CustomDropdownButton(
-                          dropdownWidth: screenWidth * 0.9,
-                          items: petType,
-                          hintText: '선택',
-                          onItemSelected: (value) {
-                            setState(
-                              () {
-                                selectedPetType = value;
-                                if (selectedPetType == '기타') {
-                                  raisePet = true;
-                                } else {
-                                  raisePet = false;
-                                }
-                              },
-                            );
-                            checkButtonEnabled();
-                          },
-                        ),
-                      ),
-                      SizedBox(
-                        height: 10,
-                      ),
+
                       SignupAskLabel(text: '거주 지역'),
                       Center(
                         child: CustomDropdownButton(
@@ -427,7 +392,10 @@ class _SignupScreenPage2State extends ConsumerState<SignupScreenPage2> {
                           ],
                         ),
                       ),
-                      SizedBox(height: 20,),
+                      SizedBox(
+                        height: 20,
+                      ),
+
                       /// 직업/학생 -> 직장인
                       SignupAskLabel(text: '직업/학생'),
                       Center(
@@ -437,7 +405,7 @@ class _SignupScreenPage2State extends ConsumerState<SignupScreenPage2> {
                           hintText: '선택',
                           onItemSelected: (value) {
                             setState(
-                                  () {
+                              () {
                                 selectedJobCdType = value;
                               },
                             );
@@ -460,7 +428,7 @@ class _SignupScreenPage2State extends ConsumerState<SignupScreenPage2> {
                                 hintText: '선택',
                                 onItemSelected: (value) {
                                   setState(
-                                        () {
+                                    () {
                                       selectedTaskType = value;
                                     },
                                   );
@@ -492,9 +460,9 @@ class _SignupScreenPage2State extends ConsumerState<SignupScreenPage2> {
                                 if (initialIndustry != value) {
                                   print('kk');
                                   selectedIndustryDetailType =
-                                  industryInfos.firstWhere((info) =>
-                                  info['industry'] ==
-                                      value)['detailIndustry'][0];
+                                      industryInfos.firstWhere((info) =>
+                                          info['industry'] ==
+                                          value)['detailIndustry'][0];
                                 }
                                 print(selectedIndustry);
                                 selectedIndustry = value;
@@ -519,11 +487,11 @@ class _SignupScreenPage2State extends ConsumerState<SignupScreenPage2> {
                             items: (selectedIndustry == null
                                 ? []
                                 : (industryInfo.firstWhere((info) =>
-                            info['industry'] ==
-                                selectedIndustry)['detailIndustry']
-                            as List)
-                                .map((industry) => industry.toString())
-                                .toList()),
+                                            info['industry'] ==
+                                            selectedIndustry)['detailIndustry']
+                                        as List)
+                                    .map((industry) => industry.toString())
+                                    .toList()),
                             hintText: '상세 종사 분야를 선택해 주세요!',
                             onItemSelected: (value) {
                               setState(() {
@@ -549,15 +517,14 @@ class _SignupScreenPage2State extends ConsumerState<SignupScreenPage2> {
                               isMaleSelected == true ? "남성" : "여성");
                           state.setWedCd(marriedSelected == true ? "기혼" : "미혼");
                           state.setHouseCd(selectedResidenceType);
-                          state.setPetCd(
-                              selectedPetType == '선택' ? "없음" : selectedPetType);
                           state.setJobCd(selectedJobCdType);
                           state.setOccpSidoCd(selectedCity);
                           state.setOccpSigunguCd(selectedCountry);
                           state.setUserCd(selectedUserType);
                           state.setTaskCd(selectedTaskType ?? '없음');
                           state.setIndustryCd(selectedIndustry ?? '없음');
-                          state.setIndustryDetail(selectedIndustryDetailType ?? '없음');
+                          state.setIndustryDetail(
+                              selectedIndustryDetailType ?? '없음');
                           state.setIsSignupAction(false);
                           Navigator.of(context).push(
                             MaterialPageRoute(
