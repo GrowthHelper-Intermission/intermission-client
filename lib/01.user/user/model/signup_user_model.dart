@@ -12,14 +12,15 @@ class SignupUserModel extends UserModelBase {
   final String? isPrivacyAgreed;
 
   final String? jobCd;
-  final String? asignJobCd;
+  final String? taskCd; /// 직업명
+  final String? industryCd;/// 사업
+  final String? industryDetailCd; /// 사업상세
   final String? wedCd;
   final String? genderCd;
   final String? occpSidoCd;
   final String? occpSigunguCd;
   final String? houseTpCd;
   final String? petCd;
-  final String? userCd;
 
   final String? birthday;
   final String? uniqueKey;
@@ -30,20 +31,23 @@ class SignupUserModel extends UserModelBase {
   /// 회원가입시 중복 API 요청 방지용 isSignup
   final bool? isSignup;
 
+
+
   SignupUserModel({
+    this.taskCd,
+    this.industryCd,
+    this.industryDetailCd,
     this.email,
     this.password,
     this.isTermsAgreed,
     this.isPrivacyAgreed,
     this.jobCd,///학생/직업
-    this.asignJobCd, ///jobCd == 직장인 일때
     this.wedCd, ///결혼
     this.genderCd, ///성별
     this.occpSidoCd, ///시, 도
     this.occpSigunguCd,///시군구
     this.houseTpCd, ///거주형태
     this.petCd, ///애완동물
-    this.userCd, ///개인/공공기관/기업
     this.birthday,
     this.uniqueKey,
     this.certifiedAt,
