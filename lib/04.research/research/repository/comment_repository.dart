@@ -25,7 +25,7 @@ part 'comment_repository.g.dart';
 final commentRepositoryProvider = Provider<CommentRepository>(
   (ref) {
     final dio = ref.watch(dioProvider);
-    return CommentRepository(dio, baseUrl: 'https://$ip/api/comment');
+    return CommentRepository(dio, baseUrl: '$ip/api/comment');
     // 'http://localhost:8080/api/interview'
   },
 );

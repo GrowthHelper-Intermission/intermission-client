@@ -1,6 +1,6 @@
 import 'package:go_router/go_router.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:intermission_project/01.user/user/provider/auth_provider.dart';
+import 'package:intermission_project/user/user/provider/auth_provider.dart';
 
 final routeProvider = Provider<GoRouter>(
   (ref) {

@@ -22,7 +22,7 @@ part 'research_repository.g.dart';
 final researchRepositoryProvider = Provider<ResearchRepository>(
       (ref) {
     final dio = ref.watch(dioProvider);
-    return ResearchRepository(dio, baseUrl: 'https://$ip/api/research');
+    return ResearchRepository(dio, baseUrl: '$ip/api/research');
     // 'http://localhost:8080/api/interview'
   },
 );

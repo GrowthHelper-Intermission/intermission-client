@@ -18,7 +18,7 @@ final surveyReqRepositoryProvider = Provider<SurveyReqRepository>(
     // return UserMeRepository(dio,baseUrl: 'http://$ip/user/me');
     // 'http://localhost:8080/api/user/save'
     return SurveyReqRepository(dio,
-        baseUrl: 'https://$ip/api');
+        baseUrl: '$ip/api');
   },
 );
 

@@ -7,7 +7,6 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:intermission_project/01.user/user/provider/firebase_token_provider.dart';
 import 'package:intermission_project/common/provider/go_router.dart';
 import 'package:intermission_project/common/storage/secure_storage.dart';
 import 'package:kakao_flutter_sdk/kakao_flutter_sdk.dart';

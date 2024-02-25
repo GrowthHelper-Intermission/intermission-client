@@ -1,15 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:intermission_project/01.user/user/provider/user_me_provider.dart';
-import 'package:intermission_project/common/component/custom_text_style.dart';
 import 'package:intermission_project/common/const/colors.dart';
-import 'package:intermission_project/common/layout/default_layout.dart';
-import 'package:intermission_project/01.user/user/view/password_change_screen.dart';
-import 'package:intermission_project/common/view/setting/personal_info.dart';
-import 'package:intermission_project/common/view/setting/rule_exlpain_screen.dart';
-import 'package:intermission_project/common/view/setting/version_info.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-
+import 'package:intermission_project/user/password/password_change_screen.dart';
+import 'package:intermission_project/user/user/provider/user_me_provider.dart';
 import '../default_layout.dart';
 import 'alarm_setting_screen.dart';
 import 'delete_user_screen.dart';
@@ -45,27 +38,10 @@ class SettingScreen extends StatelessWidget {
             color: Colors.grey[400],
             thickness: 0.5,
           ),
-          // SettingComponent(
-          //   title: '이용 약관',
-          //   otherScreen: RuleExplainScreen(),
-          // ),
-          // SettingComponent(
-          //   title: '개인정보처리방침',
-          //   otherScreen: PersonalInfo(),
-          // ),
           SettingComponent(
             title: '회원 탈퇴',
             otherScreen: DeleteUserScreen(),
           ),
-          // Divider(
-          //   color: Colors.grey[400],
-          //   thickness: 0.5,
-          // ),
-          // ListTile(title: Text('버전 정보'),),
-          // SettingComponent(
-          //   title: '버전 정보',
-          //   otherScreen: VersionInfoScreen(),
-          // ),
         ],
       ),
     );

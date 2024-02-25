@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:intermission_project/01.user/user/view/login_screen.dart';
-import 'package:intermission_project/01.user/user/view/my_page_screen.dart';
-import 'package:intermission_project/01.user/user/view/shopping_screen.dart';
 import 'package:intermission_project/04.research/research/view/matching_screen.dart';
 import 'package:intermission_project/04.research/research/view/research_screen.dart';
 import 'package:intermission_project/common/const/tabs.dart';
 import 'package:intermission_project/common/const/colors.dart';
 import 'package:intermission_project/common/view/home_screen.dart';
+import 'package:intermission_project/user/user/view/my_page_screen.dart';
+import 'package:intermission_project/user/user/view/shopping_screen.dart';
 import 'package:provider/provider.dart';
 
 class RootTab extends StatefulWidget {

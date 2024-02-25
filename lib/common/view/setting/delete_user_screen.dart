@@ -1,10 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:intermission_project/01.user/user/model/delete_user_model.dart';
-import 'package:intermission_project/01.user/user/model/password_change_model.dart';
-import 'package:intermission_project/01.user/user/model/user_model.dart';
-import 'package:intermission_project/01.user/user/provider/user_me_provider.dart';
-import 'package:intermission_project/01.user/user/view/signup_screen_page1.dart';
 import 'package:intermission_project/common/component/custom_check_box.dart';
 import 'package:intermission_project/common/component/custom_text_form_field.dart';
 import 'package:intermission_project/common/component/custom_text_style.dart';
@@ -14,8 +9,10 @@ import 'package:intermission_project/common/const/colors.dart';
 import 'package:intermission_project/common/view/default_layout.dart';
 import 'package:intermission_project/common/view/root_tab.dart';
 import 'package:intermission_project/common/view/select_screen.dart';
+import 'package:intermission_project/user/user/model/user_model.dart';
+import 'package:intermission_project/user/user/provider/user_me_provider.dart';
+import 'package:intermission_project/user/user/view/delete_user_screen2.dart';
 
-import '../../../01.user/user/view/delete_user_screen2.dart';
 
 class DeleteUserScreen extends ConsumerStatefulWidget {
   const DeleteUserScreen({Key? key}) : super(key: key);
