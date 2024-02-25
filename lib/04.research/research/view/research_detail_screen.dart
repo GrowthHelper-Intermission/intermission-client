@@ -2,9 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:intermission_project/01.user/user/provider/join_provider.dart';
-import 'package:intermission_project/01.user/user/provider/point_provider.dart';
-import 'package:intermission_project/01.user/user/provider/user_me_provider.dart';
+import 'package:intermission_project/point/point_provider.dart';
 import 'package:intermission_project/04.research/research/component/research_detail_components.dart';
 import 'package:intermission_project/04.research/research/component/simple_button.dart';
 import 'package:intermission_project/04.research/research/model/research_detail_model.dart';
@@ -16,6 +14,8 @@ import 'package:intermission_project/04.research/research/component/comment_part
 import 'package:intermission_project/04.research/research/component/date_display_box.dart';
 import 'package:intermission_project/04.research/research/view/google_form_web_view.dart';
 import 'package:intermission_project/common/component/custom_text_style.dart';
+import 'package:intermission_project/user/user/provider/join_provider.dart';
+import 'package:intermission_project/user/user/provider/user_me_provider.dart';
 import '../component/render_loading.dart';
 
 class ResearchDetailScreen extends ConsumerStatefulWidget {
@@ -238,7 +238,7 @@ class _ResearchDetailScreenState extends ConsumerState<ResearchDetailScreen> {
                   ),
                   const PopupMenuItem<String>(
                     value: 'hide',
-                    child: Text('이 사용자의 글 보지 않기'),
+                    child: Text('해당 글 보지 않기'),
                   ),
                 ],
                 icon: Icon(

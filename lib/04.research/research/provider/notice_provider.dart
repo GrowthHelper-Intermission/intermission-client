@@ -1,6 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:intermission_project/04.research/research/model/noti_model.dart';
-import 'package:intermission_project/04.research/research/repository/noti_repository.dart';
+import 'package:intermission_project/notice/noti_model.dart';
+import 'package:intermission_project/notice/noti_repository.dart';
 import 'package:intermission_project/common/model/cursor_pagination_model.dart';
 import 'package:intermission_project/common/provider/pagination_provider.dart';
 import 'package:collection/collection.dart';

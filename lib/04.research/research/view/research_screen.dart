@@ -2,14 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
-import 'package:intermission_project/01.user/user/model/user_model.dart';
-import 'package:intermission_project/01.user/user/provider/user_me_provider.dart';
 import 'package:intermission_project/04.research/research/component/research_card.dart';
 import 'package:intermission_project/04.research/research/provider/research_provider.dart';
 import 'package:intermission_project/common/component/normal_appbar.dart';
 import 'package:intermission_project/common/component/pagination_list_view.dart';
 import 'package:intermission_project/common/const/colors.dart';
 import 'package:intermission_project/common/model/cursor_pagination_model.dart';
+import 'package:intermission_project/user/user/model/user_model.dart';
+import 'package:intermission_project/user/user/provider/user_me_provider.dart';
 
 class ResearchScreen extends ConsumerStatefulWidget {
   static String get routeName => 'research';

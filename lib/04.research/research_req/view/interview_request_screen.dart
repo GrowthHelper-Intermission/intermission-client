@@ -1,25 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
-import 'package:intermission_project/01.user/user/view/signup_screen_page1.dart';
 import 'package:intermission_project/04.research/research/provider/research_provider.dart';
-import 'package:intermission_project/04.research/research/view/research_screen.dart';
 import 'package:intermission_project/04.research/research_req/model/interview_req_model.dart';
-import 'package:intermission_project/04.research/research_req/model/research_req_model.dart';
 import 'package:intermission_project/04.research/research_req/provider/interview_req_provider.dart';
-import 'package:intermission_project/04.research/research_req/provider/research_req_provider.dart';
-import 'package:intermission_project/04.research/research_req/view/survey_request_screen.dart';
 import 'package:intermission_project/common/component/custom_check_box.dart';
 import 'package:intermission_project/common/component/custom_dropdown_button.dart';
 import 'package:intermission_project/common/component/custom_text_form_field.dart';
 import 'package:intermission_project/common/component/login_next_button.dart';
 import 'package:intermission_project/common/component/signup_ask_label.dart';
-import 'package:intermission_project/common/component/signup_long_ask_label.dart';
 import 'package:intermission_project/common/const/colors.dart';
 import 'package:intermission_project/common/const/type_data.dart';
 import 'package:intermission_project/common/view/default_layout.dart';
-import 'package:intermission_project/common/view/home_screen.dart';
-import 'package:intermission_project/common/view/root_tab.dart';
 
 class InterviewReqScreen extends ConsumerStatefulWidget {
   @override

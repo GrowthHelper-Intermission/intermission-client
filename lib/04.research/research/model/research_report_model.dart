@@ -1,4 +1,4 @@
-import 'package:intermission_project/04.research/research/model/noti_model.dart';
+import 'package:intermission_project/notice/noti_model.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'research_report_model.g.dart';

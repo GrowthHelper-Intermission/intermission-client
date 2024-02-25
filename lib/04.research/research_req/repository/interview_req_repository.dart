@@ -17,7 +17,7 @@ final interviewReqRepositoryProvider = Provider<InterviewReqRepository>(
     // return UserMeRepository(dio,baseUrl: 'http://$ip/user/me');
     // 'http://localhost:8080/api/user/save'
     return InterviewReqRepository(dio,
-        baseUrl: 'https://$ip/api/interview');
+        baseUrl: '$ip/api/interview');
   },
 );
 

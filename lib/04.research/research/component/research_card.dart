@@ -218,7 +218,7 @@ class _ResearchCardState extends State<ResearchCard> {
                         style: whiteSmallTextStyle,
                       ),
                       Text(
-                        '${widget.exceptTime}시간 ',
+                        widget.exceptTime,
                         style: blueSmallTextStyle,
                       ),
                       Text(

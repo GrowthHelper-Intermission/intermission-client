@@ -16,7 +16,7 @@ final testerReqRepositoryProvider = Provider<TesterReqRepository>(
       (ref) {
     final dio = ref.watch(dioProvider);
     return TesterReqRepository(dio,
-        baseUrl: 'https://$ip/api/tester');
+        baseUrl: '$ip/api/tester');
   },
 );
 
