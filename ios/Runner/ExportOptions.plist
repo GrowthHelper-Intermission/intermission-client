@@ -11,7 +11,7 @@
 	<key>provisioningProfiles</key>
 	<dict>
 		<key>com.example.intermissionProject</key>
-		<string>puretension</string>
+		<string>intermission-release</string>
 	</dict>
 	<key>signingCertificate</key>
 	<string>Apple Distribution</string>
@@ -20,7 +20,7 @@
 	<key>stripSwiftSymbols</key>
 	<true/>
 	<key>teamID</key>
-	<string>Dohyeong Lee</string>
+	<string>KSL7J6B67H</string>
 	<key>uploadSymbols</key>
 	<true/>
 </dict>
