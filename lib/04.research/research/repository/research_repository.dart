@@ -62,19 +62,19 @@ abstract class ResearchRepository implements
   Future<SurveyParticipationResponse> participateSurvey({@Path() required String id});
 
 
-  // @PATCH('/{id}')
-  // @Headers({
-  //   'accessToken': 'true',
-  // })
-  // Future<InterviewTesterResponse> participateInterviewTester({@Path() required String id});
-
+  /// 게시글, 유저 차단 하기
+  @POST('/block/{id}')
+  @Headers({
+    'accessToken': 'true',
+  })
+  Future<PostResponse> researchBlock({@Path('id') required String id});
 
   //리서치 신고하기
   @POST('/report/{id}')
   @Headers({
     'accessToken': 'true'
   })
-  Future<PostResponse> reportResearch({@Path() required String id, @Body() required Map<String, dynamic> content});
+  Future<PostResponse> reportResearch({@Path() required String id, @Body() required Map<String, dynamic> reportContent});
 
 }
 
