@@ -90,21 +90,21 @@ jobs:
           API_ISSUER: ${{ secrets.APP_STORE_CONNECT_ISSUER_ID }}
         run: xcrun altool --upload-app --type ios -f "${GITHUB_WORKSPACE}/build/ios/ipa/MyApp.ipa" --apiKey $API_KEY --apiIssuer $API_ISSUER
 
-#      - name: Decode Android Keystore
-#        run: |
-#          echo "${{ secrets.ANDROID_DEBUG_KEYSTORE_BASE64 }}" | base64 --decode > $HOME/.android/debug.keystore
-#          echo "${{ secrets.ANDROID_RELEASE_KEYSTORE_BASE64 }}" | base64 --decode > "${{ github.workspace }}/android/app/release-key.jks"
-#
-#      - name: Build Android APK
-#        run: flutter build apk
-#
-#      - name: Set APK file name with today's date
-#        run: echo "TODAYS_DATE=$(date +%y%m%d)" >> $GITHUB_ENV
-#
-#      - name: Upload APK to Google Drive
-#        uses: willo32/google-drive-upload-action@v1
-#        with:
-#          credentials: ${{ secrets.GOOGLE_SERVICE_ACCOUNT_CREDENTIALS }}
-#          target: ${{ github.workspace }}/build/app/outputs/flutter-apk/app-release.apk
-#          parent_folder_id: ${{ secrets.GOOGLE_DRIVE_FOLDER_ID }}
-#          name: app_${{ env.TODAYS_DATE }}.apk
+      - name: Decode Android Keystore
+        run: |
+          echo "${{ secrets.ANDROID_DEBUG_KEYSTORE_BASE64 }}" | base64 --decode > $HOME/.android/debug.keystore
+          echo "${{ secrets.ANDROID_RELEASE_KEYSTORE_BASE64 }}" | base64 --decode > "${{ github.workspace }}/android/app/release-key.jks"
+
+      - name: Build Android APK
+        run: flutter build apk
+
+      - name: Set APK file name with today's date
+        run: echo "TODAYS_DATE=$(date +%y%m%d)" >> $GITHUB_ENV
+
+      - name: Upload APK to Google Drive
+        uses: willo32/google-drive-upload-action@v1
+        with:
+          credentials: ${{ secrets.GOOGLE_SERVICE_ACCOUNT_CREDENTIALS }}
+          target: ${{ github.workspace }}/build/app/outputs/flutter-apk/app-release.apk
+          parent_folder_id: ${{ secrets.GOOGLE_DRIVE_FOLDER_ID }}
+          name: app_${{ env.TODAYS_DATE }}.apk
