@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:intermission_project/common/component/show_custom_dialog.dart';
 import 'package:intermission_project/point/point_provider.dart';
 import 'package:intermission_project/04.research/research/component/research_detail_components.dart';
 import 'package:intermission_project/04.research/research/component/simple_button.dart';
@@ -42,17 +43,43 @@ class _ResearchDetailScreenState extends ConsumerState<ResearchDetailScreen> {
   bool isScraping = false; // 네트워크 요청 중인지 나타내는 변수
 
   Future<void> _handleScrap(ResearchDetailModel state) async {
-    setState(() {
-      isScraping = true; // 네트워크 요청 시작
-    });
+    // setState(() {
+    //   isScraping = true; // 네트워크 요청 시작
+    // });
 
     var response;
     if (isScrapped) {
-      // 이미 스크랩되었으면 스크랩 취소 요청
-      response = await ref
-          .watch(scrapProvider.notifier)
-          .scrapDeleteResearch(id: widget.id);
-    } else {
+      // 이미 스크랩되었으면 스크랩 취소 요청 확인
+      showCustomDialog(
+          context,
+          '스크랩을 취소하시겠습니까?',
+              () async { // onConfirm 콜백
+            setState(() {
+              isScraping = true; // 네트워크 요청 시작
+            });
+
+            var response = await ref
+                .watch(scrapProvider.notifier)
+                .scrapDeleteResearch(id: widget.id);
+
+            if (response.code == 200 || response.code == 201) {
+              print('스크랩 상태변환 완료');
+              setState(() {
+                isScrapped = !isScrapped; // 스크랩 상태 반전
+                isScraping = false; // 네트워크 요청 종료
+              });
+
+              ref.read(researchProvider.notifier).getDetail(id: widget.id);
+              ref.read(scrapProvider.notifier).paginate(forceRefetch: true);
+            } else {
+              setState(() {
+                isScraping = false; // 네트워크 요청 종료
+              });
+              // 여기에 스크랩 실패 처리 로직을 추가할 수 있습니다.
+            }
+          }
+      );
+    }else {
       // 스크랩되지 않았으면 스크랩 신청 요청
       response =
           await ref.watch(scrapProvider.notifier).scrapResearch(id: widget.id);
@@ -99,7 +126,7 @@ class _ResearchDetailScreenState extends ConsumerState<ResearchDetailScreen> {
         .read(researchProvider.notifier)
         .participateInSurvey(id: widget.id);
 
-    if (response is SurveyParticipationResponse && response.code == 200) {
+    if (response.code == 200) {
       setState(() {
         ref.read(joinProvider.notifier).paginate();
         isButtonEnabled = false;
@@ -111,8 +138,8 @@ class _ResearchDetailScreenState extends ConsumerState<ResearchDetailScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final state = ref.watch(researchDetailProvider(widget.id));
-
+    final state = ref.watch(researchDetailProvider(widget.id.toString()));
+    print('State type: ${state.runtimeType}');
     // 데이터가 없거나 로딩 중인 경우
     if (state is! ResearchDetailModel) {
       print('걸린다');
@@ -121,7 +148,7 @@ class _ResearchDetailScreenState extends ConsumerState<ResearchDetailScreen> {
     } else {
       isScrapped = state.isScrap == "Y" ? true : false;
 
-      if (state.participationStatus.toString() != "참여가능") {
+      if (state.isEligible != "PARTICIPATION_POSSIBLE") {
         isButtonEnabled = false;
       }
 
@@ -175,7 +202,7 @@ class _ResearchDetailScreenState extends ConsumerState<ResearchDetailScreen> {
                       final resp = await ref
                           .read(researchProvider.notifier)
                           .reportResearchNow(
-                              id: state.id.toString(), content: 'test');
+                              id: state.id.toString(), reportContent: '신고합니다.');
                       if (resp.code == 200) {
                         ScaffoldMessenger.of(context).showSnackBar(
                           SnackBar(
@@ -185,48 +212,28 @@ class _ResearchDetailScreenState extends ConsumerState<ResearchDetailScreen> {
                       }
                       break;
                     case 'hide':
-                      // 리서치 차단 로직
+                    // 리서치 차단 로직
                       try {
-                        final resp = await ref
-                            .read(userMeProvider.notifier)
-                            .postBlock(state
-                                .userId); // writerId는 실제 사용자 ID를 나타내는 필드여야 합니다. 이 부분을 정확한 필드명으로 수정해야 합니다.
-
-                        if (isScrapped == true) {
-                          ///리서치 차단시에는 스크랩삭제 취소부터 되어야함
-                          final resp2 = await ref
-                              .watch(scrapProvider.notifier)
-                              .scrapDeleteResearch(id: widget.id);
-                          if (resp2.code == 201) {
-                            setState(() {
-                              isScrapped = false;
-                            });
-                            ref
-                                .read(researchProvider.notifier)
-                                .paginate(forceRefetch: true);
-                            showDialog(
-                              context: context,
-                              builder: (BuildContext context) {
-                                return CupertinoAlertDialog(
-                                  title: Text('알림'),
-                                  content: Text('해당 리서치는 차단되었습니다.'),
-                                  actions: <Widget>[
-                                    CupertinoButton(
-                                      child: Text('확인'),
-                                      onPressed: () {
-                                        Navigator.of(context).pop(); // 대화상자 닫기
-                                        context.go('/');
-                                      },
-                                    ),
-                                  ],
-                                );
-                              },
-                            );
-                          }
+                        final response = await ref.read(researchProvider.notifier).researchBlock(widget.id);
+                        if (response.code == 200 || response.code == 201) {
+                          // 성공적으로 차단됨
+                          ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(content: Text('해당 리서치는 차단되었습니다.'))
+                          );
+                          ref.read(researchProvider.notifier).paginate(forceRefetch: true);
+                          // 차단 성공 후, 필요한 UI 업데이트나 페이지 이동 로직 추가
+                          context.pop();
+                        } else {
+                          // 차단 실패
+                          ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(content: Text('리서치 차단 중 오류가 발생했습니다.'))
+                          );
                         }
-                      } catch (error) {
+                      } catch (e) {
+                        // 예외 처리
                         ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(content: Text('리서치 차단 중 오류가 발생했습니다.')));
+                            SnackBar(content: Text('리서치 차단 중 오류가 발생했습니다.'))
+                        );
                       }
                       break;
                   }
@@ -271,11 +278,11 @@ class _ResearchDetailScreenState extends ConsumerState<ResearchDetailScreen> {
                   child: researchBuildDescription(state),
                 ),
                 Divider(color: Colors.grey[200], thickness: 8.0),
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(20, 0, 20, 20),
-                  child:
-                      CommentComponent(state: state, ref: ref, id: widget.id),
-                ),
+                // Padding(
+                //   padding: const EdgeInsets.fromLTRB(20, 0, 20, 20),
+                //   child:
+                //       CommentComponent(state: state, ref: ref, id: widget.id),
+                // ),
               ],
             ),
           ),
@@ -289,11 +296,9 @@ class _ResearchDetailScreenState extends ConsumerState<ResearchDetailScreen> {
 
   /// 스크랩 ~ 참여 버튼
   Widget _buildBottomButtons(ResearchDetailModel state) {
-    bool isParticipationComplete = state.isOnGoing == "N";
-
-    /// isScreening == "N" 일때만 정상 참여 가능함
-    bool isEligibleForParticipation = state.isScreening == "Y";
-    bool isParticipationPossible = state.participationStatus == "참여완료";
+    bool isParticipationComplete = state.isEligible == "PARTICIPATION_IMPOSSIBLE";
+    bool isEligibleForParticipation = state.isEligible == "SCREENING_FAILED";
+    bool isParticipationPossible = state.isEligible == "PARTICIPATION_COMPLETE";
     // 버튼 텍스트 설정
     String buttonText = '참여가능';
     if (isParticipationComplete) {
@@ -303,11 +308,11 @@ class _ResearchDetailScreenState extends ConsumerState<ResearchDetailScreen> {
       buttonText = '참여 대상이 아닙니다!';
       isButtonEnabled = false;
     } else if (isParticipationPossible) {
-      buttonText = '참여완료';
+      buttonText = '참여완료!';
       isButtonEnabled = false;
     } else {
       print('here');
-      buttonText = '참여가능'; //🥰
+      buttonText = '참여가능';
       setState(() {
         isButtonEnabled = true;
         print(isButtonEnabled);
@@ -327,6 +332,7 @@ class _ResearchDetailScreenState extends ConsumerState<ResearchDetailScreen> {
         ],
       ),
       child: BottomAppBar(
+        surfaceTintColor: Colors.white,
         child: Row(
           children: [
             SizedBox(
@@ -363,7 +369,7 @@ class _ResearchDetailScreenState extends ConsumerState<ResearchDetailScreen> {
             Expanded(
               child: SimpleButton(
                 isButtonEnabled: isButtonEnabled,
-                onPressed: isButtonEnabled && state.isScreening != "Y"
+                onPressed: isButtonEnabled && state.isEligible == "PARTICIPATION_POSSIBLE"
                     ? () async {
                         await Navigator.push(
                           context,
