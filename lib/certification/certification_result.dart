@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:http/http.dart' as http;
@@ -121,7 +122,7 @@ class CertificationResult extends ConsumerWidget {
               "userName": newUser.userName,
               "password": newUser.password,
               'firebaseToken': firebaseToken,
-              "uniqueKey": "123134adaqweda",
+              "uniqueKey": newUser.uniqueKey,
               "certifiedAt": newUser.certifiedAt,
               "phoneNumber": newUser.phoneNumber,
               "jobCd": newUser.jobCd,
@@ -241,8 +242,10 @@ class CertificationResult extends ConsumerWidget {
 
     if (result!['success'] == 'true' && ref.read(signupUserProvider.notifier).isSignup == false) {
       print('herePoint${ref.read(signupUserProvider.notifier).isSignup}');
-      getAccessToken('1188833256121578',
-              'WqgqCGlYJPB9e5j7bpTsPPMDhZP7mdncthivWfKYDrcDRpXYbCCphRqkEwqfcLXZMJ0TVl2h2E6XXJhk')
+      final accessTokenKey = dotenv.env['KG_INICIS_ACCESS_TOKEN_KEY'];
+      final accessTokenSecret = dotenv.env['KG_INICIS_ACCESS_TOKEN_SECRET'];
+      getAccessToken(accessTokenKey!,
+              accessTokenSecret!)
           .then((accessToken) => getCertificationResult(result!['imp_uid']!,
               accessToken, context, ref, flutterSecureStorage));
     }
