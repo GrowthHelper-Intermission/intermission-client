@@ -61,7 +61,6 @@ class MyApp extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    // final storage = ref.watch(secureStorageProvider);
     final route = ref.watch(routeProvider);
 
     SystemChrome.setSystemUIOverlayStyle(
