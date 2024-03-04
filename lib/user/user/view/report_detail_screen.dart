@@ -6,15 +6,6 @@ import 'package:intermission_project/common/component/custom_text_style.dart';
 import 'package:intermission_project/common/view/default_layout.dart';
 import 'package:intermission_project/report/report_provider.dart';
 
-import '../../../common/const/colors.dart';
-
-// static String get routeName => 'researchDetail';
-// final String id;
-// const ResearchDetailScreen({
-// required this.id,
-// super.key,
-// });
-
 class ReportDetailScreen extends ConsumerStatefulWidget {
   static String get routeName => 'reportDetail';
   final String id;
