@@ -112,7 +112,7 @@ class _PaginationListViewState<T extends IModelWithId>
         itemBuilder: (_, index) {
           if (index == cp.data.length) {
             if (cp is! CursorPaginationFetchingMore) {
-              if (cp is CursorPagination && cp.meta.hasMore) {
+              if (cp.meta.hasMore) {
                 return Padding(
                   padding:
                       const EdgeInsets.symmetric(horizontal: 16, vertical: 8),

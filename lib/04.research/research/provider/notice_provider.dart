@@ -12,7 +12,7 @@ final noticeDetailProvider = Provider.family<NotiModel?, String>((ref, id) {
     return null;
   }
 
-  return state.data.firstWhereOrNull((element) => element.id == id);
+  return state.data.firstWhereOrNull((element) => element.id.toString() == id.toString());
 });
 
 final noticeProvider =
@@ -44,9 +44,9 @@ class NotiStateNotifier extends PaginationProvider<NotiModel, NotiRepository> {
 
     final pState = state as CursorPagination;
 
-    final resp = await repository.getNotiDetail(id: id);
+    final resp = await repository.getNotiDetail(id: id.toString());
 
-    if (pState.data.where((e) => e.id == id).isEmpty) {
+    if (pState.data.where((e) => e.id.toString() == id.toString()).isEmpty) {
       state = pState.copyWith(
         data: <NotiModel>[
           ...pState.data,
@@ -57,7 +57,7 @@ class NotiStateNotifier extends PaginationProvider<NotiModel, NotiRepository> {
       state = pState.copyWith(
         data: pState.data
             .map<NotiModel>(
-              (e) => e.id == id ? resp : e,
+              (e) => e.id.toString() == id.toString() ? resp : e,
             )
             .toList(),
       );

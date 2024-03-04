@@ -7,30 +7,24 @@ import 'package:intermission_project/common/const/colors.dart';
 import 'package:intermission_project/common/view/setting/setting_screen.dart';
 
 class ResearchCard extends StatefulWidget {
-  final String id; // PK
+  final int id; // PK
   final String mainTitle; // ex) 뇌졸중 환자 및 보호자
   final String subTitle; //ex) 온라인, 서울 관악구 기준 30분 거리면 오프라인 방문 가능
   final String dueDate; // yyyy-mm-dd
   final String exceptTime;
   final String researchMethTpCd;
   final String researchRewdPoint;
-  final String researchRewdAmt;
-  final String isBlock;
-  final String isScreening;
-  final String isOnGoing; // 진행 여부
+  final String isEligible;
 
   const ResearchCard({
     required this.id,
     required this.mainTitle,
     required this.subTitle,
     required this.exceptTime,
-    required this.researchRewdAmt,
     required this.researchMethTpCd,
     required this.dueDate,
-    required this.isOnGoing,
-    required this.isBlock,
     required this.researchRewdPoint,
-    required this.isScreening,
+    required this.isEligible,
     super.key,
   });
 
@@ -44,12 +38,9 @@ class ResearchCard extends StatefulWidget {
       subTitle: model.subTitle,
       researchMethTpCd: model.researchMethTpCd,
       exceptTime: model.exceptTime,
-      researchRewdAmt: model.researchRewdAmt,
       dueDate: model.dueDate,
-      isOnGoing: model.isOnGoing,
-      isBlock: model.isBlock,
-      isScreening: model.isScreening,
       researchRewdPoint: model.researchRewdPoint,
+      isEligible: model.isEligible,
     );
   }
 
@@ -91,16 +82,16 @@ class _ResearchCardState extends State<ResearchCard> {
     String screeningDisplayText;
 
     TextStyle titleStyle = TextStyle(
-      color: widget.isOnGoing == "Y" ? Colors.black : Colors.grey,
+      color: widget.isEligible == "PARTICIPATION_IMPOSSIBLE" ? Colors.grey : Colors.black,
       fontWeight: FontWeight.w700,
       fontSize: 14,
     );
 
     TextStyle subTitleStyle = TextStyle(
-      color: widget.isOnGoing == "Y" ? Colors.black : Colors.grey,
+      color: widget.isEligible == "PARTICIPATION_IMPOSSIBLE" ? Colors.grey : Colors.black,
       fontSize: 14,
     );
-    if (widget.isScreening == "N") {
+    if (widget.isEligible == "PARTICIPATION_POSSIBLE") {
       screeningDisplayText = "참여가능";
       screeningBorderColor = RED_COLOR;
       screeningTextColor = RED_COLOR;
@@ -141,7 +132,7 @@ class _ResearchCardState extends State<ResearchCard> {
           onTap: () {
             //goNamed -> pushNamed
             context.pushNamed(ResearchDetailScreen.routeName,
-                pathParameters: {'id': widget.id});
+                pathParameters: {'id': widget.id.toString()});
           },
           child: Container(
             width: 335,
@@ -222,7 +213,7 @@ class _ResearchCardState extends State<ResearchCard> {
                         style: blueSmallTextStyle,
                       ),
                       Text(
-                        widget.researchRewdAmt,
+                        widget.researchRewdPoint,
                         style: blueSmallTextStyle,
                       ),
                       Text(
