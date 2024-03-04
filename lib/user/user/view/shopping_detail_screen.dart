@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -66,11 +67,12 @@ class _ShoppingDetailScreenState extends ConsumerState<ShoppingDetailScreen> {
               color: Colors.grey.withOpacity(0.2),
               spreadRadius: 1,
               blurRadius: 1,
-              offset: Offset(0, -1), // changes position of shadow
+              offset: Offset(0, -1),
             ),
           ],
         ),
         child: BottomAppBar(
+          surfaceTintColor: Colors.white,
           child: SimpleButton(
             onPressed: () async {
               PointChangeModel pointChangeModel = PointChangeModel(
@@ -106,15 +108,22 @@ class _ShoppingDetailScreenState extends ConsumerState<ShoppingDetailScreen> {
                 // 실패 응답 처리
                 showDialog(
                   context: context,
-                  builder: (BuildContext context) {
-                    return AlertDialog(
-                      title: Text("실패"),
-                      content: Text("포인트가 부족합니다ㅠㅠ"),
+                  builder: (context) => Container(
+                    child: CupertinoAlertDialog(
+                      title: Text('포인트 교환실패'),
+                      content: Text(
+                        '포인트가 부족합니다. 포인트를 확인해주세요!',
+                      ),
                       actions: <Widget>[
-                        // 확인 버튼 등
+                        CupertinoButton(
+                          child: Text('확인'),
+                          onPressed: () {
+                            Navigator.of(context).pop(); // Close the dialog
+                          },
+                        ),
                       ],
-                    );
-                  },
+                    ),
+                  ),
                 );
               }
 
@@ -356,10 +365,48 @@ class _ShoppingDetailScreenState extends ConsumerState<ShoppingDetailScreen> {
                             selectedBankType!,
                             accountNumberController.text.trim().toString(),
                           );
-
+                          showDialog(
+                            context: context,
+                            builder: (context) => Container(
+                              child: CupertinoAlertDialog(
+                                title: Text('계좌 정보 변경 완료'),
+                                content: Text(
+                                  '계좌 정보가 변경되었습니다!',
+                                ),
+                                actions: <Widget>[
+                                  CupertinoButton(
+                                    child: Text('확인'),
+                                    onPressed: () {
+                                      Navigator.of(context).pop(); // Close the dialog
+                                    },
+                                  ),
+                                ],
+                              ),
+                            ),
+                          );
                           // 사용자 정보 갱신 요청
                           ref.read(userMeProvider.notifier).getMe();
+
                         } catch (error) {
+                          showDialog(
+                            context: context,
+                            builder: (context) => Container(
+                              child: CupertinoAlertDialog(
+                                title: Text('계좌 정보 변경 완료'),
+                                content: Text(
+                                  '계좌 정보가 변경되었습니다!',
+                                ),
+                                actions: <Widget>[
+                                  CupertinoButton(
+                                    child: Text('확인'),
+                                    onPressed: () {
+                                      Navigator.of(context).pop(); // Close the dialog
+                                    },
+                                  ),
+                                ],
+                              ),
+                            ),
+                          );
                           // 에러 처리
                           print("에러 발생: $error");
                         }

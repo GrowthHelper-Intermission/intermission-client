@@ -33,6 +33,8 @@ class DefaultLayout extends StatelessWidget {
       return AppBar(
         backgroundColor: Colors.white,
         elevation: 0,
+        surfaceTintColor: Colors.white,
+        scrolledUnderElevation: 0,
         title: Text(
           title!,
           style: TextStyle(
