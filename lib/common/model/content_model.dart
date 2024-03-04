@@ -4,10 +4,10 @@ part 'content_model.g.dart';
 
 @JsonSerializable()
 class ContentModel{
-  final String content;
+  final String reportContent;
 
   ContentModel({
-    required this.content,
+    required this.reportContent,
   });
 
   factory ContentModel.fromJson(Map<String, dynamic> json)
@@ -17,10 +17,10 @@ class ContentModel{
 
   // `copyWith` 메서드 추가
   ContentModel copyWith({
-    String? content,
+    String? reportContent,
   }) {
     return ContentModel(
-      content: content ?? this.content,
+      reportContent: reportContent ?? this.reportContent,
     );
   }
 }
