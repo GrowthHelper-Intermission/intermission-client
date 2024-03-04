@@ -67,6 +67,13 @@ jobs:
           cp $PROVISIONING_PROFILE_PATH ~/Library/MobileDevice/Provisioning\ Profiles
           cp $LOCAL_NOTIFICATION_PROFILE_PATH ~/Library/MobileDevice/Provisioning\ Profiles
 
+#      - name: Set Bundle Version
+#        run: |
+#          cd ios
+#          PLIST_PATH="./Runner/Info.plist"
+#          NEW_BUNDLE_VERSION=$(date +%Y%m%d%H%M)
+#          /usr/libexec/PlistBuddy -c "Set :CFBundleVersion $NEW_BUNDLE_VERSION" "$PLIST_PATH"
+#
 #      - name: Build iOS IPA
 #        run: flutter build ipa --release --export-options-plist=ios/Runner/ExportOptions.plist
 #
@@ -96,7 +103,7 @@ jobs:
           echo "${{ secrets.ANDROID_RELEASE_KEYSTORE_BASE64 }}" | base64 --decode > "${{ github.workspace }}/android/app/release-key.jks"
 
       - name: Build Android APK
-        run: flutter build apk
+        run: flutter build apk --release
 
       - name: Set APK file name with today's date
         run: echo "TODAYS_DATE=$(date +%y%m%d)" >> $GITHUB_ENV
