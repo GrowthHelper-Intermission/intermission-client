@@ -7,13 +7,13 @@ final firebaseTokenProvider = StateNotifierProvider<FirebaseTokenNotifier, Fireb
 
 
 class FirebaseTokenNotifier extends StateNotifier<FirebaseTokenModel> {
-  FirebaseTokenNotifier() : super(FirebaseTokenModel());
+  FirebaseTokenNotifier() : super(FirebaseTokenModel(firebaseToken: ''));
 
-  void setToken(String? newToken) {
-    state = FirebaseTokenModel(token: newToken);
+  void setToken(String newToken) {
+    state = FirebaseTokenModel(firebaseToken: newToken);
   }
 
   String? getToken() {
-    return state.token;
+    return state.firebaseToken;
   }
 }

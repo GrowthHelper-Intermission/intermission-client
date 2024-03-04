@@ -5,9 +5,9 @@ part 'firebase_token_model.g.dart';
 
 @JsonSerializable()
 class FirebaseTokenModel {
-  String? token;
+  String firebaseToken;
 
-  FirebaseTokenModel({this.token});
+  FirebaseTokenModel({required this.firebaseToken});
 
   factory FirebaseTokenModel.fromJson(Map<String, dynamic> json) => _$FirebaseTokenModelFromJson(json);
   Map<String, dynamic> toJson() => _$FirebaseTokenModelToJson(this);

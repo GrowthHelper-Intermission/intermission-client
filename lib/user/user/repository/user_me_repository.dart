@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart' hide Headers;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intermission_project/04.research/research/repository/scrap_repository.dart';
+import 'package:intermission_project/alarm/firebase_token_model.dart';
 import 'package:intermission_project/common/const/data.dart';
 import 'package:intermission_project/common/dio/dio.dart';
 import 'package:intermission_project/user/password/password_change_model.dart';
@@ -31,7 +32,7 @@ abstract class UserMeRepository {
   @Headers({
     'accessToken': 'true',
   })
-  Future<void> deleteToken();
+  Future<ScrapResponse> deleteToken(FirebaseTokenModel firebaseTokenModel);
 
   @DELETE('/delete')
   @Headers({

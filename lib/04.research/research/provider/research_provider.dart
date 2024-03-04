@@ -51,7 +51,7 @@ Provider.family<ResearchModel?, String>((ref, id) {
   if (state is! CursorPagination<ResearchModel>) {
     return null;
   }
-  return state.data.firstWhereOrNull((element) => element.id == id);
+  return state.data.firstWhereOrNull((element) => element.id.toString() == id.toString());
 });
 
 
@@ -77,11 +77,20 @@ class ResearchStateNotifier
   //   return await repository.participateInterviewTester(id: id);
   // }
 
-  Future<PostResponse> reportResearchNow({required String id, required String content}) async{
-    return await repository.reportResearch(id: id, content: ContentModel(content: content).toJson());
+  Future<PostResponse> reportResearchNow({required String id, required String reportContent}) async{
+    return await repository.reportResearch(id: id, reportContent: ContentModel(reportContent: reportContent).toJson());
   }
 
-
+  Future<PostResponse> researchBlock(String id) async {
+    try {
+      final blockResp = await repository.researchBlock(id: id);
+      return blockResp;
+    } catch (e) {
+      // state = UserModelError(message: '차단에 실패했습니다');
+      // return Future.error(UserModelError(message: '차단에 실패했습니다'));
+      return Future.error(PostResponse(message: '차단에 실패했습니다', code: 500));
+    }
+  }
 
   // 상위 3개의 인터뷰를 가져오는 함수
   List<ResearchModel> getTopThreeResearches() {
@@ -107,7 +116,7 @@ class ResearchStateNotifier
     // 데이터를 가져오는 시도를 한다
     if (state is! CursorPagination) {
       if (researchType == null) {
-        await this.paginate();
+        await paginate();
       } else {
         await paginate(researchType: researchType!);
       }
@@ -129,7 +138,7 @@ class ResearchStateNotifier
     // 데이터가 없을때는 그냥 캐시의 끝에다가 데이터를 추가해버린다
     // [RestaurantModel(1), RestaurantModel(2), RestaurantModel(3)],
     // RestaurantDetailModel(10)
-    if (pState.data.where((e) => e.id == id).isEmpty) {
+    if (pState.data.where((e) => e.id.toString() == id.toString()).isEmpty) {
       state = pState.copyWith(
         data: <ResearchModel>[
           ...pState.data,
@@ -140,7 +149,7 @@ class ResearchStateNotifier
       state = pState.copyWith(
         data: pState.data
             .map<ResearchModel>(
-              (e) => e.id == id ? resp : e,
+              (e) => e.id.toString() == id.toString() ? resp : e,
         )
             .toList(),
       );

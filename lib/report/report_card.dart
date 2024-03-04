@@ -21,7 +21,7 @@ class ReportCard extends StatelessWidget {
     return ReportCard(
       date: model.postDate ?? '테스트 데이터들로 날짜 정보 없음',
       title: model.mainTitle,
-      id: model.id,
+      id: model.id.toString(),
       isAnswer: model.isAnswer,
     );
   }

@@ -18,7 +18,6 @@ class UserModelSuccess extends UserModelBase {}
 
 @JsonSerializable()
 class UserModel extends UserModelBase {
-  final String? userTpCd;
   final String? joinDay;
   final String? userName;
   final String? bank;
@@ -34,14 +33,12 @@ class UserModel extends UserModelBase {
   final String? wedCd; ///결혼여부
   final String? housTpCd; ///거주유형
   final String? address;
-  final String? referralCode;
   final String? isTermsAgreed;
   final String? isPrivacyAgreed;
   final String? pointAmount;
   final String? friendCount;
 
   UserModel({
-    this.userTpCd,
     this.joinDay,
     this.userName,
     this.bank,
@@ -57,7 +54,6 @@ class UserModel extends UserModelBase {
     this.wedCd,
     this.housTpCd,
     this.address,
-    this.referralCode,
     this.isTermsAgreed,
     this.isPrivacyAgreed,
     this.pointAmount,

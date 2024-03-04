@@ -1,6 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:intermission_project/04.research/research/repository/scrap_repository.dart';
+import 'package:intermission_project/alarm/firebase_token_model.dart';
 import 'package:intermission_project/common/const/data.dart';
 import 'package:intermission_project/common/model/post_response.dart';
 import 'package:intermission_project/common/storage/secure_storage.dart';
@@ -40,7 +41,7 @@ class UserMeStateNotifier extends StateNotifier<UserModelBase?> {
     required this.ref,
   }) : super(UserModelLoading()) {
     //유저 정보 바로 가져 오기
-    // logout();
+    logout();
     getMe();
   }
 
@@ -48,6 +49,17 @@ class UserMeStateNotifier extends StateNotifier<UserModelBase?> {
     try {
       final resp = await repository.deleteUser(deleteUserModel);
       print('성공적 탈퇴');
+      return resp;
+    } catch (e) {
+      print('deleteError?');
+      throw e;
+    }
+  }
+
+  Future<ScrapResponse> deleteToken(FirebaseTokenModel firebaseTokenModel) async {
+    try {
+      final resp = await repository.deleteToken(firebaseTokenModel);
+      print('성공적 토큰 삭제');
       return resp;
     } catch (e) {
       print('deleteError?');

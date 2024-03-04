@@ -106,7 +106,7 @@ class _ScrapedResearchScreenState extends ConsumerState<ScrapedResearchScreen>
       provider: provider,
       itemBuilder:
           <ScrapResearchModel>(BuildContext context, int index, model) {
-        if (title == "진행중" && model.isOnGoing != 'Y') return SizedBox.shrink();
+        if (title == "진행중" && model.isEligible != 'PARTICIPATION_COMPLETE') return SizedBox.shrink();
         return ScrapResearchCard.fromModel(model: model);
       },
     );

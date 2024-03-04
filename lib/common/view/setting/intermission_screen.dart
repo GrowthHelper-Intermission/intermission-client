@@ -147,7 +147,7 @@ class IntermissionScreen extends StatelessWidget {
                               style: greyMiddleTextStyle,
                             ),
                             Text(
-                              '  •  주식회사 그로스헬퍼',
+                              '  •  그로스헬퍼',
                               style: blackSmallTextStyle,
                             ),
                           ],

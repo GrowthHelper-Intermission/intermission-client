@@ -8,10 +8,10 @@ part of 'firebase_token_model.dart';
 
 FirebaseTokenModel _$FirebaseTokenModelFromJson(Map<String, dynamic> json) =>
     FirebaseTokenModel(
-      token: json['token'] as String?,
+      firebaseToken: json['firebaseToken'] as String,
     );
 
 Map<String, dynamic> _$FirebaseTokenModelToJson(FirebaseTokenModel instance) =>
     <String, dynamic>{
-      'token': instance.token,
+      'firebaseToken': instance.firebaseToken,
     };

@@ -7,7 +7,7 @@ import 'package:intermission_project/notice/notice_detail_screen.dart';
 class NoticeCard extends StatelessWidget {
   final String date;
   final String title;
-  final String id;
+  final int id;
 
   const NoticeCard({
     required this.date,
@@ -34,7 +34,7 @@ class NoticeCard extends StatelessWidget {
       onTap:() {
         //goNamed -> pushNamed
         context.pushNamed(NoticeDetailScreen.routeName,
-            pathParameters: {'id': id});
+            pathParameters: {'id': id.toString()});
       },
       child: Column(
         children: [

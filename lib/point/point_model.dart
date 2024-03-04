@@ -6,7 +6,7 @@ part 'point_model.g.dart';
 @JsonSerializable()
 class PointModel implements IModelWithId {
   @override
-  final String id;
+  final int id;
   final String pointStatus;
   final int pointChangeBalance;
   final int pointCurrentBalance;
