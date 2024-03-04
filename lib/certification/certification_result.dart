@@ -10,6 +10,7 @@ import 'package:intermission_project/common/view/splash_screen.dart';
 import 'package:intermission_project/user/user/model/signup_user_model.dart';
 import 'package:intermission_project/user/user/provider/signup_user_provider.dart';
 import 'package:intermission_project/user/user/provider/user_me_provider.dart';
+import 'package:intermission_project/user/user/repository/auth_repository.dart';
 
 import '../common/view/select_screen.dart';
 
@@ -110,6 +111,8 @@ class CertificationResult extends ConsumerWidget {
         );
         try {
           var dio = Dio();
+          final firebaseToken = await readTokenFromSecureStorage();
+          print('회원가입시 firebaseToken: $firebaseToken');
           var response = await dio.post(
             '$ip/api/user/save',
             data: {
@@ -117,7 +120,8 @@ class CertificationResult extends ConsumerWidget {
               "email": newUser.email,
               "userName": newUser.userName,
               "password": newUser.password,
-              "uniqueKey": "123134adaqwe",
+              'firebaseToken': firebaseToken,
+              "uniqueKey": "123134adaqweda",
               "certifiedAt": newUser.certifiedAt,
               "phoneNumber": newUser.phoneNumber,
               "jobCd": newUser.jobCd,
