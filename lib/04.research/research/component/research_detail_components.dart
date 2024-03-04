@@ -40,7 +40,7 @@ Widget researchBuildMainContent(ResearchDetailModel state) {
           Text(state.researchMethTpCd, style: whiteSmallTextStyle),
           Text(' | ', style: whiteSmallTextStyle),
           Text('${state.exceptTime}시간 ', style: whiteSmallTextStyle),
-          Text(state.researchRewdAmt, style: whiteSmallTextStyle),
+          Text(state.researchRewdPoint.toString(), style: whiteSmallTextStyle),
         ],
       ),
       SizedBox(height: 5),
@@ -70,7 +70,7 @@ Widget _buildInfoContainer(ResearchDetailModel state) {
           _buildRowInfo('소요시간', '${state.exceptTime}시간'),
           _buildRowInfo('마감일', state.dueDate),
           _buildRowInfo('대상', state.minAge),
-          _buildRowInfo('모집 인원', state.researchEntryCnt),
+          _buildRowInfo('모집 인원', state.researchTargetCnt.toString()),
           _buildRowInfo('지급 포인트', state.researchRewdPoint),
         ],
       ),
@@ -130,7 +130,7 @@ Widget _buildParticipationInfo(ResearchDetailModel state) {
             children: [
               TextSpan(text: '현재 ', style: whiteMiddleTextStyle),
               TextSpan(
-                text: '${state.researchCnt}',
+                text: '${state.researchCurrentCnt}',
                 style: TextStyle(
                     color: Colors.blue,
                     fontSize: 16,

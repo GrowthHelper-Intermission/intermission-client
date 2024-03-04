@@ -8,7 +8,7 @@ part of 'report_detail_model.dart';
 
 ReportDetailModel _$ReportDetailModelFromJson(Map<String, dynamic> json) =>
     ReportDetailModel(
-      id: json['id'] as String,
+      id: json['id'] as int,
       mainTitle: json['mainTitle'] as String,
       postDate: json['postDate'] as String,
       isAnswer: json['isAnswer'] as String,

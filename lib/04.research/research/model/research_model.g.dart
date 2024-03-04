@@ -8,17 +8,14 @@ part of 'research_model.dart';
 
 ResearchModel _$ResearchModelFromJson(Map<String, dynamic> json) =>
     ResearchModel(
-      id: json['id'] as String,
+      id: json['id'] as int,
       mainTitle: json['mainTitle'] as String,
       subTitle: json['subTitle'] as String,
       dueDate: json['dueDate'] as String,
       exceptTime: json['exceptTime'] as String,
       researchMethTpCd: json['researchMethTpCd'] as String,
-      researchRewdAmt: json['researchRewdAmt'] as String,
-      isOnGoing: json['isOnGoing'] as String,
       researchRewdPoint: json['researchRewdPoint'] as String,
-      isBlock: json['isBlock'] as String,
-      isScreening: json['isScreening'] as String,
+      isEligible: json['isEligible'] as String,
     );
 
 Map<String, dynamic> _$ResearchModelToJson(ResearchModel instance) =>
@@ -29,9 +26,6 @@ Map<String, dynamic> _$ResearchModelToJson(ResearchModel instance) =>
       'dueDate': instance.dueDate,
       'exceptTime': instance.exceptTime,
       'researchMethTpCd': instance.researchMethTpCd,
-      'researchRewdAmt': instance.researchRewdAmt,
-      'isOnGoing': instance.isOnGoing,
       'researchRewdPoint': instance.researchRewdPoint,
-      'isBlock': instance.isBlock,
-      'isScreening': instance.isScreening,
+      'isEligible': instance.isEligible,
     };
