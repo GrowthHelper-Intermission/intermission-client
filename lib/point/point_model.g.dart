@@ -7,7 +7,7 @@ part of 'point_model.dart';
 // **************************************************************************
 
 PointModel _$PointModelFromJson(Map<String, dynamic> json) => PointModel(
-      id: json['id'] as String,
+      id: json['id'] as int,
       pointStatus: json['pointStatus'] as String,
       pointChangeBalance: json['pointChangeBalance'] as int,
       pointCurrentBalance: json['pointCurrentBalance'] as int,

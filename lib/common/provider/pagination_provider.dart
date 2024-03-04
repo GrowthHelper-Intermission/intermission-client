@@ -135,7 +135,7 @@ U extends IBasePaginationRepository<T>>
         );
         //paginationParams변경 필요
         paginationParams = paginationParams.copyWith(
-          after: pState.data.last.id,
+          after: pState.data.last.id.toString(),
         );
       }
 
