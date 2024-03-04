@@ -21,10 +21,10 @@ class Product {
 }
 
 final List<Product> products = [
-  Product('assets/img/shopping/2000.png', '현금교환', 2000),
   Product('assets/img/shopping/3000.png', '현금교환', 3000),
   Product('assets/img/shopping/5000.png', '현금교환', 5000),
   Product('assets/img/shopping/10000.png', '현금교환', 10000),
+  Product('assets/img/shopping/20000.png', '현금교환', 20000),
 ];
 
 class ShoppingScreen extends StatelessWidget {
