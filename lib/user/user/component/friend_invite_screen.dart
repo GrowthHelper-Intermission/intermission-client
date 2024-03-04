@@ -287,27 +287,6 @@ class _FriendInviteScreenState extends ConsumerState<FriendInviteScreen> {
                           },
                         ),
                       ],
-                      // content: Center(
-                      //   child: RichText(
-                      //     maxLines: 1,
-                      //     text: TextSpan(
-                      //       style: TextStyle(
-                      //           color: Colors.black,
-                      //           fontSize: 18,
-                      //           fontWeight: FontWeight.w500), // 기본 텍스트 스타일
-                      //       children: <TextSpan>[
-                      //         TextSpan(text: '코드 '),
-                      //         // TextSpan(
-                      //         //   text: '${response.data}',
-                      //         //   style: TextStyle(
-                      //         //     color: PRIMARY_COLOR,
-                      //         //   ), // response.data에 적용할 스타일
-                      //         // ),
-                      //         TextSpan(text: ' 복사 완료!\n'),
-                      //       ],
-                      //     ),
-                      //   ),
-                      // ),
                     ),
                   ),
                 );
