@@ -7,11 +7,15 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:intermission_project/alarm/firebase_token_model.dart';
+import 'package:intermission_project/alarm/firebase_token_provider.dart';
 import 'package:intermission_project/alarm/notification.dart';
 import 'package:intermission_project/common/const/colors.dart';
 import 'package:intermission_project/common/view/default_layout.dart';
 import 'package:intermission_project/firebase_options.dart';
 import 'package:flutter_app_badger/flutter_app_badger.dart';
+import 'package:intermission_project/user/user/provider/user_me_provider.dart';
+import 'package:intermission_project/user/user/repository/auth_repository.dart';
 
 void showNotificationSettingsBottomSheet(BuildContext context) {
   final screenWidth = MediaQuery.of(context).size.width;
@@ -196,6 +200,22 @@ class _AlarmSettingScreenState extends ConsumerState<AlarmSettingScreen>
         // 권한 거부됨
         switchValue1 = false;
         print('알림 권한 거부됨');
+
+        try {
+          final String? firebaseToken = await readTokenFromSecureStorage();
+          if (firebaseToken != null) {
+            print('FirebaseToken: $firebaseToken');
+            final firebaseTokenModel = FirebaseTokenModel(firebaseToken: firebaseToken);
+           final resp =  ref.read(userMeProvider.notifier).deleteToken(firebaseTokenModel);
+            if(resp == 200){
+              print('Firebase token deleted successfully1');
+            }
+            print('Firebase token deleted successfully2');
+          }
+        } catch (e) {
+          print('Error deleting Firebase token: $e');
+          return false;
+        }
         showNotificationSettingsBottomSheet(context);
         return false;
       }
