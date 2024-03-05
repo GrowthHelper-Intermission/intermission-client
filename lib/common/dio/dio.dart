@@ -3,7 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:intermission_project/common/const/data.dart';
 import 'package:intermission_project/common/storage/secure_storage.dart';
-import 'package:intermission_project/user/user/provider/user_me_provider.dart';
+import 'package:intermission_project/user/provider/user_me_provider.dart';
 
 final dioProvider = Provider<Dio>((ref) {
   final dio = Dio();

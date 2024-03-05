@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:intermission_project/common/component/signup_term_web_view.dart';
+import 'package:intermission_project/common/view/splash/middle_splash_web_view.dart';
 import 'package:intermission_project/common/const/colors.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:webview_flutter/webview_flutter.dart';
@@ -61,7 +61,7 @@ class CustomCheckBox extends StatelessWidget {
                     onTap: () async {
                       await Navigator.of(context).push(
                         MaterialPageRoute(
-                          builder: (context) => SignupTermWebView(
+                          builder: (context) => MiddleSplashWebView(
                             homeUrl: url ??
                                 'https://docs.google.com/document/d/e/2PACX-1vTNbqTr-co8U-S9KnXI3ruFGz1FEnv5GymdwX7hvRrFI4ewsOWVQGlTgsc7nIIpXrtz-gVLJfLjzAXd/pub',
                           ),

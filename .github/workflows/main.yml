@@ -35,6 +35,32 @@ jobs:
           echo "New version: $new_version"
           echo "NEW_VERSION=$new_version" >> $GITHUB_ENV
 
+      # .env 파일 생성
+      - name: Create .env file
+        run: |
+          echo "IDENTIFICATION_MID=${{ secrets.IDENTIFICATION_MID }}" >> ./assets/config/.env
+          echo "KAKAO_APP_KEY=${{ secrets.KAKAO_APP_KEY }}" >> ./assets/config/.env
+          echo "ACCESS_TOKEN_KEY=${{ secrets.ACCESS_TOKEN_KEY }}" >> ./assets/config/.env
+          echo "REFRESH_TOKEN_KEY=${{ secrets.REFRESH_TOKEN_KEY }}" >> ./assets/config/.env
+          echo "DEV_IP=${{ secrets.DEV_IP }}" >> ./assets/config/.env
+          echo "PRODUCTION_IP=${{ secrets.PRODUCTION_IP }}" >> ./assets/config/.env
+          echo "SERVICE_URL=${{ secrets.SERVICE_URL }}" >> ./assets/config/.env
+          echo "PRIVATE_URL=${{ secrets.PRIVATE_URL }}" >> ./assets/config/.env
+          echo "KG_INICIS_ACCESS_TOKEN_KEY=${{ secrets.KG_INICIS_ACCESS_TOKEN_KEY }}" >> ./assets/config/.env
+          echo "KG_INICIS_ACCESS_TOKEN_SECRET=${{ secrets.KG_INICIS_ACCESS_TOKEN_SECRET }}" >> ./assets/config/.env
+          echo "FIREBASE_ANDROID_API_KEY=${{ secrets.FIREBASE_ANDROID_API_KEY }}" >> ./assets/config/.env
+          echo "FIREBASE_ANDROID_APP_ID=${{ secrets.FIREBASE_ANDROID_APP_ID }}" >> ./assets/config/.env
+          echo "FIREBASE_ANDROID_MESSAGING_SENDER_ID=${{ secrets.FIREBASE_ANDROID_MESSAGING_SENDER_ID }}" >> ./assets/config/.env
+          echo "FIREBASE_ANDROID_PROJECT_ID=${{ secrets.FIREBASE_ANDROID_PROJECT_ID }}" >> ./assets/config/.env
+          echo "FIREBASE_ANDROID_STORAGE_BUCKET=${{ secrets.FIREBASE_ANDROID_STORAGE_BUCKET }}" >> ./assets/config/.env
+          echo "FIREBASE_IOS_API_KEY=${{ secrets.FIREBASE_IOS_API_KEY }}" >> ./assets/config/.env
+          echo "FIREBASE_IOS_APP_ID=${{ secrets.FIREBASE_IOS_APP_ID }}" >> ./assets/config/.env
+          echo "FIREBASE_IOS_MESSAGING_SENDER_ID=${{ secrets.FIREBASE_IOS_MESSAGING_SENDER_ID }}" >> ./assets/config/.env
+          echo "FIREBASE_IOS_PROJECT_ID=${{ secrets.FIREBASE_IOS_PROJECT_ID }}" >> ./assets/config/.env
+          echo "FIREBASE_IOS_STORAGE_BUCKET=${{ secrets.FIREBASE_IOS_STORAGE_BUCKET }}" >> ./assets/config/.env
+          echo "FIREBASE_IOS_CLIENT_ID=${{ secrets.FIREBASE_IOS_CLIENT_ID }}" >> ./assets/config/.env
+          echo "FIREBASE_IOS_BUNDLE_ID=${{ secrets.FIREBASE_IOS_BUNDLE_ID }}" >> ./assets/config/.env
+
       - name: Decode iOS secrets
         env:
           P12_DISTRIBUTION_CERTIFICATE_BASE64: ${{ secrets.IOS_P12_DISTRIBUTION_CERTIFICATE_BASE64 }}
