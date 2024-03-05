@@ -36,6 +36,9 @@ jobs:
           echo "NEW_VERSION=$new_version" >> $GITHUB_ENV
 
       # .env 파일 생성
+      - name: Ensure config directory exists
+        run: mkdir -p ./assets/config
+
       - name: Create .env file
         run: |
           echo "IDENTIFICATION_MID=${{ secrets.IDENTIFICATION_MID }}" >> ./assets/config/.env
