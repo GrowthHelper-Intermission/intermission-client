@@ -1,22 +1,15 @@
-// import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:intermission_project/common/provider/go_router.dart';
-import 'package:intermission_project/common/storage/secure_storage.dart';
 import 'package:kakao_flutter_sdk/kakao_flutter_sdk.dart';
-import 'firebase_options.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:syncfusion_flutter_core/localizations.dart';
 import 'package:flutter_localizations/flutter_localizations.dart'; // 다언어 설정
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
-import 'flavors.dart';
 
 Future<void> saveTokenToSecureStorage(String? token) async {
   const storage = FlutterSecureStorage();
@@ -26,7 +19,7 @@ Future<void> saveTokenToSecureStorage(String? token) async {
 
 void getMyDeviceToken() async{
   final token = await FirebaseMessaging.instance.getToken();
-  print('내 디바이스 토큰(여기가 첨이자 마지막):$token');
+  print('내 디바이스 토큰:$token');
   await saveTokenToSecureStorage(token);
 }
 
@@ -93,7 +86,3 @@ class MyApp extends ConsumerWidget {
     );
   }
 }
-
-final firebaseTokenProvider = StateProvider<String?>((ref) {
-  return null; // 초기값은 null로 설정합니다.
-});

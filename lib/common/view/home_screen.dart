@@ -1,17 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:intermission_project/04.research/research/component/research_card.dart';
-import 'package:intermission_project/04.research/research/model/research_model.dart';
-import 'package:intermission_project/04.research/research/provider/research_provider.dart';
-import 'package:intermission_project/notice/notice_screen.dart';
+import 'package:intermission_project/notice/view/notice_screen.dart';
 import 'package:intermission_project/common/const/colors.dart';
 import 'package:intermission_project/common/model/cursor_pagination_model.dart';
-import 'package:intermission_project/common/view/setting/setting_screen.dart';
-import 'package:intermission_project/common/view/splash_screen.dart';
-import 'package:intermission_project/user/user/component/friend_invite_screen.dart';
-import 'package:intermission_project/user/user/model/user_model.dart';
-import 'package:intermission_project/user/user/provider/user_me_provider.dart';
-
+import 'package:intermission_project/common/view/setting_screen.dart';
+import 'package:intermission_project/common/view/splash/splash_screen.dart';
+import 'package:intermission_project/research/component/research_card.dart';
+import 'package:intermission_project/research/model/research_model.dart';
+import 'package:intermission_project/research/provider/research_provider.dart';
+import 'package:intermission_project/common/view/friend_invite_screen.dart';
+import 'package:intermission_project/user/model/user_model.dart';
+import 'package:intermission_project/user/provider/user_me_provider.dart';
 class HomeScreen extends ConsumerStatefulWidget {
   final TabController? tabController;
 
@@ -27,8 +26,6 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
-    final screenHeight = MediaQuery.of(context).size.height;
-
     final researchNotifier = ref.watch(researchProvider);
     List<ResearchModel> ongoingResearches = [];
 

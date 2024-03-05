@@ -3,12 +3,12 @@ import 'package:json_annotation/json_annotation.dart';
 part 'token_response.g.dart';
 
 @JsonSerializable()
-class TokenResponse {
+class TokenRefreshResponse {
   final String accessToken;
 
-  TokenResponse({
+  TokenRefreshResponse({
     required this.accessToken,
   });
-  factory TokenResponse.fromJson(Map<String, dynamic> json)
-  => _$TokenResponseFromJson(json);
+  factory TokenRefreshResponse.fromJson(Map<String, dynamic> json)
+  => _$TokenRefreshResponseFromJson(json);
 }
