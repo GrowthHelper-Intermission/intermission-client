@@ -1,6 +1,8 @@
 # 인터미션: 인터뷰, 설문, 좌담회, 리서치, 부업
 ### 다운로드(Download): [📱Appstore link ](https://apps.apple.com/us/app/인터미션-intermission/id6471970116)
 
+[![Hits](https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Fgithub.com%2FGrowthHelper-Intermission%2Fintermission-client&count_bg=%23555555&title_bg=%23259A43&icon=&icon_color=%23E7E7E7&title=%EC%9D%B8%ED%84%B0%EB%AF%B8%EC%85%98%28android%2FiOS%29&edge_flat=false)](https://hits.seeyoufarm.com)
+
 # iOS - 2024/01/10~
 ![스크린샷 2024-01-12 오전 2 18 44](https://github.com/GrowthHelper-Intermission/.github/assets/106448279/9e061d1e-b1b4-41c6-96f1-94e6337185a0)
 
